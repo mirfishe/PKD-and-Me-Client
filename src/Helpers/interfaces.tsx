@@ -3,7 +3,7 @@ import React from "react";
 export interface IGetResponse {
     resultsFound: string,
     message: string,
-    amazonLinks?: IAmazonLink[],
+    // amazonLinks?: IAmazonLink[],
     categories?: ICategory[],
     editions?: IEdition[],
     media?: IMedia[],
@@ -13,17 +13,17 @@ export interface IGetResponse {
     error?: {}
 };
 
-export interface IAmazonLink {
-    amazonLinkID: number,
-    ASIN: string,
-    textLinkShort: string,
-    textLinkFull: string,
-    imageLinkSmall: string,
-    imageLinkMedium: string,
-    imageLinkLarge: string,
-    textImageLink: string,
-    active: boolean
-};
+// export interface IAmazonLink {
+//     amazonLinkID: number,
+//     ASIN: string,
+//     textLinkShort: string,
+//     textLinkFull: string,
+//     imageLinkSmall: string,
+//     imageLinkMedium: string,
+//     imageLinkLarge: string,
+//     textImageLink: string,
+//     active: boolean
+// };
 
 export interface ICategory {
     categoryID: number,
