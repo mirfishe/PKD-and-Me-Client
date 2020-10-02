@@ -11,6 +11,7 @@ import Titles from "./Components/Titles/Titles";
 function App() {
   return (
     <React.Fragment>
+      {window.location.hostname}
       <Router>
       <nav>
         <Link to="/categories">Categories</Link>
