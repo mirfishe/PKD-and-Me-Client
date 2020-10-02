@@ -4,6 +4,12 @@ import {baseURL} from "../../Helpers/constants"
 import Category from "./Category";
 import Title from "../Titles/Title";
 
+interface IProps {
+    isLoggedIn: boolean | undefined,
+    isAdmin: boolean | undefined,
+    sessionToken: string
+};
+
 interface IState {
     message: string,
     errMessage: string,
@@ -14,9 +20,9 @@ interface IState {
     titleList: ITitle[]
 };
 
-class Categories extends Component<{}, IState> {
+class Categories extends Component<IProps, IState> {
 
-    constructor(props: {}) {
+    constructor(props: IProps) {
         super(props);
         this.state = {
             message: "",

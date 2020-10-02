@@ -4,6 +4,12 @@ import {baseURL} from "../../Helpers/constants"
 import MediaItem from "./MediaItem";
 import Edition from "../Editions/Edition";
 
+interface IProps {
+    isLoggedIn: boolean | undefined,
+    isAdmin: boolean | undefined,
+    sessionToken: string
+};
+
 interface IState {
     message: string,
     errMessage: string,
@@ -14,9 +20,9 @@ interface IState {
     editionList: IEdition[]
 };
 
-class Media extends Component<{}, IState> {
+class Media extends Component<IProps, IState> {
 
-    constructor(props: {}) {
+    constructor(props: IProps) {
         super(props);
         this.state = {
             message: "",

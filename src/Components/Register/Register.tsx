@@ -1,4 +1,5 @@
 import React, {Component} from "react";
+import {Redirect} from "react-router-dom";
 import {IUser} from "../../Helpers/interfaces"
 import {baseURL, emailRegExp, emailFormat} from "../../Helpers/constants"
 import User from "../Login/User";
@@ -253,6 +254,10 @@ class Register extends Component<IProps, IState> {
     };
 
     render() {
+
+        if (this.props.isLoggedIn) {
+            return <Redirect to="/categories" />;
+        };
 
         return(
             <div>

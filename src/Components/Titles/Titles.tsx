@@ -5,6 +5,9 @@ import Title from "./Title";
 import Edition from "../Editions/Edition";
 
 interface IProps {
+    isLoggedIn: boolean | undefined,
+    isAdmin: boolean | undefined,
+    sessionToken: string,
     categoryID?: number
 };
 
@@ -19,7 +22,7 @@ interface IState {
     editionList: IEdition[]
 };
 
-class Titles extends Component<{}, IState> {
+class Titles extends Component<IProps, IState> {
 
     constructor(props: IProps) {
         super(props);

@@ -1,6 +1,6 @@
 import React, {Component} from "react";
 import "./App.css";
-import {BrowserRouter as Router, Switch, Route, Link} from "react-router-dom";
+import {BrowserRouter as Router, Switch, Route, Link, useHistory} from "react-router-dom";
 import Admin from "./Components/Admin/Admin";
 import Categories from "./Components/Categories/Categories";
 import Editions from "./Components/Editions/Editions";
@@ -74,13 +74,13 @@ class App extends Component<{}, IState> {
         {this.state.isLoggedIn === true ? <a href="#" onClick={() => this.logOut()}>Log Out</a>: null}
       </nav>
       <Switch>
-          <Route exact path="/categories" component={Categories} />
-          <Route exact path="/media" component={Media} />
-          <Route exact path="/titles" component={Titles} />
-          <Route exact path="/editions" component={Editions} />
+          <Route exact path="/categories" render={() => <Categories isLoggedIn={this.state.isLoggedIn} isAdmin={this.state.isAdmin} sessionToken={this.state.sessionToken} />}/>
+          <Route exact path="/media" render={() => <Media isLoggedIn={this.state.isLoggedIn} isAdmin={this.state.isAdmin} sessionToken={this.state.sessionToken} />} />
+          <Route exact path="/titles" render={() => <Titles isLoggedIn={this.state.isLoggedIn} isAdmin={this.state.isAdmin} sessionToken={this.state.sessionToken} />} />
+          <Route exact path="/editions" render={() => <Editions isLoggedIn={this.state.isLoggedIn} isAdmin={this.state.isAdmin} sessionToken={this.state.sessionToken} />} />
           <Route exact path="/login" render={() => <Login isLoggedIn={this.state.isLoggedIn} isAdmin={this.state.isAdmin} sessionToken={this.state.sessionToken} setIsLoggedIn={this.setIsLoggedIn} setIsAdmin={this.setIsAdmin} setSessionToken={this.setSessionToken} />} />
-          <Route exact path="/register" render={() => <Register isLoggedIn={this.state.isLoggedIn} isAdmin={this.state.isAdmin} sessionToken={this.state.sessionToken} setIsLoggedIn={this.setIsLoggedIn} setIsAdmin={this.setIsAdmin} setSessionToken={this.setSessionToken} />}  />
-          <Route exact path="/admin" component={Admin} />
+          <Route exact path="/register" render={() => <Register isLoggedIn={this.state.isLoggedIn} isAdmin={this.state.isAdmin} sessionToken={this.state.sessionToken} setIsLoggedIn={this.setIsLoggedIn} setIsAdmin={this.setIsAdmin} setSessionToken={this.setSessionToken} />} />
+          <Route exact path="/admin" render={() => <Admin isLoggedIn={this.state.isLoggedIn} isAdmin={this.state.isAdmin} sessionToken={this.state.sessionToken} />}/>
       </Switch>
       </Router>
     </React.Fragment>

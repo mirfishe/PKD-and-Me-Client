@@ -4,6 +4,9 @@ import {baseURL} from "../../Helpers/constants"
 import Edition from "./Edition";
 
 interface IProps {
+    isLoggedIn: boolean | undefined,
+    isAdmin: boolean | undefined,
+    sessionToken: string,
     mediaID?: number
 };
 
@@ -15,7 +18,7 @@ interface IState {
     editionList: IEdition[]
 };
 
-class Editions extends Component<{}, IState> {
+class Editions extends Component<IProps, IState> {
 
     constructor(props: IProps) {
         super(props);
