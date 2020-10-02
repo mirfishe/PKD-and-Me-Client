@@ -1,5 +1,5 @@
 import React, {Component} from "react";
-import {IMedia,IEdition, IGetResponse} from "../../Helpers/interfaces"
+import {IMedia,IEdition} from "../../Helpers/interfaces"
 import {baseURL} from "../../Helpers/constants"
 import MediaItem from "./MediaItem";
 import Edition from "../Editions/Edition";
@@ -51,13 +51,13 @@ class Media extends Component<{}, IState> {
         .then(data => {
             // console.log("Media.tsx getMedia data", data);
 
-            let mediaResponse: IGetResponse = data;
+            // let mediaResponse: IGetResponse = data;
             // console.log("Media.tsx getMedia titleResponse", titleResponse);
 
             this.setState({mediaResultsFound: data.resultsFound});
             this.setState({message: data.message});
 
-            if (mediaResponse.resultsFound) {
+            if (data.resultsFound) {
                 this.setState({mediaList: data.media});
             } else {
                 this.setState({errMessage: data.message});
@@ -104,13 +104,13 @@ class Media extends Component<{}, IState> {
         .then(data => {
             // console.log("Media.tsx getEditions data", data);
 
-            let editionResponse: IGetResponse = data;
+            // let editionResponse: IGetResponse = data;
             // console.log("Media.tsx getEditions titleResponse", titleResponse);
 
             this.setState({editionResultsFound: data.resultsFound});
             this.setState({message: data.message});
 
-            if (editionResponse.resultsFound) {
+            if (data.resultsFound) {
                 this.setState({editionList: data.editions});
             } else {
                 this.setState({errMessage: data.message});

@@ -1,17 +1,34 @@
 import React from "react";
 
-export interface IGetResponse {
-    resultsFound: string,
-    message: string,
-    // amazonLinks?: IAmazonLink[],
-    categories?: ICategory[],
-    editions?: IEdition[],
-    media?: IMedia[],
-    title?: ITitle[],
-    user?: IUser[],
-    userReview?: IUserReview[],
-    error?: {}
-};
+// Not needed?
+// export interface IGetResponse {
+//     resultsFound: string,
+//     message: string,
+//     // amazonLinks?: IAmazonLink[],
+//     categories?: ICategory[],
+//     editions?: IEdition[],
+//     media?: IMedia[],
+//     title?: ITitle[],
+//     user?: IUser[],
+//     userReview?: IUserReview[],
+//     error?: {}
+// };
+
+// Not needed?
+// export interface ILogInResponse {
+//     userID: number,
+//     firstName: string,
+//     lastName: string,
+//     email: string,
+//     updatedBy: number,
+//     admin: boolean,
+//     active: boolean
+//     sessionToken: string,
+//     isLoggedIn: boolean,
+//     resultsFound: boolean,
+//     message: string,
+//     error?: {}
+// };
 
 // export interface IAmazonLink {
 //     amazonLinkID: number,

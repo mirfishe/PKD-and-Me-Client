@@ -1,5 +1,5 @@
 import React, {Component} from "react";
-import {ITitle, IEdition, IGetResponse} from "../../Helpers/interfaces"
+import {ITitle, IEdition} from "../../Helpers/interfaces"
 import {baseURL} from "../../Helpers/constants"
 import Title from "./Title";
 import Edition from "../Editions/Edition";
@@ -68,13 +68,13 @@ class Titles extends Component<{}, IState> {
         .then(data => {
             // console.log("Titles.tsx getTitles data", data);
 
-            let titleResponse: IGetResponse = data;
+            // let titleResponse: IGetResponse = data;
             // console.log("Titles.tsx getTitles titleResponse", titleResponse);
 
             this.setState({titleResultsFound: data.resultsFound});
             this.setState({message: data.message});
 
-            if (titleResponse.resultsFound) {
+            if (data.resultsFound) {
                 this.setState({titleList: data.titles});
             } else {
                 this.setState({errMessage: data.message});
@@ -121,13 +121,13 @@ class Titles extends Component<{}, IState> {
         .then(data => {
             // console.log("Titles.tsx getEditions data", data);
 
-            let editionResponse: IGetResponse = data;
+            // let editionResponse: IGetResponse = data;
             // console.log("Titles.tsx getEditions titleResponse", titleResponse);
 
             this.setState({editionResultsFound: data.resultsFound});
             this.setState({message: data.message});
 
-            if (editionResponse.resultsFound) {
+            if (data.resultsFound) {
                 this.setState({editionList: data.editions});
             } else {
                 this.setState({errMessage: data.message});

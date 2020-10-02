@@ -1,5 +1,5 @@
 import React, {Component} from "react";
-import {ICategory, ITitle, IGetResponse} from "../../Helpers/interfaces"
+import {ICategory, ITitle} from "../../Helpers/interfaces"
 import {baseURL} from "../../Helpers/constants"
 import Category from "./Category";
 import Title from "../Titles/Title";
@@ -10,7 +10,7 @@ interface IState {
     categoryResultsFound: boolean | undefined,
     categoryList: ICategory[],
     categoryID: number | undefined,
-    titleEesultsFound: boolean | undefined,
+    titleResultsFound: boolean | undefined,
     titleList: ITitle[]
 };
 
@@ -24,7 +24,7 @@ class Categories extends Component<{}, IState> {
             categoryResultsFound: undefined,
             categoryList: [],
             categoryID: undefined,
-            titleEesultsFound: undefined,
+            titleResultsFound: undefined,
             titleList: []
         };
 
@@ -51,13 +51,13 @@ class Categories extends Component<{}, IState> {
         .then(data => {
             // console.log("Categories.tsx getCategories data", data);
 
-            let categoryResponse: IGetResponse = data;
+            // let categoryResponse: IGetResponse = data;
             // console.log("Categories.tsx getCategories categoryResponse", categoryResponse);
 
             this.setState({categoryResultsFound: data.resultsFound});
             this.setState({message: data.message});
 
-            if (categoryResponse.resultsFound) {
+            if (data.resultsFound) {
                 this.setState({categoryList: data.categories});
             } else {
                 this.setState({errMessage: data.message});
@@ -104,13 +104,13 @@ class Categories extends Component<{}, IState> {
         .then(data => {
             // console.log("Categories.tsx getTitles data", data);
 
-            let titleResponse: IGetResponse = data;
+            // let titleResponse: IGetResponse = data;
             // console.log("Categories.tsx getTitles titleResponse", titleResponse);
 
-            this.setState({titleEesultsFound: data.resultsFound});
+            this.setState({titleResultsFound: data.resultsFound});
             this.setState({message: data.message});
 
-            if (titleResponse.resultsFound) {
+            if (data.resultsFound) {
                 this.setState({titleList: data.titles});
             } else {
                 this.setState({errMessage: data.message});
@@ -143,7 +143,7 @@ class Categories extends Component<{}, IState> {
                 {this.state.errMessage !== "" ? <p>{this.state.errMessage}</p> : null}
                 {this.state.categoryResultsFound !== undefined ? <Category getTitles={this.getTitles} categoryList={this.state.categoryList} /> : null}
                 <div>
-                {this.state.titleEesultsFound ? <Title getEditions={this.getEditions} titleList={this.state.titleList} /> : null}
+                {this.state.titleResultsFound ? <Title getEditions={this.getEditions} titleList={this.state.titleList} /> : null}
                 </div>
           </div>
         );

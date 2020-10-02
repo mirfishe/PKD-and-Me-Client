@@ -1,5 +1,5 @@
 import React, {Component} from "react";
-import {IEdition, IGetResponse} from "../../Helpers/interfaces"
+import {IEdition} from "../../Helpers/interfaces"
 import {baseURL} from "../../Helpers/constants"
 import Edition from "./Edition";
 
@@ -60,13 +60,13 @@ class Editions extends Component<{}, IState> {
         .then(data => {
             // console.log("Editions.tsx getEditions data", data);
 
-            let editionResponse: IGetResponse = data;
+            // let editionResponse: IGetResponse = data;
             // console.log("Editions.tsx getEditions titleResponse", titleResponse);
 
             this.setState({editionResultsFound: data.resultsFound});
             this.setState({message: data.message});
 
-            if (editionResponse.resultsFound) {
+            if (data.resultsFound) {
                 this.setState({editionList: data.editions});
             } else {
                 this.setState({errMessage: data.message});
