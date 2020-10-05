@@ -2,11 +2,9 @@ import React, {Component} from "react";
 import {Redirect} from "react-router-dom";
 
 import {Alert} from '@material-ui/lab/';
-import {Grid} from '@material-ui/core';
+import {Grid, Button, InputLabel, TextField} from '@material-ui/core';
 
-import {IUser} from "../../Helpers/interfaces"
 import {baseURL, emailRegExp, emailFormat} from "../../Helpers/constants"
-import User from "./User";
 
 interface IProps {
     isLoggedIn: boolean | undefined,
@@ -216,33 +214,33 @@ class Login extends Component<IProps, IState> {
     render() {
 
         if (this.props.isLoggedIn) {
-            return <Redirect to="/categories" />;
+            return <Redirect to="/" />;
         };
 
         return(
             <Grid container>
                 <Grid item xs={12}>
-                {this.state.message !== "" ? <Alert severity="info">{this.state.message}</Alert> : null}
-                {this.state.errMessage !== "" ? <Alert severity="error">{this.state.errMessage}</Alert> : null}
+                    {this.state.message !== "" ? <Alert severity="info">{this.state.message}</Alert> : null}
+                    {this.state.errMessage !== "" ? <Alert severity="error">{this.state.errMessage}</Alert> : null}
                 </Grid>
                 <Grid item xs={12}>
 
-                    <label>Email Address</label>
-                    <input type="text" id="txtEmail" placeholder="Email Address" value={this.state.txtEmail} onChange={(event) => {/*console.log(event.target.value);*/ this.setState({txtEmail: event.target.value});}} />
+                    <InputLabel htmlFor="txtEmail">Email Address</InputLabel>
+                    <TextField id="txtEmail" label="Email Address" required variant="outlined" fullWidth
+          margin="normal" value={this.state.txtEmail} onChange={(event) => {/*console.log(event.target.value);*/ this.setState({txtEmail: event.target.value});}} />
                     {this.state.errEmail !== "" ? <Alert severity="error">{this.state.errEmail}</Alert> : null}
 
                 </Grid>
                 <Grid item xs={12}>
-                    <label>Password</label>
-                    <input type="password" id="txtPassword" placeholder="Password" value={this.state.txtPassword} onChange={(event) => {/*console.log(event.target.value);*/ this.setState({txtPassword: event.target.value});}} />
+
+                    <InputLabel htmlFor="txtPassword">Password</InputLabel>
+                    <TextField type="password" id="txtPassword" required label="Password" variant="outlined" fullWidth
+          margin="normal" value={this.state.txtPassword} onChange={(event) => {/*console.log(event.target.value);*/ this.setState({txtPassword: event.target.value});}} />
                     {this.state.errPassword !== "" ? <Alert severity="error">{this.state.errPassword}</Alert> : null}
                     
                 </Grid>
                 <Grid item xs={12}>
-                    <button onClick={this.logIn}>Log In</button>
-                </Grid>
-                <Grid item xs={12}>
-                {this.state.userResultsFound ? <User /*userList={this.state.userList}*/ userID={this.state.userID} firstName={this.state.firstName} lastName={this.state.lastName} email={this.state.email} updatedBy={this.state.updatedBy} admin={this.state.admin} active={this.state.active} isLoggedIn={this.props.isLoggedIn} isAdmin={this.props.isAdmin} sessionToken={this.props.sessionToken} /> : null}
+                    <Button variant="contained" color="primary" onClick={this.logIn}>Log In</Button>
                 </Grid>
           </Grid>
         );

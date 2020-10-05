@@ -9,8 +9,9 @@ import MoreVert from '@material-ui/icons/MoreVert';
 
 import Admin from "./Components/Admin/Admin";
 import Home from "./Components/Home/Home";
-import Login from "./Components/Login/Login";
-import Register from "./Components/Register/Register";
+import Login from "./Components/User/Login";
+import Register from "./Components/User/Register";
+import UpdateUser from "./Components/User/UpdateUser";
 
 interface IState {
   isLoggedIn: boolean | undefined,
@@ -81,6 +82,7 @@ class App extends Component<{}, IState> {
           {this.state.isLoggedIn !== true ? <Typography variant="body1"><Link to="/login">Login</Link> <MoreVert /></Typography> : null}
           {this.state.isLoggedIn !== true ? <Typography variant="body1"><Link to="/register">Register</Link> <MoreVert /></Typography> : null}
           {this.state.isLoggedIn === true ? <Typography variant="body1"><a href="#" onClick={() => this.logOut()}>Log Out</a>  <MoreVert /></Typography> : null}
+          {this.state.isLoggedIn === true ? <Typography variant="body1"><Link to="/updateuser">Update Profile</Link>  <MoreVert /></Typography> : null}
           {this.state.isAdmin === true ? <Typography variant="body1"><Link to="/admin">Admin <IconButton edge="start" color="inherit" aria-label="menu"><MenuIcon /></IconButton></Link></Typography> : null}
         </Toolbar>
       </AppBar>
@@ -90,6 +92,7 @@ class App extends Component<{}, IState> {
           <Route exact path="/home" render={() => <Home isLoggedIn={this.state.isLoggedIn} isAdmin={this.state.isAdmin} sessionToken={this.state.sessionToken} titleID={this.state.titleID} setTitleID={this.setTitleID}  />}/>
           <Route exact path="/login" render={() => <Login isLoggedIn={this.state.isLoggedIn} isAdmin={this.state.isAdmin} sessionToken={this.state.sessionToken} setIsLoggedIn={this.setIsLoggedIn} setIsAdmin={this.setIsAdmin} setSessionToken={this.setSessionToken} />} />
           <Route exact path="/register" render={() => <Register isLoggedIn={this.state.isLoggedIn} isAdmin={this.state.isAdmin} sessionToken={this.state.sessionToken} setIsLoggedIn={this.setIsLoggedIn} setIsAdmin={this.setIsAdmin} setSessionToken={this.setSessionToken} />} />
+          <Route exact path="/updateuser" render={() => <UpdateUser isLoggedIn={this.state.isLoggedIn} isAdmin={this.state.isAdmin} sessionToken={this.state.sessionToken} setIsLoggedIn={this.setIsLoggedIn} setIsAdmin={this.setIsAdmin} setSessionToken={this.setSessionToken} />} />
           <Route exact path="/admin" render={() => <Admin isLoggedIn={this.state.isLoggedIn} isAdmin={this.state.isAdmin} sessionToken={this.state.sessionToken} />}/>
       </Switch>
       </Router>

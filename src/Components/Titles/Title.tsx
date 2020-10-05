@@ -8,6 +8,7 @@ import {baseURL} from "../../Helpers/constants"
 import Edition from "../Editions/Edition";
 import TitleDisplay from "./TitleDisplay";
 import UserReview from "../UserReviews/UserReview";
+import UserReviewForm from "../UserReviews/UserReviewForm";
 
 interface IProps {
     isLoggedIn: boolean | undefined,

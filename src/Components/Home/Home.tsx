@@ -74,7 +74,7 @@ class Home extends Component<IProps, IState> {
             // console.log("Home.tsx getCategories categoryResponse", categoryResponse);
 
             this.setState({categoryResultsFound: data.resultsFound});
-            this.setState({message: data.message});
+            // this.setState({message: data.message});
 
             if (data.resultsFound) {
                 // Would like to remove categories that don't have titles associated with them
