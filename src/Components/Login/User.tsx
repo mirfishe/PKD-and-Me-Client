@@ -1,4 +1,7 @@
 import React, {FunctionComponent} from 'react';
+
+import {Grid} from '@material-ui/core';
+
 import {IUser} from "../../Helpers/interfaces"
 
 interface IProps {
@@ -74,7 +77,7 @@ const User: FunctionComponent <(IProps)> = props => {
     };
 
     return(
-        <React.Fragment>
+        <Grid container>
             {/* {props.userList ? 
             <p key={props.userList.userID}>{props.userList.firstName} {props.userList.lastName}<br />
             {props.userList.email}<br />
@@ -109,7 +112,7 @@ const User: FunctionComponent <(IProps)> = props => {
             {displayIsAdmin !== "" ? <p>{displayIsAdmin}</p> : null}
 
             <p>{props.sessionToken}</p>
-        </React.Fragment>
+        </Grid>
     );
 
 };

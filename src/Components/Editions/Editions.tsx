@@ -96,11 +96,15 @@ class Editions extends Component<IProps, IState> {
     render() {
 
         return(
-            <div>
+            <Grid container>
+                <Grid item xs={12}>
                 {this.state.message !== "" ? <Alert severity="info">{this.state.message}</Alert> : null}
                 {this.state.errMessage !== "" ? <Alert severity="error">{this.state.errMessage}</Alert> : null}
+                </Grid>
+                <Grid item xs={10}>
                 {this.state.editionResultsFound ? <Edition editionList={this.state.editionList} /> : null}
-          </div>
+                </Grid>
+          </Grid>
         );
     };
 };

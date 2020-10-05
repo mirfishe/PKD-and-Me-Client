@@ -70,21 +70,24 @@ class App extends Component<{}, IState> {
   return (
     <div>
       {/* {window.location.hostname} */}
-      {this.state.isLoggedIn === undefined ? <Alert severity="error">isLoggedIn undefined</Alert> : null}
+      {/* {this.state.isLoggedIn === undefined ? <Alert severity="error">isLoggedIn undefined</Alert> : null}
       {this.state.isLoggedIn === true ? <Alert severity="error">isLoggedIn</Alert> : null}
       {this.state.isLoggedIn === false ? <Alert severity="error">Not isLoggedIn</Alert> : null}
       {this.state.isAdmin === undefined ? <Alert severity="warning">isAdmin undefined</Alert> : null}
       {this.state.isAdmin === true ? <Alert severity="warning">isAdmin</Alert> : null}
-      {this.state.isAdmin === false ? <Alert severity="warning">Not isAdmin</Alert> : null}
+      {this.state.isAdmin === false ? <Alert severity="warning">Not isAdmin</Alert> : null} */}
       {this.state.sessionToken !== "" ? <Alert severity="info">{this.state.sessionToken}</Alert> : null}
-      {this.state.isLoggedIn === true ? <button onClick={this.logOut}>Log Out</button> : null}
+      {/* {this.state.isLoggedIn === true ? <button onClick={this.logOut}>Log Out</button> : null} */}
       <Router>
       <AppBar position="static" color="transparent">
         <Toolbar>
+        {/* <Typography variant="body1">
+          <Link to="/categories">Home</Link> <MoreVert />
+          </Typography> */}
           <Typography variant="body1">
             <Link to="/home">Home</Link> <MoreVert />
           </Typography>
-          <Typography variant="body1">
+          {/* <Typography variant="body1">
           <Link to="/categories">Categories</Link> <MoreVert />
           </Typography>
           <Typography variant="body1">
@@ -101,7 +104,7 @@ class App extends Component<{}, IState> {
           </Typography>
           <Typography variant="body1">
           <Link to="/userreviews">User Reviews</Link> <MoreVert />
-          </Typography>
+          </Typography> */}
           {this.state.isLoggedIn !== true ? <Typography variant="body1"><Link to="/login">Login</Link> <MoreVert /></Typography> : null}
           {this.state.isLoggedIn !== true ? <Typography variant="body1"><Link to="/register">Register</Link> <MoreVert /></Typography> : null}
           {this.state.isLoggedIn === true ? <Typography variant="body1"><a href="#" onClick={() => this.logOut()}>Log Out</a>  <MoreVert /></Typography> : null}
@@ -110,12 +113,12 @@ class App extends Component<{}, IState> {
       </AppBar>
 
       <Switch>
-          <Route exact path="/" render={() => <Home isLoggedIn={this.state.isLoggedIn} isAdmin={this.state.isAdmin} sessionToken={this.state.sessionToken} />}/>
-          <Route exact path="/home" render={() => <Home isLoggedIn={this.state.isLoggedIn} isAdmin={this.state.isAdmin} sessionToken={this.state.sessionToken} />}/>
+          <Route exact path="/" render={() => <Home isLoggedIn={this.state.isLoggedIn} isAdmin={this.state.isAdmin} sessionToken={this.state.sessionToken} titleID={this.state.titleID} setTitleID={this.setTitleID}  />}/>
+          <Route exact path="/home" render={() => <Home isLoggedIn={this.state.isLoggedIn} isAdmin={this.state.isAdmin} sessionToken={this.state.sessionToken} titleID={this.state.titleID} setTitleID={this.setTitleID}  />}/>
           <Route exact path="/categories" render={() => <Categories isLoggedIn={this.state.isLoggedIn} isAdmin={this.state.isAdmin} sessionToken={this.state.sessionToken} titleID={this.state.titleID} setTitleID={this.setTitleID} />}/>
           <Route exact path="/media" render={() => <Media isLoggedIn={this.state.isLoggedIn} isAdmin={this.state.isAdmin} sessionToken={this.state.sessionToken} />} />
           <Route exact path="/titles" render={() => <Titles isLoggedIn={this.state.isLoggedIn} isAdmin={this.state.isAdmin} sessionToken={this.state.sessionToken} titleID={this.state.titleID} setTitleID={this.setTitleID} />} />
-          <Route exact path="/title" render={() => <Title isLoggedIn={this.state.isLoggedIn} isAdmin={this.state.isAdmin} sessionToken={this.state.sessionToken} titleID={this.state.titleID} />} />
+          <Route exact path="/title" render={() => <Title isLoggedIn={this.state.isLoggedIn} isAdmin={this.state.isAdmin} sessionToken={this.state.sessionToken} titleID={this.state.titleID} setTitleID={this.setTitleID} />} />
           <Route exact path="/editions" render={() => <Editions isLoggedIn={this.state.isLoggedIn} isAdmin={this.state.isAdmin} sessionToken={this.state.sessionToken} />} />
           <Route exact path="/userreviews" render={() => <UserReviews isLoggedIn={this.state.isLoggedIn} isAdmin={this.state.isAdmin} sessionToken={this.state.sessionToken} />} />
           <Route exact path="/login" render={() => <Login isLoggedIn={this.state.isLoggedIn} isAdmin={this.state.isAdmin} sessionToken={this.state.sessionToken} setIsLoggedIn={this.setIsLoggedIn} setIsAdmin={this.setIsAdmin} setSessionToken={this.setSessionToken} />} />

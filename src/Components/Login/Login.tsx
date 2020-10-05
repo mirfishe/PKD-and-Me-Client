@@ -220,23 +220,31 @@ class Login extends Component<IProps, IState> {
         };
 
         return(
-            <div>
+            <Grid container>
+                <Grid item xs={12}>
                 {this.state.message !== "" ? <Alert severity="info">{this.state.message}</Alert> : null}
                 {this.state.errMessage !== "" ? <Alert severity="error">{this.state.errMessage}</Alert> : null}
+                </Grid>
+                <Grid item xs={12}>
 
                     <label>Email Address</label>
                     <input type="text" id="txtEmail" placeholder="Email Address" value={this.state.txtEmail} onChange={(event) => {/*console.log(event.target.value);*/ this.setState({txtEmail: event.target.value});}} />
-                    {this.state.errEmail !== "" ? <p>{this.state.errEmail}</p> : null}
+                    {this.state.errEmail !== "" ? <Alert severity="error">{this.state.errEmail}</Alert> : null}
 
+                </Grid>
+                <Grid item xs={12}>
                     <label>Password</label>
                     <input type="password" id="txtPassword" placeholder="Password" value={this.state.txtPassword} onChange={(event) => {/*console.log(event.target.value);*/ this.setState({txtPassword: event.target.value});}} />
-                    {this.state.errPassword !== "" ? <p>{this.state.errPassword}</p> : null}
-
+                    {this.state.errPassword !== "" ? <Alert severity="error">{this.state.errPassword}</Alert> : null}
+                    
+                </Grid>
+                <Grid item xs={12}>
                     <button onClick={this.logIn}>Log In</button>
-                <div>
+                </Grid>
+                <Grid item xs={12}>
                 {this.state.userResultsFound ? <User /*userList={this.state.userList}*/ userID={this.state.userID} firstName={this.state.firstName} lastName={this.state.lastName} email={this.state.email} updatedBy={this.state.updatedBy} admin={this.state.admin} active={this.state.active} isLoggedIn={this.props.isLoggedIn} isAdmin={this.props.isAdmin} sessionToken={this.props.sessionToken} /> : null}
-                </div>
-          </div>
+                </Grid>
+          </Grid>
         );
     };
 };

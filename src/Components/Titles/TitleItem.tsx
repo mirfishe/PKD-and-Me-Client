@@ -7,7 +7,7 @@ import {Redirect} from "react-router-dom";
 
 interface IProps {
     titleList: ITitle[],
-    getEditions: (titleID?: number) => void,
+    getEditions?: (titleID?: number) => void,
     titleID: number | undefined,
     setTitleID: (titleID: number | undefined) => void
 };
@@ -21,7 +21,6 @@ const TitleItem: FunctionComponent <(IProps)> = props => {
     } else {
 
         return(
-
             <Grid container>
             {props.titleList.map((title: ITitle) => {
             return (

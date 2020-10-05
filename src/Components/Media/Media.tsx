@@ -5,7 +5,7 @@ import {Grid} from '@material-ui/core';
 
 import {IMedia,IEdition} from "../../Helpers/interfaces"
 import {baseURL} from "../../Helpers/constants"
-import MediaItem from "./MediaItem";
+import MediaItem from "./MediaItemOLD";
 import Edition from "../Editions/Edition";
 
 interface IProps {
@@ -143,14 +143,18 @@ class Media extends Component<IProps, IState> {
     render() {
 
         return(
-            <div>
+            <Grid container>
+                <Grid item xs={12}>
                 {this.state.message !== "" ? <Alert severity="info">{this.state.message}</Alert> : null}
                 {this.state.errMessage !== "" ? <Alert severity="error">{this.state.errMessage}</Alert> : null}
+                </Grid>
+                <Grid item xs={2}>
                 {this.state.mediaResultsFound ? <MediaItem getEditions={this.getEditions} mediaList={this.state.mediaList} /> : null}
-                <div>
+                </Grid>
+                <Grid item xs={10}>
                 {this.state.editionResultsFound ? <Edition editionList={this.state.editionList} /> : null}
-                </div>
-          </div>
+                </Grid>
+          </Grid>
         );
     };
 };
