@@ -8,15 +8,15 @@ import MenuIcon from '@material-ui/icons/Menu';
 import MoreVert from '@material-ui/icons/MoreVert';
 
 import Admin from "./Components/Admin/Admin";
-import Categories from "./Components/Categories/Categories";
-import Editions from "./Components/Editions/Editions";
+// import Categories from "./Components/Categories/CategoriesOLD";
+// import Editions from "./Components/Editions/EditionsOLD";
 import Home from "./Components/Home/Home";
 import Login from "./Components/Login/Login";
-import Media from "./Components/Media/Media";
+// import Media from "./Components/Media/MediaOLD";
 import Register from "./Components/Register/Register";
-import Title from "./Components/Titles/Title";
-import Titles from "./Components/Titles/Titles";
-import UserReviews from "./Components/UserReviews/UserReviews";
+// import Title from "./Components/Titles/Title";
+// import Titles from "./Components/Titles/TitlesOLD";
+// import UserReviews from "./Components/UserReviews/UserReviewsOLD";
 
 interface IState {
   isLoggedIn: boolean | undefined,
@@ -115,12 +115,12 @@ class App extends Component<{}, IState> {
       <Switch>
           <Route exact path="/" render={() => <Home isLoggedIn={this.state.isLoggedIn} isAdmin={this.state.isAdmin} sessionToken={this.state.sessionToken} titleID={this.state.titleID} setTitleID={this.setTitleID}  />}/>
           <Route exact path="/home" render={() => <Home isLoggedIn={this.state.isLoggedIn} isAdmin={this.state.isAdmin} sessionToken={this.state.sessionToken} titleID={this.state.titleID} setTitleID={this.setTitleID}  />}/>
-          <Route exact path="/categories" render={() => <Categories isLoggedIn={this.state.isLoggedIn} isAdmin={this.state.isAdmin} sessionToken={this.state.sessionToken} titleID={this.state.titleID} setTitleID={this.setTitleID} />}/>
+          {/* <Route exact path="/categories" render={() => <Categories isLoggedIn={this.state.isLoggedIn} isAdmin={this.state.isAdmin} sessionToken={this.state.sessionToken} titleID={this.state.titleID} setTitleID={this.setTitleID} />}/>
           <Route exact path="/media" render={() => <Media isLoggedIn={this.state.isLoggedIn} isAdmin={this.state.isAdmin} sessionToken={this.state.sessionToken} />} />
           <Route exact path="/titles" render={() => <Titles isLoggedIn={this.state.isLoggedIn} isAdmin={this.state.isAdmin} sessionToken={this.state.sessionToken} titleID={this.state.titleID} setTitleID={this.setTitleID} />} />
           <Route exact path="/title" render={() => <Title isLoggedIn={this.state.isLoggedIn} isAdmin={this.state.isAdmin} sessionToken={this.state.sessionToken} titleID={this.state.titleID} setTitleID={this.setTitleID} />} />
           <Route exact path="/editions" render={() => <Editions isLoggedIn={this.state.isLoggedIn} isAdmin={this.state.isAdmin} sessionToken={this.state.sessionToken} />} />
-          <Route exact path="/userreviews" render={() => <UserReviews isLoggedIn={this.state.isLoggedIn} isAdmin={this.state.isAdmin} sessionToken={this.state.sessionToken} />} />
+          <Route exact path="/userreviews" render={() => <UserReviews isLoggedIn={this.state.isLoggedIn} isAdmin={this.state.isAdmin} sessionToken={this.state.sessionToken} />} /> */}
           <Route exact path="/login" render={() => <Login isLoggedIn={this.state.isLoggedIn} isAdmin={this.state.isAdmin} sessionToken={this.state.sessionToken} setIsLoggedIn={this.setIsLoggedIn} setIsAdmin={this.setIsAdmin} setSessionToken={this.setSessionToken} />} />
           <Route exact path="/register" render={() => <Register isLoggedIn={this.state.isLoggedIn} isAdmin={this.state.isAdmin} sessionToken={this.state.sessionToken} setIsLoggedIn={this.setIsLoggedIn} setIsAdmin={this.setIsAdmin} setSessionToken={this.setSessionToken} />} />
           <Route exact path="/admin" render={() => <Admin isLoggedIn={this.state.isLoggedIn} isAdmin={this.state.isAdmin} sessionToken={this.state.sessionToken} />}/>
