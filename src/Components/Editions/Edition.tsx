@@ -15,7 +15,7 @@ const Edition: FunctionComponent <(IProps)> = props => {
           return (
             <div key={edition.editionID}>
             <p>{edition.publicationDate}</p>
-            {/* {edition.imageName !== null ? <img src={"https://philipdick.com/images/covers/" + edition.imageName} alt="" /> : null} */}
+            {edition.imageName !== null && edition.imageName !== "" ? <img src={"https://philipdick.com/images/covers/" + edition.imageName} alt="" /> : null}
             <p>{edition.ASIN}</p>
             <p>{edition.textLinkShort}</p>
             <p>{edition.textLinkFull}</p>

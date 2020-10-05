@@ -1,14 +1,20 @@
 import React, {Component} from "react";
+
+import {Alert} from '@material-ui/lab/';
+import {Grid} from '@material-ui/core';
+
 import {ITitle, IEdition} from "../../Helpers/interfaces"
 import {baseURL} from "../../Helpers/constants"
-import Title from "./Title";
+import TitleItem from "./TitleItem";
 import Edition from "../Editions/Edition";
 
 interface IProps {
     isLoggedIn: boolean | undefined,
     isAdmin: boolean | undefined,
     sessionToken: string,
-    categoryID?: number
+    categoryID?: number,
+    titleID: number | undefined,
+    setTitleID: (titleID: number | undefined) => void
 };
 
 interface IState {
@@ -40,8 +46,8 @@ class Titles extends Component<IProps, IState> {
         this.setState({categoryID: props.categoryID});
 
 
-        this.getTitles = this.getTitles.bind(this);
-        this.getEditions = this.getEditions.bind(this);
+        // this.getTitles = this.getTitles.bind(this);
+        // this.getEditions = this.getEditions.bind(this);
 
     };
 
@@ -50,6 +56,8 @@ class Titles extends Component<IProps, IState> {
         // console.log("Titles.tsx getTitles baseURL", baseURL);
 
         // console.log('Titles.tsx this.state.categoryID', this.state.categoryID);
+
+        this.props.setTitleID(undefined);
 
         let url: string = baseURL + "title";
 
@@ -154,10 +162,9 @@ class Titles extends Component<IProps, IState> {
 
         return(
             <div>
-                <h1>Titles</h1>
-                {this.state.message !== "" ? <p>{this.state.message}</p> : null}
-                {this.state.errMessage !== "" ? <p>{this.state.errMessage}</p> : null}
-                {this.state.titleResultsFound ? <Title getEditions={this.getEditions} titleList={this.state.titleList} /> : null}
+                {this.state.message !== "" ? <Alert severity="info">{this.state.message}</Alert> : null}
+                {this.state.errMessage !== "" ? <Alert severity="error">{this.state.errMessage}</Alert> : null}
+                {this.state.titleResultsFound ? <TitleItem getEditions={this.getEditions} titleID={this.props.titleID} setTitleID={this.props.setTitleID} titleList={this.state.titleList} /> : null}
                 <div>
                 {this.state.editionResultsFound ? <Edition editionList={this.state.editionList} /> : null}
                 </div>

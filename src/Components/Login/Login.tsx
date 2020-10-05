@@ -1,5 +1,9 @@
 import React, {Component} from "react";
 import {Redirect} from "react-router-dom";
+
+import {Alert} from '@material-ui/lab/';
+import {Grid} from '@material-ui/core';
+
 import {IUser} from "../../Helpers/interfaces"
 import {baseURL, emailRegExp, emailFormat} from "../../Helpers/constants"
 import User from "./User";
@@ -59,7 +63,7 @@ class Login extends Component<IProps, IState> {
             // sessionToken: ""
         };
 
-        this.logIn = this.logIn.bind(this);
+        // this.logIn = this.logIn.bind(this);
 
     };
 
@@ -217,16 +221,15 @@ class Login extends Component<IProps, IState> {
 
         return(
             <div>
-                <h1>Login</h1>
-                {this.state.message !== "" ? <p>{this.state.message}</p> : null}
-                {this.state.errMessage !== "" ? <p>{this.state.errMessage}</p> : null}
+                {this.state.message !== "" ? <Alert severity="info">{this.state.message}</Alert> : null}
+                {this.state.errMessage !== "" ? <Alert severity="error">{this.state.errMessage}</Alert> : null}
 
                     <label>Email Address</label>
-                    <input type="text" id="txtEmail" placeholder="Email Address" value={this.state.txtEmail} onChange={(event) => {/*console.log(event.target.value);*/this.setState({txtEmail: event.target.value});}} />
+                    <input type="text" id="txtEmail" placeholder="Email Address" value={this.state.txtEmail} onChange={(event) => {/*console.log(event.target.value);*/ this.setState({txtEmail: event.target.value});}} />
                     {this.state.errEmail !== "" ? <p>{this.state.errEmail}</p> : null}
 
                     <label>Password</label>
-                    <input type="password" id="txtPassword" placeholder="Password" value={this.state.txtPassword} onChange={(event) => {/*console.log(event.target.value);*/this.setState({txtPassword: event.target.value});}} />
+                    <input type="password" id="txtPassword" placeholder="Password" value={this.state.txtPassword} onChange={(event) => {/*console.log(event.target.value);*/ this.setState({txtPassword: event.target.value});}} />
                     {this.state.errPassword !== "" ? <p>{this.state.errPassword}</p> : null}
 
                     <button onClick={this.logIn}>Log In</button>

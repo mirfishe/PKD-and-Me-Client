@@ -1,13 +1,19 @@
 import React, {Component} from "react";
+
+import {Alert} from '@material-ui/lab/';
+import {Grid} from '@material-ui/core';
+
 import {ICategory, ITitle} from "../../Helpers/interfaces"
 import {baseURL} from "../../Helpers/constants"
 import Category from "./Category";
-import Title from "../Titles/Title";
+import TitleItem from "../Titles/TitleItem";
 
 interface IProps {
     isLoggedIn: boolean | undefined,
     isAdmin: boolean | undefined,
-    sessionToken: string
+    sessionToken: string,
+    titleID: number | undefined,
+    setTitleID: (titleID: number | undefined) => void
 };
 
 interface IState {
@@ -34,14 +40,16 @@ class Categories extends Component<IProps, IState> {
             titleList: []
         };
 
-        this.getCategories = this.getCategories.bind(this);
-        this.getTitles = this.getTitles.bind(this);
+        // this.getCategories = this.getCategories.bind(this);
+        // this.getTitles = this.getTitles.bind(this);
 
     };
 
     getCategories = () => {
         // console.log("Categories.tsx getCategories");
         // console.log("Categories.tsx getCategories baseURL", baseURL);
+
+        this.props.setTitleID(undefined);
 
         let url: string = baseURL + "category";
 
@@ -143,15 +151,18 @@ class Categories extends Component<IProps, IState> {
     render() {
 
         return(
-            <div>
-                <h1>Categories</h1>
-                {this.state.message !== "" ? <p>{this.state.message}</p> : null}
-                {this.state.errMessage !== "" ? <p>{this.state.errMessage}</p> : null}
+            <Grid container>
+                <Grid item xs={12}>
+                {this.state.message !== "" ? <Alert severity="info">{this.state.message}</Alert> : null}
+                {this.state.errMessage !== "" ? <Alert severity="error">{this.state.errMessage}</Alert> : null}
+                </Grid>
+                <Grid item xs={2}>
                 {this.state.categoryResultsFound !== undefined ? <Category getTitles={this.getTitles} categoryList={this.state.categoryList} /> : null}
-                <div>
-                {this.state.titleResultsFound ? <Title getEditions={this.getEditions} titleList={this.state.titleList} /> : null}
-                </div>
-          </div>
+                </Grid>
+                <Grid item xs={10}>
+                {this.state.titleResultsFound ? <TitleItem getEditions={this.getEditions} titleID={this.props.titleID} setTitleID={this.props.setTitleID} titleList={this.state.titleList} /> : null}
+                </Grid>
+          </Grid>
         );
     };
 };

@@ -1,4 +1,8 @@
 import React, {Component} from "react";
+
+import {Alert} from '@material-ui/lab/';
+import {Grid} from '@material-ui/core';
+
 import {IMedia,IEdition} from "../../Helpers/interfaces"
 import {baseURL} from "../../Helpers/constants"
 import MediaItem from "./MediaItem";
@@ -34,8 +38,8 @@ class Media extends Component<IProps, IState> {
             editionList: []
         };
 
-        this.getMedia = this.getMedia.bind(this);
-        this.getEditions = this.getEditions.bind(this);
+        // this.getMedia = this.getMedia.bind(this);
+        // this.getEditions = this.getEditions.bind(this);
 
     };
 
@@ -140,9 +144,8 @@ class Media extends Component<IProps, IState> {
 
         return(
             <div>
-                <h1>Media</h1>
-                {this.state.message !== "" ? <p>{this.state.message}</p> : null}
-                {this.state.errMessage !== "" ? <p>{this.state.errMessage}</p> : null}
+                {this.state.message !== "" ? <Alert severity="info">{this.state.message}</Alert> : null}
+                {this.state.errMessage !== "" ? <Alert severity="error">{this.state.errMessage}</Alert> : null}
                 {this.state.mediaResultsFound ? <MediaItem getEditions={this.getEditions} mediaList={this.state.mediaList} /> : null}
                 <div>
                 {this.state.editionResultsFound ? <Edition editionList={this.state.editionList} /> : null}

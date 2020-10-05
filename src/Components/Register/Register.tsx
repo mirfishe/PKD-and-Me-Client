@@ -1,5 +1,9 @@
 import React, {Component} from "react";
 import {Redirect} from "react-router-dom";
+
+import {Alert} from '@material-ui/lab/';
+import {Grid} from '@material-ui/core';
+
 import {IUser} from "../../Helpers/interfaces"
 import {baseURL, emailRegExp, emailFormat} from "../../Helpers/constants"
 import User from "../Login/User";
@@ -67,7 +71,7 @@ class Register extends Component<IProps, IState> {
             // sessionToken: ""
         };
 
-        this.register = this.register.bind(this);
+        // this.register = this.register.bind(this);
 
     };
 
@@ -261,16 +265,15 @@ class Register extends Component<IProps, IState> {
 
         return(
             <div>
-                <h1>Register</h1>
-                {this.state.message !== "" ? <p>{this.state.message}</p> : null}
-                {this.state.errMessage !== "" ? <p>{this.state.errMessage}</p> : null}
+                {this.state.message !== "" ? <Alert severity="info">{this.state.message}</Alert> : null}
+                {this.state.errMessage !== "" ? <Alert severity="error">{this.state.errMessage}</Alert> : null}
 
                 <label>First Name</label>
-                <input type="text" id="txtFirstName" placeholder="First Name" value={this.state.txtFirstName} onChange={(event) => {/*console.log(event.target.value);*/this.setState({txtFirstName: event.target.value});}} />
+                <input type="text" id="txtFirstName" placeholder="First Name" value={this.state.txtFirstName} onChange={(event) => {/*console.log(event.target.value);*/ this.setState({txtFirstName: event.target.value});}} />
                 {this.state.errFirstName !== "" ? <p>{this.state.errFirstName}</p> : null}
 
                 <label>Last Name</label>
-                <input type="text" id="txtLastName" placeholder="Last Name" value={this.state.txtLastName} onChange={(event) => {/*console.log(event.target.value);*/this.setState({txtLastName: event.target.value});}} />
+                <input type="text" id="txtLastName" placeholder="Last Name" value={this.state.txtLastName} onChange={(event) => {/*console.log(event.target.value);* this.setState({txtLastName: event.target.value});}} />
                 {this.state.errLastName !== "" ? <p>{this.state.errLastName}</p> : null}
 
                 <label>Email Address</label>
@@ -278,7 +281,7 @@ class Register extends Component<IProps, IState> {
                 {this.state.errEmail !== "" ? <p>{this.state.errEmail}</p> : null}
 
                 <label>Password</label>
-                <input type="password" id="txtPassword" placeholder="Password" value={this.state.txtPassword} onChange={(event) => {/*console.log(event.target.value);*/this.setState({txtPassword: event.target.value});}} />
+                <input type="password" id="txtPassword" placeholder="Password" value={this.state.txtPassword} onChange={(event) => {/*console.log(event.target.value);*/ this.setState({txtPassword: event.target.value});}} />
                 {this.state.errPassword !== "" ? <p>{this.state.errPassword}</p> : null}
 
                 <button onClick={this.register}>Register</button>

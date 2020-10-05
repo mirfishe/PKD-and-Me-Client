@@ -1,5 +1,4 @@
 import React, {Component} from "react";
-import {Redirect} from "react-router-dom";
 
 interface IProps {
     isLoggedIn: boolean | undefined,
@@ -11,7 +10,7 @@ interface IState {
 
 };
 
-class Admin extends Component<IProps, IState> {
+class Home extends Component<IProps, IState> {
 
     constructor(props: IProps) {
         super(props);
@@ -24,16 +23,12 @@ class Admin extends Component<IProps, IState> {
 
     render() {
 
-        if (!this.props.isAdmin) {
-            return <Redirect to="/" />;
-        };
-
         return(
             <div>
-                <h1>Admin</h1>
+                <h1>Philip K. Dick and Me</h1>
           </div>
         );
     };
 };
 
-export default Admin;
+export default Home;

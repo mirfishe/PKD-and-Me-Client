@@ -1,4 +1,8 @@
 import React, {Component} from "react";
+
+import {Alert} from '@material-ui/lab/';
+import {Grid} from '@material-ui/core';
+
 import {IEdition} from "../../Helpers/interfaces"
 import {baseURL} from "../../Helpers/constants"
 import Edition from "./Edition";
@@ -33,7 +37,7 @@ class Editions extends Component<IProps, IState> {
         this.setState({mediaID: props.mediaID});
 
 
-        this.getEditions = this.getEditions.bind(this);
+        // this.getEditions = this.getEditions.bind(this);
 
     };
 
@@ -93,9 +97,8 @@ class Editions extends Component<IProps, IState> {
 
         return(
             <div>
-                <h1>Editions</h1>
-                {this.state.message !== "" ? <p>{this.state.message}</p> : null}
-                {this.state.errMessage !== "" ? <p>{this.state.errMessage}</p> : null}
+                {this.state.message !== "" ? <Alert severity="info">{this.state.message}</Alert> : null}
+                {this.state.errMessage !== "" ? <Alert severity="error">{this.state.errMessage}</Alert> : null}
                 {this.state.editionResultsFound ? <Edition editionList={this.state.editionList} /> : null}
           </div>
         );
