@@ -214,7 +214,7 @@ class Register extends Component<IProps, IState> {
                         this.setState({userRecordAdded: data.recordAdded});
                         // this.setState({isLoggedIn: data.isLoggedIn});
                         // this.setState({isAdmin: data.isAdmin});
-                        this.setState({message: data.message});
+                        // this.setState({message: data.message});
 
                         this.props.setIsLoggedIn(data.isLoggedIn);
                         this.props.setIsAdmin(data.isAdmin);

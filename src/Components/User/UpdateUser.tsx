@@ -80,6 +80,8 @@ class UpdateUser extends Component<IProps, IState> {
         // console.log("UpdateUser.tsx getUser");
         // console.log("UpdateUser.tsx getUser baseURL", baseURL);
 
+        this.setState({message: ""});
+        this.setState({errMessage: ""});
         this.setState({userData: undefined});
         this.setState({userID: undefined});
         this.setState({firstName: ""});
@@ -110,7 +112,7 @@ class UpdateUser extends Component<IProps, IState> {
             // console.log("UpdateUser.tsx getUser data", data);
 
             this.setState({userResultsFound: data.resultsFound});
-            this.setState({message: data.message});
+            // this.setState({message: data.message});
 
             if (data.resultsFound) {
                 this.setState({userData: data.users[0]});
@@ -141,7 +143,7 @@ class UpdateUser extends Component<IProps, IState> {
 
     };
 
-    updateUser = () => {
+    updateUser = (deleteUser: boolean) => {
         // console.log("UpdateUser.tsx updateUser");
         // this.setState({message: "form submitted"});
 
@@ -252,7 +254,8 @@ class UpdateUser extends Component<IProps, IState> {
                     lastName:  this.state.txtLastName.trim(),
                     email:  this.state.txtEmail.trim(),
                     updatedBy:  this.state.userID,
-                    active:     this.state.active
+                    // active:     this.state.active
+                    active:     !deleteUser
                 };
 
                 // If the user doesn't enter a password, then it isn't updated
@@ -379,7 +382,8 @@ class UpdateUser extends Component<IProps, IState> {
 
                 </Grid>
                 <Grid item xs={12}>
-                <Button variant="contained" color="primary" onClick={this.updateUser}>Update</Button>
+                <Button variant="contained" color="primary" onClick={(event) => {/*console.log(event.target.value);*/ this.updateUser(false);}}>Update</Button>
+                <Button variant="contained" color="secondary" onClick={(event) => {/*console.log(event.target.value);*/ this.updateUser(true);}}>Delete</Button>
                 </Grid>
           </Grid>
         );

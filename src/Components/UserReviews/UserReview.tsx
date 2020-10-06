@@ -10,7 +10,7 @@ interface IProps {
 
 const UserReview: FunctionComponent <(IProps)> = props => {
 
-    console.log('UserReview.tsx props.userReviewList', props.userReviewList);
+    // console.log('UserReview.tsx props.userReviewList', props.userReviewList);
 
     return(
         <Grid container>

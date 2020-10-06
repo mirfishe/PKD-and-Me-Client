@@ -21,8 +21,8 @@ interface IProps {
 interface IState {
     // titleID: number | undefined,
     titleResultsFound: boolean | undefined,
-    message: string,
-    errMessage: string,
+    titleMessage: string,
+    errTitleMessage: string,
     titleData?: ITitle,
     editionMessage: string,
     errEditionMessage: string,
@@ -40,8 +40,8 @@ class Title extends Component<IProps, IState> {
         super(props);
         this.state = {
             // titleID: undefined,
-            message: "",
-            errMessage: "",
+            titleMessage: "",
+            errTitleMessage: "",
             titleResultsFound: undefined,
             editionMessage: "",
             errEditionMessage: "",
@@ -61,6 +61,9 @@ class Title extends Component<IProps, IState> {
     getTitle = () => {
         // console.log("Title.tsx getTitle");
         // console.log("Title.tsx getTitle baseURL", baseURL);
+
+        this.setState({titleMessage: ""});
+        this.setState({errTitleMessage: ""});
 
         let url: string = baseURL + "title";
 
@@ -83,13 +86,13 @@ class Title extends Component<IProps, IState> {
                 };
             })
             .then(data => {
-                console.log("Title.tsx getTitle data", data);
+                // console.log("Title.tsx getTitle data", data);
 
                 // let titleResponse: IGetResponse = data;
                 // console.log("Title.tsx getTitle titleResponse", titleResponse);
 
                 this.setState({titleResultsFound: data.resultsFound});
-                this.setState({message: data.message});
+                // this.setState({titleMessage: data.message});
 
                 if (data.resultsFound) {
                     // this.setState({titleList: data.titles});
@@ -98,25 +101,25 @@ class Title extends Component<IProps, IState> {
                     this.setState({editionList: data.titles[0].editions});
                     if (this.state.editionList.length > 0) {
                         this.setState({editionResultsFound: true});
-                        this.setState({editionMessage: "Successfully retrieved editions."});
+                        // this.setState({editionMessage: "Successfully retrieved editions."});
                     } else {
                         this.setState({editionResultsFound: false});
-                        this.setState({editionMessage: "No editions found."});
+                        // this.setState({editionMessage: "No editions found."});
                         this.setState({errEditionMessage: "No editions found."});
                     };
 
                     this.setState({userReviewList: data.titles[0].userReviews});
                     if (this.state.userReviewList.length > 0) {
                         this.setState({userReviewResultsFound: true});
-                        this.setState({userReviewMessage: "Successfully retrieved user reviews."});
+                        // this.setState({userReviewMessage: "Successfully retrieved user reviews."});
                     } else {
                         this.setState({userReviewResultsFound: false});
-                        this.setState({userReviewMessage: "No user reviews found."});
+                        // this.setState({userReviewMessage: "No user reviews found."});
                         this.setState({errUserReviewMessage: "No user reviews found."});
                     };
 
                 } else {
-                    this.setState({errMessage: data.message});
+                    this.setState({errTitleMessage: data.message});
                 };
 
             })
@@ -124,7 +127,7 @@ class Title extends Component<IProps, IState> {
                 console.log("Title.tsx getTitle error", error);
                 // console.log("Title.tsx getTitle error.name", error.name);
                 // console.log("Title.tsx getTitle error.message", error.message);
-                this.setState({errMessage: error.name + ": " + error.message});
+                this.setState({errTitleMessage: error.name + ": " + error.message});
             });
 
         };
@@ -246,9 +249,9 @@ class Title extends Component<IProps, IState> {
         return(
             <Grid container>
                 <Grid item xs={10}>
-                {this.state.message !== "" ? <Alert severity="info">{this.state.message}</Alert> : null}
-                {this.state.errMessage !== "" ? <Alert severity="error">{this.state.errMessage}</Alert> : null}
-                {this.state.titleData !== undefined ? <TitleDisplay titleData={this.state.titleData}/> : null}
+                {this.state.titleMessage !== "" ? <Alert severity="info">{this.state.titleMessage}</Alert> : null}
+                {this.state.errTitleMessage !== "" ? <Alert severity="error">{this.state.errTitleMessage}</Alert> : null}
+                {this.state.errTitleMessage !== undefined ? <TitleDisplay titleData={this.state.titleData}/> : null}
                 </Grid>
                 <Grid item xs={10}>
                 {this.state.editionMessage !== "" ? <Alert severity="info">{this.state.editionMessage}</Alert> : null}
@@ -259,6 +262,9 @@ class Title extends Component<IProps, IState> {
                 {this.state.userReviewMessage !== "" ? <Alert severity="info">{this.state.userReviewMessage}</Alert> : null}
                 {this.state.errUserReviewMessage !== "" ? <Alert severity="error">{this.state.errUserReviewMessage}</Alert> : null}
                 {this.state.userReviewResultsFound ? <UserReview userReviewList={this.state.userReviewList} /> : null}
+                </Grid>
+                <Grid item xs={10}>
+                {this.props.isLoggedIn === true ? <UserReviewForm isLoggedIn={this.props.isLoggedIn} isAdmin={this.props.isAdmin} sessionToken={this.props.sessionToken} titleID={this.props.titleID} /> : null}
                 </Grid>
             </Grid>
         );

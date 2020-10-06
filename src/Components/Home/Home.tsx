@@ -18,8 +18,8 @@ interface IProps {
 };
 
 interface IState {
-    message: string,
-    errMessage: string,
+    categoryMessage: string,
+    errCategoryMessage: string,
     categoryResultsFound: boolean | undefined,
     categoryList: ICategory[],
     categoryID: number | undefined,
@@ -34,8 +34,8 @@ class Home extends Component<IProps, IState> {
     constructor(props: IProps) {
         super(props);
         this.state = {
-            message: "",
-            errMessage: "",
+            categoryMessage: "",
+            errCategoryMessage: "",
             categoryResultsFound: undefined,
             categoryList: [],
             categoryID: undefined,
@@ -53,6 +53,9 @@ class Home extends Component<IProps, IState> {
     getCategories = () => {
         // console.log("Home.tsx getCategories");
         // console.log("Home.tsx getCategories baseURL", baseURL);
+
+        this.setState({categoryMessage: ""});
+        this.setState({errCategoryMessage: ""});
 
         this.props.setTitleID(undefined);
 
@@ -74,7 +77,7 @@ class Home extends Component<IProps, IState> {
             // console.log("Home.tsx getCategories categoryResponse", categoryResponse);
 
             this.setState({categoryResultsFound: data.resultsFound});
-            // this.setState({message: data.message});
+            // this.setState({categoryMessage: data.message});
 
             if (data.resultsFound) {
                 // Would like to remove categories that don't have titles associated with them
@@ -82,7 +85,7 @@ class Home extends Component<IProps, IState> {
                     this.setState({categoryList: data.categories});
                 // };
             } else {
-                this.setState({errMessage: data.message});
+                this.setState({errCategoryMessage: data.message});
             };
 
         })
@@ -90,7 +93,7 @@ class Home extends Component<IProps, IState> {
             console.log("Home.tsx getCategories error", error);
             // console.log("Home.tsx getCategories error.name", error.name);
             // console.log("Home.tsx getCategories error.message", error.message);
-            this.setState({errMessage: error.name + ": " + error.message});
+            this.setState({errCategoryMessage: error.name + ": " + error.message});
         });
 
     };
@@ -98,6 +101,9 @@ class Home extends Component<IProps, IState> {
     getTitles = (categoryID?: number) => {
         // console.log("Home.tsx getTitles");
         // console.log("Home.tsx getTitles baseURL", baseURL);
+
+        this.setState({titleMessage: ""});
+        this.setState({errTitleMessage: ""});
 
         // console.log("Home.tsx getTitles this.props.titleID", this.props.titleID);
         this.props.setTitleID(undefined);
@@ -133,7 +139,7 @@ class Home extends Component<IProps, IState> {
             // console.log("Home.tsx getTitles titleResponse", titleResponse);
 
             this.setState({titleResultsFound: data.resultsFound});
-            this.setState({titleMessage: data.message});
+            // this.setState({titleMessage: data.message});
 
             if (data.resultsFound) {
                 this.setState({titleList: data.titles});
@@ -164,8 +170,8 @@ class Home extends Component<IProps, IState> {
         return(
             <Grid container>
                 <Grid item xs={2}>
-                {this.state.message !== "" ? <Alert severity="info">{this.state.message}</Alert> : null}
-                {this.state.errMessage !== "" ? <Alert severity="error">{this.state.errMessage}</Alert> : null}
+                {this.state.categoryMessage !== "" ? <Alert severity="info">{this.state.categoryMessage}</Alert> : null}
+                {this.state.errCategoryMessage !== "" ? <Alert severity="error">{this.state.errCategoryMessage}</Alert> : null}
                 {this.state.categoryResultsFound !== undefined ? <Category getTitles={this.getTitles} categoryList={this.state.categoryList} /> : null}
                 </Grid>
 
