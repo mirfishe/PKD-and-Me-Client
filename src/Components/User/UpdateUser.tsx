@@ -2,15 +2,17 @@ import React, {Component} from "react";
 import {Redirect} from "react-router-dom";
 
 import {Alert} from '@material-ui/lab/';
-import {Grid, Button, InputLabel, TextField} from '@material-ui/core';
+import {Grid, Button, InputLabel, TextField, Dialog, DialogTitle, DialogContent, DialogActions} from '@material-ui/core';
 
 import {baseURL, emailRegExp, emailFormat} from "../../Helpers/constants"
 import {IUser} from "../../Helpers/interfaces"
 
 interface IProps {
-    isLoggedIn: boolean | undefined,
-    isAdmin: boolean | undefined,
+    userID: number | null,
+    isLoggedIn: boolean | null,
+    isAdmin: boolean | null,
     sessionToken: string,
+    setUserID: (userID: number | null) => void,
     setIsLoggedIn: (isLoggedIn: boolean) => void,
     setIsAdmin: (setIsAdmin: boolean) => void,
     setSessionToken: (sessionToken: string) => void
@@ -19,8 +21,9 @@ interface IProps {
 interface IState {
     message: string,
     errMessage: string,
-    userResultsFound: boolean | undefined,
-    userRecordUpdated: boolean | undefined,
+    dialogOpen: boolean,
+    userResultsFound: boolean | null,
+    userRecordUpdated: boolean | null,
     // userList: IUser[],
     txtFirstName: string,
     txtLastName: string,
@@ -30,16 +33,16 @@ interface IState {
     errLastName: string,
     errEmail: string,
     errPassword: string,
-    userData?: IUser | undefined,
-    userID: number | undefined,
+    userData?: IUser | null,
+    // userID: number | null,
     firstName: string,
     lastName: string,
     email: string,
-    updatedBy: number | undefined,
-    admin: boolean | undefined,
-    active: boolean | undefined,
-    // isLoggedIn: boolean | undefined,
-    // isAdmin: boolean | undefined,
+    updatedBy: number | null,
+    admin: boolean | null,
+    active: boolean | null,
+    // isLoggedIn: boolean | null,
+    // isAdmin: boolean | null,
     // sessionToken: string
 };
 
@@ -50,8 +53,9 @@ class UpdateUser extends Component<IProps, IState> {
         this.state = {
             message: "",
             errMessage: "",
-            userResultsFound: undefined,
-            userRecordUpdated: undefined,
+            dialogOpen: false,
+            userResultsFound: null,
+            userRecordUpdated: null,
             // userList: [],
             txtFirstName: "",
             txtLastName: "",
@@ -61,16 +65,16 @@ class UpdateUser extends Component<IProps, IState> {
             errLastName: "",
             errEmail: "",
             errPassword: "",
-            userData: undefined,
-            userID: undefined,
+            userData: null,
+            // userID: null,
             firstName: "",
             lastName: "",
             email: "",
-            updatedBy: undefined,
-            admin: undefined,
-            active: undefined
-            // isLoggedIn: undefined,
-            // isAdmin: undefined,
+            updatedBy: null,
+            admin: null,
+            active: null
+            // isLoggedIn: null,
+            // isAdmin: null,
             // sessionToken: ""
         };
 
@@ -82,14 +86,14 @@ class UpdateUser extends Component<IProps, IState> {
 
         this.setState({message: ""});
         this.setState({errMessage: ""});
-        this.setState({userData: undefined});
-        this.setState({userID: undefined});
+        this.setState({userData: null});
+        // this.setState({userID: null});
         this.setState({firstName: ""});
         this.setState({lastName: ""});
         this.setState({email: ""});
-        this.setState({updatedBy: undefined});
-        this.setState({admin: undefined});
-        this.setState({active: undefined});
+        this.setState({updatedBy: null});
+        this.setState({admin: null});
+        this.setState({active: null});
 
         let url: string = baseURL + "user";
 
@@ -122,7 +126,7 @@ class UpdateUser extends Component<IProps, IState> {
                 this.setState({txtLastName: data.users[0].lastName});
                 this.setState({txtEmail: data.users[0].email});
 
-                this.setState({userID: data.users[0].userID});
+                // this.setState({userID: data.users[0].userID});
                 this.setState({firstName: data.users[0].firstName});
                 this.setState({lastName: data.users[0].lastName});
                 this.setState({email: data.users[0].email});
@@ -150,15 +154,15 @@ class UpdateUser extends Component<IProps, IState> {
         this.setState({message: ""});
         this.setState({errMessage: ""});
         // this.setState({userList: []});
-        this.setState({userID: undefined});
+        // this.setState({userID: null});
         this.setState({firstName: ""});
         this.setState({lastName: ""});
         this.setState({email: ""});
-        this.setState({updatedBy: undefined});
-        this.setState({admin: undefined});
-        this.setState({active: undefined});
-        // this.setState({isLoggedIn: undefined});
-        // this.setState({isAdmin: undefined});
+        this.setState({updatedBy: null});
+        this.setState({admin: null});
+        this.setState({active: null});
+        // this.setState({isLoggedIn: null});
+        // this.setState({isAdmin: null});
         // this.setState({sessionToken: ""});
 
         let firstNameValidated: boolean = false;
@@ -168,7 +172,7 @@ class UpdateUser extends Component<IProps, IState> {
         let formValidated: boolean  = false;
 
 
-        if (this.state.txtFirstName !== undefined) {
+        if (this.state.txtFirstName !== null) {
             if (this.state.txtFirstName.trim().length > 0) {
                 firstNameValidated = true;
                 this.setState({errFirstName: ""});
@@ -182,7 +186,7 @@ class UpdateUser extends Component<IProps, IState> {
             };
         };
 
-        if (this.state.txtLastName !== undefined) {
+        if (this.state.txtLastName !== null) {
             if (this.state.txtLastName.trim().length > 0) {
                 lastNameValidated = true;
                 this.setState({errLastName: ""});
@@ -196,7 +200,7 @@ class UpdateUser extends Component<IProps, IState> {
             };
         };
 
-        if (this.state.txtEmail !== undefined) {
+        if (this.state.txtEmail !== null) {
             if (this.state.txtEmail.trim().match(emailRegExp) && this.state.txtEmail.trim().length > 0) {
             // if (this.state.txtEmail.trim().match(emailFormat) && this.state.txtEmail.trim().length > 0) {
                 emailValidated = true;
@@ -211,7 +215,7 @@ class UpdateUser extends Component<IProps, IState> {
             };
         };
 
-        if (this.state.txtPassword !== undefined) {
+        if (this.state.txtPassword !== null) {
             // If the user doesn't enter a password, then it isn't updated
             if (this.state.txtPassword.trim().length !== 0) {
                 if (this.state.txtPassword.trim().length > 4) {
@@ -248,12 +252,12 @@ class UpdateUser extends Component<IProps, IState> {
 
         if (formValidated) {
 
-            if (this.state.txtFirstName !== undefined && this.state.txtLastName !== undefined && this.state.txtEmail !== undefined && this.state.txtPassword !== undefined) {
+            if (this.state.txtFirstName !== null && this.state.txtLastName !== null && this.state.txtEmail !== null && this.state.txtPassword !== null) {
                 let userObject = {
                     firstName:  this.state.txtFirstName.trim(),
                     lastName:  this.state.txtLastName.trim(),
                     email:  this.state.txtEmail.trim(),
-                    updatedBy:  this.state.userID,
+                    updatedBy:  this.props.userID,
                     // active:     this.state.active
                     active:     !deleteUser
                 };
@@ -301,7 +305,7 @@ class UpdateUser extends Component<IProps, IState> {
 
                     if (data.recordUpdated) {
                         // this.setState({userList: data});
-                        this.setState({userID: data.userID});
+                        // this.setState({userID: data.userID});
                         this.setState({firstName: data.firstName});
                         this.setState({lastName: data.lastName});
                         this.setState({email: data.email});
@@ -332,8 +336,17 @@ class UpdateUser extends Component<IProps, IState> {
     };
 
     componentDidMount() {
-        this.getUser();
+        // this.getUser();
       };
+
+    handleOpen = () => {
+        this.setState({dialogOpen: true});
+        this.getUser();
+    };
+    
+    handleClose = () => {
+        this.setState({dialogOpen: false});
+    };
 
     render() {
 
@@ -344,7 +357,11 @@ class UpdateUser extends Component<IProps, IState> {
         // console.log("UpdateUser.tsx this.state.errMessage", this.state.errMessage);
 
         return(
-            <Grid container>
+            <div>
+            <Button variant="text" color="primary" onClick={this.handleOpen}>Profile</Button>
+            <Dialog open={this.state.dialogOpen} onClose={this.handleClose} fullWidth={true} maxWidth="md">
+                <DialogTitle id="form-dialog-title">Update Profile</DialogTitle>
+                <DialogContent>
                 <Grid item xs={12}>
                 {this.state.message !== "" ? <Alert severity="info">{this.state.message}</Alert> : null}
                 {this.state.errMessage !== "" ? <Alert severity="error">{this.state.errMessage}</Alert> : null}
@@ -381,11 +398,14 @@ class UpdateUser extends Component<IProps, IState> {
                 {this.state.errPassword !== "" ? <Alert severity="error">{this.state.errPassword}</Alert> : null}
 
                 </Grid>
-                <Grid item xs={12}>
-                <Button variant="contained" color="primary" onClick={(event) => {/*console.log(event.target.value);*/ this.updateUser(false);}}>Update</Button>
-                <Button variant="contained" color="secondary" onClick={(event) => {/*console.log(event.target.value);*/ this.updateUser(true);}}>Delete</Button>
-                </Grid>
-          </Grid>
+                <DialogActions>
+                    <Button variant="outlined" color="primary" onClick={(event) => {/*console.log(event.target.value);*/ this.updateUser(false);}}>Update</Button>
+                    <Button variant="outlined" color="secondary" onClick={(event) => {/*console.log(event.target.value);*/ this.updateUser(true);}}>Delete</Button>
+                    <Button variant="outlined" color="primary" onClick={this.handleClose}>Cancel</Button>
+                </DialogActions>
+            </DialogContent>
+          </Dialog>
+        </div>
         );
     };
 };

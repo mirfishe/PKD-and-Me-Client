@@ -2,8 +2,9 @@ import React, {Component} from "react";
 import {Redirect} from "react-router-dom";
 
 interface IProps {
-    isLoggedIn: boolean | undefined,
-    isAdmin: boolean | undefined,
+    userID: number | null,
+    isLoggedIn: boolean | null,
+    isAdmin: boolean | null,
     sessionToken: string
 };
 

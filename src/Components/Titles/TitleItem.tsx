@@ -8,8 +8,8 @@ import {Redirect} from "react-router-dom";
 interface IProps {
     titleList: ITitle[],
     getEditions?: (titleID?: number) => void,
-    titleID: number | undefined,
-    setTitleID: (titleID: number | undefined) => void
+    titleID: number | null,
+    setTitleID: (titleID: number | null) => void
 };
 
 const TitleItem: FunctionComponent <(IProps)> = props => {

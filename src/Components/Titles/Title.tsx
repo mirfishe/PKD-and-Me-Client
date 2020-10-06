@@ -8,30 +8,32 @@ import {baseURL} from "../../Helpers/constants"
 import Edition from "../Editions/Edition";
 import TitleDisplay from "./TitleDisplay";
 import UserReview from "../UserReviews/UserReview";
-import UserReviewForm from "../UserReviews/UserReviewForm";
+import AddUserReview from "../UserReviews/AddUserReview";
 
 interface IProps {
-    isLoggedIn: boolean | undefined,
-    isAdmin: boolean | undefined,
+    userID: number | null,
+    isLoggedIn: boolean | null,
+    isAdmin: boolean | null,
     sessionToken: string,
-    titleID: number | undefined,
-    setTitleID: (titleID: number | undefined) => void
+    titleID: number | null,
+    setTitleID: (titleID: number | null) => void
 };
 
 interface IState {
-    // titleID: number | undefined,
-    titleResultsFound: boolean | undefined,
+    // titleID: number | null,
+    titleResultsFound: boolean | null,
     titleMessage: string,
     errTitleMessage: string,
     titleData?: ITitle,
     editionMessage: string,
     errEditionMessage: string,
-    editionResultsFound: boolean | undefined,
+    editionResultsFound: boolean | null,
     editionList: IEdition[],
     userReviewMessage: string,
     errUserReviewMessage: string,
-    userReviewResultsFound: boolean | undefined,
-    userReviewList: IUserReview[]
+    userReviewResultsFound: boolean | null,
+    userReviewList: IUserReview[],
+    userReviewedTitle: boolean
 };
 
 class Title extends Component<IProps, IState> {
@@ -39,23 +41,28 @@ class Title extends Component<IProps, IState> {
     constructor(props: IProps) {
         super(props);
         this.state = {
-            // titleID: undefined,
+            // titleID: null,
             titleMessage: "",
             errTitleMessage: "",
-            titleResultsFound: undefined,
+            titleResultsFound: null,
             editionMessage: "",
             errEditionMessage: "",
-            editionResultsFound: undefined,
+            editionResultsFound: null,
             editionList: [],
             userReviewMessage: "",
             errUserReviewMessage: "",
-            userReviewResultsFound: undefined,
-            userReviewList: []
+            userReviewResultsFound: null,
+            userReviewList: [],
+            userReviewedTitle: false
         };
 
         // this.getTitle = this.getTitle.bind(this);
         // this.getEditions = this.getEditions.bind(this);
 
+    };
+
+    userReviewUpdated = () => {
+        this.getTitle();
     };
 
     getTitle = () => {
@@ -64,14 +71,15 @@ class Title extends Component<IProps, IState> {
 
         this.setState({titleMessage: ""});
         this.setState({errTitleMessage: ""});
+        this.setState({userReviewedTitle: false});
 
         let url: string = baseURL + "title";
 
-        // if (this.state.titleID !== undefined) {
+        // if (this.state.titleID !== null) {
         //     url = url + "/" + this.state.titleID;
         // };
 
-        if (this.props.titleID !== undefined) {
+        if (this.props.titleID !== null) {
             url = url + "/" + this.props.titleID;
 
             // console.log("Title.tsx getTitle url", url);
@@ -112,6 +120,14 @@ class Title extends Component<IProps, IState> {
                     if (this.state.userReviewList.length > 0) {
                         this.setState({userReviewResultsFound: true});
                         // this.setState({userReviewMessage: "Successfully retrieved user reviews."});
+
+                        for (let i = 0; i < this.state.userReviewList.length; i++) {
+
+                            if (this.props.userID === this.state.userReviewList[i].userID) {
+                                this.setState({userReviewedTitle: true});
+                            };
+                        };
+
                     } else {
                         this.setState({userReviewResultsFound: false});
                         // this.setState({userReviewMessage: "No user reviews found."});
@@ -143,15 +159,15 @@ class Title extends Component<IProps, IState> {
 
     //     let url: string = baseURL + "edition";
 
-    //     // if (this.state.titleID !== undefined) {
+    //     // if (this.state.titleID !== null) {
     //     //     url = url + "/title/" + this.state.titleID;
     //     // };
 
-    //     // if (titleID !== undefined) {
+    //     // if (titleID !== null) {
     //     //     url = url + "/title/" + titleID;
     //     // };
 
-    //     if (this.props.titleID !== undefined) {
+    //     if (this.props.titleID !== null) {
     //         url = url + "/title/" + this.props.titleID;
 
     //         // console.log("Titles.tsx getEditions url", url);
@@ -198,7 +214,7 @@ class Title extends Component<IProps, IState> {
 
     //     let url: string = baseURL + "userreview";
 
-    //     if (this.props.titleID !== undefined) {
+    //     if (this.props.titleID !== null) {
     //         url = url + "/title/" + this.props.titleID;
 
     //         // console.log("UserReviews.tsx getUserReviews url", url);
@@ -251,7 +267,7 @@ class Title extends Component<IProps, IState> {
                 <Grid item xs={10}>
                 {this.state.titleMessage !== "" ? <Alert severity="info">{this.state.titleMessage}</Alert> : null}
                 {this.state.errTitleMessage !== "" ? <Alert severity="error">{this.state.errTitleMessage}</Alert> : null}
-                {this.state.errTitleMessage !== undefined ? <TitleDisplay titleData={this.state.titleData}/> : null}
+                {this.state.errTitleMessage !== null ? <TitleDisplay titleData={this.state.titleData}/> : null}
                 </Grid>
                 <Grid item xs={10}>
                 {this.state.editionMessage !== "" ? <Alert severity="info">{this.state.editionMessage}</Alert> : null}
@@ -261,10 +277,10 @@ class Title extends Component<IProps, IState> {
                 <Grid item xs={10}>
                 {this.state.userReviewMessage !== "" ? <Alert severity="info">{this.state.userReviewMessage}</Alert> : null}
                 {this.state.errUserReviewMessage !== "" ? <Alert severity="error">{this.state.errUserReviewMessage}</Alert> : null}
-                {this.state.userReviewResultsFound ? <UserReview userReviewList={this.state.userReviewList} /> : null}
+                {this.state.userReviewResultsFound ? <UserReview userID={this.props.userID} isLoggedIn={this.props.isLoggedIn} isAdmin={this.props.isAdmin} sessionToken={this.props.sessionToken} titleID={this.props.titleID} userReviewUpdated={this.userReviewUpdated} userReviewList={this.state.userReviewList} /> : null}
                 </Grid>
                 <Grid item xs={10}>
-                {this.props.isLoggedIn === true ? <UserReviewForm isLoggedIn={this.props.isLoggedIn} isAdmin={this.props.isAdmin} sessionToken={this.props.sessionToken} titleID={this.props.titleID} /> : null}
+                {this.props.isLoggedIn === true && this.state.userReviewedTitle === false ? <AddUserReview userID={this.props.userID} isLoggedIn={this.props.isLoggedIn} isAdmin={this.props.isAdmin} sessionToken={this.props.sessionToken} titleID={this.props.titleID} userReviewUpdated={this.userReviewUpdated} /> : null}
                 </Grid>
             </Grid>
         );

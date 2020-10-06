@@ -10,22 +10,23 @@ import Title from "../Titles/Title";
 import TitleItem from "../Titles/TitleItem";
 
 interface IProps {
-    isLoggedIn: boolean | undefined,
-    isAdmin: boolean | undefined,
+    userID: number | null,
+    isLoggedIn: boolean | null,
+    isAdmin: boolean | null,
     sessionToken: string,
-    titleID: number | undefined,
-    setTitleID: (titleID: number | undefined) => void
+    titleID: number | null,
+    setTitleID: (titleID: number | null) => void
 };
 
 interface IState {
     categoryMessage: string,
     errCategoryMessage: string,
-    categoryResultsFound: boolean | undefined,
+    categoryResultsFound: boolean | null,
     categoryList: ICategory[],
-    categoryID: number | undefined,
+    categoryID: number | null | undefined,
     titleMessage: string,
     errTitleMessage: string,
-    titleResultsFound: boolean | undefined,
+    titleResultsFound: boolean | null,
     titleList: ITitle[]
 };
 
@@ -36,12 +37,12 @@ class Home extends Component<IProps, IState> {
         this.state = {
             categoryMessage: "",
             errCategoryMessage: "",
-            categoryResultsFound: undefined,
+            categoryResultsFound: null,
             categoryList: [],
-            categoryID: undefined,
+            categoryID: null,
             titleMessage: "",
             errTitleMessage: "",
-            titleResultsFound: undefined,
+            titleResultsFound: null,
             titleList: []
         };
 
@@ -57,7 +58,7 @@ class Home extends Component<IProps, IState> {
         this.setState({categoryMessage: ""});
         this.setState({errCategoryMessage: ""});
 
-        this.props.setTitleID(undefined);
+        this.props.setTitleID(null);
 
         let url: string = baseURL + "category";
 
@@ -106,14 +107,14 @@ class Home extends Component<IProps, IState> {
         this.setState({errTitleMessage: ""});
 
         // console.log("Home.tsx getTitles this.props.titleID", this.props.titleID);
-        this.props.setTitleID(undefined);
+        this.props.setTitleID(null);
 
         // console.log("Home.tsx getTitles categoryID", categoryID);
         this.setState({categoryID: categoryID});
 
         let url: string = baseURL + "title";
 
-        // if (this.state.categoryID !== undefined) {
+        // if (this.state.categoryID !== null) {
         //     url = url + "/category/" + this.state.categoryID;
         // };
 
@@ -172,12 +173,12 @@ class Home extends Component<IProps, IState> {
                 <Grid item xs={2}>
                 {this.state.categoryMessage !== "" ? <Alert severity="info">{this.state.categoryMessage}</Alert> : null}
                 {this.state.errCategoryMessage !== "" ? <Alert severity="error">{this.state.errCategoryMessage}</Alert> : null}
-                {this.state.categoryResultsFound !== undefined ? <Category getTitles={this.getTitles} categoryList={this.state.categoryList} /> : null}
+                {this.state.categoryResultsFound !== null ? <Category getTitles={this.getTitles} categoryList={this.state.categoryList} /> : null}
                 </Grid>
 
-                {this.props.titleID !== undefined ?
+                {this.props.titleID !== null ?
                 <Grid item xs={10}>
-                <Title isLoggedIn={this.props.isLoggedIn} isAdmin={this.props.isAdmin} sessionToken={this.props.sessionToken} titleID={this.props.titleID} setTitleID={this.props.setTitleID} />
+                <Title userID={this.props.userID} isLoggedIn={this.props.isLoggedIn} isAdmin={this.props.isAdmin} sessionToken={this.props.sessionToken} titleID={this.props.titleID} setTitleID={this.props.setTitleID} />
                 </Grid>
                 :
                 <Grid item xs={10}>

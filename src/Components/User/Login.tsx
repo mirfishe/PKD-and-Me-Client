@@ -2,14 +2,16 @@ import React, {Component} from "react";
 import {Redirect} from "react-router-dom";
 
 import {Alert} from '@material-ui/lab/';
-import {Grid, Button, InputLabel, TextField} from '@material-ui/core';
+import {Grid, Button, InputLabel, TextField, Dialog, DialogTitle, DialogContent, DialogActions} from '@material-ui/core';
 
 import {baseURL, emailRegExp, emailFormat} from "../../Helpers/constants"
 
 interface IProps {
-    isLoggedIn: boolean | undefined,
-    isAdmin: boolean | undefined,
+    userID: number | null,
+    isLoggedIn: boolean | null,
+    isAdmin: boolean | null,
     sessionToken: string,
+    setUserID: (userID: number | null) => void,
     setIsLoggedIn: (isLoggedIn: boolean) => void,
     setIsAdmin: (setIsAdmin: boolean) => void,
     setSessionToken: (sessionToken: string) => void
@@ -18,21 +20,22 @@ interface IProps {
 interface IState {
     message: string,
     errMessage: string,
-    userResultsFound: boolean | undefined,
+    dialogOpen: boolean,
+    userResultsFound: boolean | null,
     // userList: IUser[],
     txtEmail: string | undefined,
     txtPassword: string | undefined,
     errEmail: string,
     errPassword: string,
-    userID: number | undefined,
+    // userID: number | null,
     firstName: string,
     lastName: string,
     email: string,
-    updatedBy: number | undefined,
-    admin: boolean | undefined,
-    active: boolean | undefined
-    // isLoggedIn: boolean | undefined,
-    // isAdmin: boolean | undefined,
+    updatedBy: number | null,
+    admin: boolean | null,
+    active: boolean | null
+    // isLoggedIn: boolean | null,
+    // isAdmin: boolean | null,
     // sessionToken: string
 };
 
@@ -43,21 +46,22 @@ class Login extends Component<IProps, IState> {
         this.state = {
             message: "",
             errMessage: "",
-            userResultsFound: undefined,
+            dialogOpen: false,
+            userResultsFound: null,
             // userList: [],
             txtEmail: process.env.REACT_APP_EMAIL_DEFAULT,
             txtPassword: process.env.REACT_APP_PASSWORD_DEFAULT,
             errEmail: "",
             errPassword: "",
-            userID: undefined,
+            // userID: null,
             firstName: "",
             lastName: "",
             email: "",
-            updatedBy: undefined,
-            admin: undefined,
-            active: undefined
-            // isLoggedIn: undefined,
-            // isAdmin: undefined,
+            updatedBy: null,
+            admin: null,
+            active: null
+            // isLoggedIn: null,
+            // isAdmin: null,
             // sessionToken: ""
         };
 
@@ -72,15 +76,15 @@ class Login extends Component<IProps, IState> {
         this.setState({message: ""});
         this.setState({errMessage: ""});
         // this.setState({userList: []});
-        this.setState({userID: undefined});
+        // this.setState({userID: null});
         this.setState({firstName: ""});
         this.setState({lastName: ""});
         this.setState({email: ""});
-        this.setState({updatedBy: undefined});
-        this.setState({admin: undefined});
-        this.setState({active: undefined});
-        // this.setState({isLoggedIn: undefined});
-        // this.setState({isAdmin: undefined});
+        this.setState({updatedBy: null});
+        this.setState({admin: null});
+        this.setState({active: null});
+        // this.setState({isLoggedIn: null});
+        // this.setState({isAdmin: null});
         // this.setState({sessionToken: ""});
 
         let emailValidated: boolean = false;
@@ -178,7 +182,8 @@ class Login extends Component<IProps, IState> {
     
                         if (data.resultsFound) {
                             // this.setState({userList: data});
-                            this.setState({userID: data.userID});
+                            // this.setState({userID: data.userID});
+                            this.props.setUserID(data.userID);
                             this.setState({firstName: data.firstName});
                             this.setState({lastName: data.lastName});
                             this.setState({email: data.email});
@@ -211,6 +216,14 @@ class Login extends Component<IProps, IState> {
 
     };
 
+    handleOpen = () => {
+        this.setState({dialogOpen: true});
+    };
+    
+    handleClose = () => {
+        this.setState({dialogOpen: false});
+    };
+
     render() {
 
         if (this.props.isLoggedIn) {
@@ -218,7 +231,11 @@ class Login extends Component<IProps, IState> {
         };
 
         return(
-            <Grid container>
+            <div>
+            <Button variant="text" color="primary" onClick={this.handleOpen}>Login</Button>
+            <Dialog open={this.state.dialogOpen} onClose={this.handleClose} fullWidth={true} maxWidth="md">
+                <DialogTitle id="form-dialog-title">Login</DialogTitle>
+                <DialogContent>
                 <Grid item xs={12}>
                     {this.state.message !== "" ? <Alert severity="info">{this.state.message}</Alert> : null}
                     {this.state.errMessage !== "" ? <Alert severity="error">{this.state.errMessage}</Alert> : null}
@@ -239,10 +256,13 @@ class Login extends Component<IProps, IState> {
                     {this.state.errPassword !== "" ? <Alert severity="error">{this.state.errPassword}</Alert> : null}
                     
                 </Grid>
-                <Grid item xs={12}>
-                    <Button variant="contained" color="primary" onClick={this.logIn}>Log In</Button>
-                </Grid>
-          </Grid>
+                <DialogActions>
+                    <Button variant="outlined" color="primary" onClick={this.logIn}>Log In</Button>
+                    <Button variant="outlined" color="primary" onClick={this.handleClose}>Cancel</Button>
+                </DialogActions>
+            </DialogContent>
+          </Dialog>
+        </div>
         );
     };
 };
