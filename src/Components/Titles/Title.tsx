@@ -3,7 +3,7 @@ import React, {Component} from "react";
 import {Alert} from '@material-ui/lab/';
 import {Grid} from '@material-ui/core';
 
-import {ITitle, IEdition, IMedia, IUserReview} from "../../Helpers/interfaces"
+import {ITitle, ICategory, IEdition, IMedia, IUserReview} from "../../Helpers/interfaces"
 import {baseURL} from "../../Helpers/constants"
 import Edition from "../Editions/Edition";
 import TitleDisplay from "./TitleDisplay";
@@ -25,15 +25,32 @@ interface IState {
     titleMessage: string,
     errTitleMessage: string,
     titleData?: ITitle,
+    overallTitleRatingMessage: string,
+    errOverallTitleRatingMessage: string,
+    overallTitleRatingResultsFound: boolean | null,
+    overallTitleRating: number | null,
+    overallTitleRatingCount: number,
+    categoryMessage: string,
+    errCategoryMessage: string,
+    categoryResultsFound: boolean | null,
+    categoryList: ICategory[],
+    categoryName: string,
     editionMessage: string,
     errEditionMessage: string,
     editionResultsFound: boolean | null,
     editionList: IEdition[],
+    // mediaMessage: string,
+    // errMediaMessage: string,
+    // mediaResultsFound: boolean | null,
+    // mediaList: IMedia[] | undefined,
+    // mediaName: string,
     userReviewMessage: string,
     errUserReviewMessage: string,
     userReviewResultsFound: boolean | null,
+    userReviewResultsHaveReviews: boolean,
     userReviewList: IUserReview[],
-    userReviewedTitle: boolean
+    userReviewedTitle: boolean,
+    userReviewedTitleReviewID: number | null
 };
 
 class Title extends Component<IProps, IState> {
@@ -45,24 +62,37 @@ class Title extends Component<IProps, IState> {
             titleMessage: "",
             errTitleMessage: "",
             titleResultsFound: null,
+            overallTitleRatingMessage: "",
+            errOverallTitleRatingMessage: "",
+            overallTitleRatingResultsFound: null,
+            overallTitleRating: null,
+            overallTitleRatingCount: 0,
+            categoryMessage: "",
+            errCategoryMessage: "",
+            categoryResultsFound: null,
+            categoryList: [],
+            categoryName: "",
             editionMessage: "",
             errEditionMessage: "",
             editionResultsFound: null,
             editionList: [],
+            // mediaMessage: "",
+            // errMediaMessage: "",
+            // mediaResultsFound: null,
+            // mediaList: [],
+            // mediaName: "",
             userReviewMessage: "",
             errUserReviewMessage: "",
             userReviewResultsFound: null,
+            userReviewResultsHaveReviews: false,
             userReviewList: [],
-            userReviewedTitle: false
+            userReviewedTitle: false,
+            userReviewedTitleReviewID: null
         };
 
         // this.getTitle = this.getTitle.bind(this);
         // this.getEditions = this.getEditions.bind(this);
 
-    };
-
-    userReviewUpdated = () => {
-        this.getTitle();
     };
 
     getTitle = () => {
@@ -71,7 +101,21 @@ class Title extends Component<IProps, IState> {
 
         this.setState({titleMessage: ""});
         this.setState({errTitleMessage: ""});
-        this.setState({userReviewedTitle: false});
+        // this.setState({userReviewedTitle: false});
+        this.setState({titleResultsFound: null});
+        this.setState({categoryMessage: ""});
+        this.setState({errCategoryMessage: ""});
+        this.setState({categoryResultsFound: null});
+        this.setState({categoryList: []});
+        this.setState({categoryName: ""});
+        this.setState({editionMessage: ""});
+        this.setState({errEditionMessage: ""});
+        this.setState({editionResultsFound: null});
+        // this.setState({mediaMessage: ""});
+        // this.setState({errMediaMessage: ""});
+        // this.setState({mediaResultsFound: null});
+        // this.setState({mediaList: []});
+        // this.setState({mediaName: ""});
 
         let url: string = baseURL + "title";
 
@@ -106,33 +150,84 @@ class Title extends Component<IProps, IState> {
                     // this.setState({titleList: data.titles});
                     this.setState({titleData: data.titles[0]});
 
+                    this.setState({categoryList: data.titles[0].category});
+                    // console.log("Title.tsx getTitle this.state.categoryList", this.state.categoryList);
+
+                    if (this.state.categoryList !== undefined && this.state.categoryList !== null) {
+
+                        this.setState({categoryResultsFound: true});
+                        // this.setState({categoryMessage: "Successfully retrieved categories."});
+                        this.setState({categoryName: data.titles[0].category.category});
+
+                        // categoryList is an object not an array if there is only one value in the data from the fetch?
+                        // if (this.state.categoryList.length > 0) {
+                        //     this.setState({categoryResultsFound: true});
+                        //     this.setState({categoryMessage: "Successfully retrieved categories."});
+                        //     this.setState({categoryName: data.titles[0].category[0].category});
+                        // } else {
+                        //     this.setState({categoryResultsFound: false});
+                        //     this.setState({categoryMessage: "No categories found."});
+                        //     this.setState({errCategoryMessage: "No categories found."});
+                        // };
+                    } else {
+                        this.setState({categoryResultsFound: false});
+                        // this.setState({categoryMessage: "No categories found."});
+                        this.setState({errCategoryMessage: "No categories found."});
+                    };
+
                     this.setState({editionList: data.titles[0].editions});
-                    if (this.state.editionList.length > 0) {
-                        this.setState({editionResultsFound: true});
-                        // this.setState({editionMessage: "Successfully retrieved editions."});
-                    } else {
-                        this.setState({editionResultsFound: false});
-                        // this.setState({editionMessage: "No editions found."});
-                        this.setState({errEditionMessage: "No editions found."});
-                    };
+                    // console.log("Title.tsx getTitle this.state.editionList", this.state.editionList);
 
-                    this.setState({userReviewList: data.titles[0].userReviews});
-                    if (this.state.userReviewList.length > 0) {
-                        this.setState({userReviewResultsFound: true});
-                        // this.setState({userReviewMessage: "Successfully retrieved user reviews."});
+                    if (this.state.editionList !== undefined && this.state.editionList !== null) {
+                        if (this.state.editionList.length > 0) {
+                            this.setState({editionResultsFound: true});
+                            // this.setState({editionMessage: "Successfully retrieved editions."});
 
-                        for (let i = 0; i < this.state.userReviewList.length; i++) {
+                            for (let i = 0; i < this.state.editionList.length; i++) {
+                                // console.log("Title.tsx getTitle this.state.editionList[i]", this.state.editionList[i]);
+                                // console.log("Title.tsx getTitle this.state.editionList[i].medium", this.state.editionList[i].medium);
+                                // console.log("Title.tsx getTitle data.titles[0].editions[i].medium.media", data.titles[0].editions[i].medium.media);
 
-                            if (this.props.userID === this.state.userReviewList[i].userID) {
-                                this.setState({userReviewedTitle: true});
+                                Object.assign(this.state.editionList[i], {mediaName: data.titles[0].editions[i].medium.media});
+
+                                // console.log("Title.tsx getTitle this.state.editionList[i]", this.state.editionList[i]);
+
+                                // this.setState({mediaList: this.state.editionList[i].medium});
+                                // if (this.state.mediaList !== undefined && this.state.mediaList !== null) {
+                                //     console.log("Title.tsx getTitle this.state.mediaList", this.state.mediaList);
+                                //     // console.log("Title.tsx getTitle this.state.mediaList.media", this.state.mediaList.media);
+                                // };
                             };
-                        };
 
-                    } else {
-                        this.setState({userReviewResultsFound: false});
-                        // this.setState({userReviewMessage: "No user reviews found."});
-                        this.setState({errUserReviewMessage: "No user reviews found."});
+
+
+                        } else {
+                            this.setState({editionResultsFound: false});
+                            // this.setState({editionMessage: "No editions found."});
+                            this.setState({errEditionMessage: "No editions found."});
+                        };
                     };
+
+                    // The user review data is coming from a different function/query
+                    // this.setState({userReviewList: data.titles[0].userReviews});
+
+                    // if (this.state.userReviewList !== undefined && this.state.userReviewList !== null) {
+                    //     if (this.state.userReviewList.length > 0) {
+                    //         this.setState({userReviewResultsFound: true});
+                    //         // this.setState({userReviewMessage: "Successfully retrieved user reviews."});
+
+                    //         for (let i = 0; i < this.state.userReviewList.length; i++) {
+                    //             if (this.props.userID === this.state.userReviewList[i].userID) {
+                    //                 this.setState({userReviewedTitle: true});
+                    //             };
+                    //         };
+
+                    //     } else {
+                    //         this.setState({userReviewResultsFound: false});
+                    //         // this.setState({userReviewMessage: "No user reviews found."});
+                    //         this.setState({errUserReviewMessage: "No user reviews found."});
+                    //     };
+                    // };
 
                 } else {
                     this.setState({errTitleMessage: data.message});
@@ -144,6 +239,80 @@ class Title extends Component<IProps, IState> {
                 // console.log("Title.tsx getTitle error.name", error.name);
                 // console.log("Title.tsx getTitle error.message", error.message);
                 this.setState({errTitleMessage: error.name + ": " + error.message});
+            });
+
+        };
+
+    };
+
+    getTitleRating = () => {
+        // console.log("Title.tsx getTitleRating");
+        // console.log("Title.tsx getTitleRating baseURL", baseURL);
+
+        this.setState({overallTitleRatingMessage: ""});
+        this.setState({errOverallTitleRatingMessage: ""});
+        this.setState({overallTitleRatingResultsFound: null});
+        this.setState({overallTitleRating: null});
+        this.setState({overallTitleRatingCount: 0});
+
+        let url: string = baseURL + "userreview";
+
+        // if (this.state.titleID !== null) {
+        //     url = url + "/" + this.state.titleID;
+        // };
+
+        if (this.props.titleID !== null) {
+            url = url + "/rating/" + this.props.titleID;
+
+            // console.log("Title.tsx getTitleRating url", url);
+
+            fetch(url)
+            .then(response => {
+                // console.log("Title.tsx getTitleRating response", response);
+                if (!response.ok) {
+                    throw Error(response.status + " " + response.statusText + " " + response.url);
+                } else {
+                    return response.json();
+                };
+            })
+            .then(data => {
+                console.log("Title.tsx getTitleRating data", data);
+
+                this.setState({overallTitleRatingResultsFound: data.resultsFound});
+                // this.setState({overallTitleRatingMessage: data.message});
+
+                if (data.resultsFound) {
+                    // console.log("Title.tsx getTitleRating data.userReviews[0].userReviewCount", data.userReviews[0].userReviewCount);
+                    // console.log("Title.tsx getTitleRating data.userReviews[0].userReviewSum", data.userReviews[0].userReviewSum);
+
+                    // let userReviewCount: number = data.userReviews[0].userReviewCount;
+                    this.setState({overallTitleRatingCount: data.userReviews[0].userReviewCount});
+
+                    if (this.state.overallTitleRatingCount > 0) {
+
+                        let userReviewSum: number = data.userReviews[0].userReviewSum;
+                        // Check for division by zero?
+                        // let userReviewAverage: number = userReviewSum/0;
+                        let userReviewAverage: number = userReviewSum/this.state.overallTitleRatingCount;
+
+                        // console.log("Title.tsx getTitleRating userReviewCount", userReviewCount);
+                        console.log("Title.tsx getTitleRating this.state.overallTitleRatingCount", this.state.overallTitleRatingCount);
+                        console.log("Title.tsx getTitleRating userReviewSum", userReviewSum);
+                        console.log("Title.tsx getTitleRating userReviewAverage", userReviewAverage);
+
+                        this.setState({overallTitleRating: userReviewAverage});
+                    };
+
+                } else {
+                    this.setState({errOverallTitleRatingMessage: data.message});
+                };
+
+            })
+            .catch(error => {
+                console.log("Title.tsx getTitleRating error", error);
+                // console.log("Title.tsx getTitleRating error.name", error.name);
+                // console.log("Title.tsx getTitleRating error.message", error.message);
+                this.setState({errOverallTitleRatingMessage: error.name + ": " + error.message});
             });
 
         };
@@ -208,57 +377,89 @@ class Title extends Component<IProps, IState> {
 
     // };
 
-    // getUserReviews = () => {
-    //     // console.log("UserReviews.tsx getUserReviews");
-    //     // console.log("UserReviews.tsx getUserReviews baseURL", baseURL);
+    getUserReviews = () => {
+        // console.log("Titles.tsx getUserReviews");
+        // console.log("Titles.tsx getUserReviews baseURL", baseURL);
 
-    //     let url: string = baseURL + "userreview";
+        this.setState({userReviewMessage: ""});
+        this.setState({errUserReviewMessage: ""});
+        this.setState({userReviewResultsFound: null});
+        this.setState({userReviewResultsHaveReviews: false});
+        this.setState({userReviewList: []});
+        this.setState({userReviewedTitle: false});
+        this.setState({userReviewedTitleReviewID: null});
 
-    //     if (this.props.titleID !== null) {
-    //         url = url + "/title/" + this.props.titleID;
+        let url: string = baseURL + "userreview";
 
-    //         // console.log("UserReviews.tsx getUserReviews url", url);
+        if (this.props.titleID !== null) {
+            url = url + "/title/" + this.props.titleID;
 
-    //         fetch(url)
-    //         .then(response => {
-    //             // console.log("UserReviews.tsx getUserReviews response", response);
-    //             if (!response.ok) {
-    //                 throw Error(response.status + " " + response.statusText + " " + response.url);
-    //             } else {
-    //                 return response.json();
-    //             };
-    //         })
-    //         .then(data => {
-    //             // console.log("UserReviews.tsx getUserReviews data", data);
+            // console.log("Titles.tsx getUserReviews url", url);
 
-    //             // let editionResponse: IGetResponse = data;
-    //             // console.log("UserReviews.tsx getUserReviews titleResponse", titleResponse);
+            fetch(url)
+            .then(response => {
+                // console.log("Titles.tsx getUserReviews response", response);
+                if (!response.ok) {
+                    throw Error(response.status + " " + response.statusText + " " + response.url);
+                } else {
+                    return response.json();
+                };
+            })
+            .then(data => {
+                // console.log("Titles.tsx getUserReviews data", data);
 
-    //             this.setState({userReviewResultsFound: data.resultsFound});
-    //             this.setState({userReviewMessage: data.message});
+                // let editionResponse: IGetResponse = data;
+                // console.log("Titles.tsx getUserReviews titleResponse", titleResponse);
 
-    //             if (data.resultsFound) {
-    //                 this.setState({userReviewList: data.userReviews});
-    //             } else {
-    //                 this.setState({errUserReviewMessage: data.message});
-    //             };
+                this.setState({userReviewResultsFound: data.resultsFound});
+                // this.setState({userReviewMessage: data.message});
 
-    //         })
-    //         .catch(error => {
-    //             console.log("UserReviews.tsx getUserReviews error", error);
-    //             // console.log("UserReviews.tsx getUserReviews error.name", error.name);
-    //             // console.log("UserReviews.tsx getUserReviews error.message", error.message);
-    //             this.setState({errUserReviewMessage: error.name + ": " + error.message});
-    //         });
-    //     };
+                if (data.resultsFound) {
+                    this.setState({userReviewList: data.userReviews});
 
-    // };
+                    if (this.state.userReviewList.length > 0) {
+                        for (let i = 0; i < this.state.userReviewList.length; i++) {
+                            if (this.state.userReviewList[i].rating !== null || this.state.userReviewList[i].shortReview !== "" || this.state.userReviewList[i].longReview !== "") {
+                                this.setState({userReviewResultsHaveReviews: true});
+                            };
+                            if (this.props.userID === this.state.userReviewList[i].userID) {
+                                this.setState({userReviewedTitle: true});
+                                this.setState({userReviewedTitleReviewID: this.state.userReviewList[i].reviewID});
+                            };
+                            // console.log("Titles.tsx getUserReviews this.state.userReviewedTitle", this.state.userReviewedTitle);
+                            // console.log("Titles.tsx getUserReviews this.state.userReviewedTitleReviewID", this.state.userReviewedTitleReviewID);
+                            // console.log("Titles.tsx getUserReviews this.state.userReviewResultsHaveReviews", this.state.userReviewResultsHaveReviews);
+                        };
+                    };
+
+                } else {
+                    // this.setState({errUserReviewMessage: data.message});
+                };
+
+            })
+            .catch(error => {
+                console.log("Titles.tsx getUserReviews error", error);
+                // console.log("Titles.tsx getUserReviews error.name", error.name);
+                // console.log("Titles.tsx getUserReviews error.message", error.message);
+                this.setState({errUserReviewMessage: error.name + ": " + error.message});
+            });
+        };
+
+    };
 
     componentDidMount() {
         this.getTitle();
+        this.getTitleRating();
         // this.getEditions();
-        // this.getUserReviews();
-      };
+        this.getUserReviews();
+    };
+
+      userReviewUpdated = () => {
+        this.getTitle();
+        this.getTitleRating();
+        // this.getEditions();
+        this.getUserReviews();
+    };
 
     render() {
 
@@ -267,17 +468,23 @@ class Title extends Component<IProps, IState> {
                 <Grid item xs={10}>
                 {this.state.titleMessage !== "" ? <Alert severity="info">{this.state.titleMessage}</Alert> : null}
                 {this.state.errTitleMessage !== "" ? <Alert severity="error">{this.state.errTitleMessage}</Alert> : null}
-                {this.state.errTitleMessage !== null ? <TitleDisplay titleData={this.state.titleData}/> : null}
+                {this.state.overallTitleRatingMessage !== "" ? <Alert severity="info">{this.state.overallTitleRatingMessage}</Alert> : null}
+                {this.state.errOverallTitleRatingMessage !== "" ? <Alert severity="error">{this.state.errOverallTitleRatingMessage}</Alert> : null}
+                {this.state.categoryMessage !== "" ? <Alert severity="info">{this.state.categoryMessage}</Alert> : null}
+                {this.state.errCategoryMessage !== "" ? <Alert severity="error">{this.state.errCategoryMessage}</Alert> : null}
+                {this.state.titleResultsFound !== null ? <TitleDisplay userID={this.props.userID} isLoggedIn={this.props.isLoggedIn} isAdmin={this.props.isAdmin} sessionToken={this.props.sessionToken} titleID={this.props.titleID} userReviewUpdated={this.userReviewUpdated} userReviewedTitle={this.state.userReviewedTitle} userReviewedTitleReviewID={this.state.userReviewedTitleReviewID} titleData={this.state.titleData} overallTitleRating={this.state.overallTitleRating} overallTitleRatingCount={this.state.overallTitleRatingCount} categoryName={this.state.categoryName} /> : null}
                 </Grid>
                 <Grid item xs={10}>
                 {this.state.editionMessage !== "" ? <Alert severity="info">{this.state.editionMessage}</Alert> : null}
                 {this.state.errEditionMessage !== "" ? <Alert severity="error">{this.state.errEditionMessage}</Alert> : null}
-                {this.state.editionResultsFound ? <Edition editionList={this.state.editionList} /> : null}
+                {/* {this.state.mediaMessage !== "" ? <Alert severity="info">{this.state.mediaMessage}</Alert> : null}
+                {this.state.errMediaMessage !== "" ? <Alert severity="error">{this.state.errMediaMessage}</Alert> : null} */}
+                {this.state.editionResultsFound ? <Edition editionList={this.state.editionList} /*mediaName={this.state.mediaName}*/ /> : null}
                 </Grid>
                 <Grid item xs={10}>
                 {this.state.userReviewMessage !== "" ? <Alert severity="info">{this.state.userReviewMessage}</Alert> : null}
                 {this.state.errUserReviewMessage !== "" ? <Alert severity="error">{this.state.errUserReviewMessage}</Alert> : null}
-                {this.state.userReviewResultsFound ? <UserReview userID={this.props.userID} isLoggedIn={this.props.isLoggedIn} isAdmin={this.props.isAdmin} sessionToken={this.props.sessionToken} titleID={this.props.titleID} userReviewUpdated={this.userReviewUpdated} userReviewList={this.state.userReviewList} /> : null}
+                {this.state.userReviewResultsFound && this.state.userReviewResultsHaveReviews ? <UserReview userID={this.props.userID} isLoggedIn={this.props.isLoggedIn} isAdmin={this.props.isAdmin} sessionToken={this.props.sessionToken} titleID={this.props.titleID} userReviewUpdated={this.userReviewUpdated} userReviewList={this.state.userReviewList} /> : null}
                 </Grid>
                 <Grid item xs={10}>
                 {this.props.isLoggedIn === true && this.state.userReviewedTitle === false ? <AddUserReview userID={this.props.userID} isLoggedIn={this.props.isLoggedIn} isAdmin={this.props.isAdmin} sessionToken={this.props.sessionToken} titleID={this.props.titleID} userReviewUpdated={this.userReviewUpdated} /> : null}

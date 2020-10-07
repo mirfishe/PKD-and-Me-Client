@@ -242,7 +242,6 @@ class Login extends Component<IProps, IState> {
                 </Grid>
                 <Grid item xs={12}>
 
-                    <InputLabel htmlFor="txtEmail">Email Address</InputLabel>
                     <TextField id="txtEmail" label="Email Address" required variant="outlined" fullWidth
           margin="normal" value={this.state.txtEmail} onChange={(event) => {/*console.log(event.target.value);*/ this.setState({txtEmail: event.target.value});}} />
                     {this.state.errEmail !== "" ? <Alert severity="error">{this.state.errEmail}</Alert> : null}
@@ -250,7 +249,6 @@ class Login extends Component<IProps, IState> {
                 </Grid>
                 <Grid item xs={12}>
 
-                    <InputLabel htmlFor="txtPassword">Password</InputLabel>
                     <TextField type="password" id="txtPassword" required label="Password" variant="outlined" fullWidth
           margin="normal" value={this.state.txtPassword} onChange={(event) => {/*console.log(event.target.value);*/ this.setState({txtPassword: event.target.value});}} />
                     {this.state.errPassword !== "" ? <Alert severity="error">{this.state.errPassword}</Alert> : null}

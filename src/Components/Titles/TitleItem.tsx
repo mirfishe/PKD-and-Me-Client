@@ -1,6 +1,13 @@
 import React, {FunctionComponent} from 'react';
 
-import {Grid} from '@material-ui/core';
+import {Grid, Typography, Link} from '@material-ui/core';
+import BrokenImageIcon from '@material-ui/icons/BrokenImage';
+import BrokenImageOutlinedIcon from '@material-ui/icons/BrokenImageOutlined';
+import ImageIcon from '@material-ui/icons/Image';
+import ImageOutlinedIcon from '@material-ui/icons/ImageOutlined';
+import ImageSearchOutlinedIcon from '@material-ui/icons/ImageSearchOutlined';
+import ImageSearchRoundedIcon from '@material-ui/icons/ImageSearchRounded';
+import ImageSearchSharpIcon from '@material-ui/icons/ImageSearchSharp';
 
 import {ITitle} from "../../Helpers/interfaces"
 import {Redirect} from "react-router-dom";
@@ -21,18 +28,23 @@ const TitleItem: FunctionComponent <(IProps)> = props => {
     } else {
 
         return(
-            <Grid container>
+            <Grid container spacing={2}>
             {props.titleList.map((title: ITitle) => {
             return (
                 <Grid item xs={4} key={title.titleID}>
-                {title.imageName !== null && title.imageName !== "" ? <img src={"https://philipdick.com/images/covers/" + title.imageName} alt={title.titleName} /> : null}
+                {title.imageName !== null && title.imageName !== "" ? <img src={"https://philipdick.com/images/covers/" + title.imageName} alt={title.titleName} /> : <ImageOutlinedIcon style={{fontSize: 80}} />}
                 {/* <p>{title.titleName}</p> */}
                 {/* <a href="#" onClick={() => props.getEditions(title.titleID)}>{title.titleName}</a> */}
-                <p><a href="#" onClick={() => props.setTitleID(title.titleID)}>{title.titleName}</a></p>
+                <Typography variant="body1" gutterBottom><Link href="#" onClick={() => props.setTitleID(title.titleID)}>{title.titleName}</Link>
+
+                {/* {title.publicationDate !== null ? <span>{title.publicationDate}</span> : null} */}
+                {title.publicationDate !== null ? <Typography variant="caption" gutterBottom> ({title.publicationDate.toString().substring(0, 4)})</Typography> : null}
+                
+                </Typography>
+
                 {/* <button onClick={() => this.goToTitle(title.titleID)}>{title.titleName}</button> */}
                 {/* <button onClick={() => props.setTitleID(title.titleID)}>{title.titleName}</button> */}
-                <p>{title.authorFirstName} {title.authorLastName}</p>
-                {/* <p>{title.publicationDate}</p> */}
+                <Typography variant="body1" gutterBottom>{title.authorFirstName} {title.authorLastName}</Typography>
 
                 {/* <p>{title.shortDescription}</p>
                 <p>{title.urlPKDweb}</p> */}

@@ -2,7 +2,7 @@ import React, {Component} from "react";
 import {Redirect} from "react-router-dom";
 
 import {Alert, Rating} from '@material-ui/lab/';
-import {Grid, Button, Checkbox, InputLabel, TextField, Typography, Dialog, DialogTitle, DialogContent, DialogActions} from '@material-ui/core';
+import {Grid, Button, Checkbox, FormControlLabel, InputLabel, TextField, Typography, Dialog, DialogTitle, DialogContent, DialogActions} from '@material-ui/core';
 
 import {baseURL} from "../../Helpers/constants"
 import {IUserReview} from "../../Helpers/interfaces"
@@ -126,8 +126,8 @@ class UpdateUserReview extends Component<IProps, IState> {
 
                     this.setState({cbxRead: data.userReviews[0].read});
 
-                    if (data.dateRead !== undefined) {
-                        this.setState({txtDateRead: data.dateRead.toString().substring(0, 10)});
+                    if (data.userReviews[0].dateRead !== undefined && data.userReviews[0].dateRead !== null) {
+                        this.setState({txtDateRead: data.userReviews[0].dateRead.toString().substring(0, 10)});
                     } else {
                         this.setState({txtDateRead: ""});
                     };
@@ -240,7 +240,7 @@ class UpdateUserReview extends Component<IProps, IState> {
                 if (data.recordUpdated) {
                     this.setState({cbxRead: data.read});
 
-                    if (data.dateRead !== undefined) {
+                    if (data.dateRead !== undefined && data.dateRead !== null) {
                         this.setState({txtDateRead: data.dateRead.toString().substring(0, 10)});
                     } else {
                         this.setState({txtDateRead: ""});
@@ -262,6 +262,8 @@ class UpdateUserReview extends Component<IProps, IState> {
                     this.setState({active: data.active});
 
                     this.props.userReviewUpdated();
+                    // Need to call this here because there are two buttons on the form besides the Cancel button
+                    this.handleClose();
 
                 } else {
                     // console.log("UpdateUser.tsx data.errorMessages", data.errorMessages);
@@ -308,41 +310,39 @@ class UpdateUserReview extends Component<IProps, IState> {
             <Dialog open={this.state.dialogOpen} onClose={this.handleClose} fullWidth={true} maxWidth="md">
                 <DialogTitle id="form-dialog-title">Update Review</DialogTitle>
                 <DialogContent>
+                <Grid container>
                 <Grid item xs={12}>
                 {this.state.message !== "" ? <Alert severity="info">{this.state.message}</Alert> : null}
                 {this.state.errMessage !== "" ? <Alert severity="error">{this.state.errMessage}</Alert> : null}
                 </Grid>
-                <Grid item xs={12}>
+                <Grid container spacing={2}>
+                    <Grid item xs={6}>
+                    <Grid item xs={6}>
+                        <FormControlLabel control={<Checkbox id="cbxRead" color="primary" checked={this.state.cbxRead} value={this.state.cbxRead} onChange={(event) => {/*console.log(event.target.value);*/ this.setState({cbxRead: !this.state.cbxRead});}} />} label="Read" />
+                    </Grid>
+                    <Grid item xs={6}>
+                        {/* <Typography component="legend">Rating</Typography> */}
+                        <Rating name="rdoRating" defaultValue={0} max={10} value={this.state.rdoRating} onChange={(event, newValue) => {/*console.log(event.target.value);*/ this.setState({rdoRating: newValue});}} />
+                    </Grid>
+                    </Grid>
+                    <Grid item xs={6}>
+                        
+                    <Typography component="legend">Date Read</Typography>
+                    <TextField type="date" id="txtDateRead" variant="outlined" fullWidth margin="normal" defaultValue={this.state.txtDateRead} value={this.state.txtDateRead} onChange={(event) => {/*console.log(event.target.value);*/ this.setState({txtDateRead: event.target.value});}} />
 
-                <InputLabel htmlFor="cbxRead">Read</InputLabel>
-                <Checkbox id="cbxRead" value={this.state.cbxRead} onChange={(event) => {/*console.log(event.target.value);*/ this.setState({cbxRead: !this.state.cbxRead});}} />
-
+                    </Grid>
                 </Grid>
                 <Grid item xs={12}>
 
-                <InputLabel htmlFor="txtDateRead">Date Read</InputLabel>
-                <TextField type="date" id="txtDateRead" variant="outlined" fullWidth
-          margin="normal" value={this.state.txtDateRead} onChange={(event) => {/*console.log(event.target.value);*/ this.setState({txtDateRead: event.target.value});}} />
-
-                </Grid>
-                <Grid item xs={12}>
-
-                <Typography component="legend">Rating</Typography>
-                <Rating name="rdoRating" defaultValue={0} max={10} value={this.state.rdoRating} onChange={(event, newValue) => {/*console.log(event.target.value);*/ this.setState({rdoRating: newValue});}} />
-
-                </Grid>
-                <Grid item xs={12}>
-
-                <InputLabel htmlFor="txtShortReview">Short Review</InputLabel>
                 <TextField type="text" id="txtShortReview" label="Short Review" variant="outlined" fullWidth
           margin="normal" value={this.state.txtShortReview} onChange={(event) => {/*console.log(event.target.value);*/ this.setState({txtShortReview: event.target.value});}} />
 
                 </Grid>
                 <Grid item xs={12}>
 
-                <InputLabel htmlFor="txtLongReview">Long Review</InputLabel>
                 <TextField type="text" id="txtLongReview" label="Long Review" variant="outlined" fullWidth
-          margin="normal" value={this.state.txtLongReview} onChange={(event) => {/*console.log(event.target.value);*/ this.setState({txtLongReview: event.target.value});}} />
+          margin="normal" multiline={true} rows={10} value={this.state.txtLongReview} onChange={(event) => {/*console.log(event.target.value);*/ this.setState({txtLongReview: event.target.value});}} />
+
                 </Grid>
 
                 <DialogActions>
@@ -350,6 +350,7 @@ class UpdateUserReview extends Component<IProps, IState> {
                     <Button variant="outlined" color="secondary" onClick={(event) => {/*console.log(event.target.value);*/ this.updateUserReview(true);}}>Delete Review</Button>
                     <Button variant="outlined" color="primary" onClick={this.handleClose}>Cancel</Button>
                 </DialogActions>
+                </Grid>
             </DialogContent>
           </Dialog>
         </div>

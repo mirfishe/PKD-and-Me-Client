@@ -5,6 +5,7 @@ import {Grid} from '@material-ui/core';
 
 import {ICategory, ITitle} from "../../Helpers/interfaces"
 import {baseURL} from "../../Helpers/constants"
+import About from "./About";
 import Category from "../Categories/Category";
 import Title from "../Titles/Title";
 import TitleItem from "../Titles/TitleItem";
@@ -184,7 +185,7 @@ class Home extends Component<IProps, IState> {
                 <Grid item xs={10}>
                 {this.state.titleMessage !== "" ? <Alert severity="info">{this.state.titleMessage}</Alert> : null}
                 {this.state.errTitleMessage !== "" ? <Alert severity="error">{this.state.errTitleMessage}</Alert> : null}
-                {this.state.titleResultsFound ? <TitleItem /*getEditions={this.getEditions}*/ titleID={this.props.titleID} setTitleID={this.props.setTitleID} titleList={this.state.titleList} /> : <h1>Philip K. Dick and Me</h1>}
+                {this.state.titleResultsFound ? <TitleItem /*getEditions={this.getEditions}*/ titleID={this.props.titleID} setTitleID={this.props.setTitleID} titleList={this.state.titleList} /> : <About />}
                 </Grid>
                 }
           </Grid>

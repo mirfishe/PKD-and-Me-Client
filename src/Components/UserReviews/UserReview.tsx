@@ -1,6 +1,7 @@
 import React, {FunctionComponent} from 'react';
 
-import {Grid, Button} from '@material-ui/core';
+import {Rating} from '@material-ui/lab/';
+import {Grid, Typography} from '@material-ui/core';
 
 import {IUserReview} from "../../Helpers/interfaces"
 import UpdateUserReview from "../UserReviews/UpdateUserReview";
@@ -20,25 +21,41 @@ const UserReview: FunctionComponent <(IProps)> = props => {
     // console.log('UserReview.tsx props.userReviewList', props.userReviewList);
 
     return(
-        <Grid container>
+        <Grid container spacing={2}>
+            <Grid item xs={12}>
+            <Typography variant="h6" align="center" gutterBottom>User Reviews</Typography>
+            </Grid>
         {props.userReviewList.map((userReview: IUserReview) => {
           return (
-            <Grid item xs={4} key={userReview.reviewID}>
+            <Grid item xs={12} key={userReview.reviewID}>
 
-            {userReview.read === null ? <p>Read null</p> : null}
+            {/* {userReview.read === null ? <p>Read null</p> : null}
             {userReview.read === true ? <p>Read</p> : null}
-            {userReview.read === false ? <p>Not Read</p> : null}
+            {userReview.read === false ? <p>Not Read</p> : null} */}
 
-            {userReview.dateRead !== null ? <p>{userReview.dateRead}</p> : null}
-            {userReview.dateRead !== null ? <p>{userReview.dateRead.toString().substring(0, 10)}</p> : null}
+            {/* {userReview.dateRead !== undefined && userReview.dateRead !== null ? <p>{userReview.dateRead}</p> : null} */}
+            {/* {userReview.dateRead !== undefined && userReview.dateRead !== null ? <p>{userReview.dateRead.toString().substring(0, 10)}</p> : null} */}
 
-            {/* {!isNaN(userReview.rating) ? <p>{userReview.rating}</p> : null} */}
-            {userReview.rating !== null ? <p>{userReview.rating}</p> : null}
-            {userReview.shortReview !== "" ? <p>{userReview.shortReview}</p> : null}
-            {userReview.longReview !== "" ? <p>{userReview.longReview}</p> : null}
-
-            {props.userID === userReview.userID ? <UpdateUserReview userID={props.userID} isLoggedIn={props.isLoggedIn} isAdmin={props.isAdmin} sessionToken={props.sessionToken} titleID={props.titleID} userReviewUpdated={props.userReviewUpdated} reviewID={userReview.reviewID} /> : null}
-
+            <Grid item xs={12}>
+            {userReview.shortReview !== "" ? <Typography variant="h6" gutterBottom>{userReview.shortReview}</Typography> : null}
+            </Grid>
+            <Grid item xs={12}>
+            {userReview.longReview !== "" ? <Typography variant="body1" gutterBottom>{userReview.longReview}</Typography> : null}
+            </Grid>
+            <Grid container spacing={2}>
+                <Grid item xs={5}>
+                {/* {!isNaN(userReview.rating) ? <p>{userReview.rating}</p> : null} */}
+                {/* {userReview.rating !== null ? <p>{userReview.rating}</p> : null} */}
+                {/* <Typography component="legend">Rating</Typography> */}
+                <Rating name="rdoRating" precision={0.1} readOnly defaultValue={0} max={10} value={userReview.rating} />
+                </Grid>
+                <Grid item xs={2}>
+                {userReview.updatedAt !== null ? <Typography variant="caption" gutterBottom>{userReview.updatedAt.toString().substring(0, 10)}</Typography> : null}
+                </Grid>
+                <Grid item xs={5}>
+                {props.userID === userReview.userID ? <UpdateUserReview userID={props.userID} isLoggedIn={props.isLoggedIn} isAdmin={props.isAdmin} sessionToken={props.sessionToken} titleID={props.titleID} userReviewUpdated={props.userReviewUpdated} reviewID={userReview.reviewID} /> : null}
+                </Grid>
+            </Grid>
             </Grid>
             )
         })}

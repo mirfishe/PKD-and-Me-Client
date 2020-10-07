@@ -315,6 +315,10 @@ class UpdateUser extends Component<IProps, IState> {
                         // console.log("UpdateUser.tsx updateUser this.props.sessionToken", this.props.sessionToken);
                         // console.log("UpdateUser.tsx updateUser data.sessionToken", data.sessionToken);
                         // this.props.setSessionToken(data.sessionToken)
+
+                        // Need to call this here because there are two buttons on the form besides the Cancel button
+                        this.handleClose();
+
                     } else {
                         // console.log("UpdateUser.tsx data.errorMessages", data.errorMessages);
                         // this.setState({errMessage: data.error});
@@ -368,7 +372,6 @@ class UpdateUser extends Component<IProps, IState> {
                 </Grid>
                 <Grid item xs={12}>
 
-                <InputLabel htmlFor="txtFirstName">First Name</InputLabel>
                 <TextField type="text" id="txtFirstName" label="First Name" required variant="outlined" fullWidth
           margin="normal" value={this.state.txtFirstName} onChange={(event) => {/*console.log(event.target.value);*/ this.setState({txtFirstName: event.target.value});}} />
                 {this.state.errFirstName !== "" ? <Alert severity="error">{this.state.errFirstName}</Alert> : null}
@@ -376,7 +379,6 @@ class UpdateUser extends Component<IProps, IState> {
                 </Grid>
                 <Grid item xs={12}>
 
-                <InputLabel htmlFor="txtLastName">Last Name</InputLabel>
                 <TextField type="text" id="txtLastName" label="Last Name" required variant="outlined" fullWidth
           margin="normal" value={this.state.txtLastName} onChange={(event) => {/*console.log(event.target.value);*/ this.setState({txtLastName: event.target.value});}} />
                 {this.state.errLastName !== "" ? <Alert severity="error">{this.state.errLastName}</Alert> : null}
@@ -384,7 +386,6 @@ class UpdateUser extends Component<IProps, IState> {
                 </Grid>
                 <Grid item xs={12}>
 
-                <InputLabel htmlFor="txtEmail">Email Address</InputLabel>
                 <TextField id="txtEmail" label="Email Address" required variant="outlined" fullWidth
           margin="normal" value={this.state.txtEmail} onChange={(event) => {/*console.log(event.target.value);*/ this.setState({txtEmail: event.target.value});}} />
                 {this.state.errEmail !== "" ? <Alert severity="error">{this.state.errEmail}</Alert> : null}
@@ -392,7 +393,6 @@ class UpdateUser extends Component<IProps, IState> {
                 </Grid>
                 <Grid item xs={12}>
 
-                <InputLabel htmlFor="txtPassword">Password</InputLabel>
                 <TextField type="password" id="txtPassword" required label="Password" variant="outlined" fullWidth
           margin="normal" value={this.state.txtPassword} onChange={(event) => {/*console.log(event.target.value);*/ this.setState({txtPassword: event.target.value});}} />
                 {this.state.errPassword !== "" ? <Alert severity="error">{this.state.errPassword}</Alert> : null}
