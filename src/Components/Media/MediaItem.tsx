@@ -1,9 +1,9 @@
 import React, {FunctionComponent} from 'react';
+import {List, ListItem, Link, ListItemText, Divider} from '@material-ui/core';
 import {IMedia} from "../../Helpers/interfaces"
 
 interface IProps {
-    mediaList: IMedia[],
-    getEditions: (mediaID?: number) => void
+    mediaList: IMedia[]
 };
 
 const MediaItem: FunctionComponent <(IProps)> = props => {
@@ -11,13 +11,13 @@ const MediaItem: FunctionComponent <(IProps)> = props => {
     // console.log('MediaItem.tsx props.mediaList', props.mediaList);
 
     return(
-        <React.Fragment>
+        <List>
         {props.mediaList.map((media: IMedia) => {
           return (
-            <p key={media.mediaID}><a href="#" onClick={() => props.getEditions(media.mediaID)}>{media.media}</a></p>
+            <ListItem key={media.mediaID}><ListItemText>{media.media}</ListItemText></ListItem>
             )
         })}
-        </React.Fragment>
+        </List>
     );
 
 };

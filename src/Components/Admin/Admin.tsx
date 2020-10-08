@@ -1,12 +1,20 @@
 import React, {Component} from "react";
+import {Redirect} from "react-router-dom";
+
+interface IProps {
+    userID: number | null,
+    isLoggedIn: boolean | null,
+    isAdmin: boolean | null,
+    sessionToken: string
+};
 
 interface IState {
 
 };
 
-class Admin extends Component<{}, IState> {
+class Admin extends Component<IProps, IState> {
 
-    constructor(props: {}) {
+    constructor(props: IProps) {
         super(props);
         this.state = {
 
@@ -16,6 +24,10 @@ class Admin extends Component<{}, IState> {
 
 
     render() {
+
+        if (!this.props.isAdmin) {
+            return <Redirect to="/" />;
+        };
 
         return(
             <div>
