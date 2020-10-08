@@ -2,15 +2,15 @@ import React, {FunctionComponent} from 'react';
 
 import {Rating} from '@material-ui/lab/';
 import {Grid, Typography, Link} from '@material-ui/core';
-import BrokenImageIcon from '@material-ui/icons/BrokenImage';
-import BrokenImageOutlinedIcon from '@material-ui/icons/BrokenImageOutlined';
-import ImageIcon from '@material-ui/icons/Image';
+// import BrokenImageIcon from '@material-ui/icons/BrokenImage';
+// import BrokenImageOutlinedIcon from '@material-ui/icons/BrokenImageOutlined';
+// import ImageIcon from '@material-ui/icons/Image';
 import ImageOutlinedIcon from '@material-ui/icons/ImageOutlined';
-import ImageSearchOutlinedIcon from '@material-ui/icons/ImageSearchOutlined';
-import ImageSearchRoundedIcon from '@material-ui/icons/ImageSearchRounded';
-import ImageSearchSharpIcon from '@material-ui/icons/ImageSearchSharp';
+// import ImageSearchOutlinedIcon from '@material-ui/icons/ImageSearchOutlined';
+// import ImageSearchRoundedIcon from '@material-ui/icons/ImageSearchRounded';
+// import ImageSearchSharpIcon from '@material-ui/icons/ImageSearchSharp';
 
-import {ITitle, ICategory} from "../../Helpers/interfaces"
+import {ITitle} from "../../Helpers/interfaces"
 import AddUserReview from "../UserReviews/AddUserReview";
 import UpdateUserReview from "../UserReviews/UpdateUserReview";
 
@@ -26,7 +26,9 @@ interface IProps {
     titleID: number | null,
     userReviewUpdated: () => void,
     userReviewedTitle: boolean,
-    userReviewedTitleReviewID: number | null
+    userReviewedTitleReviewID: number | null,
+    userReviewedTitleRead: boolean | null,
+    userReviewedTitleDateRead: Date | null
 };
 
 const TitleDisplay: FunctionComponent <(IProps)> = props => {
@@ -64,7 +66,12 @@ const TitleDisplay: FunctionComponent <(IProps)> = props => {
                 {props.titleData !== undefined ? 
                 <Grid item xs={12}>
                     <Grid item xs={12}>
-                        <Typography variant="h5" gutterBottom>{props.titleData.titleName}</Typography>
+                        <Typography variant="h5" gutterBottom>{props.titleData.titleName}
+                            {/* {categoryData !== undefined ? <p>{categoryData.category}</p> : null} */}
+                            {props.categoryName !== "" ? <Typography variant="overline" gutterBottom> {props.categoryName}</Typography> : null}
+                            {/* {props.titleData.publicationDate !== null ? <p>{props.titleData.publicationDate}</p> : null} */}
+                            {props.titleData.publicationDate !== null ? <Typography variant="caption" gutterBottom> ({props.titleData.publicationDate.toString().substring(0, 4)})</Typography> : null}
+                        </Typography>
                     </Grid>
 
                     <Grid container spacing={2}>
@@ -74,20 +81,29 @@ const TitleDisplay: FunctionComponent <(IProps)> = props => {
 
                         <Grid item xs={8}>
                             {/* {categoryData !== undefined ? <p>{categoryData.category}</p> : null} */}
-                            {props.categoryName !== "" ? <Typography variant="body1" gutterBottom>{props.categoryName}</Typography> : null}
+                            {/* {props.categoryName !== "" ? <Typography variant="body1" gutterBottom>{props.categoryName}</Typography> : null} */}
 
                             {/* {props.titleData.publicationDate !== null ? <p>{props.titleData.publicationDate}</p> : null} */}
-                            {props.titleData.publicationDate !== null ? <Typography variant="body1" gutterBottom>{props.titleData.publicationDate.toString().substring(0, 4)}</Typography> : null}
+                            {/* {props.titleData.publicationDate !== null ? <Typography variant="body1" gutterBottom>{props.titleData.publicationDate.toString().substring(0, 4)}</Typography> : null} */}
 
-                            <Typography variant="body1" gutterBottom>{props.titleData.authorFirstName} {props.titleData.authorLastName}</Typography>
+                            <Typography variant="body2" gutterBottom>{props.titleData.authorFirstName} {props.titleData.authorLastName}</Typography>
 
                             {/* {props.overallTitleRatingCount > 0 ? <Typography variant="body1" gutterBottom>{props.overallTitleRating}</Typography> : null} */}
                             {props.overallTitleRatingCount > 0 ? <React.Fragment>
                             {/* <Typography component="legend">Rating</Typography> */}
                             <Rating name="rdoRating" precision={0.1} readOnly defaultValue={0} max={10} value={props.overallTitleRating} />
-                            <Typography component="legend">Out of {props.overallTitleRatingCount} review(s)</Typography>
+                            <Typography variant="subtitle2">out of {props.overallTitleRatingCount} review(s)</Typography>
                             </React.Fragment>
                             : null}
+
+                            <Typography variant="subtitle2" gutterBottom>
+                            {/* {props.userReviewedTitleRead === null ? <React.Fragment>Read null</React.Fragment> : null} */}
+                            {props.userReviewedTitleRead === true ? <React.Fragment>Read</React.Fragment> : null}
+                            {/* {props.userReviewedTitleRead === false ? <React.Fragment>Not Read</React.Fragment> : null} */}
+
+                            {/* {props.userReviewedTitleDateRead!== null ? <p>{props.userReviewedTitleDateRead}</p> : null} */}
+                            {props.userReviewedTitleDateRead !== null ? <Typography variant="caption" gutterBottom> on {props.userReviewedTitleDateRead.toString().substring(0, 10)}</Typography> : null}
+                            </Typography>
 
                             {props.isLoggedIn === true && props.userReviewedTitle === false? <AddUserReview userID={props.userID} isLoggedIn={props.isLoggedIn} isAdmin={props.isAdmin} sessionToken={props.sessionToken} titleID={props.titleID} userReviewUpdated={props.userReviewUpdated} /> : null}
 
@@ -96,8 +112,8 @@ const TitleDisplay: FunctionComponent <(IProps)> = props => {
                         </Grid>
                     </Grid>
                     <Grid item xs={12}>
-                        {props.titleData.shortDescription !== "" ? <Typography variant="body1" gutterBottom>{props.titleData.shortDescription}</Typography> : null}
-                        {props.titleData.urlPKDweb !== "" ? <Typography variant="body1" gutterBottom><Link href={props.titleData.urlPKDweb}target="_blank">Encyclopedia Dickiana</Link></Typography> : null}
+                        {props.titleData.shortDescription !== "" ? <Typography variant="body2" gutterBottom>{props.titleData.shortDescription}</Typography> : null}
+                        {props.titleData.urlPKDweb !== "" ? <Typography variant="body2" gutterBottom><Link href={props.titleData.urlPKDweb}target="_blank">Encyclopedia Dickiana</Link></Typography> : null}
                     </Grid>
                 </Grid>
                 : null}

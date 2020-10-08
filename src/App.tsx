@@ -2,10 +2,10 @@ import React, {Component} from "react";
 import "./App.css";
 import {BrowserRouter as Router, Switch, Route, Link} from "react-router-dom";
 
-import {Alert} from '@material-ui/lab/';
-import {AppBar, Toolbar, Typography, IconButton, Button} from '@material-ui/core/';
+// import {Alert} from '@material-ui/lab/';
+import {AppBar, Toolbar, Typography, Button} from '@material-ui/core/';
 import HomeIcon from '@material-ui/icons/Home';
-import MenuIcon from '@material-ui/icons/Menu';
+// import MenuIcon from '@material-ui/icons/Menu';
 
 import Admin from "./Components/Admin/Admin";
 import Home from "./Components/Home/Home";
@@ -96,7 +96,7 @@ class App extends Component<{}, IState> {
           {this.state.isLoggedIn === true ? <UpdateUser userID={this.state.userID} isLoggedIn={this.state.isLoggedIn} isAdmin={this.state.isAdmin} sessionToken={this.state.sessionToken} setUserID={this.setUserID} setIsLoggedIn={this.setIsLoggedIn} setIsAdmin={this.setIsAdmin} setSessionToken={this.setSessionToken} /> : null}
           {/* {this.state.isLoggedIn === true ? <Typography variant="body1"><a href="#" onClick={() => this.logOut()}>Log Out</a></Typography> : null} */}
           {this.state.isLoggedIn === true ? <Button variant="text" color="primary" onClick={() => this.logOut()}>Log Out</Button> : null}
-          {this.state.isAdmin === true ? <Typography variant="body1"><Link to="/admin">Admin <IconButton edge="start" color="inherit" aria-label="menu"><MenuIcon /></IconButton></Link></Typography> : null}
+          {this.state.isAdmin === true ? <Typography variant="button"><Link to="/admin">Admin</Link></Typography> : null}
         </Toolbar>
       </AppBar>
 

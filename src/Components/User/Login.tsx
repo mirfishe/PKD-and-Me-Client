@@ -2,9 +2,10 @@ import React, {Component} from "react";
 import {Redirect} from "react-router-dom";
 
 import {Alert} from '@material-ui/lab/';
-import {Grid, Button, InputLabel, TextField, Dialog, DialogTitle, DialogContent, DialogActions} from '@material-ui/core';
+import {Grid, Button, TextField, Dialog, DialogTitle, DialogContent, DialogActions} from '@material-ui/core';
 
-import {baseURL, emailRegExp, emailFormat} from "../../Helpers/constants"
+import {baseURL, emailRegExp} from "../../Helpers/constants"
+// import {emailFormat} from "../../Helpers/constants"
 
 interface IProps {
     userID: number | null,
@@ -120,7 +121,7 @@ class Login extends Component<IProps, IState> {
             };
         };
 
-        if (emailValidated && passwordValidated) {
+        if (emailValidated === true && passwordValidated === true) {
             formValidated = true;
             // console.log("Login.tsx logIn Valid Form");
             // console.log("Login.tsx logIn formValidated true", formValidated);
@@ -134,7 +135,7 @@ class Login extends Component<IProps, IState> {
         // console.log("Login.tsx logIn passwordValidated", passwordValidated);
         // console.log("Login.tsx logIn formValidated", formValidated);
 
-        if (formValidated) {
+        if (formValidated === true) {
 
             if (this.state.txtEmail !== undefined && this.state.txtPassword !== undefined) {
                 let userObject = {
@@ -143,7 +144,7 @@ class Login extends Component<IProps, IState> {
                 };
                 // console.log("Login.tsx logIn userObject", userObject);
 
-                let url: string = baseURL + "user/login";
+                let url: string = baseURL + "user/login/";
                 // console.log("Login.tsx logIn url", url);
 
                 fetch(url, {
@@ -180,7 +181,7 @@ class Login extends Component<IProps, IState> {
                         this.props.setIsLoggedIn(data.isLoggedIn);
                         this.props.setIsAdmin(data.isAdmin);
     
-                        if (data.resultsFound) {
+                        if (data.resultsFound === true) {
                             // this.setState({userList: data});
                             // this.setState({userID: data.userID});
                             this.props.setUserID(data.userID);

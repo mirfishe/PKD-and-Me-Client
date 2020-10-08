@@ -2,9 +2,10 @@ import React, {Component} from "react";
 import {Redirect} from "react-router-dom";
 
 import {Alert} from '@material-ui/lab/';
-import {Grid, Button, InputLabel, TextField, Dialog, DialogTitle, DialogContent, DialogActions} from '@material-ui/core';
+import {Grid, Button, TextField, Dialog, DialogTitle, DialogContent, DialogActions} from '@material-ui/core';
 
-import {baseURL, emailRegExp, emailFormat} from "../../Helpers/constants"
+import {baseURL, emailRegExp} from "../../Helpers/constants"
+// import {emailFormat} from "../../Helpers/constants"
 
 interface IProps {
     userID: number | null,
@@ -159,7 +160,7 @@ class Register extends Component<IProps, IState> {
             };
         };
 
-        if (firstNameValidated && lastNameValidated && emailValidated && passwordValidated) {
+        if (firstNameValidated === true && lastNameValidated === true && emailValidated === true && passwordValidated === true) {
             formValidated = true;
             // console.log("Register.tsx register Valid Form");
             // console.log("Register.tsx register formValidated true", formValidated);
@@ -175,7 +176,7 @@ class Register extends Component<IProps, IState> {
         // console.log("Register.tsx register passwordValidated", passwordValidated);
         // console.log("Register.tsx register formValidated", formValidated);
 
-        if (formValidated) {
+        if (formValidated === true) {
 
             if (this.state.txtFirstName !== undefined && this.state.txtLastName !== undefined && this.state.txtEmail !== undefined && this.state.txtPassword !== undefined) {
                 let userObject = {
@@ -186,7 +187,7 @@ class Register extends Component<IProps, IState> {
                 };
                 // console.log("Register.tsx register userObject", userObject);
 
-                let url: string = baseURL + "user/register";
+                let url: string = baseURL + "user/register/";
                 // console.log("Register.tsx register url", url);
 
                 fetch(url, {
@@ -223,7 +224,7 @@ class Register extends Component<IProps, IState> {
                         this.props.setIsLoggedIn(data.isLoggedIn);
                         this.props.setIsAdmin(data.isAdmin);
 
-                        if (data.recordAdded) {
+                        if (data.recordAdded === true) {
                             // this.setState({userList: data});
                             // this.setState({userID: data.userID});
                             this.props.setUserID(data.userID);

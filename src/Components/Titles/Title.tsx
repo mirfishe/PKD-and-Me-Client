@@ -3,7 +3,7 @@ import React, {Component} from "react";
 import {Alert} from '@material-ui/lab/';
 import {Grid} from '@material-ui/core';
 
-import {ITitle, ICategory, IEdition, IMedia, IUserReview} from "../../Helpers/interfaces"
+import {ITitle, ICategory, IEdition, IUserReview} from "../../Helpers/interfaces"
 import {baseURL} from "../../Helpers/constants"
 import Edition from "../Editions/Edition";
 import TitleDisplay from "./TitleDisplay";
@@ -50,7 +50,9 @@ interface IState {
     userReviewResultsHaveReviews: boolean,
     userReviewList: IUserReview[],
     userReviewedTitle: boolean,
-    userReviewedTitleReviewID: number | null
+    userReviewedTitleReviewID: number | null,
+    userReviewedTitleRead: boolean | null,
+    userReviewedTitleDateRead: Date | null
 };
 
 class Title extends Component<IProps, IState> {
@@ -87,7 +89,9 @@ class Title extends Component<IProps, IState> {
             userReviewResultsHaveReviews: false,
             userReviewList: [],
             userReviewedTitle: false,
-            userReviewedTitleReviewID: null
+            userReviewedTitleReviewID: null,
+            userReviewedTitleRead: null,
+            userReviewedTitleDateRead: null
         };
 
         // this.getTitle = this.getTitle.bind(this);
@@ -116,15 +120,24 @@ class Title extends Component<IProps, IState> {
         // this.setState({mediaResultsFound: null});
         // this.setState({mediaList: []});
         // this.setState({mediaName: ""});
+        this.setState({userReviewMessage: ""});
+        this.setState({errUserReviewMessage: ""});
+        this.setState({userReviewResultsFound: null});
+        this.setState({userReviewResultsHaveReviews: false});
+        this.setState({userReviewList: []});
+        this.setState({userReviewedTitle: false});
+        this.setState({userReviewedTitleReviewID: null});
+        this.setState({userReviewedTitleRead: null});
+        this.setState({userReviewedTitleDateRead: null});
 
-        let url: string = baseURL + "title";
+        let url: string = baseURL + "title/";
 
         // if (this.state.titleID !== null) {
-        //     url = url + "/" + this.state.titleID;
+        //     url = url + this.state.titleID;
         // };
 
         if (this.props.titleID !== null) {
-            url = url + "/" + this.props.titleID;
+            url = url + this.props.titleID;
 
             // console.log("Title.tsx getTitle url", url);
 
@@ -146,7 +159,7 @@ class Title extends Component<IProps, IState> {
                 this.setState({titleResultsFound: data.resultsFound});
                 // this.setState({titleMessage: data.message});
 
-                if (data.resultsFound) {
+                if (data.resultsFound === true) {
                     // this.setState({titleList: data.titles});
                     this.setState({titleData: data.titles[0]});
 
@@ -208,26 +221,53 @@ class Title extends Component<IProps, IState> {
                         };
                     };
 
-                    // The user review data is coming from a different function/query
-                    // this.setState({userReviewList: data.titles[0].userReviews});
+                    this.setState({userReviewList: data.titles[0].userReviews});
 
-                    // if (this.state.userReviewList !== undefined && this.state.userReviewList !== null) {
-                    //     if (this.state.userReviewList.length > 0) {
-                    //         this.setState({userReviewResultsFound: true});
-                    //         // this.setState({userReviewMessage: "Successfully retrieved user reviews."});
+                    if (this.state.userReviewList !== undefined && this.state.userReviewList !== null) {
+                        if (this.state.userReviewList.length > 0) {
+                            this.setState({userReviewResultsFound: true});
+                            // this.setState({userReviewMessage: "Successfully retrieved user reviews."});
 
-                    //         for (let i = 0; i < this.state.userReviewList.length; i++) {
-                    //             if (this.props.userID === this.state.userReviewList[i].userID) {
-                    //                 this.setState({userReviewedTitle: true});
-                    //             };
-                    //         };
+                            for (let i = 0; i < this.state.userReviewList.length; i++) {
 
-                    //     } else {
-                    //         this.setState({userReviewResultsFound: false});
-                    //         // this.setState({userReviewMessage: "No user reviews found."});
-                    //         this.setState({errUserReviewMessage: "No user reviews found."});
-                    //     };
-                    // };
+                                // console.log("Title.tsx getTitle this.state.userReviewList[i]", this.state.userReviewList[i]);
+
+                                // console.log("Titles.tsx getTitle data.titles[0].userReviews[i].user.firstName", data.titles[0].userReviews[i].user.firstName);
+                                // console.log("Titles.tsx getTitle data.titles[0].userReviews[i].user.lastName", data.titles[0].userReviews[i].user.lastName);
+
+                                // if (this.state.userReviewList[i].user !== undefined) {
+                                //     console.log("Titles.tsx getTitle this.state.userReviewList[i].user.firstName", this.state.userReviewList[i].user.firstName);
+                                //     console.log("Titles.tsx getTitle this.state.userReviewList[i].user.lastName", this.state.userReviewList[i].user.lastName);
+                                // };
+
+                                Object.assign(this.state.userReviewList[i], {userFirstName: data.titles[0].userReviews[i].user.firstName});
+                                Object.assign(this.state.userReviewList[i], {userLastName: data.titles[0].userReviews[i].user.lastName});
+
+                                // console.log("Title.tsx getTitle this.state.userReviewList[i]", this.state.userReviewList[i]);
+
+                                if (this.state.userReviewList[i].rating !== null || this.state.userReviewList[i].shortReview !== "" || this.state.userReviewList[i].longReview !== "") {
+                                    this.setState({userReviewResultsHaveReviews: true});
+                                };
+
+                                if (this.props.userID === this.state.userReviewList[i].userID) {
+                                    this.setState({userReviewedTitle: true});
+                                    this.setState({userReviewedTitleReviewID: this.state.userReviewList[i].reviewID});
+                                    this.setState({userReviewedTitleRead: this.state.userReviewList[i].read});
+                                    this.setState({userReviewedTitleDateRead: this.state.userReviewList[i].dateRead});
+                                };
+
+                                // console.log("Titles.tsx getTitle this.state.userReviewedTitle", this.state.userReviewedTitle);
+                                // console.log("Titles.tsx getTitle this.state.userReviewedTitleReviewID", this.state.userReviewedTitleReviewID);
+                                // console.log("Titles.tsx getTitle this.state.userReviewResultsHaveReviews", this.state.userReviewResultsHaveReviews);
+
+                            };
+
+                        } else {
+                            this.setState({userReviewResultsFound: false});
+                            // this.setState({userReviewMessage: "No user reviews found."});
+                            this.setState({errUserReviewMessage: "No user reviews found."});
+                        };
+                    };
 
                 } else {
                     this.setState({errTitleMessage: data.message});
@@ -255,14 +295,14 @@ class Title extends Component<IProps, IState> {
         this.setState({overallTitleRating: null});
         this.setState({overallTitleRatingCount: 0});
 
-        let url: string = baseURL + "userreview";
+        let url: string = baseURL + "userreview/";
 
         // if (this.state.titleID !== null) {
-        //     url = url + "/" + this.state.titleID;
+        //     url = url + this.state.titleID;
         // };
 
         if (this.props.titleID !== null) {
-            url = url + "/rating/" + this.props.titleID;
+            url = url + "rating/" + this.props.titleID;
 
             // console.log("Title.tsx getTitleRating url", url);
 
@@ -276,12 +316,12 @@ class Title extends Component<IProps, IState> {
                 };
             })
             .then(data => {
-                console.log("Title.tsx getTitleRating data", data);
+                // console.log("Title.tsx getTitleRating data", data);
 
                 this.setState({overallTitleRatingResultsFound: data.resultsFound});
                 // this.setState({overallTitleRatingMessage: data.message});
 
-                if (data.resultsFound) {
+                if (data.resultsFound === true) {
                     // console.log("Title.tsx getTitleRating data.userReviews[0].userReviewCount", data.userReviews[0].userReviewCount);
                     // console.log("Title.tsx getTitleRating data.userReviews[0].userReviewSum", data.userReviews[0].userReviewSum);
 
@@ -296,9 +336,9 @@ class Title extends Component<IProps, IState> {
                         let userReviewAverage: number = userReviewSum/this.state.overallTitleRatingCount;
 
                         // console.log("Title.tsx getTitleRating userReviewCount", userReviewCount);
-                        console.log("Title.tsx getTitleRating this.state.overallTitleRatingCount", this.state.overallTitleRatingCount);
-                        console.log("Title.tsx getTitleRating userReviewSum", userReviewSum);
-                        console.log("Title.tsx getTitleRating userReviewAverage", userReviewAverage);
+                        // console.log("Title.tsx getTitleRating this.state.overallTitleRatingCount", this.state.overallTitleRatingCount);
+                        // console.log("Title.tsx getTitleRating userReviewSum", userReviewSum);
+                        // console.log("Title.tsx getTitleRating userReviewAverage", userReviewAverage);
 
                         this.setState({overallTitleRating: userReviewAverage});
                     };
@@ -359,7 +399,7 @@ class Title extends Component<IProps, IState> {
     //             this.setState({editionResultsFound: data.resultsFound});
     //             this.setState({editionMessage: data.message});
 
-    //             if (data.resultsFound) {
+    //             if (data.resultsFound === true) {
     //                 this.setState({editionList: data.editions});
     //             } else {
     //                 this.setState({errEditionMessage: data.message});
@@ -377,94 +417,117 @@ class Title extends Component<IProps, IState> {
 
     // };
 
-    getUserReviews = () => {
-        // console.log("Titles.tsx getUserReviews");
-        // console.log("Titles.tsx getUserReviews baseURL", baseURL);
+    // getUserReviews = () => {
+    //     // console.log("Titles.tsx getUserReviews");
+    //     // console.log("Titles.tsx getUserReviews baseURL", baseURL);
 
-        this.setState({userReviewMessage: ""});
-        this.setState({errUserReviewMessage: ""});
-        this.setState({userReviewResultsFound: null});
-        this.setState({userReviewResultsHaveReviews: false});
-        this.setState({userReviewList: []});
-        this.setState({userReviewedTitle: false});
-        this.setState({userReviewedTitleReviewID: null});
+    //     this.setState({userReviewMessage: ""});
+    //     this.setState({errUserReviewMessage: ""});
+    //     this.setState({userReviewResultsFound: null});
+    //     this.setState({userReviewResultsHaveReviews: false});
+    //     this.setState({userReviewList: []});
+    //     this.setState({userReviewedTitle: false});
+    //     this.setState({userReviewedTitleReviewID: null});
+    //     this.setState({userReviewedTitleRead: null});
+    //     this.setState({userReviewedTitleDateRead: null});
 
-        let url: string = baseURL + "userreview";
+    //     let url: string = baseURL + "userreview/";
 
-        if (this.props.titleID !== null) {
-            url = url + "/title/" + this.props.titleID;
+    //     if (this.props.titleID !== null) {
+    //         url = url + "title/" + this.props.titleID;
 
-            // console.log("Titles.tsx getUserReviews url", url);
+    //         // console.log("Titles.tsx getUserReviews url", url);
 
-            fetch(url)
-            .then(response => {
-                // console.log("Titles.tsx getUserReviews response", response);
-                if (!response.ok) {
-                    throw Error(response.status + " " + response.statusText + " " + response.url);
-                } else {
-                    return response.json();
-                };
-            })
-            .then(data => {
-                // console.log("Titles.tsx getUserReviews data", data);
+    //         fetch(url)
+    //         .then(response => {
+    //             // console.log("Titles.tsx getUserReviews response", response);
+    //             if (!response.ok) {
+    //                 throw Error(response.status + " " + response.statusText + " " + response.url);
+    //             } else {
+    //                 return response.json();
+    //             };
+    //         })
+    //         .then(data => {
+    //             // console.log("Titles.tsx getUserReviews data", data);
 
-                // let editionResponse: IGetResponse = data;
-                // console.log("Titles.tsx getUserReviews titleResponse", titleResponse);
+    //             // let editionResponse: IGetResponse = data;
+    //             // console.log("Titles.tsx getUserReviews titleResponse", titleResponse);
 
-                this.setState({userReviewResultsFound: data.resultsFound});
-                // this.setState({userReviewMessage: data.message});
+    //             this.setState({userReviewResultsFound: data.resultsFound});
+    //             // this.setState({userReviewMessage: data.message});
 
-                if (data.resultsFound) {
-                    this.setState({userReviewList: data.userReviews});
+    //             if (data.resultsFound === true) {
+    //                 this.setState({userReviewList: data.userReviews});
 
-                    if (this.state.userReviewList.length > 0) {
-                        for (let i = 0; i < this.state.userReviewList.length; i++) {
-                            if (this.state.userReviewList[i].rating !== null || this.state.userReviewList[i].shortReview !== "" || this.state.userReviewList[i].longReview !== "") {
-                                this.setState({userReviewResultsHaveReviews: true});
-                            };
-                            if (this.props.userID === this.state.userReviewList[i].userID) {
-                                this.setState({userReviewedTitle: true});
-                                this.setState({userReviewedTitleReviewID: this.state.userReviewList[i].reviewID});
-                            };
-                            // console.log("Titles.tsx getUserReviews this.state.userReviewedTitle", this.state.userReviewedTitle);
-                            // console.log("Titles.tsx getUserReviews this.state.userReviewedTitleReviewID", this.state.userReviewedTitleReviewID);
-                            // console.log("Titles.tsx getUserReviews this.state.userReviewResultsHaveReviews", this.state.userReviewResultsHaveReviews);
-                        };
-                    };
+    //                 if (this.state.userReviewList.length > 0) {
+    //                     for (let i = 0; i < this.state.userReviewList.length; i++) {
 
-                } else {
-                    // this.setState({errUserReviewMessage: data.message});
-                };
+    //                         // console.log("Title.tsx getUserReviews this.state.userReviewList[i]", this.state.userReviewList[i]);
 
-            })
-            .catch(error => {
-                console.log("Titles.tsx getUserReviews error", error);
-                // console.log("Titles.tsx getUserReviews error.name", error.name);
-                // console.log("Titles.tsx getUserReviews error.message", error.message);
-                this.setState({errUserReviewMessage: error.name + ": " + error.message});
-            });
-        };
+    //                         // console.log("Titles.tsx getUserReviews data.userReviews[i].user.firstName", data.userReviews[i].user.firstName);
+    //                         // console.log("Titles.tsx getUserReviews data.userReviews[i].user.lastName", data.userReviews[i].user.lastName);
 
-    };
+    //                         // if (this.state.userReviewList[i].user !== undefined) {
+    //                         //     console.log("Titles.tsx getUserReviews this.state.userReviewList[i].user.firstName", this.state.userReviewList[i].user.firstName);
+    //                         //     console.log("Titles.tsx getUserReviews this.state.userReviewList[i].user.lastName", this.state.userReviewList[i].user.lastName);
+    //                         // };
+
+    //                         Object.assign(this.state.userReviewList[i], {userFirstName: data.userReviews[i].user.firstName});
+    //                         Object.assign(this.state.userReviewList[i], {userLastName: data.userReviews[i].user.lastName});
+
+    //                         // console.log("Title.tsx getUserReviews this.state.userReviewList[i]", this.state.userReviewList[i]);
+
+    //                         if (this.state.userReviewList[i].rating !== null || this.state.userReviewList[i].shortReview !== "" || this.state.userReviewList[i].longReview !== "") {
+    //                             this.setState({userReviewResultsHaveReviews: true});
+    //                         };
+
+    //                         if (this.props.userID === this.state.userReviewList[i].userID) {
+    //                             this.setState({userReviewedTitle: true});
+    //                             this.setState({userReviewedTitleReviewID: this.state.userReviewList[i].reviewID});
+    //                             this.setState({userReviewedTitleRead: this.state.userReviewList[i].read});
+    //                             this.setState({userReviewedTitleDateRead: this.state.userReviewList[i].dateRead});
+
+    //                         };
+
+    //                         // console.log("Titles.tsx getUserReviews this.state.userReviewedTitle", this.state.userReviewedTitle);
+    //                         // console.log("Titles.tsx getUserReviews this.state.userReviewedTitleReviewID", this.state.userReviewedTitleReviewID);
+    //                         // console.log("Titles.tsx getUserReviews this.state.userReviewResultsHaveReviews", this.state.userReviewResultsHaveReviews);
+    //                     };
+    //                 };
+
+    //             } else {
+    //                 this.setState({errUserReviewMessage: data.message});
+    //             };
+
+    //         })
+    //         .catch(error => {
+    //             console.log("Titles.tsx getUserReviews error", error);
+    //             // console.log("Titles.tsx getUserReviews error.name", error.name);
+    //             // console.log("Titles.tsx getUserReviews error.message", error.message);
+    //             this.setState({errUserReviewMessage: error.name + ": " + error.message});
+    //         });
+    //     };
+
+    // };
 
     componentDidMount() {
         this.getTitle();
         this.getTitleRating();
         // this.getEditions();
-        this.getUserReviews();
+        // this.getUserReviews();
     };
 
       userReviewUpdated = () => {
         this.getTitle();
         this.getTitleRating();
         // this.getEditions();
-        this.getUserReviews();
+        // this.getUserReviews();
     };
 
     render() {
 
         return(
-            <Grid container>
+            <Grid container spacing={2}>
                 <Grid item xs={10}>
                 {this.state.titleMessage !== "" ? <Alert severity="info">{this.state.titleMessage}</Alert> : null}
                 {this.state.errTitleMessage !== "" ? <Alert severity="error">{this.state.errTitleMessage}</Alert> : null}
@@ -472,7 +535,7 @@ class Title extends Component<IProps, IState> {
                 {this.state.errOverallTitleRatingMessage !== "" ? <Alert severity="error">{this.state.errOverallTitleRatingMessage}</Alert> : null}
                 {this.state.categoryMessage !== "" ? <Alert severity="info">{this.state.categoryMessage}</Alert> : null}
                 {this.state.errCategoryMessage !== "" ? <Alert severity="error">{this.state.errCategoryMessage}</Alert> : null}
-                {this.state.titleResultsFound !== null ? <TitleDisplay userID={this.props.userID} isLoggedIn={this.props.isLoggedIn} isAdmin={this.props.isAdmin} sessionToken={this.props.sessionToken} titleID={this.props.titleID} userReviewUpdated={this.userReviewUpdated} userReviewedTitle={this.state.userReviewedTitle} userReviewedTitleReviewID={this.state.userReviewedTitleReviewID} titleData={this.state.titleData} overallTitleRating={this.state.overallTitleRating} overallTitleRatingCount={this.state.overallTitleRatingCount} categoryName={this.state.categoryName} /> : null}
+                {this.state.titleResultsFound !== null ? <TitleDisplay userID={this.props.userID} isLoggedIn={this.props.isLoggedIn} isAdmin={this.props.isAdmin} sessionToken={this.props.sessionToken} titleID={this.props.titleID} userReviewUpdated={this.userReviewUpdated} userReviewedTitle={this.state.userReviewedTitle} userReviewedTitleReviewID={this.state.userReviewedTitleReviewID} userReviewedTitleRead={this.state.userReviewedTitleRead} userReviewedTitleDateRead={this.state.userReviewedTitleDateRead} titleData={this.state.titleData} overallTitleRating={this.state.overallTitleRating} overallTitleRatingCount={this.state.overallTitleRatingCount} categoryName={this.state.categoryName} /> : null}
                 </Grid>
                 <Grid item xs={10}>
                 {this.state.editionMessage !== "" ? <Alert severity="info">{this.state.editionMessage}</Alert> : null}

@@ -1,13 +1,13 @@
 import React, {FunctionComponent} from 'react';
 
 import {Grid, Typography, Link} from '@material-ui/core';
-import BrokenImageIcon from '@material-ui/icons/BrokenImage';
-import BrokenImageOutlinedIcon from '@material-ui/icons/BrokenImageOutlined';
-import ImageIcon from '@material-ui/icons/Image';
+// import BrokenImageIcon from '@material-ui/icons/BrokenImage';
+// import BrokenImageOutlinedIcon from '@material-ui/icons/BrokenImageOutlined';
+// import ImageIcon from '@material-ui/icons/Image';
 import ImageOutlinedIcon from '@material-ui/icons/ImageOutlined';
-import ImageSearchOutlinedIcon from '@material-ui/icons/ImageSearchOutlined';
-import ImageSearchRoundedIcon from '@material-ui/icons/ImageSearchRounded';
-import ImageSearchSharpIcon from '@material-ui/icons/ImageSearchSharp';
+// import ImageSearchOutlinedIcon from '@material-ui/icons/ImageSearchOutlined';
+// import ImageSearchRoundedIcon from '@material-ui/icons/ImageSearchRounded';
+// import ImageSearchSharpIcon from '@material-ui/icons/ImageSearchSharp';
 
 import {ITitle} from "../../Helpers/interfaces"
 import {Redirect} from "react-router-dom";
@@ -32,7 +32,9 @@ const TitleItem: FunctionComponent <(IProps)> = props => {
             {props.titleList.map((title: ITitle) => {
             return (
                 <Grid item xs={4} key={title.titleID}>
+                <Link href="#" onClick={() => props.setTitleID(title.titleID)}>
                 {title.imageName !== null && title.imageName !== "" ? <img src={"https://philipdick.com/images/covers/" + title.imageName} alt={title.titleName} /> : <ImageOutlinedIcon style={{fontSize: 80}} />}
+                </Link>
                 {/* <p>{title.titleName}</p> */}
                 {/* <a href="#" onClick={() => props.getEditions(title.titleID)}>{title.titleName}</a> */}
                 <Typography variant="body1" gutterBottom><Link href="#" onClick={() => props.setTitleID(title.titleID)}>{title.titleName}</Link>
@@ -44,7 +46,7 @@ const TitleItem: FunctionComponent <(IProps)> = props => {
 
                 {/* <button onClick={() => this.goToTitle(title.titleID)}>{title.titleName}</button> */}
                 {/* <button onClick={() => props.setTitleID(title.titleID)}>{title.titleName}</button> */}
-                <Typography variant="body1" gutterBottom>{title.authorFirstName} {title.authorLastName}</Typography>
+                <Typography variant="subtitle2" gutterBottom>{title.authorFirstName} {title.authorLastName}</Typography>
 
                 {/* <p>{title.shortDescription}</p>
                 <p>{title.urlPKDweb}</p> */}
