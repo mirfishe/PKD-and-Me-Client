@@ -12,8 +12,8 @@ import AddUserReview from "../UserReviews/AddUserReview";
 
 interface IProps {
     userID: number | null,
-    isLoggedIn: boolean | null,
-    isAdmin: boolean | null,
+    // isLoggedIn: boolean | null,
+    isAdmin: boolean,
     sessionToken: string,
     titleID: number | null,
     setTitleID: (titleID: number | null) => void
@@ -24,7 +24,7 @@ interface IState {
     titleResultsFound: boolean | null,
     titleMessage: string,
     errTitleMessage: string,
-    titleData?: ITitle,
+    titleData: ITitle | null,
     overallTitleRatingMessage: string,
     errOverallTitleRatingMessage: string,
     overallTitleRatingResultsFound: boolean | null,
@@ -64,6 +64,7 @@ class Title extends Component<IProps, IState> {
             titleMessage: "",
             errTitleMessage: "",
             titleResultsFound: null,
+            titleData: null,
             overallTitleRatingMessage: "",
             errOverallTitleRatingMessage: "",
             overallTitleRatingResultsFound: null,
@@ -107,6 +108,7 @@ class Title extends Component<IProps, IState> {
         this.setState({errTitleMessage: ""});
         // this.setState({userReviewedTitle: false});
         this.setState({titleResultsFound: null});
+        this.setState({titleData: null});
         this.setState({categoryMessage: ""});
         this.setState({errCategoryMessage: ""});
         this.setState({categoryResultsFound: null});
@@ -115,6 +117,7 @@ class Title extends Component<IProps, IState> {
         this.setState({editionMessage: ""});
         this.setState({errEditionMessage: ""});
         this.setState({editionResultsFound: null});
+        this.setState({editionList: []});
         // this.setState({mediaMessage: ""});
         // this.setState({errMediaMessage: ""});
         // this.setState({mediaResultsFound: null});
@@ -245,7 +248,8 @@ class Title extends Component<IProps, IState> {
 
                                 // console.log("Title.tsx getTitle this.state.userReviewList[i]", this.state.userReviewList[i]);
 
-                                if (this.state.userReviewList[i].rating !== null || this.state.userReviewList[i].shortReview !== "" || this.state.userReviewList[i].longReview !== "") {
+                                if (this.state.userReviewList[i].rating !== null || (this.state.userReviewList[i].shortReview !== null && this.state.userReviewList[i].shortReview !== "") || (this.state.userReviewList[i].longReview !== null && this.state.userReviewList[i].longReview !== "")) {
+                                    // Only handles the case in which all the reviews for a title don't have a rating, shortReview or longReview
                                     this.setState({userReviewResultsHaveReviews: true});
                                 };
 
@@ -517,7 +521,16 @@ class Title extends Component<IProps, IState> {
         // this.getUserReviews();
     };
 
-      userReviewUpdated = () => {
+    componentDidUpdate(prevProps: IProps) {
+        if(this.props.titleID !== prevProps.titleID) {
+            // console.log("Checklist.tsx componentDidUpdate prevProps.titleID", prevProps.titleID);
+            // console.log("Checklist.tsx componentDidUpdate this.props.titleID", this.props.titleID);
+            this.getTitle();
+            this.getTitleRating();
+        };
+    };
+
+    userReviewUpdated = () => {
         this.getTitle();
         this.getTitleRating();
         // this.getEditions();
@@ -535,7 +548,7 @@ class Title extends Component<IProps, IState> {
                 {this.state.errOverallTitleRatingMessage !== "" ? <Alert severity="error">{this.state.errOverallTitleRatingMessage}</Alert> : null}
                 {this.state.categoryMessage !== "" ? <Alert severity="info">{this.state.categoryMessage}</Alert> : null}
                 {this.state.errCategoryMessage !== "" ? <Alert severity="error">{this.state.errCategoryMessage}</Alert> : null}
-                {this.state.titleResultsFound !== null ? <TitleDisplay userID={this.props.userID} isLoggedIn={this.props.isLoggedIn} isAdmin={this.props.isAdmin} sessionToken={this.props.sessionToken} titleID={this.props.titleID} userReviewUpdated={this.userReviewUpdated} userReviewedTitle={this.state.userReviewedTitle} userReviewedTitleReviewID={this.state.userReviewedTitleReviewID} userReviewedTitleRead={this.state.userReviewedTitleRead} userReviewedTitleDateRead={this.state.userReviewedTitleDateRead} titleData={this.state.titleData} overallTitleRating={this.state.overallTitleRating} overallTitleRatingCount={this.state.overallTitleRatingCount} categoryName={this.state.categoryName} /> : null}
+                {this.state.titleResultsFound !== null ? <TitleDisplay userID={this.props.userID} /*isLoggedIn={this.props.isLoggedIn}*/ isAdmin={this.props.isAdmin} sessionToken={this.props.sessionToken} titleID={this.props.titleID} userReviewUpdated={this.userReviewUpdated} userReviewedTitle={this.state.userReviewedTitle} userReviewedTitleReviewID={this.state.userReviewedTitleReviewID} userReviewedTitleRead={this.state.userReviewedTitleRead} userReviewedTitleDateRead={this.state.userReviewedTitleDateRead} titleData={this.state.titleData} overallTitleRating={this.state.overallTitleRating} overallTitleRatingCount={this.state.overallTitleRatingCount} categoryName={this.state.categoryName} /> : null}
                 </Grid>
                 <Grid item xs={10}>
                 {this.state.editionMessage !== "" ? <Alert severity="info">{this.state.editionMessage}</Alert> : null}
@@ -547,10 +560,10 @@ class Title extends Component<IProps, IState> {
                 <Grid item xs={10}>
                 {this.state.userReviewMessage !== "" ? <Alert severity="info">{this.state.userReviewMessage}</Alert> : null}
                 {this.state.errUserReviewMessage !== "" ? <Alert severity="error">{this.state.errUserReviewMessage}</Alert> : null}
-                {this.state.userReviewResultsFound && this.state.userReviewResultsHaveReviews ? <UserReview userID={this.props.userID} isLoggedIn={this.props.isLoggedIn} isAdmin={this.props.isAdmin} sessionToken={this.props.sessionToken} titleID={this.props.titleID} userReviewUpdated={this.userReviewUpdated} userReviewList={this.state.userReviewList} /> : null}
+                {this.state.userReviewResultsFound && this.state.userReviewResultsHaveReviews ? <UserReview userID={this.props.userID} /*isLoggedIn={this.props.isLoggedIn}*/ isAdmin={this.props.isAdmin} sessionToken={this.props.sessionToken} titleID={this.props.titleID} userReviewUpdated={this.userReviewUpdated} userReviewList={this.state.userReviewList} /> : null}
                 </Grid>
                 <Grid item xs={10}>
-                {this.props.isLoggedIn === true && this.state.userReviewedTitle === false ? <AddUserReview userID={this.props.userID} isLoggedIn={this.props.isLoggedIn} isAdmin={this.props.isAdmin} sessionToken={this.props.sessionToken} titleID={this.props.titleID} userReviewUpdated={this.userReviewUpdated} /> : null}
+                {this.props.sessionToken !== "" && this.state.userReviewedTitle === false ? <AddUserReview userID={this.props.userID} /*isLoggedIn={this.props.isLoggedIn}*/ isAdmin={this.props.isAdmin} sessionToken={this.props.sessionToken} titleID={this.props.titleID} userReviewUpdated={this.userReviewUpdated} /> : null}
                 </Grid>
             </Grid>
         );

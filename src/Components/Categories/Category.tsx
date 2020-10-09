@@ -4,7 +4,7 @@ import {ICategory} from "../../Helpers/interfaces"
 
 interface IProps {
     categoryList: ICategory[],
-    getTitles: (categoryID?: number) => void
+    getTitles: (categoryID: number) => void
 };
 
 const Category: FunctionComponent <(IProps)> = props => {

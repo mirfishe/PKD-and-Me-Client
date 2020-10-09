@@ -8,8 +8,8 @@ import UpdateUserReview from "../UserReviews/UpdateUserReview";
 
 interface IProps {
     userID: number | null,
-    isLoggedIn: boolean | null,
-    isAdmin: boolean | null,
+    // isLoggedIn: boolean | null,
+    isAdmin: boolean,
     sessionToken: string,
     titleID: number | null,
     userReviewUpdated: () => void
@@ -29,6 +29,9 @@ const UserReview: FunctionComponent <(IProps)> = props => {
           return (
             <Grid item xs={12} key={userReview.reviewID}>
 
+            {userReview.rating !== null || (userReview.shortReview !== null && userReview.shortReview !== "") || (userReview.longReview !== null && userReview.longReview !== "") ? 
+
+            <React.Fragment>
             {/* {userReview.read === null ? <p>Read null</p> : null}
             {userReview.read === true ? <p>Read</p> : null}
             {userReview.read === false ? <p>Not Read</p> : null} */}
@@ -37,17 +40,17 @@ const UserReview: FunctionComponent <(IProps)> = props => {
             {/* {userReview.dateRead !== undefined && userReview.dateRead !== null ? <p>{userReview.dateRead.toString().substring(0, 10)}</p> : null} */}
 
             <Grid item xs={12}>
-            {userReview.shortReview !== "" ? <Typography variant="h6" gutterBottom>{userReview.shortReview}</Typography> : null}
+            {userReview.shortReview !== null && userReview.shortReview !== "" ? <Typography variant="h6" gutterBottom>{userReview.shortReview}</Typography> : null}
             </Grid>
             <Grid item xs={12}>
-            {userReview.longReview !== "" ? <Typography variant="body2" gutterBottom>{userReview.longReview}</Typography> : null}
+            {userReview.longReview !== null && userReview.longReview !== "" ? <Typography variant="body2" gutterBottom>{userReview.longReview}</Typography> : null}
             </Grid>
             <Grid container spacing={2}>
                 <Grid item xs={5}>
                 {/* {!isNaN(userReview.rating) ? <p>{userReview.rating}</p> : null} */}
                 {/* {userReview.rating !== null ? <p>{userReview.rating}</p> : null} */}
                 {/* <Typography component="legend">Rating</Typography> */}
-                <Rating name="rdoRating" precision={0.1} readOnly defaultValue={0} max={10} value={userReview.rating} />
+                {userReview.rating !== null ? <Rating name="rdoRating" precision={0.1} readOnly defaultValue={0} max={10} value={userReview.rating} /> : null}
                 </Grid>
                 <Grid item xs={7}>
                 <Typography variant="subtitle2" gutterBottom>
@@ -55,8 +58,12 @@ const UserReview: FunctionComponent <(IProps)> = props => {
                 </Typography>
                 </Grid>
             </Grid>
+            </React.Fragment>
+            
+            : null}
+
             <Grid item xs={12}>
-                {props.userID === userReview.userID || props.isAdmin === true ? <UpdateUserReview userID={props.userID} isLoggedIn={props.isLoggedIn} isAdmin={props.isAdmin} sessionToken={props.sessionToken} titleID={props.titleID} userReviewUpdated={props.userReviewUpdated} reviewID={userReview.reviewID} /> : null}
+                {props.userID === userReview.userID || props.isAdmin === true ? <UpdateUserReview userID={props.userID} /*isLoggedIn={props.isLoggedIn}*/ isAdmin={props.isAdmin} sessionToken={props.sessionToken} titleID={props.titleID} userReviewUpdated={props.userReviewUpdated} reviewID={userReview.reviewID} /> : null}
             </Grid>
             </Grid>
             )

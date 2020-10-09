@@ -15,13 +15,13 @@ import AddUserReview from "../UserReviews/AddUserReview";
 import UpdateUserReview from "../UserReviews/UpdateUserReview";
 
 interface IProps {
-    titleData?: ITitle,
+    titleData: ITitle | null,
     overallTitleRating: number | null,
     overallTitleRatingCount: number,
     categoryName: string,
     userID: number | null,
-    isLoggedIn: boolean | null,
-    isAdmin: boolean | null,
+    // isLoggedIn: boolean | null,
+    isAdmin: boolean,
     sessionToken: string,
     titleID: number | null,
     userReviewUpdated: () => void,
@@ -63,7 +63,7 @@ const TitleDisplay: FunctionComponent <(IProps)> = props => {
     return(
 
         <Grid container>
-                {props.titleData !== undefined ? 
+                {props.titleData !== undefined && props.titleData !== null ? 
                 <Grid item xs={12}>
                     <Grid item xs={12}>
                         <Typography variant="h5" gutterBottom>{props.titleData.titleName}
@@ -105,9 +105,9 @@ const TitleDisplay: FunctionComponent <(IProps)> = props => {
                             {props.userReviewedTitleDateRead !== null ? <Typography variant="caption" gutterBottom> on {props.userReviewedTitleDateRead.toString().substring(0, 10)}</Typography> : null}
                             </Typography>
 
-                            {props.isLoggedIn === true && props.userReviewedTitle === false? <AddUserReview userID={props.userID} isLoggedIn={props.isLoggedIn} isAdmin={props.isAdmin} sessionToken={props.sessionToken} titleID={props.titleID} userReviewUpdated={props.userReviewUpdated} /> : null}
+                            {props.sessionToken !== "" && props.userReviewedTitle === false? <AddUserReview userID={props.userID} /*isLoggedIn={props.isLoggedIn}*/ isAdmin={props.isAdmin} sessionToken={props.sessionToken} titleID={props.titleID} userReviewUpdated={props.userReviewUpdated} /> : null}
 
-                            {props.userReviewedTitle ? <UpdateUserReview userID={props.userID} isLoggedIn={props.isLoggedIn} isAdmin={props.isAdmin} sessionToken={props.sessionToken} titleID={props.titleID} userReviewUpdated={props.userReviewUpdated} reviewID={props.userReviewedTitleReviewID} /> : null}
+                            {props.userReviewedTitle ? <UpdateUserReview userID={props.userID} /*isLoggedIn={props.isLoggedIn}*/ isAdmin={props.isAdmin} sessionToken={props.sessionToken} titleID={props.titleID} userReviewUpdated={props.userReviewUpdated} reviewID={props.userReviewedTitleReviewID} /> : null}
 
                         </Grid>
                     </Grid>

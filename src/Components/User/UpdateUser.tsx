@@ -6,15 +6,14 @@ import {Grid, Button, TextField, Dialog, DialogTitle, DialogContent, DialogActio
 
 import {baseURL, emailRegExp} from "../../Helpers/constants"
 // import {emailFormat} from "../../Helpers/constants"
-import {IUser} from "../../Helpers/interfaces"
 
 interface IProps {
     userID: number | null,
-    isLoggedIn: boolean | null,
-    isAdmin: boolean | null,
+    // isLoggedIn: boolean | null,
+    isAdmin: boolean,
     sessionToken: string,
     setUserID: (userID: number | null) => void,
-    setIsLoggedIn: (isLoggedIn: boolean) => void,
+    // setIsLoggedIn: (isLoggedIn: boolean) => void,
     setIsAdmin: (setIsAdmin: boolean) => void,
     setSessionToken: (sessionToken: string) => void
 };
@@ -34,7 +33,7 @@ interface IState {
     errLastName: string,
     errEmail: string,
     errPassword: string,
-    userData?: IUser | null,
+    // userData: IUser | null,
     // userID: number | null,
     firstName: string,
     lastName: string,
@@ -66,7 +65,7 @@ class UpdateUser extends Component<IProps, IState> {
             errLastName: "",
             errEmail: "",
             errPassword: "",
-            userData: null,
+            // userData: null,
             // userID: null,
             firstName: "",
             lastName: "",
@@ -87,7 +86,7 @@ class UpdateUser extends Component<IProps, IState> {
 
         this.setState({message: ""});
         this.setState({errMessage: ""});
-        this.setState({userData: null});
+        // this.setState({userData: null});
         // this.setState({userID: null});
         this.setState({firstName: ""});
         this.setState({lastName: ""});
@@ -124,7 +123,7 @@ class UpdateUser extends Component<IProps, IState> {
             // this.setState({message: data.message});
 
             if (data.resultsFound === true) {
-                this.setState({userData: data.users[0]});
+                // this.setState({userData: data.users[0]});
                 // console.log("UpdateUser.tsx getUser userData", this.state.userData);
 
                 this.setState({txtFirstName: data.users[0].firstName});
@@ -158,7 +157,7 @@ class UpdateUser extends Component<IProps, IState> {
 
         this.setState({message: ""});
         this.setState({errMessage: ""});
-        // this.setState({userList: []});
+        // this.setState({userData: null});
         // this.setState({userID: null});
         this.setState({firstName: ""});
         this.setState({lastName: ""});
@@ -304,18 +303,19 @@ class UpdateUser extends Component<IProps, IState> {
                     // };
                 })
                 .then(data => {
-                    // console.log("UpdateUser.tsx updateUser data", data);
+                    console.log("UpdateUser.tsx updateUser data", data);
     
                     this.setState({userRecordUpdated: data.recordUpdated});
                     // this.setState({isLoggedIn: data.isLoggedIn});
                     // this.setState({isAdmin: data.isAdmin});
                     this.setState({message: data.message});
 
-                    this.props.setIsLoggedIn(data.isLoggedIn);
+                    // this.props.setIsLoggedIn(data.isLoggedIn);
                     this.props.setIsAdmin(data.isAdmin);
 
                     if (data.recordUpdated === true) {
-                        // this.setState({userList: data});
+                        //this.setState({userData: data});
+
                         // this.setState({userID: data.userID});
                         this.setState({firstName: data.firstName});
                         this.setState({lastName: data.lastName});
@@ -367,7 +367,7 @@ class UpdateUser extends Component<IProps, IState> {
 
     render() {
 
-        if (!this.props.isLoggedIn) {
+        if (this.props.sessionToken === "") {
             return <Redirect to="/" />;
         };
 

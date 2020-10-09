@@ -9,11 +9,11 @@ import {baseURL, emailRegExp} from "../../Helpers/constants"
 
 interface IProps {
     userID: number | null,
-    isLoggedIn: boolean | null,
-    isAdmin: boolean | null,
+    // isLoggedIn: boolean | null,
+    isAdmin: boolean,
     sessionToken: string,
     setUserID: (userID: number | null) => void,
-    setIsLoggedIn: (isLoggedIn: boolean) => void,
+    // setIsLoggedIn: (isLoggedIn: boolean) => void,
     setIsAdmin: (setIsAdmin: boolean) => void,
     setSessionToken: (sessionToken: string) => void
 };
@@ -178,7 +178,7 @@ class Login extends Component<IProps, IState> {
                         // this.setState({isAdmin: data.isAdmin});
                         // this.setState({message: data.message});
 
-                        this.props.setIsLoggedIn(data.isLoggedIn);
+                        // this.props.setIsLoggedIn(data.isLoggedIn);
                         this.props.setIsAdmin(data.isAdmin);
     
                         if (data.resultsFound === true) {
@@ -227,7 +227,7 @@ class Login extends Component<IProps, IState> {
 
     render() {
 
-        if (this.props.isLoggedIn) {
+        if (this.props.sessionToken !== "") {
             return <Redirect to="/" />;
         };
 

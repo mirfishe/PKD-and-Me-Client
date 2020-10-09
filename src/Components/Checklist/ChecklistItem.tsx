@@ -18,7 +18,7 @@ const ChecklistItem: FunctionComponent <(IProps)> = props => {
         <List>
         {props.checklistList.map((title: ITitle) => {
         return (
-            <ListItem key={title.titleID}><Checkbox id={"cbxRead" + title.titleID} checked={title.read} value={title.read} color="primary" onChange={(event) => {/*console.log(event.target.value);*/ props.updateChecklist(title.titleID, title.read, title.reviewID)}} /> <Link href="#" onClick={() => props.setTitleID(title.titleID)}><ListItemText>{title.titleName}</ListItemText></Link></ListItem>
+            <ListItem key={title.titleID}><Checkbox id={"cbxRead" + title.titleID} checked={title.read} value={title.read} color="primary" onChange={(event) => {/*console.log(event.target.value);*/ props.updateChecklist(title.titleID, !title.read, title.reviewID)}} /> <Link href="#" onClick={() => props.setTitleID(title.titleID)}><ListItemText>{title.titleName}</ListItemText></Link></ListItem>
             )
         })}
         </List>

@@ -5,12 +5,11 @@ import {Alert, Rating} from '@material-ui/lab/';
 import {Grid, Button, Checkbox, FormControlLabel, TextField, Typography, Dialog, DialogTitle, DialogContent, DialogActions} from '@material-ui/core';
 
 import {baseURL} from "../../Helpers/constants"
-import {IUserReview} from "../../Helpers/interfaces"
 
 interface IProps {
     userID: number | null,
-    isLoggedIn: boolean | null,
-    isAdmin: boolean | null,
+    // isLoggedIn: boolean | null,
+    isAdmin: boolean,
     sessionToken: string,
     titleID: number | null,
     reviewID: number | null,
@@ -29,7 +28,7 @@ interface IState {
     rdoRating: number | null,
     txtShortReview: string,
     txtLongReview: string,
-    userReviewData?: IUserReview | null,
+    // userReviewData: IUserReview | null,
     // reviewID: number | null,
     // userID: number | null,
     updatedBy: number | null,
@@ -58,7 +57,7 @@ class UpdateUserReview extends Component<IProps, IState> {
             rdoRating: null,
             txtShortReview: "",
             txtLongReview: "",
-            userReviewData: null,
+            // userReviewData: null,
             // reviewID: null,
             // userID: null,
             updatedBy: null,
@@ -82,7 +81,7 @@ class UpdateUserReview extends Component<IProps, IState> {
         this.setState({message: ""});
         this.setState({errMessage: ""});
         this.setState({userReviewResultsFound: null});
-        this.setState({userReviewData: null});
+        // this.setState({userReviewData: null});
         // this.setState({reviewID: null});
         // this.setState({userID: null});
         this.setState({updatedBy: null});
@@ -122,7 +121,7 @@ class UpdateUserReview extends Component<IProps, IState> {
                 // this.setState({message: data.message});
 
                 if (data.resultsFound === true) {
-                    this.setState({userReviewData: data.userReviews[0]});
+                    // this.setState({userReviewData: data.userReviews[0]});
                     // console.log("UpdateUserReview.tsx getUserReview userReviewData", this.state.userReviewData);
 
                     this.setState({cbxRead: data.userReviews[0].read});
@@ -168,7 +167,7 @@ class UpdateUserReview extends Component<IProps, IState> {
         this.setState({message: ""});
         this.setState({errMessage: ""});
         this.setState({userReviewRecordUpdated: null});
-        this.setState({userReviewData: null});
+        // this.setState({userReviewData: null});
         // this.setState({reviewID: null});
         // this.setState({userID: null});
         this.setState({updatedBy: null});
@@ -363,11 +362,9 @@ class UpdateUserReview extends Component<IProps, IState> {
 
     render() {
 
-        if (!this.props.isLoggedIn) {
+        if (this.props.sessionToken === "") {
             return <Redirect to="/" />;
         };
-
-        // console.log("UpdateUser.tsx this.state.errMessage", this.state.errMessage);
 
         return(
             <div>
