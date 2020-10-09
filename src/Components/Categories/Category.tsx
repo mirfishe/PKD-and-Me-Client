@@ -1,10 +1,10 @@
 import React, {FunctionComponent} from 'react';
-import {List, ListItem, Link, ListItemText, Divider} from '@material-ui/core';
+import {List, ListItem, Link, ListItemText} from '@material-ui/core';
 import {ICategory} from "../../Helpers/interfaces"
 
 interface IProps {
     categoryList: ICategory[],
-    getTitles: (categoryID?: number) => void
+    getTitles: (categoryID: number) => void
 };
 
 const Category: FunctionComponent <(IProps)> = props => {

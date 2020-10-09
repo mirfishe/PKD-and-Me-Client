@@ -2,17 +2,18 @@ import React, {Component} from "react";
 import {Redirect} from "react-router-dom";
 
 import {Alert} from '@material-ui/lab/';
-import {Grid, Button, InputLabel, TextField, Dialog, DialogTitle, DialogContent, DialogActions} from '@material-ui/core';
+import {Grid, Button, TextField, Dialog, DialogTitle, DialogContent, DialogActions} from '@material-ui/core';
 
-import {baseURL, emailRegExp, emailFormat} from "../../Helpers/constants"
+import {baseURL, emailRegExp} from "../../Helpers/constants"
+// import {emailFormat} from "../../Helpers/constants"
 
 interface IProps {
     userID: number | null,
-    isLoggedIn: boolean | null,
-    isAdmin: boolean | null,
+    // isLoggedIn: boolean | null,
+    isAdmin: boolean,
     sessionToken: string,
     setUserID: (userID: number | null) => void,
-    setIsLoggedIn: (isLoggedIn: boolean) => void,
+    // setIsLoggedIn: (isLoggedIn: boolean) => void,
     setIsAdmin: (setIsAdmin: boolean) => void,
     setSessionToken: (sessionToken: string) => void
 };
@@ -120,7 +121,7 @@ class Login extends Component<IProps, IState> {
             };
         };
 
-        if (emailValidated && passwordValidated) {
+        if (emailValidated === true && passwordValidated === true) {
             formValidated = true;
             // console.log("Login.tsx logIn Valid Form");
             // console.log("Login.tsx logIn formValidated true", formValidated);
@@ -134,7 +135,7 @@ class Login extends Component<IProps, IState> {
         // console.log("Login.tsx logIn passwordValidated", passwordValidated);
         // console.log("Login.tsx logIn formValidated", formValidated);
 
-        if (formValidated) {
+        if (formValidated === true) {
 
             if (this.state.txtEmail !== undefined && this.state.txtPassword !== undefined) {
                 let userObject = {
@@ -143,7 +144,7 @@ class Login extends Component<IProps, IState> {
                 };
                 // console.log("Login.tsx logIn userObject", userObject);
 
-                let url: string = baseURL + "user/login";
+                let url: string = baseURL + "user/login/";
                 // console.log("Login.tsx logIn url", url);
 
                 fetch(url, {
@@ -177,10 +178,10 @@ class Login extends Component<IProps, IState> {
                         // this.setState({isAdmin: data.isAdmin});
                         // this.setState({message: data.message});
 
-                        this.props.setIsLoggedIn(data.isLoggedIn);
+                        // this.props.setIsLoggedIn(data.isLoggedIn);
                         this.props.setIsAdmin(data.isAdmin);
     
-                        if (data.resultsFound) {
+                        if (data.resultsFound === true) {
                             // this.setState({userList: data});
                             // this.setState({userID: data.userID});
                             this.props.setUserID(data.userID);
@@ -226,7 +227,7 @@ class Login extends Component<IProps, IState> {
 
     render() {
 
-        if (this.props.isLoggedIn) {
+        if (this.props.sessionToken !== "") {
             return <Redirect to="/" />;
         };
 

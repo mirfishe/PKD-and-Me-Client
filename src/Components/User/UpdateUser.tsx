@@ -2,18 +2,18 @@ import React, {Component} from "react";
 import {Redirect} from "react-router-dom";
 
 import {Alert} from '@material-ui/lab/';
-import {Grid, Button, InputLabel, TextField, Dialog, DialogTitle, DialogContent, DialogActions} from '@material-ui/core';
+import {Grid, Button, TextField, Dialog, DialogTitle, DialogContent, DialogActions} from '@material-ui/core';
 
-import {baseURL, emailRegExp, emailFormat} from "../../Helpers/constants"
-import {IUser} from "../../Helpers/interfaces"
+import {baseURL, emailRegExp} from "../../Helpers/constants"
+// import {emailFormat} from "../../Helpers/constants"
 
 interface IProps {
     userID: number | null,
-    isLoggedIn: boolean | null,
-    isAdmin: boolean | null,
+    // isLoggedIn: boolean | null,
+    isAdmin: boolean,
     sessionToken: string,
     setUserID: (userID: number | null) => void,
-    setIsLoggedIn: (isLoggedIn: boolean) => void,
+    // setIsLoggedIn: (isLoggedIn: boolean) => void,
     setIsAdmin: (setIsAdmin: boolean) => void,
     setSessionToken: (sessionToken: string) => void
 };
@@ -25,15 +25,15 @@ interface IState {
     userResultsFound: boolean | null,
     userRecordUpdated: boolean | null,
     // userList: IUser[],
-    txtFirstName: string,
-    txtLastName: string,
-    txtEmail: string,
+    txtFirstName: string | undefined,
+    txtLastName: string | undefined,
+    txtEmail: string | undefined,
     txtPassword: string,
     errFirstName: string,
     errLastName: string,
     errEmail: string,
     errPassword: string,
-    userData?: IUser | null,
+    // userData: IUser | null,
     // userID: number | null,
     firstName: string,
     lastName: string,
@@ -57,15 +57,15 @@ class UpdateUser extends Component<IProps, IState> {
             userResultsFound: null,
             userRecordUpdated: null,
             // userList: [],
-            txtFirstName: "",
-            txtLastName: "",
-            txtEmail: "",
+            txtFirstName: process.env.REACT_APP_FIRSTNAME_DEFAULT,
+            txtLastName: process.env.REACT_APP_LASTNAME_DEFAULT,
+            txtEmail: process.env.REACT_APP_EMAIL_DEFAULT,
             txtPassword: "",
             errFirstName: "",
             errLastName: "",
             errEmail: "",
             errPassword: "",
-            userData: null,
+            // userData: null,
             // userID: null,
             firstName: "",
             lastName: "",
@@ -86,7 +86,7 @@ class UpdateUser extends Component<IProps, IState> {
 
         this.setState({message: ""});
         this.setState({errMessage: ""});
-        this.setState({userData: null});
+        // this.setState({userData: null});
         // this.setState({userID: null});
         this.setState({firstName: ""});
         this.setState({lastName: ""});
@@ -95,7 +95,7 @@ class UpdateUser extends Component<IProps, IState> {
         this.setState({admin: null});
         this.setState({active: null});
 
-        let url: string = baseURL + "user";
+        let url: string = baseURL + "user/";
 
         fetch(url, {
             method: "GET",
@@ -106,11 +106,15 @@ class UpdateUser extends Component<IProps, IState> {
         })
         .then(response => {
             // console.log("UpdateUser.tsx getUser response", response);
-            if (!response.ok) {
-                throw Error(response.status + " " + response.statusText + " " + response.url);
-            } else {
-                return response.json();
-            };
+            // if (!response.ok) {
+            //     throw Error(response.status + " " + response.statusText + " " + response.url);
+            // } else {
+                // if (response.status === 200) {
+                    return response.json();
+                // } else {
+                //     return response.status;
+                // };
+            // };
         })
         .then(data => {
             // console.log("UpdateUser.tsx getUser data", data);
@@ -118,8 +122,8 @@ class UpdateUser extends Component<IProps, IState> {
             this.setState({userResultsFound: data.resultsFound});
             // this.setState({message: data.message});
 
-            if (data.resultsFound) {
-                this.setState({userData: data.users[0]});
+            if (data.resultsFound === true) {
+                // this.setState({userData: data.users[0]});
                 // console.log("UpdateUser.tsx getUser userData", this.state.userData);
 
                 this.setState({txtFirstName: data.users[0].firstName});
@@ -153,7 +157,7 @@ class UpdateUser extends Component<IProps, IState> {
 
         this.setState({message: ""});
         this.setState({errMessage: ""});
-        // this.setState({userList: []});
+        // this.setState({userData: null});
         // this.setState({userID: null});
         this.setState({firstName: ""});
         this.setState({lastName: ""});
@@ -172,7 +176,7 @@ class UpdateUser extends Component<IProps, IState> {
         let formValidated: boolean  = false;
 
 
-        if (this.state.txtFirstName !== null) {
+        if (this.state.txtFirstName !== undefined) {
             if (this.state.txtFirstName.trim().length > 0) {
                 firstNameValidated = true;
                 this.setState({errFirstName: ""});
@@ -186,7 +190,7 @@ class UpdateUser extends Component<IProps, IState> {
             };
         };
 
-        if (this.state.txtLastName !== null) {
+        if (this.state.txtLastName !== undefined) {
             if (this.state.txtLastName.trim().length > 0) {
                 lastNameValidated = true;
                 this.setState({errLastName: ""});
@@ -200,7 +204,7 @@ class UpdateUser extends Component<IProps, IState> {
             };
         };
 
-        if (this.state.txtEmail !== null) {
+        if (this.state.txtEmail !== undefined) {
             if (this.state.txtEmail.trim().match(emailRegExp) && this.state.txtEmail.trim().length > 0) {
             // if (this.state.txtEmail.trim().match(emailFormat) && this.state.txtEmail.trim().length > 0) {
                 emailValidated = true;
@@ -215,7 +219,7 @@ class UpdateUser extends Component<IProps, IState> {
             };
         };
 
-        if (this.state.txtPassword !== null) {
+        // if (this.state.txtPassword !== undefined) {
             // If the user doesn't enter a password, then it isn't updated
             if (this.state.txtPassword.trim().length !== 0) {
                 if (this.state.txtPassword.trim().length > 4) {
@@ -233,9 +237,9 @@ class UpdateUser extends Component<IProps, IState> {
                 passwordValidated = true;
                 this.setState({errPassword: ""});
             };
-        };
+        // };
 
-        if (firstNameValidated && lastNameValidated && emailValidated && passwordValidated) {
+        if (firstNameValidated === true && lastNameValidated === true && emailValidated === true && passwordValidated === true) {
             formValidated = true;
             // console.log("UpdateUser.tsx updateUser Valid Form");
             // console.log("UpdateUser.tsx updateUser formValidated true", formValidated);
@@ -250,9 +254,9 @@ class UpdateUser extends Component<IProps, IState> {
         // console.log("UpdateUser.tsx updateUser emailValidated", emailValidated);
         // console.log("UpdateUser.tsx updateUser formValidated", formValidated);
 
-        if (formValidated) {
+        if (formValidated === true) {
 
-            if (this.state.txtFirstName !== null && this.state.txtLastName !== null && this.state.txtEmail !== null && this.state.txtPassword !== null) {
+            if (this.state.txtFirstName !== undefined && this.state.txtLastName !== undefined && this.state.txtEmail !== undefined) {
                 let userObject = {
                     firstName:  this.state.txtFirstName.trim(),
                     lastName:  this.state.txtLastName.trim(),
@@ -270,6 +274,12 @@ class UpdateUser extends Component<IProps, IState> {
                 // console.log("UpdateUser.tsx updateUser userObject", userObject);
 
                 let url: string = baseURL + "user/";
+
+                // Does it matter if the user is updating their own record as an admin or not?
+                if (this.props.isAdmin === true) {
+                    url = url + this.props.userID;
+                };
+
                 // console.log("UpdateUser.tsx updateUser url", url);
 
                 fetch(url, {
@@ -293,18 +303,19 @@ class UpdateUser extends Component<IProps, IState> {
                     // };
                 })
                 .then(data => {
-                    // console.log("UpdateUser.tsx updateUser data", data);
+                    console.log("UpdateUser.tsx updateUser data", data);
     
                     this.setState({userRecordUpdated: data.recordUpdated});
                     // this.setState({isLoggedIn: data.isLoggedIn});
                     // this.setState({isAdmin: data.isAdmin});
                     this.setState({message: data.message});
 
-                    this.props.setIsLoggedIn(data.isLoggedIn);
+                    // this.props.setIsLoggedIn(data.isLoggedIn);
                     this.props.setIsAdmin(data.isAdmin);
 
-                    if (data.recordUpdated) {
-                        // this.setState({userList: data});
+                    if (data.recordUpdated === true) {
+                        //this.setState({userData: data});
+
                         // this.setState({userID: data.userID});
                         this.setState({firstName: data.firstName});
                         this.setState({lastName: data.lastName});
@@ -318,6 +329,8 @@ class UpdateUser extends Component<IProps, IState> {
 
                         // Need to call this here because there are two buttons on the form besides the Cancel button
                         this.handleClose();
+
+                        // You are logged out after you update your profile.
 
                     } else {
                         // console.log("UpdateUser.tsx data.errorMessages", data.errorMessages);
@@ -354,7 +367,7 @@ class UpdateUser extends Component<IProps, IState> {
 
     render() {
 
-        if (!this.props.isLoggedIn) {
+        if (this.props.sessionToken === "") {
             return <Redirect to="/" />;
         };
 

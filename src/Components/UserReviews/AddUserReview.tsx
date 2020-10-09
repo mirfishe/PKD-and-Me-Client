@@ -2,15 +2,14 @@ import React, {Component} from "react";
 import {Redirect} from "react-router-dom";
 
 import {Alert, Rating} from '@material-ui/lab/';
-import {Grid, Button, Checkbox, FormControlLabel, InputLabel, TextField, Typography, Dialog, DialogTitle, DialogContent, DialogActions} from '@material-ui/core';
+import {Grid, Button, Checkbox, FormControlLabel, TextField, Typography, Dialog, DialogTitle, DialogContent, DialogActions} from '@material-ui/core';
 
 import {baseURL} from "../../Helpers/constants"
-import {IUserReview} from "../../Helpers/interfaces"
 
 interface IProps {
     userID: number | null,
-    isLoggedIn: boolean | null,
-    isAdmin: boolean | null,
+    // isLoggedIn: boolean | null,
+    isAdmin: boolean,
     sessionToken: string,
     titleID: number | null,
     userReviewUpdated: () => void
@@ -21,14 +20,12 @@ interface IState {
     errMessage: string,
     dialogOpen: boolean,
     userReviewRecordAdded: boolean | null,
-    userReviewResultsFound: boolean | null,
-    userReviewRecordUpdated: boolean | null,
     cbxRead: boolean,
     txtDateRead: string,
     rdoRating: number | null,
     txtShortReview: string,
     txtLongReview: string,
-    userReviewData?: IUserReview | null,
+    // userReviewData: IUserReview | null,
     reviewID: number | null,
     // userID: number | null,
     updatedBy: number | null,
@@ -50,14 +47,12 @@ class AddUserReview extends Component<IProps, IState> {
             errMessage: "",
             dialogOpen: false,
             userReviewRecordAdded: null,
-            userReviewResultsFound: null,
-            userReviewRecordUpdated: null,
             cbxRead: false,
             txtDateRead: "",
             rdoRating: null,
             txtShortReview: "",
             txtLongReview: "",
-            userReviewData: null,
+            // userReviewData: null,
             reviewID: null,
             // userID: null,
             updatedBy: null,
@@ -85,6 +80,7 @@ class AddUserReview extends Component<IProps, IState> {
 
         this.setState({message: ""});
         this.setState({errMessage: ""});
+        this.setState({userReviewRecordAdded: null});
         this.setState({reviewID: null});
         // this.setState({userID: null});
         this.setState({updatedBy: null});
@@ -117,7 +113,7 @@ class AddUserReview extends Component<IProps, IState> {
 
             // console.log("AddUserReview.tsx addUserReview userReviewObject", userReviewObject);
 
-            let url: string = baseURL + "userreview";
+            let url: string = baseURL + "userreview/";
             // console.log("AddUserReview.tsx addUserReview url", url);
 
             fetch(url, {
@@ -142,7 +138,7 @@ class AddUserReview extends Component<IProps, IState> {
                 this.setState({userReviewRecordAdded: data.recordAdded});
                 this.setState({message: data.message});
 
-                if (data.recordAdded) {
+                if (data.recordAdded === true) {
                     this.setState({cbxRead: data.read});
 
                     if (data.dateRead !== undefined && data.dateRead !== null) {
@@ -205,10 +201,6 @@ class AddUserReview extends Component<IProps, IState> {
 
     };
 
-    componentDidMount() {
-        // this.getUserReview();
-      };
-
     handleOpen = () => {
         this.setState({dialogOpen: true});
     };
@@ -219,11 +211,9 @@ class AddUserReview extends Component<IProps, IState> {
 
     render() {
 
-        if (!this.props.isLoggedIn) {
+        if (this.props.sessionToken === "") {
             return <Redirect to="/" />;
         };
-
-        // console.log("UpdateUser.tsx this.state.errMessage", this.state.errMessage);
 
         return(
             <div>

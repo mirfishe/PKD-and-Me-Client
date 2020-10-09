@@ -2,15 +2,14 @@ import React, {Component} from "react";
 import {Redirect} from "react-router-dom";
 
 import {Alert, Rating} from '@material-ui/lab/';
-import {Grid, Button, Checkbox, FormControlLabel, InputLabel, TextField, Typography, Dialog, DialogTitle, DialogContent, DialogActions} from '@material-ui/core';
+import {Grid, Button, Checkbox, FormControlLabel, TextField, Typography, Dialog, DialogTitle, DialogContent, DialogActions} from '@material-ui/core';
 
 import {baseURL} from "../../Helpers/constants"
-import {IUserReview} from "../../Helpers/interfaces"
 
 interface IProps {
     userID: number | null,
-    isLoggedIn: boolean | null,
-    isAdmin: boolean | null,
+    // isLoggedIn: boolean | null,
+    isAdmin: boolean,
     sessionToken: string,
     titleID: number | null,
     reviewID: number | null,
@@ -21,15 +20,15 @@ interface IState {
     message: string,
     errMessage: string,
     dialogOpen: boolean,
-    userReviewRecordAdded: boolean | null,
     userReviewResultsFound: boolean | null,
     userReviewRecordUpdated: boolean | null,
+    userReviewRecordDeleted: boolean | null,
     cbxRead: boolean,
     txtDateRead: string,
     rdoRating: number | null,
     txtShortReview: string,
     txtLongReview: string,
-    userReviewData?: IUserReview | null,
+    // userReviewData: IUserReview | null,
     // reviewID: number | null,
     // userID: number | null,
     updatedBy: number | null,
@@ -50,15 +49,15 @@ class UpdateUserReview extends Component<IProps, IState> {
             message: "",
             errMessage: "",
             dialogOpen: false,
-            userReviewRecordAdded: null,
             userReviewResultsFound: null,
             userReviewRecordUpdated: null,
+            userReviewRecordDeleted: null,
             cbxRead: false,
             txtDateRead: "",
             rdoRating: null,
             txtShortReview: "",
             txtLongReview: "",
-            userReviewData: null,
+            // userReviewData: null,
             // reviewID: null,
             // userID: null,
             updatedBy: null,
@@ -81,7 +80,8 @@ class UpdateUserReview extends Component<IProps, IState> {
 
         this.setState({message: ""});
         this.setState({errMessage: ""});
-        this.setState({userReviewData: null});
+        this.setState({userReviewResultsFound: null});
+        // this.setState({userReviewData: null});
         // this.setState({reviewID: null});
         // this.setState({userID: null});
         this.setState({updatedBy: null});
@@ -93,10 +93,10 @@ class UpdateUserReview extends Component<IProps, IState> {
         this.setState({longReview: ""});
         this.setState({active: null});
 
-        let url: string = baseURL + "userreview";
+        let url: string = baseURL + "userreview/";
 
         if (this.props.reviewID !== null) {
-            url = url + "/" + this.props.reviewID;
+            url = url + this.props.reviewID;
 
             // console.log("UpdateUserReview.tsx getUserReview url", url);
 
@@ -120,8 +120,8 @@ class UpdateUserReview extends Component<IProps, IState> {
                 this.setState({userReviewResultsFound: data.resultsFound});
                 // this.setState({message: data.message});
 
-                if (data.resultsFound) {
-                    this.setState({userReviewData: data.userReviews[0]});
+                if (data.resultsFound === true) {
+                    // this.setState({userReviewData: data.userReviews[0]});
                     // console.log("UpdateUserReview.tsx getUserReview userReviewData", this.state.userReviewData);
 
                     this.setState({cbxRead: data.userReviews[0].read});
@@ -166,7 +166,8 @@ class UpdateUserReview extends Component<IProps, IState> {
 
         this.setState({message: ""});
         this.setState({errMessage: ""});
-        this.setState({userReviewData: null});
+        this.setState({userReviewRecordUpdated: null});
+        // this.setState({userReviewData: null});
         // this.setState({reviewID: null});
         // this.setState({userID: null});
         this.setState({updatedBy: null});
@@ -183,31 +184,35 @@ class UpdateUserReview extends Component<IProps, IState> {
         // txtDateRead is expecting a date and rdoRating is expecting a number
         // if (this.state.txtDateRead !== null && this.state.rdoRating !== null) {
 
-            let userReviewObject = {
-                titleID: this.props.titleID,
-                read: this.state.cbxRead,
-                // dateRead: this.state.txtDateRead,
-                rating: this.state.rdoRating,
-                shortReview: this.state.txtShortReview.trim(),
-                longReview: this.state.txtLongReview.trim(),
-                // active:     this.state.active
-                active:     !deleteUserReview
+        let userReviewObject = {
+            titleID: this.props.titleID,
+            read: this.state.cbxRead,
+            // dateRead: this.state.txtDateRead,
+            rating: this.state.rdoRating,
+            shortReview: this.state.txtShortReview.trim(),
+            longReview: this.state.txtLongReview.trim(),
+            // active:     this.state.active
+            active:     !deleteUserReview
+        };
+
+        // If the user doesn't enter a date read, then it isn't added/updated
+        if (this.state.txtDateRead.trim().length !== 0) {
+            Object.assign(userReviewObject, {dateRead: this.state.txtDateRead.trim()});
+        };
+
+        // console.log("UpdateUserReview.tsx updateUserReview userReviewObject", userReviewObject);
+
+        let url: string = baseURL + "userreview/";
+
+        if (this.props.reviewID !== null) {
+            url = url + this.props.reviewID;
+
+            // Does it matter if the user is updating their own review as an admin or not?
+            if (this.props.isAdmin === true) {
+                url = url + "admin/" + this.props.reviewID;
             };
 
-            // If the user doesn't enter a date read, then it isn't added/updated
-            if (this.state.txtDateRead.trim().length !== 0) {
-                Object.assign(userReviewObject, {dateRead: this.state.txtDateRead.trim()});
-            };
-
-            // console.log("UpdateUserReview.tsx updateUserReview userReviewObject", userReviewObject);
-
-            let url: string = baseURL + "userreview/";
-
-            if (this.props.reviewID !== null) {
-                url = url + "/" + this.props.reviewID;
-            };
-
-            // console.log("UpdateUserReview.tsx updateUserReview url", url);
+            console.log("UpdateUserReview.tsx updateUserReview url", url);
 
             fetch(url, {
                 method: "PUT",
@@ -233,11 +238,9 @@ class UpdateUserReview extends Component<IProps, IState> {
                 // console.log("UpdateUserReview.tsx updateUserReview data", data);
 
                 this.setState({userReviewRecordUpdated: data.recordUpdated});
-                // this.setState({isLoggedIn: data.isLoggedIn});
-                // this.setState({isAdmin: data.isAdmin});
-                this.setState({message: data.message});
+                this.setState({message: data.message}); // Never seen by the user if the update was successful
 
-                if (data.recordUpdated) {
+                if (data.recordUpdated === true) {
                     this.setState({cbxRead: data.read});
 
                     if (data.dateRead !== undefined && data.dateRead !== null) {
@@ -266,9 +269,7 @@ class UpdateUserReview extends Component<IProps, IState> {
                     this.handleClose();
 
                 } else {
-                    // console.log("UpdateUser.tsx data.errorMessages", data.errorMessages);
-                    // this.setState({errMessage: data.error});
-                    this.setState({errMessage: data.errorMessages});
+                    this.setState({errMessage: data.message});
                 };
 
             })
@@ -279,7 +280,70 @@ class UpdateUserReview extends Component<IProps, IState> {
                 this.setState({errMessage: error.name + ": " + error.message});
             });
 
-        // };
+        };
+
+    };
+
+    deleteUserReview = () => {
+        // console.log("UpdateUserReview.tsx deleteUserReview");
+        // this.setState({message: "form submitted"});
+
+        this.setState({message: ""});
+        this.setState({errMessage: ""});
+        this.setState({userReviewRecordDeleted: null});
+
+        let url: string = baseURL + "userreview/";
+
+        if (this.props.reviewID !== null) {
+            url = url + this.props.reviewID;
+
+            // console.log("UpdateUserReview.tsx deleteUserReview url", url);
+
+            fetch(url, {
+                method: "DELETE",
+                headers:    new Headers ({
+                    "Content-Type": "application/json",
+                    "Authorization": this.props.sessionToken
+                })
+            })
+            .then(response => {
+                // console.log("UpdateUserReview.tsx deleteUserReview response", response);
+                // if (!response.ok) {
+                //     throw Error(response.status + " " + response.statusText + " " + response.url);
+                // } else {
+                    // if (response.status === 200) {
+                        return response.json();
+                    // } else {
+                    //     return response.status;
+                    // };
+                // };
+            })
+            .then(data => {
+                console.log("UpdateUserReview.tsx deleteUserReview data", data);
+
+                this.setState({userReviewRecordDeleted: data.recordDeleted});
+
+                this.setState({message: data.message}); // Never seen by the user if the delete was successful
+
+                if (data.recordDeleted === true) {
+
+                    this.props.userReviewUpdated();
+                    // Need to call this here because there are two buttons on the form besides the Cancel button
+                    this.handleClose();
+
+                } else {
+                    this.setState({errMessage: data.message});
+                };
+
+            })
+            .catch(error => {
+                console.log("UpdateUserReview.tsx updateUserReview error", error);
+                // console.log("UpdateUserReview.tsx deleteUserReview error.name", error.name);
+                // console.log("UpdateUserReview.tsx deleteUserReview error.message", error.message);
+                this.setState({errMessage: error.name + ": " + error.message});
+            });
+
+        };
 
     };
 
@@ -298,11 +362,9 @@ class UpdateUserReview extends Component<IProps, IState> {
 
     render() {
 
-        if (!this.props.isLoggedIn) {
+        if (this.props.sessionToken === "") {
             return <Redirect to="/" />;
         };
-
-        // console.log("UpdateUser.tsx this.state.errMessage", this.state.errMessage);
 
         return(
             <div>
@@ -348,6 +410,7 @@ class UpdateUserReview extends Component<IProps, IState> {
                 <DialogActions>
                     <Button variant="outlined" color="primary" onClick={(event) => {/*console.log(event.target.value);*/ this.updateUserReview(false);}}>Update Review</Button>
                     <Button variant="outlined" color="secondary" onClick={(event) => {/*console.log(event.target.value);*/ this.updateUserReview(true);}}>Delete Review</Button>
+                    {this.props.isAdmin === true ? <Button variant="outlined" color="secondary" onClick={(event) => {/*console.log(event.target.value);*/ this.deleteUserReview();}}>Hard Delete Review</Button> : null}
                     <Button variant="outlined" color="primary" onClick={this.handleClose}>Cancel</Button>
                 </DialogActions>
                 </Grid>

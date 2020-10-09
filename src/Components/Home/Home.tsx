@@ -12,11 +12,13 @@ import TitleItem from "../Titles/TitleItem";
 
 interface IProps {
     userID: number | null,
-    isLoggedIn: boolean | null,
-    isAdmin: boolean | null,
+    // isLoggedIn: boolean | null,
+    isAdmin: boolean,
     sessionToken: string,
     titleID: number | null,
-    setTitleID: (titleID: number | null) => void
+    setTitleID: (titleID: number | null) => void,
+    categoryID: number | null,
+    setCategoryID: (categoryID: number | null) => void
 };
 
 interface IState {
@@ -24,7 +26,7 @@ interface IState {
     errCategoryMessage: string,
     categoryResultsFound: boolean | null,
     categoryList: ICategory[],
-    categoryID: number | null | undefined,
+    // categoryID: number | null | undefined,
     titleMessage: string,
     errTitleMessage: string,
     titleResultsFound: boolean | null,
@@ -40,7 +42,7 @@ class Home extends Component<IProps, IState> {
             errCategoryMessage: "",
             categoryResultsFound: null,
             categoryList: [],
-            categoryID: null,
+            // categoryID: null,
             titleMessage: "",
             errTitleMessage: "",
             titleResultsFound: null,
@@ -58,10 +60,15 @@ class Home extends Component<IProps, IState> {
 
         this.setState({categoryMessage: ""});
         this.setState({errCategoryMessage: ""});
+        this.setState({categoryResultsFound: null});
+        this.setState({categoryList: []});
 
+        // console.log("Home.tsx getCategories this.props.categoryID", this.props.categoryID);
+        this.props.setCategoryID(null);
+        // console.log("Home.tsx getCategories this.props.titleID", this.props.titleID);
         this.props.setTitleID(null);
 
-        let url: string = baseURL + "category";
+        let url: string = baseURL + "category/";
 
         fetch(url)
         .then(response => {
@@ -81,7 +88,7 @@ class Home extends Component<IProps, IState> {
             this.setState({categoryResultsFound: data.resultsFound});
             // this.setState({categoryMessage: data.message});
 
-            if (data.resultsFound) {
+            if (data.resultsFound === true) {
                 // Would like to remove categories that don't have titles associated with them
                 // if (data.categories.titles.length > 0) {
                     this.setState({categoryList: data.categories});
@@ -100,27 +107,38 @@ class Home extends Component<IProps, IState> {
 
     };
 
-    getTitles = (categoryID?: number) => {
+    getTitles = (categoryID: number) => {
         // console.log("Home.tsx getTitles");
         // console.log("Home.tsx getTitles baseURL", baseURL);
 
         this.setState({titleMessage: ""});
         this.setState({errTitleMessage: ""});
+        this.setState({titleResultsFound: null});
+        this.setState({titleList: []});
 
+        // console.log("Home.tsx getTitles this.props.categoryID", this.props.categoryID);
+        // this.props.setCategoryID(null);
         // console.log("Home.tsx getTitles this.props.titleID", this.props.titleID);
         this.props.setTitleID(null);
 
         // console.log("Home.tsx getTitles categoryID", categoryID);
-        this.setState({categoryID: categoryID});
+        // this.setState({categoryID: categoryID});
+        // console.log("Home.tsx getTitles this.props.categoryID", this.props.categoryID);
+        this.props.setCategoryID(categoryID);
 
-        let url: string = baseURL + "title";
+        let url: string = baseURL + "title/";
 
         // if (this.state.categoryID !== null) {
         //     url = url + "/category/" + this.state.categoryID;
         // };
 
-        if (categoryID) {
-            url = url + "/category/" + categoryID;
+        // Not working correctly?
+        // if (this.props.categoryID !== undefined && this.props.categoryID !== null) {
+        //     url = url + "category/" + categoryID;
+        // };
+
+        if (categoryID !== undefined && categoryID !== null) {
+            url = url + "category/" + categoryID;
         };
 
         // console.log("Home.tsx getTitles url", url);
@@ -143,8 +161,11 @@ class Home extends Component<IProps, IState> {
             this.setState({titleResultsFound: data.resultsFound});
             // this.setState({titleMessage: data.message});
 
-            if (data.resultsFound) {
+            if (data.resultsFound === true) {
                 this.setState({titleList: data.titles});
+
+                // this.getChecklist();
+
             } else {
                 this.setState({errTitleMessage: data.message});
             };
@@ -158,10 +179,6 @@ class Home extends Component<IProps, IState> {
         });
 
     };
-
-    // getEditions = (titleID?: number) => {
-    //     // console.log("Titles.tsx getEditions");
-    // };
     
     componentDidMount() {
         this.getCategories();
@@ -170,7 +187,8 @@ class Home extends Component<IProps, IState> {
     render() {
 
         return(
-            <Grid container>
+            <Grid container spacing={2}>
+
                 <Grid item xs={2}>
                 {this.state.categoryMessage !== "" ? <Alert severity="info">{this.state.categoryMessage}</Alert> : null}
                 {this.state.errCategoryMessage !== "" ? <Alert severity="error">{this.state.errCategoryMessage}</Alert> : null}
@@ -179,7 +197,7 @@ class Home extends Component<IProps, IState> {
 
                 {this.props.titleID !== null ?
                 <Grid item xs={10}>
-                <Title userID={this.props.userID} isLoggedIn={this.props.isLoggedIn} isAdmin={this.props.isAdmin} sessionToken={this.props.sessionToken} titleID={this.props.titleID} setTitleID={this.props.setTitleID} />
+                <Title userID={this.props.userID} /*isLoggedIn={this.props.isLoggedIn}*/ isAdmin={this.props.isAdmin} sessionToken={this.props.sessionToken} titleID={this.props.titleID} setTitleID={this.props.setTitleID} />
                 </Grid>
                 :
                 <Grid item xs={10}>
@@ -188,6 +206,7 @@ class Home extends Component<IProps, IState> {
                 {this.state.titleResultsFound ? <TitleItem /*getEditions={this.getEditions}*/ titleID={this.props.titleID} setTitleID={this.props.setTitleID} titleList={this.state.titleList} /> : <About />}
                 </Grid>
                 }
+
           </Grid>
         );
     };

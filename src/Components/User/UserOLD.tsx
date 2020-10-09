@@ -13,8 +13,8 @@ interface IProps {
     updatedBy: number | null,
     admin: boolean | null,
     active: boolean | null,
-    isLoggedIn: boolean | null,
-    isAdmin: boolean | null,
+    // isLoggedIn: boolean | null,
+    isAdmin: boolean,
     sessionToken: string
 };
 
@@ -54,16 +54,16 @@ const User: FunctionComponent <(IProps)> = props => {
         displayActive = "Active null";
     };
 
-    let displayIsLoggedIn: string = "";
-    if (props.isLoggedIn !== null) {
-        if (props.isLoggedIn === true) {
-            displayIsLoggedIn = "isLoggedIn";
-        } else {
-            displayIsLoggedIn = "Not isLoggedIn";
-        };
-    } else {
-        displayIsLoggedIn = "isLoggedIn null";
-    };
+    // let displayIsLoggedIn: string = "";
+    // if (props.isLoggedIn !== null) {
+    //     if (props.isLoggedIn === true) {
+    //         displayIsLoggedIn = "isLoggedIn";
+    //     } else {
+    //         displayIsLoggedIn = "Not isLoggedIn";
+    //     };
+    // } else {
+    //     displayIsLoggedIn = "isLoggedIn null";
+    // };
 
     let displayIsAdmin: string = "";
     if (props.isAdmin !== null) {
@@ -104,7 +104,7 @@ const User: FunctionComponent <(IProps)> = props => {
             {/* {props.isLoggedIn === null ? <p>isLoggedIn null</p> : null}
             {props.isLoggedIn === true ? <p>isLoggedIn</p> : null}
             {props.isLoggedIn === false ? <p>Not isLoggedIn</p> : null} */}
-            {displayIsLoggedIn !== "" ? <p>{displayIsLoggedIn}</p> : null}
+            {/* {displayIsLoggedIn !== "" ? <p>{displayIsLoggedIn}</p> : null} */}
 
             {/* {props.isAdmin === null ? <p>isAdmin null</p> : null}
             {props.isAdmin === true ? <p>isAdmin</p> : null}
