@@ -17,6 +17,7 @@ interface IProps {
 interface IState {
     message: string,
     errMessage: string,
+    editionRecordAdded: boolean | null,
     titleMessage: string,
     errTitleMessage: string,
     titleResultsFound: boolean | null,
@@ -25,7 +26,6 @@ interface IState {
     errMediaMessage: string,
     mediaResultsFound: boolean | null,
     mediaList: IMedia[],
-    editionRecordAdded: boolean | null,
     errTitleID: string,
     errMediaID: string,
     ddTitleID: number | null | unknown,
@@ -507,8 +507,8 @@ class AddEdition extends Component<IProps, IState> {
 
                 </Grid>
 
-                    <Button variant="outlined" color="primary" onClick={this.addEdition}>Add Edition</Button>
-                    {/* <Button variant="outlined" color="primary" onClick={this.handleClose}>Cancel</Button> */}
+                    <Button variant="outlined" size="large" color="primary" onClick={this.addEdition}>Add Edition</Button>
+                    {/* <Button variant="outlined" size="large" color="primary" onClick={this.handleClose}>Cancel</Button> */}
         </Grid>
         );
     };

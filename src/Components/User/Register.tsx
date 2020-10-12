@@ -314,8 +314,8 @@ class Register extends Component<IProps, IState> {
 
                 </Grid>
                 <DialogActions>
-                    <Button variant="outlined" color="primary" onClick={this.register}>Register</Button>
-                    <Button variant="outlined" color="primary" onClick={this.handleClose}>Cancel</Button>
+                    <Button variant="outlined" size="large" color="primary" onClick={this.register}>Register</Button>
+                    <Button variant="outlined" size="large" color="primary" onClick={this.handleClose}>Cancel</Button>
                 </DialogActions>
             </DialogContent>
           </Dialog>

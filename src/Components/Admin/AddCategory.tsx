@@ -175,8 +175,8 @@ class AddCategory extends Component<IProps, IState> {
 
                 </Grid>
 
-                    <Button variant="outlined" color="primary" onClick={this.addCategory}>Add Category</Button>
-                    {/* <Button variant="outlined" color="primary" onClick={this.handleClose}>Cancel</Button> */}
+                    <Button variant="outlined" size="large" color="primary" onClick={this.addCategory}>Add Category</Button>
+                    {/* <Button variant="outlined" size="large" color="primary" onClick={this.handleClose}>Cancel</Button> */}
         </Grid>
         );
     };

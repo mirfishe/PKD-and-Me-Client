@@ -5,21 +5,27 @@ import {Alert} from '@material-ui/lab/';
 import {Grid, Button, TextField, InputLabel, Select, MenuItem, Typography, Dialog, DialogTitle, DialogContent, DialogActions} from '@material-ui/core';
 
 import {baseURL} from "../../Helpers/constants"
-import {IMedia} from "../../Helpers/interfaces"
+import {IEdition, IMedia} from "../../Helpers/interfaces"
 
 interface IProps {
     userID: number | null,
     // isLoggedIn: boolean | null,
     isAdmin: boolean,
     sessionToken: string,
-    titleID: number | null
+    titleID: number | null,
+    editionID: number | null
 };
 
 interface IState {
     message: string,
     errMessage: string,
     dialogOpen: boolean,
-    editionRecordAdded: boolean | null,
+    editionResultsFound: boolean | null,
+    editionRecordUpdated: boolean | null,
+    editionRecordDeleted: boolean | null,
+    editionMessage: string,
+    errEditionMessage: string,
+    editionList: IEdition[],
     mediaMessage: string,
     errMediaMessage: string,
     mediaResultsFound: boolean | null,
@@ -49,7 +55,7 @@ interface IState {
     active: boolean | null
 };
 
-class AddEdition extends Component<IProps, IState> {
+class UpdateEdition extends Component<IProps, IState> {
 
     constructor(props: IProps) {
         super(props);
@@ -57,11 +63,16 @@ class AddEdition extends Component<IProps, IState> {
             message: "",
             errMessage: "",
             dialogOpen: false,
+            editionResultsFound: null,
+            editionRecordUpdated: null,
+            editionRecordDeleted: null,
+            editionMessage: "",
+            errEditionMessage: "",
+            editionList: [],
             mediaMessage: "",
             errMediaMessage: "",
             mediaResultsFound: null,
             mediaList: [],
-            editionRecordAdded: null,
             errMediaID: "",
             ddMediaID: null,
             txtPublicationDate: null,
@@ -90,8 +101,8 @@ class AddEdition extends Component<IProps, IState> {
     };
 
     getMedia = () => {
-        // console.log("AddEdition.tsx getMedia");
-        // console.log("AddEdition.tsx getMedia baseURL", baseURL);
+        // console.log("UpdateEdition.tsx getMedia");
+        // console.log("UpdateEdition.tsx getMedia baseURL", baseURL);
 
         this.setState({mediaMessage: ""});
         this.setState({errMediaMessage: ""});
@@ -102,7 +113,7 @@ class AddEdition extends Component<IProps, IState> {
 
         fetch(url)
         .then(response => {
-            // console.log("AddEdition.tsx getMedia response", response);
+            // console.log("UpdateEdition.tsx getMedia response", response);
             if (!response.ok) {
                 throw Error(response.status + " " + response.statusText + " " + response.url);
             } else {
@@ -110,7 +121,7 @@ class AddEdition extends Component<IProps, IState> {
             };
         })
         .then(data => {
-            // console.log("AddEdition.tsx getMedia data", data);
+            // console.log("UpdateEdition.tsx getMedia data", data);
 
             this.setState({mediaResultsFound: data.resultsFound});
             // this.setState({mediaMessage: data.message});
@@ -125,21 +136,102 @@ class AddEdition extends Component<IProps, IState> {
 
         })
         .catch(error => {
-            console.log("AddEdition.tsx getMedia error", error);
-            // console.log("AddEdition.tsx getMedia error.name", error.name);
-            // console.log("AddEdition.tsx getMedia error.message", error.message);
+            console.log("UpdateEdition.tsx getMedia error", error);
+            // console.log("UpdateEdition.tsx getMedia error.name", error.name);
+            // console.log("UpdateEdition.tsx getMedia error.message", error.message);
             this.setState({errMediaMessage: error.name + ": " + error.message});
         });
 
     };
 
-    addEdition = () => {
-        // console.log("AddEdition.tsx addEdition");
-        // console.log("AddEdition.tsx addEdition baseURL", baseURL);
+    getEdition = () => {
+        // console.log("UpdateEdition.tsx getEdition);
+        // console.log("UpdateEdition.tsx getEdition baseURL", baseURL);
+
+        this.setState({editionMessage: ""});
+        this.setState({errEditionMessage: ""});
+        this.setState({editionResultsFound: null});
+        this.setState({editionList: []});
+
+        let url: string = baseURL + "edition/";
+
+        if (this.props.editionID !== null) {
+            url = url + this.props.editionID;
+
+            // console.log("UpdateEdition.tsx getEdition url", url);
+
+            fetch(url)
+            .then(response => {
+                // console.log("UpdateEdition.tsx getEdition response", response);
+                if (!response.ok) {
+                    throw Error(response.status + " " + response.statusText + " " + response.url);
+                } else {
+                    return response.json();
+                };
+            })
+            .then(data => {
+                console.log("UpdateEdition.tsx getEdition data", data);
+
+                this.setState({editionResultsFound: data.resultsFound});
+                // this.setState({editionMessage: data.message});
+
+                if (data.resultsFound === true) {
+                    this.setState({editionList: data.editions});
+
+                    this.setState({ddMediaID: data.editions[0].mediaID});
+
+                    if (data.editions[0].publicationDate !== undefined && data.editions[0].publicationDate !== null) {
+                        this.setState({txtPublicationDate: data.editions[0].publicationDate.toString().substring(0, 10)});
+                    } else {
+                        this.setState({txtPublicationDate: null});
+                    };
+
+                    this.setState({txtImageName: data.editions[0].imageName});
+                    this.setState({txtASIN: data.editions[0].ASIN});
+                    this.setState({txtTextLinkShort: data.editions[0].textLinkShort});
+                    this.setState({txtTextLinkFull: data.editions[0].textLinkFull});
+                    this.setState({txtImageLinkSmall: data.editions[0].imageLinkSmall});
+                    this.setState({txtImageLinkMedium: data.editions[0].imageLinkMedium});
+                    this.setState({txtImageLinkLarge: data.editions[0].imageLinkLarge});
+                    this.setState({txtTextImageLink: data.editions[0].textImageLink});
+
+                    
+                    this.setState({mediaID: data.editions[0].mediaID});
+                    this.setState({publicationDate: data.editions[0].publicationDate});
+                    this.setState({imageName: data.editions[0].imageName});
+                    this.setState({ASIN: data.editions[0].ASIN});
+                    this.setState({textLinkShort: data.editions[0].textLinkShort});
+                    this.setState({textLinkFull: data.editions[0].textLinkFull});
+                    this.setState({imageLinkSmall: data.editions[0].imageLinkSmall});
+                    this.setState({imageLinkMedium: data.editions[0].imageLinkMedium});
+                    this.setState({imageLinkLarge: data.editions[0].imageLinkLarge});
+                    this.setState({textImageLink: data.editions[0].textImageLink});
+                    this.setState({active: data.editions[0].active});
+
+
+                } else {
+                    this.setState({errEditionMessage: data.message});
+                };
+
+            })
+            .catch(error => {
+                console.log("UpdateEdition.tsx getEdition error", error);
+                // console.log("UpdateEdition.tsx getEdition error.name", error.name);
+                // console.log("UpdateEdition.tsx getEdition error.message", error.message);
+                this.setState({errEditionMessage: error.name + ": " + error.message});
+            });
+
+        };
+
+    };
+
+    updateEdition = (deleteEdition: boolean) => {
+        // console.log("UpdateEdition.tsx updateEdition");
+        // console.log("UpdateEdition.tsx updateEdition baseURL", baseURL);
 
         this.setState({message: ""});
         this.setState({errMessage: ""});
-        this.setState({editionRecordAdded: null});
+        this.setState({editionRecordUpdated: null});
         this.setState({errMediaID: ""});
         this.setState({editionID: null});
         this.setState({mediaID: null});
@@ -163,33 +255,34 @@ class AddEdition extends Component<IProps, IState> {
             if (this.state.ddMediaID !== null) {
                 mediaIDValidated = true;
                 this.setState({errMediaID: ""});
-                // console.log("AddEdition.tsx addEdition Valid mediaID");
-                // console.log("AddEdition.tsx addEdition mediaIDValidated true", mediaIDValidated);
+                // console.log("UpdateEdition.tsx updateEdition Valid mediaID");
+                // console.log("UpdateEdition.tsx updateEdition mediaIDValidated true", mediaIDValidated);
             } else {
                 mediaIDValidated = false;
                 this.setState({errMediaID: "Please select a media."});
-                // console.log("AddEdition.tsx addEdition Invalid mediaID");
-                // console.log("AddEdition.tsx addEdition mediaIDValidated false", mediaIDValidated);
+                // console.log("UpdateEdition.tsx updateEdition Invalid mediaID");
+                // console.log("UpdateEdition.tsx updateEdition mediaIDValidated false", mediaIDValidated);
             };
         };
 
         if (mediaIDValidated === true) {
             formValidated = true;
-            // console.log("AddEdition.tsx addEdition Valid Form");
-            // console.log("AddEdition.tsx addEdition formValidated true", formValidated);
+            // console.log("UpdateEdition.tsx updateEdition Valid Form");
+            // console.log("UpdateEdition.tsx updateEdition formValidated true", formValidated);
         } else {
             formValidated = false;
-            // console.log("AddEdition.tsx addEdition Invalid Form");
-            // console.log("AddEdition.tsx addEdition formValidated false", formValidated);
+            // console.log("UpdateEdition.tsx updateEdition Invalid Form");
+            // console.log("UpdateEdition.tsx updateEdition formValidated false", formValidated);
         };
 
-        // console.log("AddEdition.tsx addEdition titleIDValidated", titleIDValidated);
-        // console.log("AddEdition.tsx addEdition mediaIDValidated", mediaIDValidated);
-        // console.log("AddEdition.tsx addEdition formValidated", formValidated);
+        // console.log("UpdateEdition.tsx updateEdition titleIDValidated", titleIDValidated);
+        // console.log("UpdateEdition.tsx updateEdition mediaIDValidated", mediaIDValidated);
+        // console.log("UpdateEdition.tsx updateEdition formValidated", formValidated);
 
         if (formValidated === true) {
 
             let editionObject = {
+                editionID: this.props.editionID,
                 titleID: this.props.titleID,
                 mediaID: this.state.ddMediaID,
                 // imageName: this.state.txtImageName.trim(),
@@ -200,6 +293,7 @@ class AddEdition extends Component<IProps, IState> {
                 // imageLinkMedium: this.state.txtImageLinkMedium.trim(),
                 // imageLinkLarge: this.state.txtImageLinkLarge.trim(),
                 // textImageLink: this.state.txtTextImageLink.trim()
+                active: !deleteEdition
             };
 
             // If the user doesn't enter a publication date, then it isn't added/updated
@@ -265,21 +359,105 @@ class AddEdition extends Component<IProps, IState> {
                 };
             };
 
-            // console.log("AddEdition.tsx addEdition editionObject", editionObject);
+            // console.log("UpdateEdition.tsx updateEdition editionObject", editionObject);
 
             let url: string = baseURL + "edition/";
-            // console.log("AddEdition.tsx addEdition url", url);
+
+            if (this.props.editionID !== null) {
+                url = url + this.props.editionID;
+
+                // console.log("UpdateEdition.tsx updateEdition url", url);
+
+                fetch(url, {
+                    method: "PUT",
+                    headers: new Headers({
+                    "Content-Type": "application/json",
+                    "Authorization": this.props.sessionToken
+                    }),
+                    body: JSON.stringify({edition: editionObject})
+                })
+                .then(response => {
+                    // console.log("UpdateEdition.tsx updateEdition response", response);
+                    // if (!response.ok) {
+                    //     throw Error(response.status + " " + response.statusText + " " + response.url);
+                    // } else {
+                        // if (response.status === 200) {
+                            return response.json();
+                        // } else {
+                        //     return response.status;
+                        // };
+                    // };
+                })
+                .then(data => {
+                    // console.log("UpdateEdition.tsx updateEdition data", data);
+
+                    this.setState({editionRecordUpdated: data.recordUpdated});
+                    this.setState({message: data.message}); // Never seen by the user if the update was successful
+
+                    if (data.recordUpdated === true) {
+
+                        // this.setState({txtASIN: data.ASIN});
+
+                        this.setState({editionID: data.editionID});
+                        this.setState({mediaID: data.mediaID});
+                        this.setState({publicationDate: data.publicationDate});
+                        this.setState({imageName: data.imageName});
+                        this.setState({ASIN: data.ASIN});
+                        this.setState({textLinkShort: data.textLinkShort});
+                        this.setState({textLinkFull: data.textLinkFull});
+                        this.setState({imageLinkSmall: data.imageLinkSmall});
+                        this.setState({imageLinkMedium: data.imageLinkMedium});
+                        this.setState({imageLinkLarge: data.imageLinkLarge});
+                        this.setState({textImageLink: data.textImageLink});
+                        this.setState({active: data.active});
+
+                        // this.props.userReviewUpdated();
+                        // Need to call this here because there are two buttons on the form besides the Cancel button
+                        this.handleClose();
+
+                    } else {
+                        // this.setState({errMessage: data.error});
+                        this.setState({errMessage: data.errorMessages});
+                    };
+
+                })
+                .catch(error => {
+                    console.log("UpdateEdition.tsx updateEdition error", error);
+                    // console.log("UpdateEdition.tsx updateEdition error.name", error.name);
+                    // console.log("UpdateEdition.tsx updateEdition error.message", error.message);
+                    this.setState({errMessage: error.name + ": " + error.message});
+                });
+
+            };
+
+        };
+
+    };
+
+    deleteEdition = () => {
+        // console.log("UpdateEdition.tsx deleteEdition");
+        // this.setState({message: "form submitted"});
+
+        this.setState({message: ""});
+        this.setState({errMessage: ""});
+        this.setState({editionRecordDeleted: null});
+
+        let url: string = baseURL + "edition/";
+
+        if (this.props.editionID !== null) {
+            url = url + this.props.editionID;
+
+            // console.log("UpdateEdition.tsx deleteEdition url", url);
 
             fetch(url, {
-                method: "POST",
-                headers: new Headers({
-                "Content-Type": "application/json",
-                "Authorization": this.props.sessionToken
-                }),
-                body: JSON.stringify({edition: editionObject})
+                method: "DELETE",
+                headers:    new Headers ({
+                    "Content-Type": "application/json",
+                    "Authorization": this.props.sessionToken
+                })
             })
             .then(response => {
-                // console.log("AddEdition.tsx addEdition response", response);
+                // console.log("UpdateEdition.tsx deleteEdition response", response);
                 // if (!response.ok) {
                 //     throw Error(response.status + " " + response.statusText + " " + response.url);
                 // } else {
@@ -291,38 +469,27 @@ class AddEdition extends Component<IProps, IState> {
                 // };
             })
             .then(data => {
-                // console.log("AddEdition.tsx addEdition data", data);
+                // console.log("UpdateEdition.tsx deleteEdition data", data);
 
-                this.setState({editionRecordAdded: data.recordAdded});
-                // this.setState({message: data.message});
+                this.setState({editionRecordDeleted: data.recordDeleted});
 
-                if (data.recordAdded === true) {
+                this.setState({message: data.message}); // Never seen by the user if the delete was successful
 
-                    // this.setState({txtASIN: data.ASIN});
+                if (data.recordDeleted === true) {
 
-                    this.setState({editionID: data.editionID});
-                    this.setState({mediaID: data.mediaID});
-                    this.setState({publicationDate: data.publicationDate});
-                    this.setState({imageName: data.imageName});
-                    this.setState({ASIN: data.ASIN});
-                    this.setState({textLinkShort: data.textLinkShort});
-                    this.setState({textLinkFull: data.textLinkFull});
-                    this.setState({imageLinkSmall: data.imageLinkSmall});
-                    this.setState({imageLinkMedium: data.imageLinkMedium});
-                    this.setState({imageLinkLarge: data.imageLinkLarge});
-                    this.setState({textImageLink: data.textImageLink});
-                    this.setState({active: data.active});
+                    // this.props.userReviewUpdated();
+                    // Need to call this here because there are two buttons on the form besides the Cancel button
+                    this.handleClose();
 
                 } else {
-                    // this.setState({errMessage: data.error});
-                    this.setState({errMessage: data.errorMessages});
+                    this.setState({errMessage: data.message});
                 };
 
             })
             .catch(error => {
-                console.log("AddEdition.tsx addEdition error", error);
-                // console.log("AddEdition.tsx addEdition error.name", error.name);
-                // console.log("AddEdition.tsx addEdition error.message", error.message);
+                console.log("UpdateEdition.tsx deleteEdition error", error);
+                // console.log("UpdateEdition.tsx deleteEdition error.name", error.name);
+                // console.log("UpdateEdition.tsx deleteEdition error.message", error.message);
                 this.setState({errMessage: error.name + ": " + error.message});
             });
 
@@ -332,6 +499,7 @@ class AddEdition extends Component<IProps, IState> {
 
     componentDidMount() {
         this.getMedia();
+        this.getEdition();
     };
 
     handleOpen = () => {
@@ -344,7 +512,7 @@ class AddEdition extends Component<IProps, IState> {
 
     render() {
 
-        // console.log("AddEdition.tsx this.props.isAdmin", this.props.isAdmin);
+        // console.log("UpdateEdition.tsx this.props.isAdmin", this.props.isAdmin);
 
         if (this.props.isAdmin !== true) {
             return <Redirect to="/" />;
@@ -352,13 +520,15 @@ class AddEdition extends Component<IProps, IState> {
 
         return(
             <React.Fragment>
-            <Button variant="contained" size="small" color="primary" onClick={this.handleOpen}>Add Edition</Button>
+            <Button variant="contained" size="small" color="primary" onClick={this.handleOpen}>Update Edition</Button>
             <Dialog open={this.state.dialogOpen} onClose={this.handleClose} fullWidth={true} maxWidth="md">
-                <DialogTitle id="form-dialog-title">Add Edition</DialogTitle>
+                <DialogTitle id="form-dialog-title">Update Edition</DialogTitle>
                 <DialogContent>
                 <Grid item xs={12}>
                 {this.state.message !== "" ? <Alert severity="info">{this.state.message}</Alert> : null}
                 {this.state.errMessage !== "" ? <Alert severity="error">{this.state.errMessage}</Alert> : null}
+                {this.state.editionMessage !== "" ? <Alert severity="info">{this.state.editionMessage}</Alert> : null}
+                {this.state.errEditionMessage !== "" ? <Alert severity="error">{this.state.errEditionMessage}</Alert> : null}
                 {this.state.mediaMessage !== "" ? <Alert severity="info">{this.state.mediaMessage}</Alert> : null}
                 {this.state.errMediaMessage !== "" ? <Alert severity="error">{this.state.errMediaMessage}</Alert> : null}
                 </Grid>
@@ -432,7 +602,9 @@ class AddEdition extends Component<IProps, IState> {
                 </Grid>
 
                 <DialogActions>
-                    <Button variant="outlined" size="large" color="primary" onClick={this.addEdition}>Add Edition</Button>
+                <Button variant="outlined" size="large" color="primary" onClick={(event) => {/*console.log(event.target.value);*/ this.updateEdition(false);}}>Update Edition</Button>
+                    <Button variant="outlined" size="large" color="secondary" onClick={(event) => {/*console.log(event.target.value);*/ this.updateEdition(true);}}>Delete Edition</Button>
+                    {this.props.isAdmin === true ? <Button variant="outlined" size="large" color="secondary" onClick={(event) => {/*console.log(event.target.value);*/ this.deleteEdition();}}>Hard Delete Edition</Button> : null}
                     <Button variant="outlined" size="large" color="primary" onClick={this.handleClose}>Cancel</Button>
                 </DialogActions>
             </DialogContent>
@@ -442,4 +614,4 @@ class AddEdition extends Component<IProps, IState> {
     };
 };
 
-export default AddEdition;
+export default UpdateEdition;

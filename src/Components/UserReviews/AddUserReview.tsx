@@ -164,7 +164,7 @@ class AddUserReview extends Component<IProps, IState> {
                     if (data.dateRead !== undefined && data.dateRead !== null) {
                         this.setState({txtDateRead: data.dateRead.toString().substring(0, 10)});
                     } else {
-                        this.setState({txtDateRead: ""});
+                        this.setState({txtDateRead: null});
                     };
 
                     this.setState({rdoRating: data.rating});
@@ -237,7 +237,7 @@ class AddUserReview extends Component<IProps, IState> {
 
         return(
             <div>
-            <Button variant="contained" color="primary" onClick={this.handleOpen}>Add Review</Button>
+            <Button variant="contained" size="small" color="primary" onClick={this.handleOpen}>Add Review</Button>
             <Dialog open={this.state.dialogOpen} onClose={this.handleClose} fullWidth={true} maxWidth="md">
                 <DialogTitle id="form-dialog-title">Add Review</DialogTitle>
                 <DialogContent>
@@ -276,8 +276,8 @@ class AddUserReview extends Component<IProps, IState> {
                 </Grid>
 
                 <DialogActions>
-                    <Button variant="outlined" color="primary" onClick={this.addUserReview}>Add Review</Button>
-                    <Button variant="outlined" color="primary" onClick={this.handleClose}>Cancel</Button>
+                    <Button variant="outlined" size="large" color="primary" onClick={this.addUserReview}>Add Review</Button>
+                    <Button variant="outlined" size="large" color="primary" onClick={this.handleClose}>Cancel</Button>
                 </DialogActions>
             </DialogContent>
           </Dialog>

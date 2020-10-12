@@ -555,7 +555,7 @@ class Title extends Component<IProps, IState> {
                 {this.state.errEditionMessage !== "" ? <Alert severity="error">{this.state.errEditionMessage}</Alert> : null}
                 {/* {this.state.mediaMessage !== "" ? <Alert severity="info">{this.state.mediaMessage}</Alert> : null}
                 {this.state.errMediaMessage !== "" ? <Alert severity="error">{this.state.errMediaMessage}</Alert> : null} */}
-                {this.state.editionResultsFound ? <Edition editionList={this.state.editionList} /*mediaName={this.state.mediaName}*/ /> : null}
+                {this.state.editionResultsFound ? <Edition userID={this.props.userID} /*isLoggedIn={this.props.isLoggedIn}*/ isAdmin={this.props.isAdmin} sessionToken={this.props.sessionToken} titleID={this.props.titleID} editionList={this.state.editionList} /*mediaName={this.state.mediaName}*/ /> : null}
                 </Grid>
                 <Grid item xs={10}>
                 {this.state.userReviewMessage !== "" ? <Alert severity="info">{this.state.userReviewMessage}</Alert> : null}

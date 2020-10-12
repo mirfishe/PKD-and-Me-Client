@@ -414,9 +414,9 @@ class UpdateUser extends Component<IProps, IState> {
 
                 </Grid>
                 <DialogActions>
-                    <Button variant="outlined" color="primary" onClick={(event) => {/*console.log(event.target.value);*/ this.updateUser(false);}}>Update</Button>
-                    <Button variant="outlined" color="secondary" onClick={(event) => {/*console.log(event.target.value);*/ this.updateUser(true);}}>Delete</Button>
-                    <Button variant="outlined" color="primary" onClick={this.handleClose}>Cancel</Button>
+                    <Button variant="outlined" size="large" color="primary" onClick={(event) => {/*console.log(event.target.value);*/ this.updateUser(false);}}>Update</Button>
+                    <Button variant="outlined" size="large" color="secondary" onClick={(event) => {/*console.log(event.target.value);*/ this.updateUser(true);}}>Delete</Button>
+                    <Button variant="outlined" size="large" color="primary" onClick={this.handleClose}>Cancel</Button>
                 </DialogActions>
             </DialogContent>
           </Dialog>

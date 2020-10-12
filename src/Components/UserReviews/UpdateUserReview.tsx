@@ -129,7 +129,7 @@ class UpdateUserReview extends Component<IProps, IState> {
                     if (data.userReviews[0].dateRead !== undefined && data.userReviews[0].dateRead !== null) {
                         this.setState({txtDateRead: data.userReviews[0].dateRead.toString().substring(0, 10)});
                     } else {
-                        this.setState({txtDateRead: ""});
+                        this.setState({txtDateRead: null});
                     };
 
                     this.setState({rdoRating: data.userReviews[0].rating});
@@ -146,6 +146,7 @@ class UpdateUserReview extends Component<IProps, IState> {
                     this.setState({shortReview: data.userReviews[0].shortReview});
                     this.setState({longReview: data.userReviews[0].longReview});
                     this.setState({active: data.userReviews[0].active});
+
                 } else {
                     this.setState({errMessage: data.message});
                 };
@@ -191,8 +192,8 @@ class UpdateUserReview extends Component<IProps, IState> {
             rating: this.state.rdoRating,
             // shortReview: this.state.txtShortReview.trim(),
             // longReview: this.state.txtLongReview.trim(),
-            // active:     this.state.active
-            active:     !deleteUserReview
+            // active: this.state.active
+            active: !deleteUserReview
         };
 
         // If the user doesn't enter a date read, then it isn't added/updated
@@ -257,17 +258,18 @@ class UpdateUserReview extends Component<IProps, IState> {
                 this.setState({message: data.message}); // Never seen by the user if the update was successful
 
                 if (data.recordUpdated === true) {
-                    this.setState({cbxRead: data.read});
+                    // Never seen by the user if the update was successful
+                    // this.setState({cbxRead: data.read});
 
-                    if (data.dateRead !== undefined && data.dateRead !== null) {
-                        this.setState({txtDateRead: data.dateRead.toString().substring(0, 10)});
-                    } else {
-                        this.setState({txtDateRead: ""});
-                    };
+                    // if (data.dateRead !== undefined && data.dateRead !== null) {
+                    //     this.setState({txtDateRead: data.dateRead.toString().substring(0, 10)});
+                    // } else {
+                    //     this.setState({txtDateRead: ""});
+                    // };
 
-                    this.setState({rdoRating: data.rating});
-                    this.setState({txtShortReview: data.shortReview});
-                    this.setState({txtLongReview: data.longReview});
+                    // this.setState({rdoRating: data.rating});
+                    // this.setState({txtShortReview: data.shortReview});
+                    // this.setState({txtLongReview: data.longReview});
 
                     // this.setState({reviewID: data.reviewID});
                     // this.setState({userID: data.userID});
@@ -335,7 +337,7 @@ class UpdateUserReview extends Component<IProps, IState> {
                 // };
             })
             .then(data => {
-                console.log("UpdateUserReview.tsx deleteUserReview data", data);
+                // console.log("UpdateUserReview.tsx deleteUserReview data", data);
 
                 this.setState({userReviewRecordDeleted: data.recordDeleted});
 
@@ -353,7 +355,7 @@ class UpdateUserReview extends Component<IProps, IState> {
 
             })
             .catch(error => {
-                console.log("UpdateUserReview.tsx updateUserReview error", error);
+                console.log("UpdateUserReview.tsx deleteUserReview error", error);
                 // console.log("UpdateUserReview.tsx deleteUserReview error.name", error.name);
                 // console.log("UpdateUserReview.tsx deleteUserReview error.message", error.message);
                 this.setState({errMessage: error.name + ": " + error.message});
@@ -384,7 +386,7 @@ class UpdateUserReview extends Component<IProps, IState> {
 
         return(
             <div>
-            <Button variant="contained" color="primary" onClick={this.handleOpen}>Update Review</Button>
+            <Button variant="contained" size="small" color="primary" onClick={this.handleOpen}>Update Review</Button>
             <Dialog open={this.state.dialogOpen} onClose={this.handleClose} fullWidth={true} maxWidth="md">
                 <DialogTitle id="form-dialog-title">Update Review</DialogTitle>
                 <DialogContent>
@@ -424,10 +426,10 @@ class UpdateUserReview extends Component<IProps, IState> {
                 </Grid>
 
                 <DialogActions>
-                    <Button variant="outlined" color="primary" onClick={(event) => {/*console.log(event.target.value);*/ this.updateUserReview(false);}}>Update Review</Button>
-                    <Button variant="outlined" color="secondary" onClick={(event) => {/*console.log(event.target.value);*/ this.updateUserReview(true);}}>Delete Review</Button>
-                    {this.props.isAdmin === true ? <Button variant="outlined" color="secondary" onClick={(event) => {/*console.log(event.target.value);*/ this.deleteUserReview();}}>Hard Delete Review</Button> : null}
-                    <Button variant="outlined" color="primary" onClick={this.handleClose}>Cancel</Button>
+                    <Button variant="outlined" size="large" color="primary" onClick={(event) => {/*console.log(event.target.value);*/ this.updateUserReview(false);}}>Update Review</Button>
+                    <Button variant="outlined" size="large" color="secondary" onClick={(event) => {/*console.log(event.target.value);*/ this.updateUserReview(true);}}>Delete Review</Button>
+                    {this.props.isAdmin === true ? <Button variant="outlined" size="large" color="secondary" onClick={(event) => {/*console.log(event.target.value);*/ this.deleteUserReview();}}>Hard Delete Review</Button> : null}
+                    <Button variant="outlined" size="large" color="primary" onClick={this.handleClose}>Cancel</Button>
                 </DialogActions>
                 </Grid>
             </DialogContent>
