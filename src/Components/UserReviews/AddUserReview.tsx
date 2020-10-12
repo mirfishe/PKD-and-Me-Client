@@ -21,10 +21,10 @@ interface IState {
     dialogOpen: boolean,
     userReviewRecordAdded: boolean | null,
     cbxRead: boolean,
-    txtDateRead: string,
+    txtDateRead: string | null,
     rdoRating: number | null,
-    txtShortReview: string,
-    txtLongReview: string,
+    txtShortReview: string | null,
+    txtLongReview: string | null,
     // userReviewData: IUserReview | null,
     reviewID: number | null,
     // userID: number | null,
@@ -33,8 +33,8 @@ interface IState {
     read: boolean | null,
     dateRead: Date | null,
     rating: number | null,
-    shortReview: string,
-    longReview: string,
+    shortReview: string | null,
+    longReview: string | null,
     active: boolean | null
 };
 
@@ -48,10 +48,10 @@ class AddUserReview extends Component<IProps, IState> {
             dialogOpen: false,
             userReviewRecordAdded: null,
             cbxRead: false,
-            txtDateRead: "",
+            txtDateRead: null,
             rdoRating: null,
-            txtShortReview: "",
-            txtLongReview: "",
+            txtShortReview: null,
+            txtLongReview: null,
             // userReviewData: null,
             reviewID: null,
             // userID: null,
@@ -60,8 +60,8 @@ class AddUserReview extends Component<IProps, IState> {
             read: null,
             dateRead: null,
             rating: null,
-            shortReview: "",
-            longReview: "",
+            shortReview: null,
+            longReview: null,
             active: null
         };
 
@@ -88,8 +88,8 @@ class AddUserReview extends Component<IProps, IState> {
         this.setState({read: null});
         this.setState({dateRead: null});
         this.setState({rating: null});
-        this.setState({shortReview: ""});
-        this.setState({longReview: ""});
+        this.setState({shortReview: null});
+        this.setState({longReview: null});
         this.setState({active: null});
 
         // Check to make sure that this.state.txtDateRead) is a date?
@@ -102,13 +102,29 @@ class AddUserReview extends Component<IProps, IState> {
                 read: this.state.cbxRead,
                 // dateRead: this.state.txtDateRead.trim(),
                 rating: this.state.rdoRating,
-                shortReview: this.state.txtShortReview.trim(),
-                longReview: this.state.txtLongReview.trim()
+                // shortReview: this.state.txtShortReview.trim(),
+                // longReview: this.state.txtLongReview.trim()
             };
 
             // If the user doesn't enter a date read, then it isn't added/updated
-            if (this.state.txtDateRead.trim().length !== 0) {
-                Object.assign(userReviewObject, {dateRead: this.state.txtDateRead.trim()});
+            if (this.state.txtDateRead !== null) {
+                if (this.state.txtDateRead.trim().length !== 0) {
+                    Object.assign(userReviewObject, {dateRead: this.state.txtDateRead.trim()});
+                };
+            };
+
+            // If the user doesn't enter a short review, then it isn't added/updated
+            if (this.state.txtShortReview !== null) {
+                if (this.state.txtShortReview.trim().length !== 0) {
+                    Object.assign(userReviewObject, {shortReview: this.state.txtShortReview.trim()});
+                };
+            };
+
+            // If the user doesn't enter a long review, then it isn't added/updated
+            if (this.state.txtLongReview !== null) {
+                if (this.state.txtLongReview.trim().length !== 0) {
+                    Object.assign(userReviewObject, {longReview: this.state.txtLongReview.trim()});
+                };
             };
 
             // console.log("AddUserReview.tsx addUserReview userReviewObject", userReviewObject);
@@ -126,11 +142,15 @@ class AddUserReview extends Component<IProps, IState> {
             })
             .then(response => {
                 // console.log("AddUserReview.tsx addUserReview response", response);
-                if (!response.ok) {
-                    throw Error(response.status + " " + response.statusText + " " + response.url);
-                } else {
-                    return response.json();
-                };
+                // if (!response.ok) {
+                //     throw Error(response.status + " " + response.statusText + " " + response.url);
+                // } else {
+                    // if (response.status === 200) {
+                        return response.json();
+                    // } else {
+                    //     return response.status;
+                    // };
+                // };
             })
             .then(data => {
                 // console.log("AddUserReview.tsx addUserReview data", data);

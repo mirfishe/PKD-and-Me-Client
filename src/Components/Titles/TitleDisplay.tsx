@@ -13,6 +13,7 @@ import ImageOutlinedIcon from '@material-ui/icons/ImageOutlined';
 import {ITitle} from "../../Helpers/interfaces"
 import AddUserReview from "../UserReviews/AddUserReview";
 import UpdateUserReview from "../UserReviews/UpdateUserReview";
+import AddEdition from "../Editions/AddEdition";
 
 interface IProps {
     titleData: ITitle | null,
@@ -108,6 +109,8 @@ const TitleDisplay: FunctionComponent <(IProps)> = props => {
                             {props.sessionToken !== "" && props.userReviewedTitle === false? <AddUserReview userID={props.userID} /*isLoggedIn={props.isLoggedIn}*/ isAdmin={props.isAdmin} sessionToken={props.sessionToken} titleID={props.titleID} userReviewUpdated={props.userReviewUpdated} /> : null}
 
                             {props.userReviewedTitle ? <UpdateUserReview userID={props.userID} /*isLoggedIn={props.isLoggedIn}*/ isAdmin={props.isAdmin} sessionToken={props.sessionToken} titleID={props.titleID} userReviewUpdated={props.userReviewUpdated} reviewID={props.userReviewedTitleReviewID} /> : null}
+
+                            {props.isAdmin === true ? <AddEdition userID={props.userID} /*isLoggedIn={props.isLoggedIn}*/ isAdmin={props.isAdmin} sessionToken={props.sessionToken} titleID={props.titleID} /> : null}
 
                         </Grid>
                     </Grid>

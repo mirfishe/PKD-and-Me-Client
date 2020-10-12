@@ -18,9 +18,9 @@ interface IState {
     errMessage: string,
     mediaRecordAdded: boolean | null,
     errMedia: string,
-    txtMedia: string,
+    txtMedia: string | null,
     mediaID: number | null,
-    media: string,
+    media: string | null,
     sortID: number | null,
     active: boolean | null
 };
@@ -34,9 +34,9 @@ class AddMedia extends Component<IProps, IState> {
             errMessage: "",
             mediaRecordAdded: null,
             errMedia: "",
-            txtMedia: "",
+            txtMedia: null,
             mediaID: null,
-            media: "",
+            media: null,
             sortID: null,
             active: null
         };
@@ -52,14 +52,14 @@ class AddMedia extends Component<IProps, IState> {
         this.setState({mediaRecordAdded: null});
         this.setState({errMedia: ""});
         this.setState({mediaID: null});
-        this.setState({media: ""});
+        this.setState({media: null});
         this.setState({sortID: null});
         this.setState({active: null});
 
         let mediaValidated: boolean  = false;
         let formValidated: boolean  = false;
 
-        if (this.state.txtMedia !== undefined) {
+        if (this.state.txtMedia !== undefined && this.state.txtMedia !== null) {
             if (this.state.txtMedia.trim().length > 0) {
                 mediaValidated = true;
                 this.setState({errMedia: ""});
@@ -88,57 +88,66 @@ class AddMedia extends Component<IProps, IState> {
 
         if (formValidated === true) {
 
-            let mediaObject = {
-                media: this.state.txtMedia
+            if (this.state.txtMedia !== undefined && this.state.txtMedia !== null) {
+
+                let mediaObject = {
+                    media: this.state.txtMedia.trim()
+                };
+
+                // console.log("AddMedia.tsx addMedia mediaObject", mediaObject);
+
+                let url: string = baseURL + "media/";
+                // console.log("AddMedia.tsx addMedia url", url);
+
+                fetch(url, {
+                    method: "POST",
+                    headers: new Headers({
+                    "Content-Type": "application/json",
+                    "Authorization": this.props.sessionToken
+                    }),
+                    body: JSON.stringify({media: mediaObject})
+                })
+                .then(response => {
+                    // console.log("AddMedia.tsx addMedia response", response);
+                    // if (!response.ok) {
+                    //     throw Error(response.status + " " + response.statusText + " " + response.url);
+                    // } else {
+                        // if (response.status === 200) {
+                            return response.json();
+                        // } else {
+                        //     return response.status;
+                        // };
+                    // };
+                })
+                .then(data => {
+                    // console.log("AddMedia.tsx addMedia data", data);
+
+                    this.setState({mediaRecordAdded: data.recordAdded});
+                    this.setState({message: data.message});
+
+                    if (data.recordAdded === true) {
+
+                        // this.setState({txtMedia: data.txtMedia});
+
+                        this.setState({mediaID: data.mediaID});
+                        this.setState({media: data.media});
+                        this.setState({sortID: data.sortID});
+                        this.setState({active: data.active});
+
+                    } else {
+                        // this.setState({errMessage: data.error});
+                        this.setState({errMessage: data.errorMessages});
+                    };
+
+                })
+                .catch(error => {
+                    console.log("AddMedia.tsx addMedia error", error);
+                    // console.log("AddMedia.tsx addMedia error.name", error.name);
+                    // console.log("AddMedia.tsx addMedia error.message", error.message);
+                    this.setState({errMessage: error.name + ": " + error.message});
+                });
+
             };
-
-            // console.log("AddMedia.tsx addMedia mediaObject", mediaObject);
-
-            let url: string = baseURL + "media/";
-            // console.log("AddMedia.tsx addMedia url", url);
-
-            fetch(url, {
-                method: "POST",
-                headers: new Headers({
-                "Content-Type": "application/json",
-                "Authorization": this.props.sessionToken
-                }),
-                body: JSON.stringify({media: mediaObject})
-            })
-            .then(response => {
-                // console.log("AddMedia.tsx addMedia response", response);
-                if (!response.ok) {
-                    throw Error(response.status + " " + response.statusText + " " + response.url);
-                } else {
-                    return response.json();
-                };
-            })
-            .then(data => {
-                // console.log("AddMedia.tsx addMedia data", data);
-
-                this.setState({mediaRecordAdded: data.recordAdded});
-                this.setState({message: data.message});
-
-                if (data.recordAdded === true) {
-
-                    // this.setState({txtMedia: data.txtMedia});
-
-                    this.setState({mediaID: data.mediaID});
-                    this.setState({media: data.media});
-                    this.setState({sortID: data.sortID});
-                    this.setState({active: data.active});
-
-                } else {
-                    this.setState({errMessage: data.message});
-                };
-
-            })
-            .catch(error => {
-                console.log("AddMedia.tsx addMedia error", error);
-                // console.log("AddMedia.tsx addMedia error.name", error.name);
-                // console.log("AddMedia.tsx addMedia error.message", error.message);
-                this.setState({errMessage: error.name + ": " + error.message});
-            });
 
         };
 
@@ -146,7 +155,7 @@ class AddMedia extends Component<IProps, IState> {
 
     render() {
 
-        console.log("AddMedia.tsx this.props.isAdmin", this.props.isAdmin);
+        // console.log("AddMedia.tsx this.props.isAdmin", this.props.isAdmin);
 
         if (this.props.isAdmin !== true) {
             return <Redirect to="/" />;

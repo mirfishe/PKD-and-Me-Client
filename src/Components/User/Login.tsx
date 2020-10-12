@@ -24,14 +24,14 @@ interface IState {
     dialogOpen: boolean,
     userResultsFound: boolean | null,
     // userList: IUser[],
-    txtEmail: string | undefined,
-    txtPassword: string | undefined,
+    txtEmail: string | null | undefined,
+    txtPassword: string | null | undefined,
     errEmail: string,
     errPassword: string,
     // userID: number | null,
-    firstName: string,
-    lastName: string,
-    email: string,
+    firstName: string | null,
+    lastName: string | null,
+    email: string | null,
     updatedBy: number | null,
     admin: boolean | null,
     active: boolean | null
@@ -55,9 +55,9 @@ class Login extends Component<IProps, IState> {
             errEmail: "",
             errPassword: "",
             // userID: null,
-            firstName: "",
-            lastName: "",
-            email: "",
+            firstName: null,
+            lastName: null,
+            email: null,
             updatedBy: null,
             admin: null,
             active: null
@@ -78,9 +78,9 @@ class Login extends Component<IProps, IState> {
         this.setState({errMessage: ""});
         // this.setState({userList: []});
         // this.setState({userID: null});
-        this.setState({firstName: ""});
-        this.setState({lastName: ""});
-        this.setState({email: ""});
+        this.setState({firstName: null});
+        this.setState({lastName: null});
+        this.setState({email: null});
         this.setState({updatedBy: null});
         this.setState({admin: null});
         this.setState({active: null});
@@ -92,7 +92,7 @@ class Login extends Component<IProps, IState> {
         let passwordValidated: boolean  = false;
         let formValidated: boolean  = false;
 
-        if (this.state.txtEmail !== undefined) {
+        if (this.state.txtEmail !== undefined && this.state.txtEmail !== null) {
             if (this.state.txtEmail.trim().match(emailRegExp) && this.state.txtEmail.trim().length > 0) {
             // if (this.state.txtEmail.trim().match(emailFormat) && this.state.txtEmail.trim().length > 0) {
                 emailValidated = true;
@@ -107,7 +107,7 @@ class Login extends Component<IProps, IState> {
             };
         };
 
-        if (this.state.txtPassword !== undefined) {
+        if (this.state.txtPassword !== undefined && this.state.txtPassword !== null) {
             if (this.state.txtPassword.trim().length > 4) {
                 passwordValidated = true;
                 this.setState({errPassword: ""});
@@ -137,7 +137,7 @@ class Login extends Component<IProps, IState> {
 
         if (formValidated === true) {
 
-            if (this.state.txtEmail !== undefined && this.state.txtPassword !== undefined) {
+            if (this.state.txtEmail !== undefined && this.state.txtEmail !== null && this.state.txtPassword !== undefined && this.state.txtPassword !== null) {
                 let userObject = {
                     email:  this.state.txtEmail.trim(),
                     password:  this.state.txtPassword.trim()

@@ -25,19 +25,19 @@ interface IState {
     userResultsFound: boolean | null,
     userRecordUpdated: boolean | null,
     // userList: IUser[],
-    txtFirstName: string | undefined,
-    txtLastName: string | undefined,
-    txtEmail: string | undefined,
-    txtPassword: string,
+    txtFirstName: string | null | undefined,
+    txtLastName: string | null | undefined,
+    txtEmail: string | null | undefined,
+    txtPassword: string | null,
     errFirstName: string,
     errLastName: string,
     errEmail: string,
     errPassword: string,
     // userData: IUser | null,
     // userID: number | null,
-    firstName: string,
-    lastName: string,
-    email: string,
+    firstName: string | null,
+    lastName: string | null,
+    email: string | null,
     updatedBy: number | null,
     admin: boolean | null,
     active: boolean | null,
@@ -60,16 +60,16 @@ class UpdateUser extends Component<IProps, IState> {
             txtFirstName: process.env.REACT_APP_FIRSTNAME_DEFAULT,
             txtLastName: process.env.REACT_APP_LASTNAME_DEFAULT,
             txtEmail: process.env.REACT_APP_EMAIL_DEFAULT,
-            txtPassword: "",
+            txtPassword: null,
             errFirstName: "",
             errLastName: "",
             errEmail: "",
             errPassword: "",
             // userData: null,
             // userID: null,
-            firstName: "",
-            lastName: "",
-            email: "",
+            firstName: null,
+            lastName: null,
+            email: null,
             updatedBy: null,
             admin: null,
             active: null
@@ -88,9 +88,9 @@ class UpdateUser extends Component<IProps, IState> {
         this.setState({errMessage: ""});
         // this.setState({userData: null});
         // this.setState({userID: null});
-        this.setState({firstName: ""});
-        this.setState({lastName: ""});
-        this.setState({email: ""});
+        this.setState({firstName: null});
+        this.setState({lastName: null});
+        this.setState({email: null});
         this.setState({updatedBy: null});
         this.setState({admin: null});
         this.setState({active: null});
@@ -159,9 +159,9 @@ class UpdateUser extends Component<IProps, IState> {
         this.setState({errMessage: ""});
         // this.setState({userData: null});
         // this.setState({userID: null});
-        this.setState({firstName: ""});
-        this.setState({lastName: ""});
-        this.setState({email: ""});
+        this.setState({firstName: null});
+        this.setState({lastName: null});
+        this.setState({email: null});
         this.setState({updatedBy: null});
         this.setState({admin: null});
         this.setState({active: null});
@@ -176,7 +176,7 @@ class UpdateUser extends Component<IProps, IState> {
         let formValidated: boolean  = false;
 
 
-        if (this.state.txtFirstName !== undefined) {
+        if (this.state.txtFirstName !== undefined && this.state.txtFirstName !== null) {
             if (this.state.txtFirstName.trim().length > 0) {
                 firstNameValidated = true;
                 this.setState({errFirstName: ""});
@@ -190,7 +190,7 @@ class UpdateUser extends Component<IProps, IState> {
             };
         };
 
-        if (this.state.txtLastName !== undefined) {
+        if (this.state.txtLastName !== undefined && this.state.txtLastName !== null) {
             if (this.state.txtLastName.trim().length > 0) {
                 lastNameValidated = true;
                 this.setState({errLastName: ""});
@@ -204,7 +204,7 @@ class UpdateUser extends Component<IProps, IState> {
             };
         };
 
-        if (this.state.txtEmail !== undefined) {
+        if (this.state.txtEmail !== undefined && this.state.txtEmail !== null) {
             if (this.state.txtEmail.trim().match(emailRegExp) && this.state.txtEmail.trim().length > 0) {
             // if (this.state.txtEmail.trim().match(emailFormat) && this.state.txtEmail.trim().length > 0) {
                 emailValidated = true;
@@ -219,7 +219,7 @@ class UpdateUser extends Component<IProps, IState> {
             };
         };
 
-        // if (this.state.txtPassword !== undefined) {
+        if (this.state.txtPassword !== null) {
             // If the user doesn't enter a password, then it isn't updated
             if (this.state.txtPassword.trim().length !== 0) {
                 if (this.state.txtPassword.trim().length > 4) {
@@ -237,7 +237,7 @@ class UpdateUser extends Component<IProps, IState> {
                 passwordValidated = true;
                 this.setState({errPassword: ""});
             };
-        // };
+        };
 
         if (firstNameValidated === true && lastNameValidated === true && emailValidated === true && passwordValidated === true) {
             formValidated = true;
@@ -256,7 +256,7 @@ class UpdateUser extends Component<IProps, IState> {
 
         if (formValidated === true) {
 
-            if (this.state.txtFirstName !== undefined && this.state.txtLastName !== undefined && this.state.txtEmail !== undefined) {
+            if (this.state.txtFirstName !== undefined && this.state.txtFirstName !== null && this.state.txtLastName !== undefined && this.state.txtLastName !== null && this.state.txtEmail !== undefined && this.state.txtEmail !== null) {
                 let userObject = {
                     firstName:  this.state.txtFirstName.trim(),
                     lastName:  this.state.txtLastName.trim(),
@@ -267,8 +267,10 @@ class UpdateUser extends Component<IProps, IState> {
                 };
 
                 // If the user doesn't enter a password, then it isn't updated
-                if (this.state.txtPassword.trim().length !== 0) {
-                    Object.assign(userObject, {password: this.state.txtPassword.trim()});
+                if (this.state.txtPassword !== null) {
+                    if (this.state.txtPassword.trim().length !== 0) {
+                        Object.assign(userObject, {password: this.state.txtPassword.trim()});
+                    };
                 };
 
                 // console.log("UpdateUser.tsx updateUser userObject", userObject);
