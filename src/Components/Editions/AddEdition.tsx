@@ -12,7 +12,8 @@ interface IProps {
     // isLoggedIn: boolean | null,
     isAdmin: boolean,
     sessionToken: string,
-    titleID: number | null
+    titleID: number | null,
+    editionUpdated: () => void
 };
 
 interface IState {
@@ -312,6 +313,8 @@ class AddEdition extends Component<IProps, IState> {
                     this.setState({imageLinkLarge: data.imageLinkLarge});
                     this.setState({textImageLink: data.textImageLink});
                     this.setState({active: data.active});
+
+                    this.props.editionUpdated();
 
                 } else {
                     // this.setState({errMessage: data.error});

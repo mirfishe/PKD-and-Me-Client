@@ -188,7 +188,7 @@ class Title extends Component<IProps, IState> {
                     } else {
                         this.setState({categoryResultsFound: false});
                         // this.setState({categoryMessage: "No categories found."});
-                        this.setState({errCategoryMessage: "No categories found."});
+                        // this.setState({errCategoryMessage: "No categories found."});
                     };
 
                     this.setState({editionList: data.titles[0].editions});
@@ -215,12 +215,10 @@ class Title extends Component<IProps, IState> {
                                 // };
                             };
 
-
-
                         } else {
                             this.setState({editionResultsFound: false});
                             // this.setState({editionMessage: "No editions found."});
-                            this.setState({errEditionMessage: "No editions found."});
+                            // this.setState({errEditionMessage: "No editions found."});
                         };
                     };
 
@@ -269,7 +267,7 @@ class Title extends Component<IProps, IState> {
                         } else {
                             this.setState({userReviewResultsFound: false});
                             // this.setState({userReviewMessage: "No user reviews found."});
-                            this.setState({errUserReviewMessage: "No user reviews found."});
+                            // this.setState({errUserReviewMessage: "No user reviews found."});
                         };
                     };
 
@@ -522,7 +520,7 @@ class Title extends Component<IProps, IState> {
     };
 
     componentDidUpdate(prevProps: IProps) {
-        if(this.props.titleID !== prevProps.titleID) {
+        if (this.props.titleID !== prevProps.titleID) {
             // console.log("Checklist.tsx componentDidUpdate prevProps.titleID", prevProps.titleID);
             // console.log("Checklist.tsx componentDidUpdate this.props.titleID", this.props.titleID);
             this.getTitle();
@@ -537,6 +535,10 @@ class Title extends Component<IProps, IState> {
         // this.getUserReviews();
     };
 
+    editionUpdated = () => {
+        this.getTitle();
+    };
+
     render() {
 
         return(
@@ -548,14 +550,14 @@ class Title extends Component<IProps, IState> {
                 {this.state.errOverallTitleRatingMessage !== "" ? <Alert severity="error">{this.state.errOverallTitleRatingMessage}</Alert> : null}
                 {this.state.categoryMessage !== "" ? <Alert severity="info">{this.state.categoryMessage}</Alert> : null}
                 {this.state.errCategoryMessage !== "" ? <Alert severity="error">{this.state.errCategoryMessage}</Alert> : null}
-                {this.state.titleResultsFound !== null ? <TitleDisplay userID={this.props.userID} /*isLoggedIn={this.props.isLoggedIn}*/ isAdmin={this.props.isAdmin} sessionToken={this.props.sessionToken} titleID={this.props.titleID} userReviewUpdated={this.userReviewUpdated} userReviewedTitle={this.state.userReviewedTitle} userReviewedTitleReviewID={this.state.userReviewedTitleReviewID} userReviewedTitleRead={this.state.userReviewedTitleRead} userReviewedTitleDateRead={this.state.userReviewedTitleDateRead} titleData={this.state.titleData} overallTitleRating={this.state.overallTitleRating} overallTitleRatingCount={this.state.overallTitleRatingCount} categoryName={this.state.categoryName} /> : null}
+                {this.state.titleResultsFound !== null ? <TitleDisplay userID={this.props.userID} /*isLoggedIn={this.props.isLoggedIn}*/ isAdmin={this.props.isAdmin} sessionToken={this.props.sessionToken} titleID={this.props.titleID} userReviewUpdated={this.userReviewUpdated} userReviewedTitle={this.state.userReviewedTitle} userReviewedTitleReviewID={this.state.userReviewedTitleReviewID} userReviewedTitleRead={this.state.userReviewedTitleRead} userReviewedTitleDateRead={this.state.userReviewedTitleDateRead} titleData={this.state.titleData} overallTitleRating={this.state.overallTitleRating} overallTitleRatingCount={this.state.overallTitleRatingCount} categoryName={this.state.categoryName} editionUpdated={this.editionUpdated} /> : null}
                 </Grid>
                 <Grid item xs={10}>
                 {this.state.editionMessage !== "" ? <Alert severity="info">{this.state.editionMessage}</Alert> : null}
                 {this.state.errEditionMessage !== "" ? <Alert severity="error">{this.state.errEditionMessage}</Alert> : null}
                 {/* {this.state.mediaMessage !== "" ? <Alert severity="info">{this.state.mediaMessage}</Alert> : null}
                 {this.state.errMediaMessage !== "" ? <Alert severity="error">{this.state.errMediaMessage}</Alert> : null} */}
-                {this.state.editionResultsFound ? <Edition userID={this.props.userID} /*isLoggedIn={this.props.isLoggedIn}*/ isAdmin={this.props.isAdmin} sessionToken={this.props.sessionToken} titleID={this.props.titleID} editionList={this.state.editionList} /*mediaName={this.state.mediaName}*/ /> : null}
+                {this.state.editionResultsFound ? <Edition userID={this.props.userID} /*isLoggedIn={this.props.isLoggedIn}*/ isAdmin={this.props.isAdmin} sessionToken={this.props.sessionToken} titleID={this.props.titleID} editionList={this.state.editionList} /*mediaName={this.state.mediaName}*/ editionUpdated={this.editionUpdated}  /> : null}
                 </Grid>
                 <Grid item xs={10}>
                 {this.state.userReviewMessage !== "" ? <Alert severity="info">{this.state.userReviewMessage}</Alert> : null}

@@ -29,7 +29,8 @@ interface IProps {
     userReviewedTitle: boolean,
     userReviewedTitleReviewID: number | null,
     userReviewedTitleRead: boolean | null,
-    userReviewedTitleDateRead: Date | null
+    userReviewedTitleDateRead: Date | null,
+    editionUpdated: () => void
 };
 
 const TitleDisplay: FunctionComponent <(IProps)> = props => {
@@ -110,7 +111,7 @@ const TitleDisplay: FunctionComponent <(IProps)> = props => {
 
                             {props.userReviewedTitle ? <UpdateUserReview userID={props.userID} /*isLoggedIn={props.isLoggedIn}*/ isAdmin={props.isAdmin} sessionToken={props.sessionToken} titleID={props.titleID} userReviewUpdated={props.userReviewUpdated} reviewID={props.userReviewedTitleReviewID} /> : null}
 
-                            {props.isAdmin === true ? <AddEdition userID={props.userID} /*isLoggedIn={props.isLoggedIn}*/ isAdmin={props.isAdmin} sessionToken={props.sessionToken} titleID={props.titleID} /> : null}
+                            {props.isAdmin === true ? <AddEdition userID={props.userID} /*isLoggedIn={props.isLoggedIn}*/ isAdmin={props.isAdmin} sessionToken={props.sessionToken} titleID={props.titleID} editionUpdated={props.editionUpdated} /> : null}
 
                         </Grid>
                     </Grid>

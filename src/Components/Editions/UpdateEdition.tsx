@@ -13,7 +13,8 @@ interface IProps {
     isAdmin: boolean,
     sessionToken: string,
     titleID: number | null,
-    editionID: number | null
+    editionID: number | null,
+    editionUpdated: () => void
 };
 
 interface IState {
@@ -170,7 +171,7 @@ class UpdateEdition extends Component<IProps, IState> {
                 };
             })
             .then(data => {
-                console.log("UpdateEdition.tsx getEdition data", data);
+                // console.log("UpdateEdition.tsx getEdition data", data);
 
                 this.setState({editionResultsFound: data.resultsFound});
                 // this.setState({editionMessage: data.message});
@@ -411,7 +412,7 @@ class UpdateEdition extends Component<IProps, IState> {
                         this.setState({textImageLink: data.textImageLink});
                         this.setState({active: data.active});
 
-                        // this.props.userReviewUpdated();
+                        this.props.editionUpdated();
                         // Need to call this here because there are two buttons on the form besides the Cancel button
                         this.handleClose();
 

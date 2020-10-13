@@ -25,7 +25,8 @@ interface IProps {
     isAdmin: boolean,
     sessionToken: string,
     titleID: number | null,
-    editionList: IEdition[]
+    editionList: IEdition[],
+    editionUpdated: () => void
 };
 
 const Edition: FunctionComponent <(IProps)> = props => {
@@ -86,7 +87,7 @@ const Edition: FunctionComponent <(IProps)> = props => {
             */}
 
             <Grid item xs={12}>
-                {props.isAdmin === true ? <UpdateEdition userID={props.userID} /*isLoggedIn={props.isLoggedIn}*/ isAdmin={props.isAdmin} sessionToken={props.sessionToken} titleID={props.titleID} editionID={edition.editionID} /> : null}
+                {props.isAdmin === true ? <UpdateEdition userID={props.userID} /*isLoggedIn={props.isLoggedIn}*/ isAdmin={props.isAdmin} sessionToken={props.sessionToken} titleID={props.titleID} editionID={edition.editionID} editionUpdated={props.editionUpdated} /> : null}
             </Grid>
 
             </Grid>

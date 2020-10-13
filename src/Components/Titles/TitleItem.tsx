@@ -15,8 +15,13 @@ import {Redirect} from "react-router-dom";
 interface IProps {
     titleList: ITitle[],
     getEditions?: (titleID?: number) => void,
+    categoryID: number | null,
+    categoryName: string,
+    // getTitles: (categoryID: number | null) => void,
     titleID: number | null,
-    setTitleID: (titleID: number | null) => void
+    setTitleID: (titleID: number | null) => void,
+    titleSort: string | null
+    setTitleSort: (titleSort: string | null) => void
 };
 
 const TitleItem: FunctionComponent <(IProps)> = props => {
@@ -29,8 +34,34 @@ const TitleItem: FunctionComponent <(IProps)> = props => {
 
         return(
             <Grid container spacing={2}>
-            {props.titleList.map((title: ITitle) => {
+
+                {props.categoryName !== null && props.categoryName !== "" ? 
+                <Grid item xs={12}> 
+                <Typography variant="h5" align="center" gutterBottom>{props.categoryName}
+                <Typography variant="caption" gutterBottom> Sort By
+                {props.titleSort !== "publicationDate" ? 
+                <Typography variant="caption" gutterBottom> <Link href="#" onClick={() => props.setTitleSort("publicationDate")}>Publication Date</Link></Typography>
+                : null}
+                {props.titleSort !== null ? 
+                <Typography variant="caption" gutterBottom> <Link href="#" onClick={() => props.setTitleSort(null)}>Title</Link></Typography>
+                : null}
+                </Typography>
+                </Typography>
+                </Grid>
+                : null}
+                
+            {props.titleList.map((title: ITitle, index) => {
             return (
+
+                <React.Fragment key={title.titleID}>
+                {/* {index === 0 && title.categoryName !== null && title.categoryName !== "" ? 
+                <Grid item xs={12}>
+                {console.log('TitleItem.tsx props.titleList.map title', title)}
+                {console.log('TitleItem.tsx props.titleList.map title.categoryName', title.categoryName)}
+                <Typography variant="h5" align="center" gutterBottom>{title.categoryName}</Typography>
+                </Grid>
+                : null} */}
+                
                 <Grid item xs={4} key={title.titleID}>
                 <Link href="#" onClick={() => props.setTitleID(title.titleID)}>
                 {title.imageName !== null && title.imageName !== "" ? <img src={"https://philipdick.com/images/covers/" + title.imageName} alt={title.titleName} /> : <ImageOutlinedIcon style={{fontSize: 80}} />}
@@ -51,6 +82,7 @@ const TitleItem: FunctionComponent <(IProps)> = props => {
                 {/* <p>{title.shortDescription}</p>
                 <p>{title.urlPKDweb}</p> */}
                 </Grid>
+                </React.Fragment>
                 )
             })}
             </Grid>

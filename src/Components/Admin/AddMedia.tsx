@@ -163,6 +163,9 @@ class AddMedia extends Component<IProps, IState> {
 
         return(
             <Grid container spacing={2}>
+                <Grid item xs={12}> 
+                <Typography variant="h5" align="center" gutterBottom>Add Media</Typography>
+                </Grid>
                 <Grid item xs={12}>
                 {this.state.message !== "" ? <Alert severity="info">{this.state.message}</Alert> : null}
                 {this.state.errMessage !== "" ? <Alert severity="error">{this.state.errMessage}</Alert> : null}

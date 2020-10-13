@@ -12,7 +12,7 @@ interface IProps {
     isAdmin: boolean,
     sessionToken: string,
     titleID: number | null,
-    userReviewUpdated: () => void
+    userReviewUpdated: () => void,
     userReviewList: IUserReview[]
 };
 
