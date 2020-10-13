@@ -24,24 +24,24 @@ interface IState {
     titleRecordAdded: boolean | null,
     errTitleName: string,
     errCategoryID: string,
-    txtTitleName: string,
-    txtAuthorFirstName: string,
-    txtAuthorLastName: string,
-    txtPublicationDate: string,
-    txtImageName: string,
+    txtTitleName: string | null,
+    txtAuthorFirstName: string | null,
+    txtAuthorLastName: string | null,
+    txtPublicationDate: string | null,
+    txtImageName: string | null,
     ddCategoryID: number | null | unknown,
-    txtShortDescription: string,
-    txtUrlPKDweb: string,
+    txtShortDescription: string | null,
+    txtUrlPKDweb: string | null,
     titleID: number | null,
-    titleName: string,
-    titleSort: string,
-    authorFirstName: string,
-    authorLastName: string,
+    titleName: string | null,
+    titleSort: string | null,
+    authorFirstName: string | null,
+    authorLastName: string | null,
     publicationDate: Date | null,
-    imageName: string,
+    imageName: string | null,
     categoryID: number | null,
-    shortDescription: string,
-    urlPKDweb: string,
+    shortDescription: string | null,
+    urlPKDweb: string | null,
     active: boolean | null
 };
 
@@ -59,32 +59,32 @@ class AddTitle extends Component<IProps, IState> {
             titleRecordAdded: null,
             errTitleName: "",
             errCategoryID: "",
-            txtTitleName: "",
-            txtAuthorFirstName: "",
-            txtAuthorLastName: "",
-            txtPublicationDate: "",
-            txtImageName: "",
+            txtTitleName: null,
+            txtAuthorFirstName: null,
+            txtAuthorLastName: null,
+            txtPublicationDate: null,
+            txtImageName: null,
             ddCategoryID: null,
-            txtShortDescription: "",
-            txtUrlPKDweb: "",
+            txtShortDescription: null,
+            txtUrlPKDweb: null,
             titleID: null,
-            titleName: "",
-            titleSort: "",
-            authorFirstName: "",
-            authorLastName: "",
+            titleName: null,
+            titleSort: null,
+            authorFirstName: null,
+            authorLastName: null,
             publicationDate: null,
-            imageName: "",
+            imageName: null,
             categoryID: null,
-            shortDescription: "",
-            urlPKDweb: "",
+            shortDescription: null,
+            urlPKDweb: null,
             active: null
         };
 
     };
 
     getCategories = () => {
-        // console.log("Home.tsx getCategories");
-        // console.log("Home.tsx getCategories baseURL", baseURL);
+        // console.log("AddTitle.tsx getCategories");
+        // console.log("AddTitle.tsx getCategories baseURL", baseURL);
 
         this.setState({categoryMessage: ""});
         this.setState({errCategoryMessage: ""});
@@ -95,7 +95,7 @@ class AddTitle extends Component<IProps, IState> {
 
         fetch(url)
         .then(response => {
-            // console.log("Home.tsx getCategories response", response);
+            // console.log("AddTitle.tsx getCategories response", response);
             if (!response.ok) {
                 throw Error(response.status + " " + response.statusText + " " + response.url);
             } else {
@@ -103,28 +103,24 @@ class AddTitle extends Component<IProps, IState> {
             };
         })
         .then(data => {
-            // console.log("Home.tsx getCategories data", data);
-
-            // let categoryResponse: IGetResponse = data;
-            // console.log("Home.tsx getCategories categoryResponse", categoryResponse);
+            // console.log("AddTitle.tsx getCategories data", data);
 
             this.setState({categoryResultsFound: data.resultsFound});
             // this.setState({categoryMessage: data.message});
 
             if (data.resultsFound === true) {
-                // Would like to remove categories that don't have titles associated with them
-                // if (data.categories.titles.length > 0) {
-                    this.setState({categoryList: data.categories});
-                // };
+
+                this.setState({categoryList: data.categories});
+
             } else {
                 this.setState({errCategoryMessage: data.message});
             };
 
         })
         .catch(error => {
-            console.log("Home.tsx getCategories error", error);
-            // console.log("Home.tsx getCategories error.name", error.name);
-            // console.log("Home.tsx getCategories error.message", error.message);
+            console.log("AddTitle.tsx getCategories error", error);
+            // console.log("AddTitle.tsx getCategories error.name", error.name);
+            // console.log("AddTitle.tsx getCategories error.message", error.message);
             this.setState({errCategoryMessage: error.name + ": " + error.message});
         });
 
@@ -140,22 +136,22 @@ class AddTitle extends Component<IProps, IState> {
         this.setState({errTitleName: ""});
         this.setState({errCategoryID: ""});
         this.setState({titleID: null});
-        this.setState({titleName: ""});
-        this.setState({titleSort: ""});
-        this.setState({authorFirstName: ""});
-        this.setState({authorLastName: ""});
+        this.setState({titleName: null});
+        this.setState({titleSort: null});
+        this.setState({authorFirstName: null});
+        this.setState({authorLastName: null});
         this.setState({publicationDate: null});
-        this.setState({imageName: ""});
+        this.setState({imageName: null});
         this.setState({categoryID: null});
-        this.setState({shortDescription: ""});
-        this.setState({urlPKDweb: ""});
+        this.setState({shortDescription: null});
+        this.setState({urlPKDweb: null});
         this.setState({active: null});
 
         let titleNameValidated: boolean  = false;
         let categoryIDValidated: boolean  = false;
         let formValidated: boolean  = false;
 
-        if (this.state.txtTitleName !== undefined) {
+        if (this.state.txtTitleName !== undefined && this.state.txtTitleName !== null) {
             if (this.state.txtTitleName.trim().length > 0) {
                 titleNameValidated = true;
                 this.setState({errTitleName: ""});
@@ -199,75 +195,122 @@ class AddTitle extends Component<IProps, IState> {
 
         if (formValidated === true) {
 
-            let titleObject = {
-                titleName: this.state.txtTitleName,
-                authorFirstName: this.state.txtAuthorFirstName,
-                authorLastName: this.state.txtAuthorLastName,
-                imageName: this.state.txtImageName,
-                categoryID: this.state.ddCategoryID,
-                shortDescription: this.state.txtShortDescription,
-                urlPKDweb: this.state.txtUrlPKDweb
-            };
+            if (this.state.txtTitleName !== undefined && this.state.txtTitleName !== null) {
 
-            // If the user doesn't enter a publication date, then it isn't added/updated
-            if (this.state.txtPublicationDate.trim().length !== 0) {
-                Object.assign(titleObject, {publicationDate: this.state.txtPublicationDate.trim()});
-            };
-
-            console.log("AddTitle.tsx addTitle titleObject", titleObject);
-
-            let url: string = baseURL + "title/";
-            // console.log("AddTitle.tsx addTitle url", url);
-
-            fetch(url, {
-                method: "POST",
-                headers: new Headers({
-                "Content-Type": "application/json",
-                "Authorization": this.props.sessionToken
-                }),
-                body: JSON.stringify({title: titleObject})
-            })
-            .then(response => {
-                console.log("AddTitle.tsx addTitle response", response);
-                if (!response.ok) {
-                    throw Error(response.status + " " + response.statusText + " " + response.url);
-                } else {
-                    return response.json();
-                };
-            })
-            .then(data => {
-                console.log("AddTitle.tsx addTitle data", data);
-
-                this.setState({titleRecordAdded: data.recordAdded});
-                this.setState({message: data.message});
-
-                if (data.recordAdded === true) {
-
-                    // this.setState({txtTitleName: data.txtTitleName});
-
-                    this.setState({titleID: data.titleID});
-                    this.setState({titleName: data.titleName});
-                    this.setState({titleSort: data.titleSort});
-                    this.setState({authorFirstName: data.authorFirstName});
-                    this.setState({authorLastName: data.authorLastName});
-                    this.setState({publicationDate: data.publicationDate});
-                    this.setState({imageName: data.imageName});
-                    this.setState({categoryID: data.categoryID});
-                    this.setState({shortDescription: data.shortDescription});
-                    this.setState({urlPKDweb: data.urlPKDweb});
-                    this.setState({active: data.active});
-
-                } else {
-                    this.setState({errMessage: data.message});
+                let titleObject = {
+                    titleName: this.state.txtTitleName.trim(),
+                    // authorFirstName: this.state.txtAuthorFirstName.trim(),
+                    // authorLastName: this.state.txtAuthorLastName.trim(),
+                    // imageName: this.state.txtImageName.trim(),
+                    categoryID: this.state.ddCategoryID
+                    // shortDescription: this.state.txtShortDescription.trim(),
+                    // urlPKDweb: this.state.txtUrlPKDweb.trim()
                 };
 
-            })
-            .catch(error => {
-                console.log("AddTitle.tsx addTitle error", error);
-                // console.log("AddTitle.tsx addTitle error.name", error.name);
-                // console.log("AddTitle.tsx addTitle error.message", error.message);
-                this.setState({errMessage: error.name + ": " + error.message});
-            });
+                // If the user doesn't enter an author first name, then it isn't added/updated
+                if (this.state.txtAuthorFirstName !== null) {
+                    if (this.state.txtAuthorFirstName.trim().length !== 0) {
+                        Object.assign(titleObject, {authorFirstName: this.state.txtAuthorFirstName.trim()});
+                    };
+                };
+
+                // If the user doesn't enter an author last name, then it isn't added/updated
+                if (this.state.txtAuthorLastName !== null) {
+                    if (this.state.txtAuthorLastName.trim().length !== 0) {
+                        Object.assign(titleObject, {authorLastName: this.state.txtAuthorLastName.trim()});
+                    };
+                };
+
+                // If the user doesn't enter an image name then it isn't added/updated
+                if (this.state.txtImageName !== null) {
+                    if (this.state.txtImageName.trim().length !== 0) {
+                        Object.assign(titleObject, {imageName: this.state.txtImageName.trim()});
+                    };
+                };
+
+                // If the user doesn't enter a publication date, then it isn't added/updated
+                if (this.state.txtPublicationDate !== null) {
+                    if (this.state.txtPublicationDate.trim().length !== 0) {
+                        Object.assign(titleObject, {publicationDate: this.state.txtPublicationDate.trim()});
+                    };
+                };
+
+
+                // If the user doesn't enter a short description, then it isn't added/updated
+                if (this.state.txtShortDescription !== null) {
+                    if (this.state.txtShortDescription.trim().length !== 0) {
+                        Object.assign(titleObject, {shortDescription: this.state.txtShortDescription.trim()});
+                    };
+                };
+
+                // If the user doesn't enter a url for PKDweb, then it isn't added/updated
+                if (this.state.txtUrlPKDweb !== null) {
+                    if (this.state.txtUrlPKDweb.trim().length !== 0) {
+                        Object.assign(titleObject, {urlPKDweb: this.state.txtUrlPKDweb.trim()});
+                    };
+                };
+
+                // console.log("AddTitle.tsx addTitle titleObject", titleObject);
+
+                let url: string = baseURL + "title/";
+                // console.log("AddTitle.tsx addTitle url", url);
+
+                fetch(url, {
+                    method: "POST",
+                    headers: new Headers({
+                    "Content-Type": "application/json",
+                    "Authorization": this.props.sessionToken
+                    }),
+                    body: JSON.stringify({title: titleObject})
+                })
+                .then(response => {
+                    // console.log("AddTitle.tsx addTitle response", response);
+                    // if (!response.ok) {
+                    //     throw Error(response.status + " " + response.statusText + " " + response.url);
+                    // } else {
+                        // if (response.status === 200) {
+                            return response.json();
+                        // } else {
+                        //     return response.status;
+                        // };
+                    // };
+                })
+                .then(data => {
+                    // console.log("AddTitle.tsx addTitle data", data);
+
+                    this.setState({titleRecordAdded: data.recordAdded});
+                    this.setState({message: data.message});
+
+                    if (data.recordAdded === true) {
+
+                        // this.setState({txtTitleName: data.titleName});
+
+                        this.setState({titleID: data.titleID});
+                        this.setState({titleName: data.titleName});
+                        this.setState({titleSort: data.titleSort});
+                        this.setState({authorFirstName: data.authorFirstName});
+                        this.setState({authorLastName: data.authorLastName});
+                        this.setState({publicationDate: data.publicationDate});
+                        this.setState({imageName: data.imageName});
+                        this.setState({categoryID: data.categoryID});
+                        this.setState({shortDescription: data.shortDescription});
+                        this.setState({urlPKDweb: data.urlPKDweb});
+                        this.setState({active: data.active});
+
+                    } else {
+                        // this.setState({errMessage: data.error});
+                        this.setState({errMessage: data.errorMessages});
+                    };
+
+                })
+                .catch(error => {
+                    console.log("AddTitle.tsx addTitle error", error);
+                    // console.log("AddTitle.tsx addTitle error.name", error.name);
+                    // console.log("AddTitle.tsx addTitle error.message", error.message);
+                    this.setState({errMessage: error.name + ": " + error.message});
+                });
+
+            };
 
         };
 
@@ -279,7 +322,7 @@ class AddTitle extends Component<IProps, IState> {
 
     render() {
 
-        console.log("AddTitle.tsx this.props.isAdmin", this.props.isAdmin);
+        // console.log("AddTitle.tsx this.props.isAdmin", this.props.isAdmin);
 
         if (this.props.isAdmin !== true) {
             return <Redirect to="/" />;
@@ -287,9 +330,14 @@ class AddTitle extends Component<IProps, IState> {
 
         return(
             <Grid container spacing={2}>
+                <Grid item xs={12}> 
+                <Typography variant="h5" align="center" gutterBottom>Add Title</Typography>
+                </Grid>
                 <Grid item xs={12}>
                 {this.state.message !== "" ? <Alert severity="info">{this.state.message}</Alert> : null}
                 {this.state.errMessage !== "" ? <Alert severity="error">{this.state.errMessage}</Alert> : null}
+                {this.state.categoryMessage !== "" ? <Alert severity="info">{this.state.categoryMessage}</Alert> : null}
+                {this.state.errCategoryMessage !== "" ? <Alert severity="error">{this.state.errCategoryMessage}</Alert> : null}
                 </Grid>
                 <Grid item xs={12}>
 
@@ -351,8 +399,8 @@ class AddTitle extends Component<IProps, IState> {
 
                     </Grid>
 
-                    <Button variant="outlined" color="primary" onClick={this.addTitle}>Add Title</Button>
-                    {/* <Button variant="outlined" color="primary" onClick={this.handleClose}>Cancel</Button> */}
+                    <Button variant="outlined" size="large" color="primary" onClick={this.addTitle}>Add Title</Button>
+                    {/* <Button variant="outlined" size="large" color="primary" onClick={this.handleClose}>Cancel</Button> */}
         </Grid>
         );
     };

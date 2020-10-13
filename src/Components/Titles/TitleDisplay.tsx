@@ -10,9 +10,11 @@ import ImageOutlinedIcon from '@material-ui/icons/ImageOutlined';
 // import ImageSearchRoundedIcon from '@material-ui/icons/ImageSearchRounded';
 // import ImageSearchSharpIcon from '@material-ui/icons/ImageSearchSharp';
 
-import {ITitle} from "../../Helpers/interfaces"
+import {ITitle} from "../../Helpers/interfaces";
 import AddUserReview from "../UserReviews/AddUserReview";
 import UpdateUserReview from "../UserReviews/UpdateUserReview";
+import EditTitle from "./EditTitle";
+import AddEdition from "../Editions/AddEdition";
 
 interface IProps {
     titleData: ITitle | null,
@@ -24,11 +26,16 @@ interface IProps {
     isAdmin: boolean,
     sessionToken: string,
     titleID: number | null,
+    setTitleID: (titleID: number | null) => void,
     userReviewUpdated: () => void,
     userReviewedTitle: boolean,
     userReviewedTitleReviewID: number | null,
     userReviewedTitleRead: boolean | null,
-    userReviewedTitleDateRead: Date | null
+    userReviewedTitleDateRead: Date | null,
+    // titleUpdated: () => void,
+    titleUpdated: boolean,
+    setTitleUpdated: (titleUpdated: boolean) => void
+    editionUpdated: () => void
 };
 
 const TitleDisplay: FunctionComponent <(IProps)> = props => {
@@ -108,6 +115,10 @@ const TitleDisplay: FunctionComponent <(IProps)> = props => {
                             {props.sessionToken !== "" && props.userReviewedTitle === false? <AddUserReview userID={props.userID} /*isLoggedIn={props.isLoggedIn}*/ isAdmin={props.isAdmin} sessionToken={props.sessionToken} titleID={props.titleID} userReviewUpdated={props.userReviewUpdated} /> : null}
 
                             {props.userReviewedTitle ? <UpdateUserReview userID={props.userID} /*isLoggedIn={props.isLoggedIn}*/ isAdmin={props.isAdmin} sessionToken={props.sessionToken} titleID={props.titleID} userReviewUpdated={props.userReviewUpdated} reviewID={props.userReviewedTitleReviewID} /> : null}
+
+                            {props.isAdmin === true ? <EditTitle userID={props.userID} /*isLoggedIn={props.isLoggedIn}*/ isAdmin={props.isAdmin} sessionToken={props.sessionToken} titleID={props.titleID} setTitleID={props.setTitleID} /*titleUpdated={props.titleUpdated}*/ titleUpdated={props.titleUpdated} setTitleUpdated={props.setTitleUpdated} /> : null}
+
+                            {props.isAdmin === true ? <AddEdition userID={props.userID} /*isLoggedIn={props.isLoggedIn}*/ isAdmin={props.isAdmin} sessionToken={props.sessionToken} titleID={props.titleID} editionUpdated={props.editionUpdated} /> : null}
 
                         </Grid>
                     </Grid>

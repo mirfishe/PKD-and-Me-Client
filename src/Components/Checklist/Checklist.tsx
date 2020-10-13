@@ -15,7 +15,10 @@ interface IProps {
     titleID: number | null,
     setTitleID: (titleID: number | null) => void,
     categoryID: number | null,
-    setCategoryID: (categoryID: number | null) => void
+    setCategoryID: (categoryID: number | null) => void,
+    titleSort: string | null
+    setTitleSort: (titleSort: string | null) => void,
+    titleUpdated: boolean
 };
 
 interface IState {
@@ -25,6 +28,7 @@ interface IState {
     checklistResultsFound: boolean | null,
     checklistRecordUpdated: boolean | null,
     checklistList: ITitle[],
+    categoryName: string,
     userReviewList: IUserReview[]
 };
 
@@ -39,6 +43,7 @@ class Checklist extends Component<IProps, IState> {
             checklistResultsFound: null,
             checklistRecordUpdated: null,
             checklistList: [],
+            categoryName: "",
             userReviewList: []
         };
 
@@ -52,6 +57,7 @@ class Checklist extends Component<IProps, IState> {
         this.setState({errChecklistMessage: ""});
         this.setState({checklistResultsFound: null});
         this.setState({checklistList: []});
+        this.setState({categoryName: ""});
         this.setState({userReviewList: []});
 
         // console.log("Checklist.tsx getChecklist this.props.userID", this.props.userID);
@@ -63,6 +69,11 @@ class Checklist extends Component<IProps, IState> {
         // Don't show all titles when there is no categoryID?
         if (this.props.categoryID !== undefined && this.props.categoryID !== null) {
             url = url + this.props.categoryID;
+
+            if (this.props.titleSort !== undefined && this.props.titleSort !== null) {
+                // url = url + "/" + "publicationDate";
+                url = url + "/" + this.props.titleSort;
+            };
 
             // console.log("Checklist.tsx getChecklist url", url);
 
@@ -97,6 +108,10 @@ class Checklist extends Component<IProps, IState> {
                 if (data.resultsFound === true) {
                     this.setState({checklistList: data.titles});
                     // console.log("Checklist.tsx getChecklist checklistList", this.state.checklistList);
+
+                    if (data.titles[0].category !== undefined && data.titles[0].category !== null) {
+                        this.setState({categoryName: data.titles[0].category.category});
+                    };
 
                     if (this.state.checklistList !== undefined && this.state.checklistList !== null) {
                         if (this.state.checklistList.length > 0) {
@@ -268,9 +283,29 @@ class Checklist extends Component<IProps, IState> {
     };
 
     componentDidUpdate(prevProps: IProps) {
-        if(this.props.categoryID !== prevProps.categoryID) {
+        if (this.props.categoryID !== prevProps.categoryID) {
             // console.log("Checklist.tsx componentDidUpdate prevProps.categoryID", prevProps.categoryID);
             // console.log("Checklist.tsx componentDidUpdate this.props.categoryID", this.props.categoryID);
+            this.getChecklist();
+        };
+
+        if (this.props.titleSort !== prevProps.titleSort) {
+            // console.log("Checklist.tsx componentDidUpdate prevProps.titleSort", prevProps.titleSort);
+            // console.log("Checklist.tsx componentDidUpdate this.props.titleSort", this.props.titleSort);
+            this.getChecklist();
+        };
+
+        if (this.props.titleID !== prevProps.titleID) {
+            // console.log("Checklist.tsx componentDidUpdate prevProps.titleID", prevProps.titleID);
+            // console.log("Checklist.tsx componentDidUpdate this.props.titleID", this.props.titleID);
+
+            this.getChecklist();
+        };
+
+        if (this.props.titleUpdated !== prevProps.titleUpdated) {
+            // console.log("Checklist.tsx componentDidUpdate prevProps.titleUpdated", prevProps.titleUpdated);
+            // console.log("Checklist.tsx componentDidUpdate this.props.titleUpdated", this.props.titleUpdated);
+
             this.getChecklist();
         };
     };
@@ -294,7 +329,7 @@ class Checklist extends Component<IProps, IState> {
                 {this.state.checklistMessage !== "" ? <Alert severity="info">{this.state.checklistMessage}</Alert> : null}
                 {this.state.errChecklistMessage !== "" ? <Alert severity="error">{this.state.errChecklistMessage}</Alert> : null}
                 <Button variant="text" color="primary" onClick={this.handleClose}>Close</Button>
-                <ChecklistItem checklistList={this.state.checklistList} updateChecklist={this.updateChecklist} setTitleID={this.props.setTitleID} />
+                <ChecklistItem checklistList={this.state.checklistList} updateChecklist={this.updateChecklist} setTitleID={this.props.setTitleID} categoryName={this.state.categoryName} titleSort={this.props.titleSort} setTitleSort={this.props.setTitleSort} />
                 </Drawer>
                 </Grid>
 

@@ -18,7 +18,11 @@ interface IProps {
     titleID: number | null,
     setTitleID: (titleID: number | null) => void,
     categoryID: number | null,
-    setCategoryID: (categoryID: number | null) => void
+    setCategoryID: (categoryID: number | null) => void,
+    titleSort: string | null
+    setTitleSort: (titleSort: string | null) => void,
+    titleUpdated: boolean,
+    setTitleUpdated: (titleUpdated: boolean) => void
 };
 
 interface IState {
@@ -27,6 +31,7 @@ interface IState {
     categoryResultsFound: boolean | null,
     categoryList: ICategory[],
     // categoryID: number | null | undefined,
+    categoryName: string,
     titleMessage: string,
     errTitleMessage: string,
     titleResultsFound: boolean | null,
@@ -43,6 +48,7 @@ class Home extends Component<IProps, IState> {
             categoryResultsFound: null,
             categoryList: [],
             // categoryID: null,
+            categoryName: "",
             titleMessage: "",
             errTitleMessage: "",
             titleResultsFound: null,
@@ -107,10 +113,11 @@ class Home extends Component<IProps, IState> {
 
     };
 
-    getTitles = (categoryID: number) => {
+    getTitles = (categoryID: number | null) => {
         // console.log("Home.tsx getTitles");
         // console.log("Home.tsx getTitles baseURL", baseURL);
 
+        this.setState({categoryName: ""});
         this.setState({titleMessage: ""});
         this.setState({errTitleMessage: ""});
         this.setState({titleResultsFound: null});
@@ -132,13 +139,17 @@ class Home extends Component<IProps, IState> {
         //     url = url + "/category/" + this.state.categoryID;
         // };
 
-        // Not working correctly?
+        // Not working correctly? Is this.props.setCategoryID(categoryID); too slow?
         // if (this.props.categoryID !== undefined && this.props.categoryID !== null) {
         //     url = url + "category/" + categoryID;
         // };
-
         if (categoryID !== undefined && categoryID !== null) {
             url = url + "category/" + categoryID;
+        };
+
+        if (this.props.titleSort !== undefined && this.props.titleSort !== null) {
+            // url = url + "/" + "publicationDate";
+            url = url + "/" + this.props.titleSort;
         };
 
         // console.log("Home.tsx getTitles url", url);
@@ -164,7 +175,24 @@ class Home extends Component<IProps, IState> {
             if (data.resultsFound === true) {
                 this.setState({titleList: data.titles});
 
-                // this.getChecklist();
+                // Added this because the display of the property of the objects in the titleList isn't working
+                if (data.titles[0].category !== undefined && data.titles[0].category !== null) {
+                    this.setState({categoryName: data.titles[0].category.category});
+                };
+
+                // for (let i = 0; i < this.state.titleList.length; i++) {
+
+                //     // console.log("Home.tsx getTitles data.titles[i].category", data.titles[i].category);
+                //     // console.log("Home.tsx getTitles data.titles[i].category.category", data.titles[i].category.category);
+
+                //     if (data.titles[i].category !== undefined && data.titles[i].category !== null) {
+
+                //         Object.assign(this.state.titleList[i], {categoryName: data.titles[i].category.category});
+
+                //     };
+
+                //     // console.log("Home.tsx getTitles this.state.titleList[i]", this.state.titleList[i]);
+                // };
 
             } else {
                 this.setState({errTitleMessage: data.message});
@@ -184,6 +212,36 @@ class Home extends Component<IProps, IState> {
         this.getCategories();
       };
 
+    componentDidUpdate(prevProps: IProps) {
+        if (this.props.titleSort !== prevProps.titleSort) {
+            // console.log("Home.tsx componentDidUpdate prevProps.categoryID", prevProps.categoryID);
+            // console.log("Home.tsx componentDidUpdate this.props.categoryID", this.props.categoryID);
+            // console.log("Home.tsx componentDidUpdate prevProps.titleSort", prevProps.titleSort);
+            // console.log("Home.tsx componentDidUpdate this.props.titleSort", this.props.titleSort);
+            this.getTitles(this.props.categoryID);
+        };
+
+        if (this.props.categoryID !== prevProps.categoryID) {
+            // console.log("Home.tsx componentDidUpdate prevProps.categoryID", prevProps.categoryID);
+            // console.log("Home.tsx componentDidUpdate this.props.categoryID", this.props.categoryID);
+            this.setState({categoryName: ""});
+            this.setState({titleMessage: ""});
+            this.setState({errTitleMessage: ""});
+            this.setState({titleResultsFound: null});
+            this.setState({titleList: []});
+        };
+
+        if (this.props.titleID !== prevProps.titleID) {
+            // console.log("Home.tsx componentDidUpdate prevProps.titleID", prevProps.titleID);
+            // console.log("Home.tsx componentDidUpdate this.props.titleID", this.props.titleID);
+            this.setState({categoryName: ""});
+            this.setState({titleMessage: ""});
+            this.setState({errTitleMessage: ""});
+            this.setState({titleResultsFound: null});
+            this.setState({titleList: []});
+        };
+    };
+
     render() {
 
         return(
@@ -197,13 +255,13 @@ class Home extends Component<IProps, IState> {
 
                 {this.props.titleID !== null ?
                 <Grid item xs={10}>
-                <Title userID={this.props.userID} /*isLoggedIn={this.props.isLoggedIn}*/ isAdmin={this.props.isAdmin} sessionToken={this.props.sessionToken} titleID={this.props.titleID} setTitleID={this.props.setTitleID} />
+                <Title userID={this.props.userID} /*isLoggedIn={this.props.isLoggedIn}*/ isAdmin={this.props.isAdmin} sessionToken={this.props.sessionToken} titleID={this.props.titleID} setTitleID={this.props.setTitleID} titleUpdated={this.props.titleUpdated} setTitleUpdated={this.props.setTitleUpdated} />
                 </Grid>
                 :
                 <Grid item xs={10}>
                 {this.state.titleMessage !== "" ? <Alert severity="info">{this.state.titleMessage}</Alert> : null}
                 {this.state.errTitleMessage !== "" ? <Alert severity="error">{this.state.errTitleMessage}</Alert> : null}
-                {this.state.titleResultsFound ? <TitleItem /*getEditions={this.getEditions}*/ titleID={this.props.titleID} setTitleID={this.props.setTitleID} titleList={this.state.titleList} /> : <About />}
+                {this.state.titleResultsFound ? <TitleItem /*getEditions={this.getEditions}*/ titleID={this.props.titleID} setTitleID={this.props.setTitleID} titleList={this.state.titleList} /*getTitles={this.getTitles}*/ categoryID={this.props.categoryID} categoryName={this.state.categoryName} titleSort={this.props.titleSort} setTitleSort={this.props.setTitleSort} /> : <About />}
                 </Grid>
                 }
 

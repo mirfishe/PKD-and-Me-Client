@@ -16,11 +16,17 @@ import ImageOutlinedIcon from '@material-ui/icons/ImageOutlined';
 // import MusicNoteIcon from '@material-ui/icons/MusicNote';
 // import VideogameAssetIcon from '@material-ui/icons/VideogameAsset';
 
-import {IEdition} from "../../Helpers/interfaces"
+import {IEdition} from "../../Helpers/interfaces";
+import EditEdition from "./EditEdition";
 
 interface IProps {
+    userID: number | null,
+    // isLoggedIn: boolean | null,
+    isAdmin: boolean,
+    sessionToken: string,
+    titleID: number | null,
     editionList: IEdition[],
-    // mediaName: string
+    editionUpdated: () => void
 };
 
 const Edition: FunctionComponent <(IProps)> = props => {
@@ -79,7 +85,13 @@ const Edition: FunctionComponent <(IProps)> = props => {
             {/* This is an iframe tag
             {edition.textImageLink !== null && edition.textImageLink !== "" ? <p><Link href={edition.textImageLink}>{edition.textImageLink}</Link></p> : null}
             */}
+
+            <Grid item xs={12}>
+                {props.isAdmin === true ? <EditEdition userID={props.userID} /*isLoggedIn={props.isLoggedIn}*/ isAdmin={props.isAdmin} sessionToken={props.sessionToken} titleID={props.titleID} editionID={edition.editionID} editionUpdated={props.editionUpdated} /> : null}
             </Grid>
+
+            </Grid>
+
             )
         })}
         </Grid>
