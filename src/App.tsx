@@ -12,7 +12,7 @@ import Home from "./Components/Home/Home";
 import Login from "./Components/User/Login";
 import Register from "./Components/User/Register";
 import UpdateUser from "./Components/User/UpdateUser";
-import Checklist from "./Components/Checklist/Checklist"
+import Checklist from "./Components/Checklist/Checklist";
 
 interface IState {
   userID: number | null,
@@ -21,7 +21,8 @@ interface IState {
   sessionToken: string,
   titleID: number | null,
   categoryID: number | null,
-  titleSort: string | null
+  titleSort: string | null,
+  titleUpdated: boolean
 };
 
 class App extends Component<{}, IState> {
@@ -35,7 +36,8 @@ class App extends Component<{}, IState> {
         sessionToken: "",
         titleID: null,
         categoryID: null,
-        titleSort: null
+        titleSort: null,
+        titleUpdated: false
       };
 
   };
@@ -68,11 +70,21 @@ class App extends Component<{}, IState> {
     this.setState({titleSort: titleSort});
   };
 
+  setTitleUpdated = (titleUpdated: boolean) => {
+    this.setState({titleUpdated: titleUpdated});
+  };
+
   logOut = () => {
     this.setState({userID: null});
     // this.setState({isLoggedIn: null});
     this.setState({isAdmin: false});
     this.setState({sessionToken: ""});
+  };
+
+  goToHome = () => {
+    this.setState({titleID: null});
+    this.setState({categoryID: null});
+    this.setState({titleSort: null});
   };
 
   render() {
@@ -84,6 +96,7 @@ class App extends Component<{}, IState> {
     // console.log('App.tsx this.state.titleID', this.state.titleID);
     // console.log('App.tsx this.state.categoryID', this.state.categoryID);
     // console.log('App.tsx this.state.titleSort', this.state.titleSort);
+    // console.log('App.tsx this.state.titleUpdated', this.state.titleUpdated);
 
   return (
     <div>
@@ -99,8 +112,11 @@ class App extends Component<{}, IState> {
       <Router>
       <AppBar position="static" color="transparent">
         <Toolbar>
-          <Typography variant="body1">
+          {/* <Typography variant="body1">
             <Link to="/home"><HomeIcon color="primary" /></Link>
+          </Typography> */}
+          <Typography variant="body1">
+          <Link to="#" onClick={() => this.goToHome()}><HomeIcon color="primary" /></Link>
           </Typography>
           {/* {this.state.sessionToken !== "" ? <Typography variant="body1"><Link to="/login">Login</Link></Typography> : null} */}
           {this.state.sessionToken === "" ? <Login userID={this.state.userID} /*isLoggedIn={this.state.isLoggedIn}*/ isAdmin={this.state.isAdmin} sessionToken={this.state.sessionToken} setUserID={this.setUserID} /*setIsLoggedIn={this.setIsLoggedIn}*/ setIsAdmin={this.setIsAdmin} setSessionToken={this.setSessionToken} /> : null}
@@ -113,15 +129,15 @@ class App extends Component<{}, IState> {
           {this.state.isAdmin === true ? <Typography variant="button"><Link to="/admin">Admin</Link></Typography> : null}
 
           {this.state.sessionToken !== "" && this.state.categoryID !== undefined && this.state.categoryID !== null ?
-          <Checklist userID={this.state.userID} /*isLoggedIn={this.state.isLoggedIn}*/ isAdmin={this.state.isAdmin} sessionToken={this.state.sessionToken} titleID={this.state.titleID} setTitleID={this.setTitleID} categoryID={this.state.categoryID} setCategoryID={this.setCategoryID} titleSort={this.state.titleSort} setTitleSort={this.setTitleSort} />
+          <Checklist userID={this.state.userID} /*isLoggedIn={this.state.isLoggedIn}*/ isAdmin={this.state.isAdmin} sessionToken={this.state.sessionToken} titleID={this.state.titleID} setTitleID={this.setTitleID} categoryID={this.state.categoryID} setCategoryID={this.setCategoryID} titleSort={this.state.titleSort} setTitleSort={this.setTitleSort} titleUpdated={this.state.titleUpdated} />
           : null}
 
         </Toolbar>
       </AppBar>
 
       <Switch>
-          <Route exact path="/" render={() => <Home userID={this.state.userID} /*isLoggedIn={this.state.isLoggedIn}*/ isAdmin={this.state.isAdmin} sessionToken={this.state.sessionToken} titleID={this.state.titleID} setTitleID={this.setTitleID} categoryID={this.state.categoryID} setCategoryID={this.setCategoryID} titleSort={this.state.titleSort} setTitleSort={this.setTitleSort} />}/>
-          <Route exact path="/home" render={() => <Home userID={this.state.userID} /*isLoggedIn={this.state.isLoggedIn}*/ isAdmin={this.state.isAdmin} sessionToken={this.state.sessionToken} titleID={this.state.titleID} setTitleID={this.setTitleID} categoryID={this.state.categoryID} setCategoryID={this.setCategoryID} titleSort={this.state.titleSort} setTitleSort={this.setTitleSort} />}/>
+          <Route exact path="/" render={() => <Home userID={this.state.userID} /*isLoggedIn={this.state.isLoggedIn}*/ isAdmin={this.state.isAdmin} sessionToken={this.state.sessionToken} titleID={this.state.titleID} setTitleID={this.setTitleID} categoryID={this.state.categoryID} setCategoryID={this.setCategoryID} titleSort={this.state.titleSort} setTitleSort={this.setTitleSort} titleUpdated={this.state.titleUpdated} setTitleUpdated={this.setTitleUpdated} />}/>
+          <Route exact path="/home" render={() => <Home userID={this.state.userID} /*isLoggedIn={this.state.isLoggedIn}*/ isAdmin={this.state.isAdmin} sessionToken={this.state.sessionToken} titleID={this.state.titleID} setTitleID={this.setTitleID} categoryID={this.state.categoryID} setCategoryID={this.setCategoryID} titleSort={this.state.titleSort} setTitleSort={this.setTitleSort} titleUpdated={this.state.titleUpdated} setTitleUpdated={this.setTitleUpdated} />}/>
           <Route exact path="/login" render={() => <Login userID={this.state.userID} /*isLoggedIn={this.state.isLoggedIn}*/ isAdmin={this.state.isAdmin} sessionToken={this.state.sessionToken} setUserID={this.setUserID} /*setIsLoggedIn={this.setIsLoggedIn}*/ setIsAdmin={this.setIsAdmin} setSessionToken={this.setSessionToken} />} />
           <Route exact path="/register" render={() => <Register userID={this.state.userID} /*isLoggedIn={this.state.isLoggedIn}*/ isAdmin={this.state.isAdmin} sessionToken={this.state.sessionToken} setUserID={this.setUserID} /*setIsLoggedIn={this.setIsLoggedIn}*/ setIsAdmin={this.setIsAdmin} setSessionToken={this.setSessionToken} />} />
           <Route exact path="/updateuser" render={() => <UpdateUser userID={this.state.userID} /*isLoggedIn={this.state.isLoggedIn}*/ isAdmin={this.state.isAdmin} sessionToken={this.state.sessionToken} setUserID={this.setUserID} /*setIsLoggedIn={this.setIsLoggedIn}*/ setIsAdmin={this.setIsAdmin} setSessionToken={this.setSessionToken} />} />

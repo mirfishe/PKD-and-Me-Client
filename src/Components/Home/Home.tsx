@@ -20,7 +20,9 @@ interface IProps {
     categoryID: number | null,
     setCategoryID: (categoryID: number | null) => void,
     titleSort: string | null
-    setTitleSort: (titleSort: string | null) => void
+    setTitleSort: (titleSort: string | null) => void,
+    titleUpdated: boolean,
+    setTitleUpdated: (titleUpdated: boolean) => void
 };
 
 interface IState {
@@ -150,7 +152,7 @@ class Home extends Component<IProps, IState> {
             url = url + "/" + this.props.titleSort;
         };
 
-        console.log("Home.tsx getTitles url", url);
+        // console.log("Home.tsx getTitles url", url);
 
         fetch(url)
         .then(response => {
@@ -162,7 +164,7 @@ class Home extends Component<IProps, IState> {
             };
         })
         .then(data => {
-            console.log("Home.tsx getTitles data", data);
+            // console.log("Home.tsx getTitles data", data);
 
             // let titleResponse: IGetResponse = data;
             // console.log("Home.tsx getTitles titleResponse", titleResponse);
@@ -212,13 +214,31 @@ class Home extends Component<IProps, IState> {
 
     componentDidUpdate(prevProps: IProps) {
         if (this.props.titleSort !== prevProps.titleSort) {
-            console.log("Home.tsx componentDidUpdate prevProps.categoryID", prevProps.categoryID);
-            console.log("Home.tsx componentDidUpdate this.props.categoryID", this.props.categoryID);
+            // console.log("Home.tsx componentDidUpdate prevProps.categoryID", prevProps.categoryID);
+            // console.log("Home.tsx componentDidUpdate this.props.categoryID", this.props.categoryID);
             // console.log("Home.tsx componentDidUpdate prevProps.titleSort", prevProps.titleSort);
             // console.log("Home.tsx componentDidUpdate this.props.titleSort", this.props.titleSort);
-
             this.getTitles(this.props.categoryID);
+        };
 
+        if (this.props.categoryID !== prevProps.categoryID) {
+            // console.log("Home.tsx componentDidUpdate prevProps.categoryID", prevProps.categoryID);
+            // console.log("Home.tsx componentDidUpdate this.props.categoryID", this.props.categoryID);
+            this.setState({categoryName: ""});
+            this.setState({titleMessage: ""});
+            this.setState({errTitleMessage: ""});
+            this.setState({titleResultsFound: null});
+            this.setState({titleList: []});
+        };
+
+        if (this.props.titleID !== prevProps.titleID) {
+            // console.log("Home.tsx componentDidUpdate prevProps.titleID", prevProps.titleID);
+            // console.log("Home.tsx componentDidUpdate this.props.titleID", this.props.titleID);
+            this.setState({categoryName: ""});
+            this.setState({titleMessage: ""});
+            this.setState({errTitleMessage: ""});
+            this.setState({titleResultsFound: null});
+            this.setState({titleList: []});
         };
     };
 
@@ -235,7 +255,7 @@ class Home extends Component<IProps, IState> {
 
                 {this.props.titleID !== null ?
                 <Grid item xs={10}>
-                <Title userID={this.props.userID} /*isLoggedIn={this.props.isLoggedIn}*/ isAdmin={this.props.isAdmin} sessionToken={this.props.sessionToken} titleID={this.props.titleID} setTitleID={this.props.setTitleID} />
+                <Title userID={this.props.userID} /*isLoggedIn={this.props.isLoggedIn}*/ isAdmin={this.props.isAdmin} sessionToken={this.props.sessionToken} titleID={this.props.titleID} setTitleID={this.props.setTitleID} titleUpdated={this.props.titleUpdated} setTitleUpdated={this.props.setTitleUpdated} />
                 </Grid>
                 :
                 <Grid item xs={10}>

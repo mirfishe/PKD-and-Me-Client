@@ -17,7 +17,7 @@ import ImageOutlinedIcon from '@material-ui/icons/ImageOutlined';
 // import VideogameAssetIcon from '@material-ui/icons/VideogameAsset';
 
 import {IEdition} from "../../Helpers/interfaces";
-import UpdateEdition from "./UpdateEdition";
+import EditEdition from "./EditEdition";
 
 interface IProps {
     userID: number | null,
@@ -87,7 +87,7 @@ const Edition: FunctionComponent <(IProps)> = props => {
             */}
 
             <Grid item xs={12}>
-                {props.isAdmin === true ? <UpdateEdition userID={props.userID} /*isLoggedIn={props.isLoggedIn}*/ isAdmin={props.isAdmin} sessionToken={props.sessionToken} titleID={props.titleID} editionID={edition.editionID} editionUpdated={props.editionUpdated} /> : null}
+                {props.isAdmin === true ? <EditEdition userID={props.userID} /*isLoggedIn={props.isLoggedIn}*/ isAdmin={props.isAdmin} sessionToken={props.sessionToken} titleID={props.titleID} editionID={edition.editionID} editionUpdated={props.editionUpdated} /> : null}
             </Grid>
 
             </Grid>

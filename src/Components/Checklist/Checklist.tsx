@@ -17,7 +17,8 @@ interface IProps {
     categoryID: number | null,
     setCategoryID: (categoryID: number | null) => void,
     titleSort: string | null
-    setTitleSort: (titleSort: string | null) => void
+    setTitleSort: (titleSort: string | null) => void,
+    titleUpdated: boolean
 };
 
 interface IState {
@@ -291,6 +292,20 @@ class Checklist extends Component<IProps, IState> {
         if (this.props.titleSort !== prevProps.titleSort) {
             // console.log("Checklist.tsx componentDidUpdate prevProps.titleSort", prevProps.titleSort);
             // console.log("Checklist.tsx componentDidUpdate this.props.titleSort", this.props.titleSort);
+            this.getChecklist();
+        };
+
+        if (this.props.titleID !== prevProps.titleID) {
+            // console.log("Checklist.tsx componentDidUpdate prevProps.titleID", prevProps.titleID);
+            // console.log("Checklist.tsx componentDidUpdate this.props.titleID", this.props.titleID);
+
+            this.getChecklist();
+        };
+
+        if (this.props.titleUpdated !== prevProps.titleUpdated) {
+            // console.log("Checklist.tsx componentDidUpdate prevProps.titleUpdated", prevProps.titleUpdated);
+            // console.log("Checklist.tsx componentDidUpdate this.props.titleUpdated", this.props.titleUpdated);
+
             this.getChecklist();
         };
     };

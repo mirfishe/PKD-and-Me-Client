@@ -56,7 +56,7 @@ interface IState {
     active: boolean | null
 };
 
-class UpdateEdition extends Component<IProps, IState> {
+class EditEdition extends Component<IProps, IState> {
 
     constructor(props: IProps) {
         super(props);
@@ -153,6 +153,18 @@ class UpdateEdition extends Component<IProps, IState> {
         this.setState({errEditionMessage: ""});
         this.setState({editionResultsFound: null});
         this.setState({editionList: []});
+        this.setState({editionID: null});
+        this.setState({mediaID: null});
+        this.setState({publicationDate: null});
+        this.setState({imageName: null});
+        this.setState({ASIN: null});
+        this.setState({textLinkShort: null});
+        this.setState({textLinkFull: null});
+        this.setState({imageLinkSmall: null});
+        this.setState({imageLinkMedium: null});
+        this.setState({imageLinkLarge: null});
+        this.setState({textImageLink: null});
+        this.setState({active: null});
 
         let url: string = baseURL + "edition/";
 
@@ -478,7 +490,7 @@ class UpdateEdition extends Component<IProps, IState> {
 
                 if (data.recordDeleted === true) {
 
-                    // this.props.userReviewUpdated();
+                    this.props.editionUpdated();
                     // Need to call this here because there are two buttons on the form besides the Cancel button
                     this.handleClose();
 
@@ -521,9 +533,9 @@ class UpdateEdition extends Component<IProps, IState> {
 
         return(
             <React.Fragment>
-            <Button variant="contained" size="small" color="primary" onClick={this.handleOpen}>Update Edition</Button>
+            <Button variant="contained" size="small" color="primary" onClick={this.handleOpen}>Edit Edition</Button>
             <Dialog open={this.state.dialogOpen} onClose={this.handleClose} fullWidth={true} maxWidth="md">
-                <DialogTitle id="form-dialog-title">Update Edition</DialogTitle>
+                <DialogTitle id="form-dialog-title">Edit Edition</DialogTitle>
                 <DialogContent>
                 <Grid item xs={12}>
                 {this.state.message !== "" ? <Alert severity="info">{this.state.message}</Alert> : null}
@@ -604,9 +616,9 @@ class UpdateEdition extends Component<IProps, IState> {
 
                 <DialogActions>
                 <Button variant="outlined" size="large" color="primary" onClick={(event) => {/*console.log(event.target.value);*/ this.updateEdition(false);}}>Update Edition</Button>
-                    <Button variant="outlined" size="large" color="secondary" onClick={(event) => {/*console.log(event.target.value);*/ this.updateEdition(true);}}>Delete Edition</Button>
-                    {this.props.isAdmin === true ? <Button variant="outlined" size="large" color="secondary" onClick={(event) => {/*console.log(event.target.value);*/ this.deleteEdition();}}>Hard Delete Edition</Button> : null}
-                    <Button variant="outlined" size="large" color="primary" onClick={this.handleClose}>Cancel</Button>
+                <Button variant="outlined" size="large" color="secondary" onClick={(event) => {/*console.log(event.target.value);*/ this.updateEdition(true);}}>Delete Edition</Button>
+                {this.props.isAdmin === true ? <Button variant="outlined" size="large" color="secondary" onClick={(event) => {/*console.log(event.target.value);*/ this.deleteEdition();}}>Hard Delete Edition</Button> : null}
+                <Button variant="outlined" size="large" color="primary" onClick={this.handleClose}>Cancel</Button>
                 </DialogActions>
             </DialogContent>
           </Dialog>
@@ -615,4 +627,4 @@ class UpdateEdition extends Component<IProps, IState> {
     };
 };
 
-export default UpdateEdition;
+export default EditEdition;
