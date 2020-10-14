@@ -1,7 +1,7 @@
 import React, {Component} from "react";
 
-import {Alert} from '@material-ui/lab/';
-import {Grid} from '@material-ui/core';
+import {Alert} from "@material-ui/lab/";
+import {Grid} from "@material-ui/core";
 
 import {ICategory, ITitle} from "../../Helpers/interfaces"
 import {baseURL} from "../../Helpers/constants"
@@ -12,7 +12,6 @@ import TitleItem from "../Titles/TitleItem";
 
 interface IProps {
     userID: number | null,
-    // isLoggedIn: boolean | null,
     isAdmin: boolean,
     sessionToken: string,
     titleID: number | null,
@@ -245,7 +244,7 @@ class Home extends Component<IProps, IState> {
     render() {
 
         return(
-            <Grid container spacing={2}>
+            <Grid container spacing={4}>
 
                 <Grid item xs={2}>
                 {this.state.categoryMessage !== "" ? <Alert severity="info">{this.state.categoryMessage}</Alert> : null}
@@ -255,13 +254,25 @@ class Home extends Component<IProps, IState> {
 
                 {this.props.titleID !== null ?
                 <Grid item xs={10}>
-                <Title userID={this.props.userID} /*isLoggedIn={this.props.isLoggedIn}*/ isAdmin={this.props.isAdmin} sessionToken={this.props.sessionToken} titleID={this.props.titleID} setTitleID={this.props.setTitleID} titleUpdated={this.props.titleUpdated} setTitleUpdated={this.props.setTitleUpdated} />
+                <Grid container spacing={2}>
+                <Grid item xs={12}>&nbsp;</Grid>
+                <Grid item xs={12}>
+                <Title userID={this.props.userID} isAdmin={this.props.isAdmin} sessionToken={this.props.sessionToken} titleID={this.props.titleID} setTitleID={this.props.setTitleID} titleUpdated={this.props.titleUpdated} setTitleUpdated={this.props.setTitleUpdated} />
+                </Grid>
+                </Grid>
                 </Grid>
                 :
                 <Grid item xs={10}>
+                <Grid container spacing={2} justify="center">
+                <Grid item xs={12}>&nbsp;</Grid>
+                <Grid item xs={12}>
+                <Grid container spacing={2} justify="space-between">
                 {this.state.titleMessage !== "" ? <Alert severity="info">{this.state.titleMessage}</Alert> : null}
                 {this.state.errTitleMessage !== "" ? <Alert severity="error">{this.state.errTitleMessage}</Alert> : null}
                 {this.state.titleResultsFound ? <TitleItem /*getEditions={this.getEditions}*/ titleID={this.props.titleID} setTitleID={this.props.setTitleID} titleList={this.state.titleList} /*getTitles={this.getTitles}*/ categoryID={this.props.categoryID} categoryName={this.state.categoryName} titleSort={this.props.titleSort} setTitleSort={this.props.setTitleSort} /> : <About />}
+                </Grid>
+                </Grid>
+                </Grid>
                 </Grid>
                 }
 

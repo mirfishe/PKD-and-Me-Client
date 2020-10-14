@@ -1,15 +1,15 @@
 import React, {Component} from "react";
 import {Redirect} from "react-router-dom";
 
-import {Alert} from '@material-ui/lab/';
-import {Grid, Button, TextField, InputLabel, Select, MenuItem, Typography, Dialog, DialogTitle, DialogContent, DialogActions} from '@material-ui/core';
+import {Alert} from "@material-ui/lab/";
+import {Grid, Button, TextField, InputLabel, Select, MenuItem, Typography, Dialog, DialogTitle, DialogContent, DialogActions} from "@material-ui/core";
+import AddIcon from "@material-ui/icons/Add";
 
 import {baseURL} from "../../Helpers/constants"
 import {IMedia} from "../../Helpers/interfaces"
 
 interface IProps {
     userID: number | null,
-    // isLoggedIn: boolean | null,
     isAdmin: boolean,
     sessionToken: string,
     titleID: number | null,
@@ -355,7 +355,8 @@ class AddEdition extends Component<IProps, IState> {
 
         return(
             <React.Fragment>
-            <Button variant="contained" size="small" color="primary" onClick={this.handleOpen}>Add Edition</Button>
+            {/* <Button variant="contained" size="small" color="primary" onClick={this.handleOpen}>Add Edition</Button> */}
+            <AddIcon className="editIcon" onClick={this.handleOpen} />
             <Dialog open={this.state.dialogOpen} onClose={this.handleClose} fullWidth={true} maxWidth="md">
                 <DialogTitle id="form-dialog-title">Add Edition</DialogTitle>
                 <DialogContent>
@@ -365,10 +366,13 @@ class AddEdition extends Component<IProps, IState> {
                 {this.state.mediaMessage !== "" ? <Alert severity="info">{this.state.mediaMessage}</Alert> : null}
                 {this.state.errMediaMessage !== "" ? <Alert severity="error">{this.state.errMediaMessage}</Alert> : null}
                 </Grid>
+
                 <Grid item xs={12}>
+                <Grid container spacing={2}>
+                <Grid item xs={5}>
 
                 <InputLabel id="lblMediaID">Media</InputLabel>
-                <Select id="ddMediaID" labelId="lblMediaID" value={this.state.ddMediaID} onChange={(event) => {/*console.log(event.target.value);*/ this.setState({ddMediaID: event.target.value});}}>
+                <Select id="ddMediaID" labelId="lblMediaID" autoWidth value={this.state.ddMediaID} onChange={(event) => {/*console.log(event.target.value);*/ this.setState({ddMediaID: event.target.value});}}>
                 <MenuItem value="">Select a Media</MenuItem>
                 {this.state.mediaList.map((media: IMedia) => {
                 return (
@@ -379,12 +383,15 @@ class AddEdition extends Component<IProps, IState> {
                 {this.state.errMediaID !== "" ? <Alert severity="error">{this.state.errMediaID}</Alert> : null}
 
                 </Grid>
-                <Grid item xs={12}>
+                <Grid item xs={5}>
                         
                     <Typography component="legend">Publication Date</Typography>
                     <TextField type="date" id="txtPublicationDate" variant="outlined" fullWidth margin="normal" defaultValue={this.state.txtPublicationDate} value={this.state.txtPublicationDate} onChange={(event) => {/*console.log(event.target.value);*/ this.setState({txtPublicationDate: event.target.value});}} />
 
                 </Grid>
+                </Grid>
+                </Grid>
+
                 <Grid item xs={12}>
     
                     <TextField type="text" id="txtImageName" label="Image Name" variant="outlined" fullWidth
@@ -406,31 +413,31 @@ class AddEdition extends Component<IProps, IState> {
                 <Grid item xs={12}>
 
                 <TextField type="text" id="txtTextLinkFull" label="Text Link Full" variant="outlined" fullWidth
-                margin="normal" value={this.state.txtTextLinkFull} onChange={(event) => {/*console.log(event.target.value);*/ this.setState({txtTextLinkFull: event.target.value});}} />
+                margin="normal" multiline rows={5} value={this.state.txtTextLinkFull} onChange={(event) => {/*console.log(event.target.value);*/ this.setState({txtTextLinkFull: event.target.value});}} />
 
                 </Grid>
                 <Grid item xs={12}>
 
                 <TextField type="text" id="txtImageLinkSmall" label="Image Link Small" variant="outlined" fullWidth
-                margin="normal" value={this.state.txtImageLinkSmall} onChange={(event) => {/*console.log(event.target.value);*/ this.setState({txtImageLinkSmall: event.target.value});}} />
+                margin="normal" multiline rows={5} value={this.state.txtImageLinkSmall} onChange={(event) => {/*console.log(event.target.value);*/ this.setState({txtImageLinkSmall: event.target.value});}} />
 
                 </Grid>
                 <Grid item xs={12}>
 
                 <TextField type="text" id="txtImageLinkMedium" label="Image Link Medium" variant="outlined" fullWidth
-                margin="normal" value={this.state.txtImageLinkMedium} onChange={(event) => {/*console.log(event.target.value);*/ this.setState({txtImageLinkMedium: event.target.value});}} />
+                margin="normal" multiline rows={10} value={this.state.txtImageLinkMedium} onChange={(event) => {/*console.log(event.target.value);*/ this.setState({txtImageLinkMedium: event.target.value});}} />
 
                 </Grid>
                 <Grid item xs={12}>
 
                 <TextField type="text" id="txtImageLinkLarge" label="Image Link Large" variant="outlined" fullWidth
-                margin="normal" value={this.state.txtImageLinkLarge} onChange={(event) => {/*console.log(event.target.value);*/ this.setState({txtImageLinkLarge: event.target.value});}} />
+                margin="normal" multiline rows={10} value={this.state.txtImageLinkLarge} onChange={(event) => {/*console.log(event.target.value);*/ this.setState({txtImageLinkLarge: event.target.value});}} />
 
                 </Grid>
                 <Grid item xs={12}>
 
                 <TextField type="text" id="txtTextImageLink" label="Text Image Link" variant="outlined" fullWidth
-                margin="normal" value={this.state.txtTextImageLink} onChange={(event) => {/*console.log(event.target.value);*/ this.setState({txtTextImageLink: event.target.value});}} />
+                margin="normal" multiline rows={10} value={this.state.txtTextImageLink} onChange={(event) => {/*console.log(event.target.value);*/ this.setState({txtTextImageLink: event.target.value});}} />
 
                 </Grid>
 

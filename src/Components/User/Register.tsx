@@ -1,19 +1,17 @@
 import React, {Component} from "react";
 import {Redirect} from "react-router-dom";
 
-import {Alert} from '@material-ui/lab/';
-import {Grid, Button, TextField, Dialog, DialogTitle, DialogContent, DialogActions} from '@material-ui/core';
+import {Alert} from "@material-ui/lab/";
+import {Grid, Button, TextField, Dialog, DialogTitle, DialogContent, DialogActions} from "@material-ui/core";
 
 import {baseURL, emailRegExp} from "../../Helpers/constants"
 // import {emailFormat} from "../../Helpers/constants"
 
 interface IProps {
     userID: number | null,
-    // isLoggedIn: boolean | null,
     isAdmin: boolean,
     sessionToken: string,
     setUserID: (userID: number | null) => void,
-    // setIsLoggedIn: (isLoggedIn: boolean) => void,
     setIsAdmin: (setIsAdmin: boolean) => void,
     setSessionToken: (sessionToken: string) => void
 };
@@ -39,7 +37,6 @@ interface IState {
     updatedBy: number | null,
     admin: boolean | null,
     active: boolean | null,
-    // isLoggedIn: boolean | null,
     // isAdmin: boolean | null,
     // sessionToken: string
 };
@@ -69,7 +66,6 @@ class Register extends Component<IProps, IState> {
             updatedBy: null,
             admin: null,
             active: null
-            // isLoggedIn: null,
             // isAdmin: null,
             // sessionToken: ""
         };
@@ -92,7 +88,6 @@ class Register extends Component<IProps, IState> {
         this.setState({updatedBy: null});
         this.setState({admin: null});
         this.setState({active: null});
-        // this.setState({isLoggedIn: null});
         // this.setState({isAdmin: null});
         // this.setState({sessionToken: ""});
 
@@ -217,11 +212,9 @@ class Register extends Component<IProps, IState> {
                         // console.log("Register.tsx register registerResponse", registerResponse);
     
                         this.setState({userRecordAdded: data.recordAdded});
-                        // this.setState({isLoggedIn: data.isLoggedIn});
                         // this.setState({isAdmin: data.isAdmin});
                         // this.setState({message: data.message});
 
-                        // this.props.setIsLoggedIn(data.isLoggedIn);
                         this.props.setIsAdmin(data.isAdmin);
 
                         if (data.recordAdded === true) {
@@ -234,11 +227,9 @@ class Register extends Component<IProps, IState> {
                             this.setState({updatedBy: data.updatedBy});
                             this.setState({admin: data.admin});
                             this.setState({active: data.active});
-                            // this.setState({isLoggedIn: data.isLoggedIn});
                             // this.setState({sessionToken: data.sessionToken});
                             this.props.setSessionToken(data.sessionToken);
                         } else {
-                            // this.setState({isLoggedIn: data.isLoggedIn});
                             // this.setState({errMessage: data.error});
                             this.setState({errMessage: data.errorMessages});
                         };
@@ -278,7 +269,7 @@ class Register extends Component<IProps, IState> {
         return(
             <div>
             <Button variant="text" color="primary" onClick={this.handleOpen}>Register</Button>
-            <Dialog open={this.state.dialogOpen} onClose={this.handleClose} fullWidth={true} maxWidth="md">
+            <Dialog open={this.state.dialogOpen} onClose={this.handleClose} fullWidth={true} maxWidth="sm">
                 <DialogTitle id="form-dialog-title">Register</DialogTitle>
                 <DialogContent>
                 <Grid item xs={12}>

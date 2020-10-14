@@ -1,7 +1,7 @@
 import React, {Component} from "react";
 
-import {Alert} from '@material-ui/lab/';
-import {Grid, Button, Drawer} from '@material-ui/core';
+import {Alert} from "@material-ui/lab/";
+import {Grid, Button, Drawer} from "@material-ui/core";
 
 import {ITitle, IUserReview} from "../../Helpers/interfaces"
 import {baseURL} from "../../Helpers/constants"
@@ -9,7 +9,6 @@ import ChecklistItem from "./ChecklistItem"
 
 interface IProps {
     userID: number | null,
-    // isLoggedIn: boolean | null,
     isAdmin: boolean,
     sessionToken: string,
     titleID: number | null,
@@ -66,7 +65,7 @@ class Checklist extends Component<IProps, IState> {
 
         let url: string = baseURL + "title/checklist/";
 
-        // Don't show all titles when there is no categoryID?
+        // Don"t show all titles when there is no categoryID?
         if (this.props.categoryID !== undefined && this.props.categoryID !== null) {
             url = url + this.props.categoryID;
 
@@ -263,13 +262,13 @@ class Checklist extends Component<IProps, IState> {
         for (let i = 0; i < newChecklistList.length; i++) {
             if (newChecklistList[i].titleID === titleID) {
                 // console.log("Checklist.tsx updateChecklistItemRead checked titleID", titleID);
-                // console.log('Checklist.tsx updateChecklistItemRead newChecklistList[i].titleName', newChecklistList[i].titleName);
-                // console.log('Checklist.tsx updateChecklistItemRead newChecklistList[i].read', newChecklistList[i].read);
+                // console.log("Checklist.tsx updateChecklistItemRead newChecklistList[i].titleName", newChecklistList[i].titleName);
+                // console.log("Checklist.tsx updateChecklistItemRead newChecklistList[i].read", newChecklistList[i].read);
     
                 newChecklistList[i].read = !newChecklistList[i].read;
 
-                // console.log('Checklist.tsx updateChecklistItemRead newChecklistList[i].titleName', newChecklistList[i].titleName);
-                // console.log('Checklist.tsx updateChecklistItemRead newChecklistList[i].read', newChecklistList[i].read);
+                // console.log("Checklist.tsx updateChecklistItemRead newChecklistList[i].titleName", newChecklistList[i].titleName);
+                // console.log("Checklist.tsx updateChecklistItemRead newChecklistList[i].read", newChecklistList[i].read);
             };
         };
 

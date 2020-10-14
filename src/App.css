@@ -1,0 +1,42 @@
+:root {
+    --red: #e80d0d;
+    --orange: #f98500;
+    --blue: #303E73;
+    --green: #256F5C;
+    --blue-green: #0ed6a4;
+    --brown: #8c7a51;
+    --light-brown: #C3BDAE;
+    --very-light-brown: #F2EEE4;
+    --grey: #707170;
+    --black: #272727;
+    --blue-grey: #2c4870;
+    --light-blue-grey: #ABBCD4;
+    --very-light-blue-grey: #D9E2EE;
+    --dark-red: #9f3548;
+    --light-purple: #7681aa;
+    --very-light-purple: #D3D7E7;
+    --light-blue: lightblue;
+    --very-light-grey: #e9ecef;
+    --very-light-green: #CDE8E1;
+    --very-very-light-grey: #f8f9fa;
+
+    /* Doesn't work; being overridden by Material-UI font defaults */
+    --font-default: Helvetica,Arial,sans-serif;
+}
+
+body {
+    font-family: var(--font-default);
+    background-color: var(--very-light-brown);
+    margin-bottom: 10rem;
+}
+
+/* Doesn't work on the dialog; changes the background behind it */
+.dialogBackground {
+    background-color: var(--very-light-grey);
+    
+}
+
+.editIcon{
+    color: black;
+    margin-left: 5px;
+}
