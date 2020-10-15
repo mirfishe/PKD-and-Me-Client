@@ -105,54 +105,45 @@ class App extends Component<{}, IState> {
         
       {/* {window.location.hostname} */}
       {/* {this.state.userID !== null ? <Alert severity="info">{this.state.userID}</Alert> : null} */}
-      {/* {this.state.isLoggedIn === null ? <Alert severity="error">isLoggedIn null</Alert> : null}
-      {this.state.isLoggedIn === true ? <Alert severity="error">isLoggedIn</Alert> : null}
-      {this.state.isLoggedIn === false ? <Alert severity="error">Not isLoggedIn</Alert> : null}
-      {this.state.isAdmin === null ? <Alert severity="warning">isAdmin null</Alert> : null}
+      {/* this.state.isAdmin === null ? <Alert severity="warning">isAdmin null</Alert> : null}
       {this.state.isAdmin === true ? <Alert severity="warning">isAdmin</Alert> : null}
       {this.state.isAdmin === false ? <Alert severity="warning">Not isAdmin</Alert> : null} */}
       {/* {this.state.sessionToken !== "" ? <Alert severity="info">{this.state.sessionToken}</Alert> : null} */}
-      <AppBar position="static" color="transparent">
+      <AppBar position="static" color="transparent" >
         <Toolbar>
         <Grid container spacing={2}>
-            <Grid item xs={1}>
-
-          {/* <Typography variant="body1">
+          {/* <Grid item xs={1} style={{border: "5px solid black"}}>
+          <Typography variant="body1">
             <Link to="/home"><HomeIcon color="primary" /></Link>
           </Typography>
             </Grid>
             <Grid item xs={1}> */}
+
+          <Grid item xs={1}>
           <Typography variant="body1">
           <Link to="/home" onClick={() => this.goToHome()}><HomeIcon color="primary" /></Link>
           </Typography>
           </Grid>
-            <Grid item xs={1}>
-          {/* {this.state.sessionToken !== "" ? <Typography variant="body1"><Link to="/login">Login</Link></Typography> : null} */}
-          {this.state.sessionToken === "" ? <Login userID={this.state.userID} /*isLoggedIn={this.state.isLoggedIn}*/ isAdmin={this.state.isAdmin} sessionToken={this.state.sessionToken} setUserID={this.setUserID} /*setIsLoggedIn={this.setIsLoggedIn}*/ setIsAdmin={this.setIsAdmin} setSessionToken={this.setSessionToken} /> : null}
-          </Grid>
-            <Grid item xs={1}>
-          {/* {this.state.sessionToken !== "" ? <Typography variant="body1"><Link to="/register">Register</Link></Typography> : null} */}
-          {this.state.sessionToken === "" ? <Register userID={this.state.userID} /*isLoggedIn={this.state.isLoggedIn}*/ isAdmin={this.state.isAdmin} sessionToken={this.state.sessionToken} setUserID={this.setUserID} /*setIsLoggedIn={this.setIsLoggedIn}*/ setIsAdmin={this.setIsAdmin} setSessionToken={this.setSessionToken} /> : null}
-          </Grid>
-            <Grid item xs={1}>
-          {/* {this.state.sessionToken !== "" ? <Typography variant="body1"><Link to="/updateuser">Update Profile</Link> </Typography> : null} */}
-          {this.state.sessionToken !== "" ? <UpdateUser userID={this.state.userID} /*isLoggedIn={this.state.isLoggedIn}*/ isAdmin={this.state.isAdmin} sessionToken={this.state.sessionToken} setUserID={this.setUserID} /*setIsLoggedIn={this.setIsLoggedIn}*/ setIsAdmin={this.setIsAdmin} setSessionToken={this.setSessionToken} /> : null}
-          </Grid>
-            <Grid item xs={1}>
-          {/* {this.state.sessionToken !== "" ? <Typography variant="body1"><a href="#" onClick={() => this.logOut()}>Log Out</a></Typography> : null} */}
-          </Grid>
-            <Grid item xs={1}>
-          {this.state.sessionToken !== "" ? <Button variant="text" color="primary" onClick={() => this.logOut()}>Log Out</Button> : null}
-          </Grid>
-            <Grid item xs={1}>
-          {this.state.isAdmin === true ? <Typography variant="button"><Link to="/admin">Admin</Link></Typography> : null}
-          </Grid>
-            <Grid item xs={1}>
+
+          {this.state.isAdmin === true ? <Grid item xs={1}><Typography variant="button"><Link to="/admin">Admin</Link></Typography></Grid> : null}
+
+          {/* {this.state.sessionToken !== "" ? <Typography variant="body1"><Link to="/login">Login</Link></Typography></Grid> : null} */}
+          {this.state.sessionToken === "" ? <Grid item xs={1}><Login userID={this.state.userID} isAdmin={this.state.isAdmin} sessionToken={this.state.sessionToken} setUserID={this.setUserID} setIsAdmin={this.setIsAdmin} setSessionToken={this.setSessionToken} /></Grid> : null}
+
+          {/* {this.state.sessionToken !== "" ? <Grid item xs={1}><Typography variant="body1"><Link to="/register">Register</Link></Typography></Grid> : null} */}
+          {this.state.sessionToken === "" ? <Grid item xs={1}><Register userID={this.state.userID} isAdmin={this.state.isAdmin} sessionToken={this.state.sessionToken} setUserID={this.setUserID} setIsAdmin={this.setIsAdmin} setSessionToken={this.setSessionToken} /></Grid> : null}
+
+          {/* {this.state.sessionToken !== "" ? <Grid item xs={1}><Typography variant="body1"><Link to="/updateuser">Update Profile</Link> </Typography></Grid> : null} */}
+          {this.state.sessionToken !== "" ? <Grid item xs={1}><UpdateUser userID={this.state.userID} isAdmin={this.state.isAdmin} sessionToken={this.state.sessionToken} setUserID={this.setUserID} setIsAdmin={this.setIsAdmin} setSessionToken={this.setSessionToken} /></Grid> : null}
+
+          {/* {this.state.sessionToken !== "" ? <Grid item xs={1}><Typography variant="body1"><a href="#" onClick={() => this.logOut()}>Log Out</a></Typography></Grid> : null} */}
+
+          {this.state.sessionToken !== "" ? <Grid item xs={1}><Button variant="text" color="primary" onClick={() => this.logOut()}>Log Out</Button></Grid> : null}
+
           {this.state.sessionToken !== "" && this.state.categoryID !== undefined && this.state.categoryID !== null ?
-          <Checklist userID={this.state.userID} /*isLoggedIn={this.state.isLoggedIn}*/ isAdmin={this.state.isAdmin} sessionToken={this.state.sessionToken} titleID={this.state.titleID} setTitleID={this.setTitleID} categoryID={this.state.categoryID} setCategoryID={this.setCategoryID} titleSort={this.state.titleSort} setTitleSort={this.setTitleSort} titleUpdated={this.state.titleUpdated} />
+          <Grid item xs={1}><Checklist userID={this.state.userID} isAdmin={this.state.isAdmin} sessionToken={this.state.sessionToken} titleID={this.state.titleID} setTitleID={this.setTitleID} categoryID={this.state.categoryID} setCategoryID={this.setCategoryID} titleSort={this.state.titleSort} setTitleSort={this.setTitleSort} titleUpdated={this.state.titleUpdated} /></Grid>
           : null}
 
-        </Grid>
         </Grid>
 
         </Toolbar>
@@ -162,12 +153,12 @@ class App extends Component<{}, IState> {
       <Grid container spacing={2}>
       <Grid item xs={12}>
       <Switch>
-          <Route exact path="/" render={() => <Home userID={this.state.userID} /*isLoggedIn={this.state.isLoggedIn}*/ isAdmin={this.state.isAdmin} sessionToken={this.state.sessionToken} titleID={this.state.titleID} setTitleID={this.setTitleID} categoryID={this.state.categoryID} setCategoryID={this.setCategoryID} titleSort={this.state.titleSort} setTitleSort={this.setTitleSort} titleUpdated={this.state.titleUpdated} setTitleUpdated={this.setTitleUpdated} />}/>
-          <Route exact path="/home" render={() => <Home userID={this.state.userID} /*isLoggedIn={this.state.isLoggedIn}*/ isAdmin={this.state.isAdmin} sessionToken={this.state.sessionToken} titleID={this.state.titleID} setTitleID={this.setTitleID} categoryID={this.state.categoryID} setCategoryID={this.setCategoryID} titleSort={this.state.titleSort} setTitleSort={this.setTitleSort} titleUpdated={this.state.titleUpdated} setTitleUpdated={this.setTitleUpdated} />}/>
-          <Route exact path="/login" render={() => <Login userID={this.state.userID} /*isLoggedIn={this.state.isLoggedIn}*/ isAdmin={this.state.isAdmin} sessionToken={this.state.sessionToken} setUserID={this.setUserID} /*setIsLoggedIn={this.setIsLoggedIn}*/ setIsAdmin={this.setIsAdmin} setSessionToken={this.setSessionToken} />} />
-          <Route exact path="/register" render={() => <Register userID={this.state.userID} /*isLoggedIn={this.state.isLoggedIn}*/ isAdmin={this.state.isAdmin} sessionToken={this.state.sessionToken} setUserID={this.setUserID} /*setIsLoggedIn={this.setIsLoggedIn}*/ setIsAdmin={this.setIsAdmin} setSessionToken={this.setSessionToken} />} />
-          <Route exact path="/updateuser" render={() => <UpdateUser userID={this.state.userID} /*isLoggedIn={this.state.isLoggedIn}*/ isAdmin={this.state.isAdmin} sessionToken={this.state.sessionToken} setUserID={this.setUserID} /*setIsLoggedIn={this.setIsLoggedIn}*/ setIsAdmin={this.setIsAdmin} setSessionToken={this.setSessionToken} />} />
-          <Route exact path="/admin" render={() => <Admin userID={this.state.userID} /*isLoggedIn={this.state.isLoggedIn}*/ isAdmin={this.state.isAdmin} sessionToken={this.state.sessionToken} />}/>
+          <Route exact path="/" render={() => <Home userID={this.state.userID} isAdmin={this.state.isAdmin} sessionToken={this.state.sessionToken} titleID={this.state.titleID} setTitleID={this.setTitleID} categoryID={this.state.categoryID} setCategoryID={this.setCategoryID} titleSort={this.state.titleSort} setTitleSort={this.setTitleSort} titleUpdated={this.state.titleUpdated} setTitleUpdated={this.setTitleUpdated} />}/>
+          <Route exact path="/home" render={() => <Home userID={this.state.userID} isAdmin={this.state.isAdmin} sessionToken={this.state.sessionToken} titleID={this.state.titleID} setTitleID={this.setTitleID} categoryID={this.state.categoryID} setCategoryID={this.setCategoryID} titleSort={this.state.titleSort} setTitleSort={this.setTitleSort} titleUpdated={this.state.titleUpdated} setTitleUpdated={this.setTitleUpdated} />}/>
+          <Route exact path="/login" render={() => <Login userID={this.state.userID} isAdmin={this.state.isAdmin} sessionToken={this.state.sessionToken} setUserID={this.setUserID} setIsAdmin={this.setIsAdmin} setSessionToken={this.setSessionToken} />} />
+          <Route exact path="/register" render={() => <Register userID={this.state.userID} isAdmin={this.state.isAdmin} sessionToken={this.state.sessionToken} setUserID={this.setUserID} setIsAdmin={this.setIsAdmin} setSessionToken={this.setSessionToken} />} />
+          <Route exact path="/updateuser" render={() => <UpdateUser userID={this.state.userID} isAdmin={this.state.isAdmin} sessionToken={this.state.sessionToken} setUserID={this.setUserID} setIsAdmin={this.setIsAdmin} setSessionToken={this.setSessionToken} />} />
+          <Route exact path="/admin" render={() => <Admin userID={this.state.userID} isAdmin={this.state.isAdmin} sessionToken={this.state.sessionToken} />}/>
       </Switch>
       </Grid>
       </Grid>

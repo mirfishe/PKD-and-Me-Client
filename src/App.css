@@ -27,7 +27,7 @@
 body {
     font-family: var(--font-default);
     background-color: var(--very-light-brown);
-    margin-bottom: 10rem;
+    margin-bottom: 5ßrem;
 }
 
 /* Doesn't work on the dialog; changes the background behind it */

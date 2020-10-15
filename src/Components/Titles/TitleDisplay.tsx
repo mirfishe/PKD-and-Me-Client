@@ -88,7 +88,7 @@ const TitleDisplay: FunctionComponent <(IProps)> = props => {
 
                         <Grid item xs={8}>
 
-                            <Typography variant="body2" gutterBottom>{props.titleData.authorFirstName} {props.titleData.authorLastName}</Typography>
+                            <Typography variant="body1" gutterBottom>{props.titleData.authorFirstName} {props.titleData.authorLastName}</Typography>
 
                             {props.overallTitleRatingCount > 0 ? 
                             <React.Fragment>

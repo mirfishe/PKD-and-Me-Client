@@ -410,7 +410,7 @@ class Title extends Component<IProps, IState> {
     render() {
 
         return(
-            <Grid container spacing={2} style={{border: "5px solid black"}}>
+            <Grid container spacing={2}>
                 <Grid item xs={12}>
                 {this.state.titleMessage !== "" ? <Alert severity="info">{this.state.titleMessage}</Alert> : null}
                 {this.state.errTitleMessage !== "" ? <Alert severity="error">{this.state.errTitleMessage}</Alert> : null}
