@@ -1,14 +1,13 @@
 import React, {Component} from "react";
 import {Redirect} from "react-router-dom";
 
-import {Alert, Rating} from '@material-ui/lab/';
-import {Grid, Button, Checkbox, FormControlLabel, TextField, Typography, Dialog, DialogTitle, DialogContent, DialogActions} from '@material-ui/core';
+import {Alert, Rating} from "@material-ui/lab/";
+import {Grid, Button, Checkbox, FormControlLabel, TextField, Typography, Dialog, DialogTitle, DialogContent, DialogActions} from "@material-ui/core";
 
 import {baseURL} from "../../Helpers/constants"
 
 interface IProps {
     userID: number | null,
-    // isLoggedIn: boolean | null,
     isAdmin: boolean,
     sessionToken: string,
     titleID: number | null,

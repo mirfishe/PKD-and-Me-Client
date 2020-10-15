@@ -1,15 +1,15 @@
 import React, {Component} from "react";
 import {Redirect} from "react-router-dom";
 
-import {Alert} from '@material-ui/lab/';
-import {Grid, Button, TextField, Typography, InputLabel, Select, MenuItem, Dialog, DialogTitle, DialogContent, DialogActions} from '@material-ui/core';
+import {Alert} from "@material-ui/lab/";
+import {Grid, Button, TextField, Typography, InputLabel, Select, MenuItem, Dialog, DialogTitle, DialogContent, DialogActions} from "@material-ui/core";
+import EditIcon from "@material-ui/icons/Edit";
 
 import {baseURL} from "../../Helpers/constants"
 import {ITitle, ICategory} from "../../Helpers/interfaces"
 
 interface IProps {
     userID: number | null,
-    // isLoggedIn: boolean | null,
     isAdmin: boolean,
     sessionToken: string,
     titleID: number | null,
@@ -520,7 +520,8 @@ class EditTitle extends Component<IProps, IState> {
 
         return(
             <React.Fragment>
-            <Button variant="contained" size="small" color="primary" onClick={this.handleOpen}>Edit Title</Button>
+            {/* <Button variant="contained" size="small" color="primary" onClick={this.handleOpen}>Edit Title</Button> */}
+            <EditIcon className="editIcon" onClick={this.handleOpen} />
             <Dialog open={this.state.dialogOpen} onClose={this.handleClose} fullWidth={true} maxWidth="md">
                 <DialogTitle id="form-dialog-title">Edit Title</DialogTitle>
                 <DialogContent>
@@ -581,7 +582,7 @@ class EditTitle extends Component<IProps, IState> {
                 <Grid item xs={12}>
 
                 <TextField type="text" id="txtShortDescription" label=" Short Description" variant="outlined" fullWidth
-              margin="normal" multiline={true} rows={10} value={this.state.txtShortDescription} onChange={(event) => {/*console.log(event.target.value);*/ this.setState({txtShortDescription: event.target.value});}} />
+              margin="normal" multiline rows={10} value={this.state.txtShortDescription} onChange={(event) => {/*console.log(event.target.value);*/ this.setState({txtShortDescription: event.target.value});}} />
     
                     </Grid>
 

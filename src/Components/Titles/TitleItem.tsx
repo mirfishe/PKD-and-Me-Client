@@ -1,13 +1,13 @@
-import React, {FunctionComponent} from 'react';
+import React, {FunctionComponent} from "react";
 
-import {Grid, Typography, Link} from '@material-ui/core';
-// import BrokenImageIcon from '@material-ui/icons/BrokenImage';
-// import BrokenImageOutlinedIcon from '@material-ui/icons/BrokenImageOutlined';
-// import ImageIcon from '@material-ui/icons/Image';
-import ImageOutlinedIcon from '@material-ui/icons/ImageOutlined';
-// import ImageSearchOutlinedIcon from '@material-ui/icons/ImageSearchOutlined';
-// import ImageSearchRoundedIcon from '@material-ui/icons/ImageSearchRounded';
-// import ImageSearchSharpIcon from '@material-ui/icons/ImageSearchSharp';
+import {Grid, Typography, Link, Paper} from "@material-ui/core";
+// import BrokenImageIcon from "@material-ui/icons/BrokenImage";
+// import BrokenImageOutlinedIcon from "@material-ui/icons/BrokenImageOutlined";
+// import ImageIcon from "@material-ui/icons/Image";
+import ImageOutlinedIcon from "@material-ui/icons/ImageOutlined";
+// import ImageSearchOutlinedIcon from "@material-ui/icons/ImageSearchOutlined";
+// import ImageSearchRoundedIcon from "@material-ui/icons/ImageSearchRounded";
+// import ImageSearchSharpIcon from "@material-ui/icons/ImageSearchSharp";
 
 import {ITitle} from "../../Helpers/interfaces"
 import {Redirect} from "react-router-dom";
@@ -26,7 +26,7 @@ interface IProps {
 
 const TitleItem: FunctionComponent <(IProps)> = props => {
 
-    // console.log('TitleItem.tsx props.titleList', props.titleList);
+    // console.log("TitleItem.tsx props.titleList", props.titleList);
 
     if (props.titleID) {
         return <Redirect to="/title" />;
@@ -38,7 +38,7 @@ const TitleItem: FunctionComponent <(IProps)> = props => {
                 {props.categoryName !== null && props.categoryName !== "" ? 
                 <Grid item xs={12}> 
                 <Typography variant="h5" align="center" gutterBottom>{props.categoryName}
-                <Typography variant="caption" gutterBottom> Sort By
+                <Typography variant="caption" gutterBottom style={{marginLeft: "10px"}}> Sort By
                 {props.titleSort !== "publicationDate" ? 
                 <Typography variant="caption" gutterBottom> <Link href="#" onClick={() => props.setTitleSort("publicationDate")}>Publication Date</Link></Typography>
                 : null}
@@ -53,18 +53,19 @@ const TitleItem: FunctionComponent <(IProps)> = props => {
             {props.titleList.map((title: ITitle, index) => {
             return (
 
-                <React.Fragment key={title.titleID}>
+                <Grid item xs={3} key={title.titleID}>
                 {/* {index === 0 && title.categoryName !== null && title.categoryName !== "" ? 
                 <Grid item xs={12}>
-                {console.log('TitleItem.tsx props.titleList.map title', title)}
-                {console.log('TitleItem.tsx props.titleList.map title.categoryName', title.categoryName)}
+                {console.log("TitleItem.tsx props.titleList.map title", title)}
+                {console.log("TitleItem.tsx props.titleList.map title.categoryName", title.categoryName)}
                 <Typography variant="h5" align="center" gutterBottom>{title.categoryName}</Typography>
                 </Grid>
                 : null} */}
-                
-                <Grid item xs={4} key={title.titleID}>
+
+                <Paper key={title.titleID} style={{margin: "10px", padding: "10px", textAlign: "center"}}>
                 <Link href="#" onClick={() => props.setTitleID(title.titleID)}>
-                {title.imageName !== null && title.imageName !== "" ? <img src={"https://philipdick.com/images/covers/" + title.imageName} alt={title.titleName} /> : <ImageOutlinedIcon style={{fontSize: 80}} />}
+                {title.imageName !== null && title.imageName !== "" ? <img src={"https://philipdick.com/images/covers/" + title.imageName} alt={title.titleName}
+                style={{marginLeft: "auto", marginRight: "auto"}} /> : <ImageOutlinedIcon style={{fontSize: 150, color: "black"}} />}
                 </Link>
                 {/* <p>{title.titleName}</p> */}
                 {/* <a href="#" onClick={() => props.getEditions(title.titleID)}>{title.titleName}</a> */}
@@ -81,8 +82,8 @@ const TitleItem: FunctionComponent <(IProps)> = props => {
 
                 {/* <p>{title.shortDescription}</p>
                 <p>{title.urlPKDweb}</p> */}
+                </Paper>
                 </Grid>
-                </React.Fragment>
                 )
             })}
             </Grid>

@@ -1,14 +1,13 @@
 import React, {Component} from "react";
 import {Redirect} from "react-router-dom";
 
-import {Alert} from '@material-ui/lab/';
-import {Grid, Button, TextField, Typography} from '@material-ui/core';
+import {Alert} from "@material-ui/lab/";
+import {Grid, Button, TextField, Typography} from "@material-ui/core";
 
 import {baseURL} from "../../Helpers/constants"
 
 interface IProps {
     userID: number | null,
-    // isLoggedIn: boolean | null,
     isAdmin: boolean,
     sessionToken: string
 };
@@ -163,14 +162,15 @@ class AddCategory extends Component<IProps, IState> {
 
         return(
             <Grid container spacing={2}>
-                <Grid item xs={12}> 
+                <Grid item xs={10}>&nbsp;</Grid>
+                <Grid item xs={10}> 
                 <Typography variant="h5" align="center" gutterBottom>Add Category</Typography>
                 </Grid>
-                <Grid item xs={12}>
+                <Grid item xs={10}>
                 {this.state.message !== "" ? <Alert severity="info">{this.state.message}</Alert> : null}
                 {this.state.errMessage !== "" ? <Alert severity="error">{this.state.errMessage}</Alert> : null}
                 </Grid>
-                <Grid item xs={12}>
+                <Grid item xs={10}>
 
                 <TextField type="text" id="txtCategory" label="Category" variant="outlined" fullWidth
                 margin="normal" value={this.state.txtCategory} onChange={(event) => {/*console.log(event.target.value);*/ this.setState({txtCategory: event.target.value});}} />
@@ -178,8 +178,13 @@ class AddCategory extends Component<IProps, IState> {
 
                 </Grid>
 
-                    <Button variant="outlined" size="large" color="primary" onClick={this.addCategory}>Add Category</Button>
-                    {/* <Button variant="outlined" size="large" color="primary" onClick={this.handleClose}>Cancel</Button> */}
+                <Grid item xs={10}>
+
+                <Button variant="outlined" size="large" color="primary" onClick={this.addCategory}>Add Category</Button>
+                {/* <Button variant="outlined" size="large" color="primary" onClick={this.handleClose}>Cancel</Button> */}
+
+                </Grid>
+
         </Grid>
         );
     };

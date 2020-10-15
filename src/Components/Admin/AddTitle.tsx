@@ -1,15 +1,14 @@
 import React, {Component} from "react";
 import {Redirect} from "react-router-dom";
 
-import {Alert} from '@material-ui/lab/';
-import {Grid, Button, TextField, Typography, InputLabel, Select, MenuItem} from '@material-ui/core';
+import {Alert} from "@material-ui/lab/";
+import {Grid, Button, TextField, Typography, InputLabel, Select, MenuItem} from "@material-ui/core";
 
 import {baseURL} from "../../Helpers/constants"
 import {ICategory} from "../../Helpers/interfaces"
 
 interface IProps {
     userID: number | null,
-    // isLoggedIn: boolean | null,
     isAdmin: boolean,
     sessionToken: string
 };
@@ -330,35 +329,39 @@ class AddTitle extends Component<IProps, IState> {
 
         return(
             <Grid container spacing={2}>
-                <Grid item xs={12}> 
+                <Grid item xs={10}>&nbsp;</Grid>
+                <Grid item xs={10}> 
                 <Typography variant="h5" align="center" gutterBottom>Add Title</Typography>
                 </Grid>
-                <Grid item xs={12}>
+                <Grid item xs={10}>
                 {this.state.message !== "" ? <Alert severity="info">{this.state.message}</Alert> : null}
                 {this.state.errMessage !== "" ? <Alert severity="error">{this.state.errMessage}</Alert> : null}
                 {this.state.categoryMessage !== "" ? <Alert severity="info">{this.state.categoryMessage}</Alert> : null}
                 {this.state.errCategoryMessage !== "" ? <Alert severity="error">{this.state.errCategoryMessage}</Alert> : null}
                 </Grid>
-                <Grid item xs={12}>
+                <Grid item xs={10}>
 
                 <TextField type="text" id="txtTitleName" label="Title" variant="outlined" fullWidth
                 margin="normal" value={this.state.txtTitleName} onChange={(event) => {/*console.log(event.target.value);*/ this.setState({txtTitleName: event.target.value});}} />
                 {this.state.errTitleName !== "" ? <Alert severity="error">{this.state.errTitleName}</Alert> : null}
 
                 </Grid>
-                <Grid item xs={12}>
+                <Grid item xs={10}>
 
                 <TextField type="text" id="txtAuthorFirstName" label="Author First Name" variant="outlined" fullWidth
                 margin="normal" value={this.state.txtAuthorFirstName} onChange={(event) => {/*console.log(event.target.value);*/ this.setState({txtAuthorFirstName: event.target.value});}} />
 
                 </Grid>
-                <Grid item xs={12}>
+                <Grid item xs={10}>
 
                 <TextField type="text" id="txtAuthorLastName" label="Author Last Name" variant="outlined" fullWidth
                 margin="normal" value={this.state.txtAuthorLastName} onChange={(event) => {/*console.log(event.target.value);*/ this.setState({txtAuthorLastName: event.target.value});}} />
 
                 </Grid>
-                <Grid item xs={12}>
+
+                <Grid item xs={10}>
+                <Grid container spacing={2}>
+                <Grid item xs={4}>
 
                 <InputLabel id="lblCategoryID">Category</InputLabel>
                 <Select id="ddCategoryID" labelId="lblCategoryID" value={this.state.ddCategoryID} onChange={(event) => {/*console.log(event.target.value);*/ this.setState({ddCategoryID: event.target.value});}}>
@@ -372,35 +375,42 @@ class AddTitle extends Component<IProps, IState> {
                 {this.state.errCategoryID !== "" ? <Alert severity="error">{this.state.errCategoryID}</Alert> : null}
 
                 </Grid>
-
-                <Grid item xs={12}>
+                <Grid item xs={4}>
                         
                     <Typography component="legend">Publication Date</Typography>
                     <TextField type="date" id="txtPublicationDate" variant="outlined" fullWidth margin="normal" defaultValue={this.state.txtPublicationDate} value={this.state.txtPublicationDate} onChange={(event) => {/*console.log(event.target.value);*/ this.setState({txtPublicationDate: event.target.value});}} />
 
                 </Grid>
-                <Grid item xs={12}>
+                </Grid>
+                </Grid>
+
+                <Grid item xs={10}>
     
                     <TextField type="text" id="txtImageName" label="Image Name" variant="outlined" fullWidth
               margin="normal" value={this.state.txtImageName} onChange={(event) => {/*console.log(event.target.value);*/ this.setState({txtImageName: event.target.value});}} />
     
                 </Grid>
-                <Grid item xs={12}>
+                <Grid item xs={10}>
 
                 <TextField type="text" id="txtShortDescription" label=" Short Description" variant="outlined" fullWidth
-              margin="normal" multiline={true} rows={10} value={this.state.txtShortDescription} onChange={(event) => {/*console.log(event.target.value);*/ this.setState({txtShortDescription: event.target.value});}} />
+              margin="normal" multiline rows={10} value={this.state.txtShortDescription} onChange={(event) => {/*console.log(event.target.value);*/ this.setState({txtShortDescription: event.target.value});}} />
     
                     </Grid>
 
-                    <Grid item xs={12}>
+                    <Grid item xs={10}>
     
                     <TextField type="text" id="txtUrlPKDweb" label="url PKDweb" variant="outlined" fullWidth
                 margin="normal" value={this.state.txtUrlPKDweb} onChange={(event) => {/*console.log(event.target.value);*/ this.setState({txtUrlPKDweb: event.target.value});}} />
 
                     </Grid>
 
+                    <Grid item xs={10}>
+    
                     <Button variant="outlined" size="large" color="primary" onClick={this.addTitle}>Add Title</Button>
                     {/* <Button variant="outlined" size="large" color="primary" onClick={this.handleClose}>Cancel</Button> */}
+
+                    </Grid>
+
         </Grid>
         );
     };

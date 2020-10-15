@@ -1,19 +1,17 @@
 import React, {Component} from "react";
 import {Redirect} from "react-router-dom";
 
-import {Alert} from '@material-ui/lab/';
-import {Grid, Button, TextField, Dialog, DialogTitle, DialogContent, DialogActions} from '@material-ui/core';
+import {Alert} from "@material-ui/lab/";
+import {Grid, Button, TextField, Dialog, DialogTitle, DialogContent, DialogActions} from "@material-ui/core";
 
 import {baseURL, emailRegExp} from "../../Helpers/constants"
 // import {emailFormat} from "../../Helpers/constants"
 
 interface IProps {
     userID: number | null,
-    // isLoggedIn: boolean | null,
     isAdmin: boolean,
     sessionToken: string,
     setUserID: (userID: number | null) => void,
-    // setIsLoggedIn: (isLoggedIn: boolean) => void,
     setIsAdmin: (setIsAdmin: boolean) => void,
     setSessionToken: (sessionToken: string) => void
 };
@@ -41,7 +39,6 @@ interface IState {
     updatedBy: number | null,
     admin: boolean | null,
     active: boolean | null,
-    // isLoggedIn: boolean | null,
     // isAdmin: boolean | null,
     // sessionToken: string
 };
@@ -73,7 +70,6 @@ class UpdateUser extends Component<IProps, IState> {
             updatedBy: null,
             admin: null,
             active: null
-            // isLoggedIn: null,
             // isAdmin: null,
             // sessionToken: ""
         };
@@ -165,7 +161,6 @@ class UpdateUser extends Component<IProps, IState> {
         this.setState({updatedBy: null});
         this.setState({admin: null});
         this.setState({active: null});
-        // this.setState({isLoggedIn: null});
         // this.setState({isAdmin: null});
         // this.setState({sessionToken: ""});
 
@@ -308,11 +303,9 @@ class UpdateUser extends Component<IProps, IState> {
                     console.log("UpdateUser.tsx updateUser data", data);
     
                     this.setState({userRecordUpdated: data.recordUpdated});
-                    // this.setState({isLoggedIn: data.isLoggedIn});
                     // this.setState({isAdmin: data.isAdmin});
                     this.setState({message: data.message});
 
-                    // this.props.setIsLoggedIn(data.isLoggedIn);
                     this.props.setIsAdmin(data.isAdmin);
 
                     if (data.recordUpdated === true) {
@@ -378,7 +371,7 @@ class UpdateUser extends Component<IProps, IState> {
         return(
             <div>
             <Button variant="text" color="primary" onClick={this.handleOpen}>Profile</Button>
-            <Dialog open={this.state.dialogOpen} onClose={this.handleClose} fullWidth={true} maxWidth="md">
+            <Dialog open={this.state.dialogOpen} onClose={this.handleClose} fullWidth={true} maxWidth="sm">
                 <DialogTitle id="form-dialog-title">Update Profile</DialogTitle>
                 <DialogContent>
                 <Grid item xs={12}>
@@ -409,7 +402,7 @@ class UpdateUser extends Component<IProps, IState> {
                 <Grid item xs={12}>
 
                 <TextField type="password" id="txtPassword" required label="Password" variant="outlined" fullWidth
-          margin="normal" value={this.state.txtPassword} onChange={(event) => {/*console.log(event.target.value);*/ this.setState({txtPassword: event.target.value});}} />
+          margin="normal" helperText="Enter a new password to change it. Otherwise, leave it blank." value={this.state.txtPassword} onChange={(event) => {/*console.log(event.target.value);*/ this.setState({txtPassword: event.target.value});}} />
                 {this.state.errPassword !== "" ? <Alert severity="error">{this.state.errPassword}</Alert> : null}
 
                 </Grid>

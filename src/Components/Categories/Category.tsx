@@ -1,5 +1,5 @@
-import React, {FunctionComponent} from 'react';
-import {List, ListItem, Link, ListItemText} from '@material-ui/core';
+import React, {FunctionComponent} from "react";
+import {List, ListItem, Link, ListItemText} from "@material-ui/core";
 import {ICategory} from "../../Helpers/interfaces"
 
 interface IProps {
@@ -9,7 +9,7 @@ interface IProps {
 
 const Category: FunctionComponent <(IProps)> = props => {
 
-    // console.log('Category.tsx props.categoryList', props.categoryList);
+    // console.log("Category.tsx props.categoryList", props.categoryList);
 
     return(
         <List>

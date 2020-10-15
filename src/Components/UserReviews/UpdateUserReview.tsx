@@ -1,14 +1,14 @@
 import React, {Component} from "react";
 import {Redirect} from "react-router-dom";
 
-import {Alert, Rating} from '@material-ui/lab/';
-import {Grid, Button, Checkbox, FormControlLabel, TextField, Typography, Dialog, DialogTitle, DialogContent, DialogActions} from '@material-ui/core';
+import {Alert, Rating} from "@material-ui/lab/";
+import {Grid, Button, Checkbox, FormControlLabel, TextField, Typography, Dialog, DialogTitle, DialogContent, DialogActions} from "@material-ui/core";
+import EditIcon from "@material-ui/icons/Edit";
 
 import {baseURL} from "../../Helpers/constants"
 
 interface IProps {
     userID: number | null,
-    // isLoggedIn: boolean | null,
     isAdmin: boolean,
     sessionToken: string,
     titleID: number | null,
@@ -385,8 +385,9 @@ class UpdateUserReview extends Component<IProps, IState> {
         };
 
         return(
-            <div>
-            <Button variant="contained" size="small" color="primary" onClick={this.handleOpen}>Update Review</Button>
+            <React.Fragment>
+            {/* <Button variant="contained" size="small" color="primary" onClick={this.handleOpen}>Update Review</Button> */}
+            <EditIcon className="editIcon" onClick={this.handleOpen} />
             <Dialog open={this.state.dialogOpen} onClose={this.handleClose} fullWidth={true} maxWidth="md">
                 <DialogTitle id="form-dialog-title">Update Review</DialogTitle>
                 <DialogContent>
@@ -434,7 +435,7 @@ class UpdateUserReview extends Component<IProps, IState> {
                 </Grid>
             </DialogContent>
           </Dialog>
-        </div>
+        </React.Fragment>
         );
     };
 };
