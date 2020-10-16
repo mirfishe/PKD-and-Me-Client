@@ -433,7 +433,7 @@ class Title extends Component<IProps, IState> {
                 {this.state.userReviewResultsFound && this.state.userReviewResultsHaveReviews ? <UserReview userID={this.props.userID} isAdmin={this.props.isAdmin} sessionToken={this.props.sessionToken} titleID={this.props.titleID} userReviewUpdated={this.userReviewUpdated} userReviewList={this.state.userReviewList} /> : null}
                 </Grid>
                 <Grid item xs={10}>
-                {this.props.sessionToken !== "" && this.state.userReviewedTitle === false ? <AddUserReview userID={this.props.userID} isAdmin={this.props.isAdmin} sessionToken={this.props.sessionToken} titleID={this.props.titleID} userReviewUpdated={this.userReviewUpdated} /> : null}
+                {this.props.sessionToken !== "" && this.props.sessionToken !== null && this.state.userReviewedTitle === false ? <AddUserReview userID={this.props.userID} isAdmin={this.props.isAdmin} sessionToken={this.props.sessionToken} titleID={this.props.titleID} userReviewUpdated={this.userReviewUpdated} displayButton={true} /> : null}
                 </Grid>
             </Grid>
         );

@@ -16,7 +16,9 @@ interface IProps {
     setTitleID: (titleID: number | null) => void,
     // titleUpdated: () => void,
     titleUpdated: boolean,
-    setTitleUpdated: (titleUpdated: boolean) => void
+    setTitleUpdated: (titleUpdated: boolean) => void,
+    displayIcon?: boolean,
+    displayButton?: boolean
 };
 
 interface IState {
@@ -524,8 +526,11 @@ class EditTitle extends Component<IProps, IState> {
 
         return(
             <React.Fragment>
-            {/* <Button variant="contained" size="small" color="primary" onClick={this.handleOpen}>Edit Title</Button> */}
-            <EditIcon className="addEditIcon" onClick={this.handleOpen} />
+
+            {this.props.displayButton === true ? <Button variant="contained" size="small" color="primary" onClick={this.handleOpen}>Edit Title</Button> : null}
+
+            {this.props.displayIcon === true ? <EditIcon className="addEditIcon" onClick={this.handleOpen} /> : null}
+
             <Dialog open={this.state.dialogOpen} onClose={this.handleClose} fullWidth={true} maxWidth="md">
                 <DialogTitle id="form-dialog-title">Edit Title</DialogTitle>
                 <DialogContent>

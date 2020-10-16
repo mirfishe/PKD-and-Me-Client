@@ -13,7 +13,9 @@ interface IProps {
     sessionToken: string | null,
     titleID: number | null,
     reviewID: number | null,
-    userReviewUpdated: () => void
+    userReviewUpdated: () => void,
+    displayIcon?: boolean,
+    displayButton?: boolean
 };
 
 interface IState {
@@ -394,8 +396,11 @@ class UpdateUserReview extends Component<IProps, IState> {
 
         return(
             <React.Fragment>
-            {/* <Button variant="contained" size="small" color="primary" onClick={this.handleOpen}>Update Review</Button> */}
-            <EditIcon className="addEditIcon" onClick={this.handleOpen} />
+                
+            {this.props.displayButton === true ? <Button variant="contained" size="small" color="primary" onClick={this.handleOpen}>Update Review</Button> : null}
+
+            {this.props.displayIcon === true ? <EditIcon className="addEditIcon" onClick={this.handleOpen} /> : null}
+
             <Dialog open={this.state.dialogOpen} onClose={this.handleClose} fullWidth={true} maxWidth="md">
                 <DialogTitle id="form-dialog-title">Update Review</DialogTitle>
                 <DialogContent>

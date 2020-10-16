@@ -236,6 +236,9 @@ class UpdateUser extends Component<IProps, IState> {
                 passwordValidated = true;
                 this.setState({errPassword: ""});
             };
+        } else {
+            passwordValidated = true;
+            this.setState({errPassword: ""});
         };
 
         if (firstNameValidated === true && lastNameValidated === true && emailValidated === true && passwordValidated === true) {
@@ -248,10 +251,11 @@ class UpdateUser extends Component<IProps, IState> {
             // console.log("UpdateUser.tsx updateUser formValidated false", formValidated);
         };
 
-        // console.log("UpdateUser.tsx updateUser firstNameValidated", firstNameValidated);
-        // console.log("UpdateUser.tsx updateUser lastNameValidated", lastNameValidated);
-        // console.log("UpdateUser.tsx updateUser emailValidated", emailValidated);
-        // console.log("UpdateUser.tsx updateUser formValidated", formValidated);
+        // console.log("Register.tsx register firstNameValidated", firstNameValidated);
+        // console.log("Register.tsx register lastNameValidated", lastNameValidated);
+        // console.log("Register.tsx register emailValidated", emailValidated);
+        // console.log("Register.tsx register passwordValidated", passwordValidated);
+        // console.log("Register.tsx register formValidated", formValidated);
 
         if (formValidated === true && this.props.sessionToken !== null) {
 
@@ -304,7 +308,7 @@ class UpdateUser extends Component<IProps, IState> {
                     // };
                 })
                 .then(data => {
-                    console.log("UpdateUser.tsx updateUser data", data);
+                    // console.log("UpdateUser.tsx updateUser data", data);
     
                     this.setState({userRecordUpdated: data.recordUpdated});
                     // this.setState({isAdmin: data.isAdmin});

@@ -10,12 +10,13 @@ import {IEdition, IMedia} from "../../Helpers/interfaces";
 
 interface IProps {
     userID: number | null,
-    // isLoggedIn: boolean | null,
     isAdmin: boolean,
     sessionToken: string | null,
     titleID: number | null,
     editionID: number | null,
-    editionUpdated: () => void
+    editionUpdated: () => void,
+    displayIcon?: boolean,
+    displayButton?: boolean
 };
 
 interface IState {
@@ -538,8 +539,11 @@ class EditEdition extends Component<IProps, IState> {
 
         return(
             <React.Fragment>
-            {/* <Button variant="contained" size="small" color="primary" onClick={this.handleOpen}>Edit Edition</Button> */}
-            <EditIcon className="addEditIcon" onClick={this.handleOpen} />
+                
+            {this.props.displayButton === true ? <Button variant="contained" size="small" color="primary" onClick={this.handleOpen}>Edit Edition</Button> : null}
+
+            {this.props.displayIcon === true ? <EditIcon className="addEditIcon" onClick={this.handleOpen} /> : null}
+
             <Dialog open={this.state.dialogOpen} onClose={this.handleClose} fullWidth={true} maxWidth="md">
                 <DialogTitle id="form-dialog-title">Edit Edition</DialogTitle>
                 <DialogContent>

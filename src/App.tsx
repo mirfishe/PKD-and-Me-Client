@@ -20,6 +20,8 @@ interface IState {
   errMessage: string,
   userResultsFound: boolean | null,
   userID: number | null,
+  firstName: string | null,
+  lastName: string | null,
   isAdmin: boolean,
   sessionToken: string | null,
   titleID: number | null,
@@ -37,6 +39,8 @@ class App extends Component<{}, IState> {
         errMessage: "",
         userResultsFound: null,
         userID: null,
+        firstName: null,
+        lastName: null,
         isAdmin: false,
         sessionToken: null,
         titleID: null,
@@ -113,6 +117,8 @@ class App extends Component<{}, IState> {
 
     this.setState({message: ""});
     this.setState({errMessage: ""});
+    this.setState({firstName: null});
+    this.setState({lastName: null});
 
     let url: string = baseURL + "user/";
 
@@ -148,6 +154,9 @@ class App extends Component<{}, IState> {
               if (data.users[0].active === true) {
                 // this.setState({userID: data.users[0].userID});
                 this.setUserID(data.users[0].userID);
+                // This is not being set on log in also, only when the page is loaded and the user information is coming from local storage.
+                this.setState({firstName: data.users[0].firstName});
+                this.setState({lastName: data.users[0].lastName});
                 this.setIsAdmin(data.users[0].admin);
               } else {
                 // Won't hit this because no records will be returned if the user is not active
@@ -213,7 +222,6 @@ class App extends Component<{}, IState> {
       {this.state.isAdmin === false ? <Alert severity="warning">Not isAdmin</Alert> : null} */}
       {/* {this.state.sessionToken !== "" && this.state.sessionToken !== null ? <Alert severity="info">this.state.sessionToken={this.state.sessionToken}</Alert> : null} */}
       {/* {localStorage.getItem("token") !== "" && localStorage.getItem("token") !== null ? <Alert severity="info">localStorage.getItem("token")={localStorage.getItem("token")}</Alert> : null} */}
-
       {this.state.message !== "" ? <Alert severity="info">{this.state.message}</Alert> : null}
       {this.state.errMessage !== "" ? <Alert severity="error">{this.state.errMessage}</Alert> : null}
 
@@ -227,30 +235,33 @@ class App extends Component<{}, IState> {
             </Grid>
             <Grid item xs={1}> */}
 
-          <Grid item xs={1}>
+          <Grid item xs={2}>
           <Typography variant="body1">
           <Link to="/home" onClick={() => this.goToHome()}><HomeIcon color="primary" /></Link>
           </Typography>
           </Grid>
 
-          {this.state.isAdmin === true ? <Grid item xs={1}><Typography variant="button"><Link to="/admin">Admin</Link></Typography></Grid> : null}
+          {this.state.isAdmin === true ? <Grid item xs={2}><Typography variant="button"><Link to="/admin">Admin</Link></Typography></Grid> : null}
 
           {/* {this.state.sessionToken === "" || this.state.sessionToken === null ? <Typography variant="body1"><Link to="/login">Login</Link></Typography></Grid> : null} */}
-          {this.state.sessionToken === "" || this.state.sessionToken === null ? <Grid item xs={1}><Login userID={this.state.userID} isAdmin={this.state.isAdmin} sessionToken={this.state.sessionToken} setUserID={this.setUserID} setIsAdmin={this.setIsAdmin} setSessionToken={this.setSessionToken} /></Grid> : null}
+          {this.state.sessionToken === "" || this.state.sessionToken === null ? <Grid item xs={2}><Login userID={this.state.userID} isAdmin={this.state.isAdmin} sessionToken={this.state.sessionToken} setUserID={this.setUserID} setIsAdmin={this.setIsAdmin} setSessionToken={this.setSessionToken} /></Grid> : null}
 
-          {/* {this.state.sessionToken === "" || this.state.sessionToken === null ? <Grid item xs={1}><Typography variant="body1"><Link to="/register">Register</Link></Typography></Grid> : null} */}
-          {this.state.sessionToken === "" || this.state.sessionToken === null ? <Grid item xs={1}><Register userID={this.state.userID} isAdmin={this.state.isAdmin} sessionToken={this.state.sessionToken} setUserID={this.setUserID} setIsAdmin={this.setIsAdmin} setSessionToken={this.setSessionToken} /></Grid> : null}
+          {/* {this.state.sessionToken === "" || this.state.sessionToken === null ? <Grid item xs={2}><Typography variant="body1"><Link to="/register">Register</Link></Typography></Grid> : null} */}
+          {this.state.sessionToken === "" || this.state.sessionToken === null ? <Grid item xs={2}><Register userID={this.state.userID} isAdmin={this.state.isAdmin} sessionToken={this.state.sessionToken} setUserID={this.setUserID} setIsAdmin={this.setIsAdmin} setSessionToken={this.setSessionToken} /></Grid> : null}
 
-          {/* {this.state.sessionToken !== "" && this.state.sessionToken !== null ? <Grid item xs={1}><Typography variant="body1"><Link to="/updateuser">Update Profile</Link> </Typography></Grid> : null} */}
-          {this.state.sessionToken !== "" && this.state.sessionToken !== null ? <Grid item xs={1}><UpdateUser userID={this.state.userID} isAdmin={this.state.isAdmin} sessionToken={this.state.sessionToken} setUserID={this.setUserID} setIsAdmin={this.setIsAdmin} setSessionToken={this.setSessionToken} /></Grid> : null}
+          {/* {this.state.sessionToken !== "" && this.state.sessionToken !== null ? <Grid item xs={2}><Typography variant="body1"><Link to="/updateuser">Update Profile</Link> </Typography></Grid> : null} */}
+          {this.state.sessionToken !== "" && this.state.sessionToken !== null ? <Grid item xs={2}><UpdateUser userID={this.state.userID} isAdmin={this.state.isAdmin} sessionToken={this.state.sessionToken} setUserID={this.setUserID} setIsAdmin={this.setIsAdmin} setSessionToken={this.setSessionToken} /></Grid> : null}
 
-          {/* {this.state.sessionToken !== "" && this.state.sessionToken !== null ? <Grid item xs={1}><Typography variant="body1"><a href="#" onClick={() => this.logOut()}>Log Out</a></Typography></Grid> : null} */}
+          {/* {this.state.sessionToken !== "" && this.state.sessionToken !== null ? <Grid item xs={2}><Typography variant="body1"><a href="#" onClick={() => this.logOut()}>Log Out</a></Typography></Grid> : null} */}
 
-          {this.state.sessionToken !== "" && this.state.sessionToken !== null ? <Grid item xs={1}><Button variant="text" color="primary" onClick={() => this.logOut()}>Log Out</Button></Grid> : null}
+          {this.state.sessionToken !== "" && this.state.sessionToken !== null ? <Grid item xs={2}><Button variant="text" color="primary" onClick={() => this.logOut()}>Log Out</Button></Grid> : null}
 
           {this.state.sessionToken !== "" && this.state.sessionToken !== null && this.state.categoryID !== undefined && this.state.categoryID !== null ?
-          <Grid item xs={1}><Checklist userID={this.state.userID} isAdmin={this.state.isAdmin} sessionToken={this.state.sessionToken} titleID={this.state.titleID} setTitleID={this.setTitleID} categoryID={this.state.categoryID} setCategoryID={this.setCategoryID} titleSort={this.state.titleSort} setTitleSort={this.setTitleSort} titleUpdated={this.state.titleUpdated} /></Grid>
+          <Grid item xs={2}><Checklist userID={this.state.userID} isAdmin={this.state.isAdmin} sessionToken={this.state.sessionToken} titleID={this.state.titleID} setTitleID={this.setTitleID} categoryID={this.state.categoryID} setCategoryID={this.setCategoryID} titleSort={this.state.titleSort} setTitleSort={this.setTitleSort} titleUpdated={this.state.titleUpdated} /></Grid>
           : null}
+
+          {/* This is not being set on log in also, only when the page is loaded and the user information is coming from local storage. */}
+          {this.state.sessionToken !== "" && this.state.sessionToken !== null ? <Grid item xs={2}><Typography variant="subtitle2">Welcome, {this.state.firstName} {this.state.lastName}.</Typography></Grid> : null}
 
         </Grid>
 

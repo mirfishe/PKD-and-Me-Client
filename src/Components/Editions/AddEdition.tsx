@@ -13,7 +13,9 @@ interface IProps {
     isAdmin: boolean,
     sessionToken: string | null,
     titleID: number | null,
-    editionUpdated: () => void
+    editionUpdated: () => void,
+    displayIcon?: boolean,
+    displayButton?: boolean
 };
 
 interface IState {
@@ -355,8 +357,11 @@ class AddEdition extends Component<IProps, IState> {
 
         return(
             <React.Fragment>
-            {/* <Button variant="contained" size="small" color="primary" onClick={this.handleOpen}>Add Edition</Button> */}
-            <AddIcon className="addEditIcon" onClick={this.handleOpen} />
+                            
+            {this.props.displayButton === true ? <Button variant="contained" size="small" color="primary" onClick={this.handleOpen}>Add Edition</Button> : null}
+
+            {this.props.displayIcon === true ? <AddIcon className="addEditIcon" onClick={this.handleOpen} /> : null}
+
             <Dialog open={this.state.dialogOpen} onClose={this.handleClose} fullWidth={true} maxWidth="md">
                 <DialogTitle id="form-dialog-title">Add Edition</DialogTitle>
                 <DialogContent>

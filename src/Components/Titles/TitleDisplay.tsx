@@ -73,7 +73,7 @@ const TitleDisplay: FunctionComponent <(IProps)> = props => {
                 <Grid item xs={12}>
                     <Grid item xs={12}>
                         <Typography variant="h5" gutterBottom>{props.titleData.titleName}
-                            {props.isAdmin === true ? <EditTitle userID={props.userID} isAdmin={props.isAdmin} sessionToken={props.sessionToken} titleID={props.titleID} setTitleID={props.setTitleID} /*titleUpdated={props.titleUpdated}*/ titleUpdated={props.titleUpdated} setTitleUpdated={props.setTitleUpdated} /> : null}
+                            {props.isAdmin === true ? <EditTitle userID={props.userID} isAdmin={props.isAdmin} sessionToken={props.sessionToken} titleID={props.titleID} setTitleID={props.setTitleID} /*titleUpdated={props.titleUpdated}*/ titleUpdated={props.titleUpdated} setTitleUpdated={props.setTitleUpdated} displayIcon={true} /> : null}
 
                             {props.titleData.publicationDate !== null ? <Typography variant="caption" gutterBottom style={{marginLeft: "5px", fontSize: 18}}> ({props.titleData.publicationDate.toString().substring(0, 4)})</Typography> : null}
 
@@ -97,23 +97,21 @@ const TitleDisplay: FunctionComponent <(IProps)> = props => {
                             </React.Fragment>
                             : null}
 
-                            <Typography variant="subtitle2" gutterBottom>
-                            {props.userReviewedTitleRead === true && props.userReviewedTitleDateRead === null ? <React.Fragment>Read</React.Fragment> : null}
+                            {props.userReviewedTitleRead === true && props.userReviewedTitleDateRead === null ? <Typography variant="subtitle2" gutterBottom>Read</Typography> : null}
 
                             {props.userReviewedTitleDateRead !== null ? <Typography variant="caption" gutterBottom>Read on {props.userReviewedTitleDateRead.toString().substring(0, 10)}</Typography> : null}
-                            </Typography>
 
-                            {props.sessionToken !== "" && props.userReviewedTitle === false? <AddUserReview userID={props.userID} isAdmin={props.isAdmin} sessionToken={props.sessionToken} titleID={props.titleID} userReviewUpdated={props.userReviewUpdated} /> : null}
+                            {props.sessionToken !== "" && props.userReviewedTitle === false ? <p><AddUserReview userID={props.userID} isAdmin={props.isAdmin} sessionToken={props.sessionToken} titleID={props.titleID} userReviewUpdated={props.userReviewUpdated} displayButton={true} /></p> : null}
 
-                            {props.userReviewedTitle ? <UpdateUserReview userID={props.userID} isAdmin={props.isAdmin} sessionToken={props.sessionToken} titleID={props.titleID} userReviewUpdated={props.userReviewUpdated} reviewID={props.userReviewedTitleReviewID} /> : null}
+                            {props.userReviewedTitle === true ? <p><UpdateUserReview userID={props.userID} isAdmin={props.isAdmin} sessionToken={props.sessionToken} titleID={props.titleID} userReviewUpdated={props.userReviewUpdated} reviewID={props.userReviewedTitleReviewID} displayButton={true} /></p> : null}
 
-                            {props.isAdmin === true ? <AddEdition userID={props.userID} isAdmin={props.isAdmin} sessionToken={props.sessionToken} titleID={props.titleID} editionUpdated={props.editionUpdated} /> : null}
+                            {props.isAdmin === true ? <p><AddEdition userID={props.userID} isAdmin={props.isAdmin} sessionToken={props.sessionToken} titleID={props.titleID} editionUpdated={props.editionUpdated} displayButton={true} /></p> : null}
 
                         </Grid>
                     </Grid>
                     <Grid item xs={12}>
-                        {props.titleData.shortDescription !== "" ? <Typography variant="body2" gutterBottom>{props.titleData.shortDescription}</Typography> : null}
-                        {props.titleData.urlPKDweb !== "" ? <Typography variant="body2" gutterBottom><Link href={props.titleData.urlPKDweb}target="_blank">Encyclopedia Dickiana</Link></Typography> : null}
+                        {props.titleData.shortDescription !== "" && props.titleData.shortDescription !== null ? <Typography variant="body2" gutterBottom>{props.titleData.shortDescription}</Typography> : null}
+                        {props.titleData.urlPKDweb !== "" && props.titleData.urlPKDweb !== null ? <Typography variant="body2" gutterBottom><Link href={props.titleData.urlPKDweb}target="_blank">Encyclopedia Dickiana</Link></Typography> : null}
                     </Grid>
                 </Grid>
                 : null}

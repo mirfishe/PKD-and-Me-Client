@@ -12,7 +12,9 @@ interface IProps {
     isAdmin: boolean,
     sessionToken: string | null,
     titleID: number | null,
-    userReviewUpdated: () => void
+    userReviewUpdated: () => void,
+    displayIcon?: boolean,
+    displayButton?: boolean
 };
 
 interface IState {
@@ -240,9 +242,12 @@ class AddUserReview extends Component<IProps, IState> {
         };
 
         return(
-            <div>
-            <Button variant="contained" size="small" color="primary" onClick={this.handleOpen}>Add Review</Button>
-            <AddIcon className="addEditIcon" onClick={this.handleOpen} />
+            <React.Fragment>
+                            
+            {this.props.displayButton === true ? <Button variant="contained" size="small" color="primary" onClick={this.handleOpen}>Add Review</Button> : null}
+
+            {this.props.displayIcon === true ? <AddIcon className="addEditIcon" onClick={this.handleOpen} /> : null}
+
             <Dialog open={this.state.dialogOpen} onClose={this.handleClose} fullWidth={true} maxWidth="md">
                 <DialogTitle id="form-dialog-title">Add Review</DialogTitle>
                 <DialogContent>
@@ -286,7 +291,7 @@ class AddUserReview extends Component<IProps, IState> {
                 </DialogActions>
             </DialogContent>
           </Dialog>
-        </div>
+        </React.Fragment>
         );
     };
 };

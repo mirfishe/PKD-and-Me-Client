@@ -48,7 +48,7 @@ const Edition: FunctionComponent <(IProps)> = props => {
         <Grid container spacing={2}>
             <Grid item xs={12}>
             <Typography variant="h5" align="center" gutterBottom>Purchase Editions
-            {props.isAdmin === true ? <AddEdition userID={props.userID} isAdmin={props.isAdmin} sessionToken={props.sessionToken} titleID={props.titleID} editionUpdated={props.editionUpdated} /> : null}
+            {props.isAdmin === true ? <AddEdition userID={props.userID} isAdmin={props.isAdmin} sessionToken={props.sessionToken} titleID={props.titleID} editionUpdated={props.editionUpdated} displayIcon={true} /> : null}
             </Typography>
             </Grid>
             <Grid item xs={12}>
