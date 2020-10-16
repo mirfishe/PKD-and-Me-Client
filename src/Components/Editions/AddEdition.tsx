@@ -5,13 +5,13 @@ import {Alert} from "@material-ui/lab/";
 import {Grid, Button, TextField, InputLabel, Select, MenuItem, Typography, Dialog, DialogTitle, DialogContent, DialogActions} from "@material-ui/core";
 import AddIcon from "@material-ui/icons/Add";
 
-import {baseURL} from "../../Helpers/constants"
-import {IMedia} from "../../Helpers/interfaces"
+import {baseURL} from "../../Helpers/constants";
+import {IMedia} from "../../Helpers/interfaces";
 
 interface IProps {
     userID: number | null,
     isAdmin: boolean,
-    sessionToken: string,
+    sessionToken: string | null,
     titleID: number | null,
     editionUpdated: () => void
 };
@@ -188,7 +188,7 @@ class AddEdition extends Component<IProps, IState> {
         // console.log("AddEdition.tsx addEdition mediaIDValidated", mediaIDValidated);
         // console.log("AddEdition.tsx addEdition formValidated", formValidated);
 
-        if (formValidated === true) {
+        if (formValidated === true && this.props.sessionToken !== null) {
 
             let editionObject = {
                 titleID: this.props.titleID,
@@ -356,7 +356,7 @@ class AddEdition extends Component<IProps, IState> {
         return(
             <React.Fragment>
             {/* <Button variant="contained" size="small" color="primary" onClick={this.handleOpen}>Add Edition</Button> */}
-            <AddIcon className="editIcon" onClick={this.handleOpen} />
+            <AddIcon className="addEditIcon" onClick={this.handleOpen} />
             <Dialog open={this.state.dialogOpen} onClose={this.handleClose} fullWidth={true} maxWidth="md">
                 <DialogTitle id="form-dialog-title">Add Edition</DialogTitle>
                 <DialogContent>

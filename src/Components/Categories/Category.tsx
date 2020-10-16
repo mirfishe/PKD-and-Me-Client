@@ -1,6 +1,6 @@
 import React, {FunctionComponent} from "react";
 import {List, ListItem, Link, ListItemText} from "@material-ui/core";
-import {ICategory} from "../../Helpers/interfaces"
+import {ICategory} from "../../Helpers/interfaces";
 
 interface IProps {
     categoryList: ICategory[],

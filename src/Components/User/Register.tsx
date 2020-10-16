@@ -4,13 +4,13 @@ import {Redirect} from "react-router-dom";
 import {Alert} from "@material-ui/lab/";
 import {Grid, Button, TextField, Dialog, DialogTitle, DialogContent, DialogActions} from "@material-ui/core";
 
-import {baseURL, emailRegExp} from "../../Helpers/constants"
-// import {emailFormat} from "../../Helpers/constants"
+import {baseURL, emailRegExp} from "../../Helpers/constants";
+// import {emailFormat} from "../../Helpers/constants";
 
 interface IProps {
     userID: number | null,
     isAdmin: boolean,
-    sessionToken: string,
+    sessionToken: string | null,
     setUserID: (userID: number | null) => void,
     setIsAdmin: (setIsAdmin: boolean) => void,
     setSessionToken: (sessionToken: string) => void
@@ -262,9 +262,10 @@ class Register extends Component<IProps, IState> {
 
     render() {
 
-        if (this.props.sessionToken !== "") {
-            return <Redirect to="/" />;
-        };
+        // Not sure if this is needed since this was changed from a page to a dialog/modal.
+        // if (this.props.sessionToken !== "" && this.props.sessionToken !== null) {
+        //     return <Redirect to="/" />;
+        // };
 
         return(
             <div>

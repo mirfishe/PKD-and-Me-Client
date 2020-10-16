@@ -5,13 +5,13 @@ import {Alert} from "@material-ui/lab/";
 import {Grid, Button, TextField, Typography, InputLabel, Select, MenuItem, Dialog, DialogTitle, DialogContent, DialogActions} from "@material-ui/core";
 import EditIcon from "@material-ui/icons/Edit";
 
-import {baseURL} from "../../Helpers/constants"
-import {ITitle, ICategory} from "../../Helpers/interfaces"
+import {baseURL} from "../../Helpers/constants";
+import {ITitle, ICategory} from "../../Helpers/interfaces";
 
 interface IProps {
     userID: number | null,
     isAdmin: boolean,
-    sessionToken: string,
+    sessionToken: string | null,
     titleID: number | null,
     setTitleID: (titleID: number | null) => void,
     // titleUpdated: () => void,
@@ -294,7 +294,7 @@ class EditTitle extends Component<IProps, IState> {
         // console.log("EditTitle.tsx updateTitle categoryIDValidated", categoryIDValidated);
         // console.log("EditTitle.tsx updateTitle formValidated", formValidated);
 
-        if (formValidated === true) {
+        if (formValidated === true && this.props.sessionToken !== null) {
 
             if (this.state.txtTitleName !== undefined && this.state.txtTitleName !== null) {
 
@@ -447,51 +447,55 @@ class EditTitle extends Component<IProps, IState> {
 
             // console.log("EditTitle.tsx deleteTitle url", url);
 
-            fetch(url, {
-                method: "DELETE",
-                headers:    new Headers ({
-                    "Content-Type": "application/json",
-                    "Authorization": this.props.sessionToken
+            if (this.props.sessionToken !== null) {
+            
+                fetch(url, {
+                    method: "DELETE",
+                    headers:    new Headers ({
+                        "Content-Type": "application/json",
+                        "Authorization": this.props.sessionToken
+                    })
                 })
-            })
-            .then(response => {
-                // console.log("EditTitle.tsx deleteTitle response", response);
-                // if (!response.ok) {
-                //     throw Error(response.status + " " + response.statusText + " " + response.url);
-                // } else {
-                    // if (response.status === 200) {
-                        return response.json();
+                .then(response => {
+                    // console.log("EditTitle.tsx deleteTitle response", response);
+                    // if (!response.ok) {
+                    //     throw Error(response.status + " " + response.statusText + " " + response.url);
                     // } else {
-                    //     return response.status;
+                        // if (response.status === 200) {
+                            return response.json();
+                        // } else {
+                        //     return response.status;
+                        // };
                     // };
-                // };
-            })
-            .then(data => {
-                // console.log("EditTitle.tsx deleteTitle data", data);
+                })
+                .then(data => {
+                    // console.log("EditTitle.tsx deleteTitle data", data);
 
-                this.setState({titleRecordDeleted: data.recordDeleted});
+                    this.setState({titleRecordDeleted: data.recordDeleted});
 
-                this.setState({message: data.message}); // Never seen by the user if the delete was successful
+                    this.setState({message: data.message}); // Never seen by the user if the delete was successful
 
-                if (data.recordDeleted === true) {
+                    if (data.recordDeleted === true) {
 
-                    this.props.setTitleID(null);
-                    // this.props.titleUpdated();
-                    this.props.setTitleUpdated(!this.props.titleUpdated);
-                    // Need to call this here because there are two buttons on the form besides the Cancel button
-                    this.handleClose();
+                        this.props.setTitleID(null);
+                        // this.props.titleUpdated();
+                        this.props.setTitleUpdated(!this.props.titleUpdated);
+                        // Need to call this here because there are two buttons on the form besides the Cancel button
+                        this.handleClose();
 
-                } else {
-                    this.setState({errMessage: data.message});
-                };
+                    } else {
+                        this.setState({errMessage: data.message});
+                    };
 
-            })
-            .catch(error => {
-                console.log("EditTitle.tsx deleteTitle error", error);
-                // console.log("EditTitle.tsx deleteTitle error.name", error.name);
-                // console.log("EditTitle.tsx deleteTitle error.message", error.message);
-                this.setState({errMessage: error.name + ": " + error.message});
-            });
+                })
+                .catch(error => {
+                    console.log("EditTitle.tsx deleteTitle error", error);
+                    // console.log("EditTitle.tsx deleteTitle error.name", error.name);
+                    // console.log("EditTitle.tsx deleteTitle error.message", error.message);
+                    this.setState({errMessage: error.name + ": " + error.message});
+                });
+                
+            };
 
         };
 
@@ -521,7 +525,7 @@ class EditTitle extends Component<IProps, IState> {
         return(
             <React.Fragment>
             {/* <Button variant="contained" size="small" color="primary" onClick={this.handleOpen}>Edit Title</Button> */}
-            <EditIcon className="editIcon" onClick={this.handleOpen} />
+            <EditIcon className="addEditIcon" onClick={this.handleOpen} />
             <Dialog open={this.state.dialogOpen} onClose={this.handleClose} fullWidth={true} maxWidth="md">
                 <DialogTitle id="form-dialog-title">Edit Title</DialogTitle>
                 <DialogContent>

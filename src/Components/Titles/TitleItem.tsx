@@ -9,7 +9,7 @@ import ImageOutlinedIcon from "@material-ui/icons/ImageOutlined";
 // import ImageSearchRoundedIcon from "@material-ui/icons/ImageSearchRounded";
 // import ImageSearchSharpIcon from "@material-ui/icons/ImageSearchSharp";
 
-import {ITitle} from "../../Helpers/interfaces"
+import {ITitle} from "../../Helpers/interfaces";
 import {Redirect} from "react-router-dom";
 
 interface IProps {

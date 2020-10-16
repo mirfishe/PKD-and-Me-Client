@@ -23,7 +23,7 @@ import AddEdition from "./AddEdition";
 interface IProps {
     userID: number | null,
     isAdmin: boolean,
-    sessionToken: string,
+    sessionToken: string | null,
     titleID: number | null,
     editionList: IEdition[],
     editionUpdated: () => void

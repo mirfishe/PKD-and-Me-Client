@@ -4,13 +4,13 @@ import {Redirect} from "react-router-dom";
 import {Alert} from "@material-ui/lab/";
 import {Grid, Button, TextField, Typography} from "@material-ui/core";
 
-import {baseURL} from "../../Helpers/constants"
+import {baseURL} from "../../Helpers/constants";
 
 interface IProps {
     userID: number | null,
     // isLoggedIn: boolean | null,
     isAdmin: boolean,
-    sessionToken: string
+    sessionToken: string | null
 };
 
 interface IState {
@@ -86,7 +86,7 @@ class AddMedia extends Component<IProps, IState> {
         // console.log("AddMedia.tsx addMedia mediaValidated", mediaValidated);
         // console.log("AddMedia.tsx addMedia formValidated", formValidated);
 
-        if (formValidated === true) {
+        if (formValidated === true && this.props.sessionToken !== null) {
 
             if (this.state.txtMedia !== undefined && this.state.txtMedia !== null) {
 

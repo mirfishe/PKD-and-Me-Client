@@ -4,13 +4,13 @@ import {Redirect} from "react-router-dom";
 import {Alert} from "@material-ui/lab/";
 import {Grid, Button, TextField, Typography, InputLabel, Select, MenuItem} from "@material-ui/core";
 
-import {baseURL} from "../../Helpers/constants"
-import {ICategory} from "../../Helpers/interfaces"
+import {baseURL} from "../../Helpers/constants";
+import {ICategory} from "../../Helpers/interfaces";
 
 interface IProps {
     userID: number | null,
     isAdmin: boolean,
-    sessionToken: string
+    sessionToken: string | null
 };
 
 interface IState {
@@ -192,7 +192,7 @@ class AddTitle extends Component<IProps, IState> {
         // console.log("AddTitle.tsx addTitle categoryIDValidated", categoryIDValidated);
         // console.log("AddTitle.tsx addTitle formValidated", formValidated);
 
-        if (formValidated === true) {
+        if (formValidated === true && this.props.sessionToken !== null) {
 
             if (this.state.txtTitleName !== undefined && this.state.txtTitleName !== null) {
 

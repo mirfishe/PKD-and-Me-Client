@@ -5,14 +5,14 @@ import {Alert} from "@material-ui/lab/";
 import {Grid, Button, TextField, InputLabel, Select, MenuItem, Typography, Dialog, DialogTitle, DialogContent, DialogActions} from "@material-ui/core";
 import EditIcon from "@material-ui/icons/Edit";
 
-import {baseURL} from "../../Helpers/constants"
-import {IEdition, IMedia} from "../../Helpers/interfaces"
+import {baseURL} from "../../Helpers/constants";
+import {IEdition, IMedia} from "../../Helpers/interfaces";
 
 interface IProps {
     userID: number | null,
     // isLoggedIn: boolean | null,
     isAdmin: boolean,
-    sessionToken: string,
+    sessionToken: string | null,
     titleID: number | null,
     editionID: number | null,
     editionUpdated: () => void
@@ -293,7 +293,7 @@ class EditEdition extends Component<IProps, IState> {
         // console.log("UpdateEdition.tsx updateEdition mediaIDValidated", mediaIDValidated);
         // console.log("UpdateEdition.tsx updateEdition formValidated", formValidated);
 
-        if (formValidated === true) {
+        if (formValidated === true && this.props.sessionToken !== null) {
 
             let editionObject = {
                 editionID: this.props.editionID,
@@ -463,50 +463,54 @@ class EditEdition extends Component<IProps, IState> {
 
             // console.log("UpdateEdition.tsx deleteEdition url", url);
 
-            fetch(url, {
-                method: "DELETE",
-                headers:    new Headers ({
-                    "Content-Type": "application/json",
-                    "Authorization": this.props.sessionToken
+            if (this.props.sessionToken !== null) {
+
+                fetch(url, {
+                    method: "DELETE",
+                    headers:    new Headers ({
+                        "Content-Type": "application/json",
+                        "Authorization": this.props.sessionToken
+                    })
                 })
-            })
-            .then(response => {
-                // console.log("UpdateEdition.tsx deleteEdition response", response);
-                // if (!response.ok) {
-                //     throw Error(response.status + " " + response.statusText + " " + response.url);
-                // } else {
-                    // if (response.status === 200) {
-                        return response.json();
+                .then(response => {
+                    // console.log("UpdateEdition.tsx deleteEdition response", response);
+                    // if (!response.ok) {
+                    //     throw Error(response.status + " " + response.statusText + " " + response.url);
                     // } else {
-                    //     return response.status;
+                        // if (response.status === 200) {
+                            return response.json();
+                        // } else {
+                        //     return response.status;
+                        // };
                     // };
-                // };
-            })
-            .then(data => {
-                // console.log("UpdateEdition.tsx deleteEdition data", data);
+                })
+                .then(data => {
+                    // console.log("UpdateEdition.tsx deleteEdition data", data);
 
-                this.setState({editionRecordDeleted: data.recordDeleted});
+                    this.setState({editionRecordDeleted: data.recordDeleted});
 
-                this.setState({message: data.message}); // Never seen by the user if the delete was successful
+                    this.setState({message: data.message}); // Never seen by the user if the delete was successful
 
-                if (data.recordDeleted === true) {
+                    if (data.recordDeleted === true) {
 
-                    this.props.editionUpdated();
-                    // Need to call this here because there are two buttons on the form besides the Cancel button
-                    this.handleClose();
+                        this.props.editionUpdated();
+                        // Need to call this here because there are two buttons on the form besides the Cancel button
+                        this.handleClose();
 
-                } else {
-                    this.setState({errMessage: data.message});
-                };
+                    } else {
+                        this.setState({errMessage: data.message});
+                    };
 
-            })
-            .catch(error => {
-                console.log("UpdateEdition.tsx deleteEdition error", error);
-                // console.log("UpdateEdition.tsx deleteEdition error.name", error.name);
-                // console.log("UpdateEdition.tsx deleteEdition error.message", error.message);
-                this.setState({errMessage: error.name + ": " + error.message});
-            });
-
+                })
+                .catch(error => {
+                    console.log("UpdateEdition.tsx deleteEdition error", error);
+                    // console.log("UpdateEdition.tsx deleteEdition error.name", error.name);
+                    // console.log("UpdateEdition.tsx deleteEdition error.message", error.message);
+                    this.setState({errMessage: error.name + ": " + error.message});
+                });
+                
+            };
+        
         };
 
     };
@@ -535,7 +539,7 @@ class EditEdition extends Component<IProps, IState> {
         return(
             <React.Fragment>
             {/* <Button variant="contained" size="small" color="primary" onClick={this.handleOpen}>Edit Edition</Button> */}
-            <EditIcon className="editIcon" onClick={this.handleOpen} />
+            <EditIcon className="addEditIcon" onClick={this.handleOpen} />
             <Dialog open={this.state.dialogOpen} onClose={this.handleClose} fullWidth={true} maxWidth="md">
                 <DialogTitle id="form-dialog-title">Edit Edition</DialogTitle>
                 <DialogContent>

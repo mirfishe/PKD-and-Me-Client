@@ -3,8 +3,8 @@ import React, {Component} from "react";
 import {Alert} from "@material-ui/lab/";
 import {Grid} from "@material-ui/core";
 
-import {ITitle, ICategory, IEdition, IUserReview} from "../../Helpers/interfaces"
-import {baseURL} from "../../Helpers/constants"
+import {ITitle, ICategory, IEdition, IUserReview} from "../../Helpers/interfaces";
+import {baseURL} from "../../Helpers/constants";
 import Edition from "../Editions/Edition";
 import TitleDisplay from "./TitleDisplay";
 import UserReview from "../UserReviews/UserReview";
@@ -13,7 +13,7 @@ import AddUserReview from "../UserReviews/AddUserReview";
 interface IProps {
     userID: number | null,
     isAdmin: boolean,
-    sessionToken: string,
+    sessionToken: string | null,
     titleID: number | null,
     setTitleID: (titleID: number | null) => void,
     titleUpdated: boolean,

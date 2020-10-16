@@ -23,7 +23,7 @@ interface IProps {
     categoryName: string,
     userID: number | null,
     isAdmin: boolean,
-    sessionToken: string,
+    sessionToken: string | null,
     titleID: number | null,
     setTitleID: (titleID: number | null) => void,
     userReviewUpdated: () => void,
@@ -105,9 +105,9 @@ const TitleDisplay: FunctionComponent <(IProps)> = props => {
 
                             {props.sessionToken !== "" && props.userReviewedTitle === false? <AddUserReview userID={props.userID} isAdmin={props.isAdmin} sessionToken={props.sessionToken} titleID={props.titleID} userReviewUpdated={props.userReviewUpdated} /> : null}
 
-                            {/* {props.userReviewedTitle ? <UpdateUserReview userID={props.userID} isAdmin={props.isAdmin} sessionToken={props.sessionToken} titleID={props.titleID} userReviewUpdated={props.userReviewUpdated} reviewID={props.userReviewedTitleReviewID} /> : null} */}
+                            {props.userReviewedTitle ? <UpdateUserReview userID={props.userID} isAdmin={props.isAdmin} sessionToken={props.sessionToken} titleID={props.titleID} userReviewUpdated={props.userReviewUpdated} reviewID={props.userReviewedTitleReviewID} /> : null}
 
-                            {/* {props.isAdmin === true ? <AddEdition userID={props.userID} isAdmin={props.isAdmin} sessionToken={props.sessionToken} titleID={props.titleID} editionUpdated={props.editionUpdated} /> : null} */}
+                            {props.isAdmin === true ? <AddEdition userID={props.userID} isAdmin={props.isAdmin} sessionToken={props.sessionToken} titleID={props.titleID} editionUpdated={props.editionUpdated} /> : null}
 
                         </Grid>
                     </Grid>

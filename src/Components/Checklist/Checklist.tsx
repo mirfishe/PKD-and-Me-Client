@@ -3,14 +3,15 @@ import React, {Component} from "react";
 import {Alert} from "@material-ui/lab/";
 import {Grid, Button, Drawer} from "@material-ui/core";
 
-import {ITitle, IUserReview} from "../../Helpers/interfaces"
-import {baseURL} from "../../Helpers/constants"
-import ChecklistItem from "./ChecklistItem"
+import {ITitle, IUserReview} from "../../Helpers/interfaces";
+import {baseURL} from "../../Helpers/constants";
+import ChecklistItem from "./ChecklistItem";
+import ChecklistItem2 from "./ChecklistItem2";
 
 interface IProps {
     userID: number | null,
     isAdmin: boolean,
-    sessionToken: string,
+    sessionToken: string | null,
     titleID: number | null,
     setTitleID: (titleID: number | null) => void,
     categoryID: number | null,
@@ -76,89 +77,91 @@ class Checklist extends Component<IProps, IState> {
 
             // console.log("Checklist.tsx getChecklist url", url);
 
-            fetch(url, {
-                method: "GET",
-                headers: new Headers({
-                "Content-Type": "application/json",
-                "Authorization": this.props.sessionToken
-                }),
-            })
-            .then(response => {
-                // console.log("Checklist.tsx getChecklist response", response);
-                // if (!response.ok) {
-                //     throw Error(response.status + " " + response.statusText + " " + response.url);
-                // } else {
-                    // if (response.status === 200) {
-                        return response.json();
+            if (this.props.sessionToken !== null) {
+
+                fetch(url, {
+                    method: "GET",
+                    headers: new Headers({
+                    "Content-Type": "application/json",
+                    "Authorization": this.props.sessionToken
+                    }),
+                })
+                .then(response => {
+                    // console.log("Checklist.tsx getChecklist response", response);
+                    // if (!response.ok) {
+                    //     throw Error(response.status + " " + response.statusText + " " + response.url);
                     // } else {
-                    //     return response.status;
+                        // if (response.status === 200) {
+                            return response.json();
+                        // } else {
+                        //     return response.status;
+                        // };
                     // };
-                // };
-            })
-            .then(data => {
-                // console.log("Checklist.tsx getChecklist data", data);
+                })
+                .then(data => {
+                    // console.log("Checklist.tsx getChecklist data", data);
 
-                // let titleResponse: IGetResponse = data;
-                // console.log("Checklist.tsx getChecklist titleResponse", titleResponse);
+                    // let titleResponse: IGetResponse = data;
+                    // console.log("Checklist.tsx getChecklist titleResponse", titleResponse);
 
-                this.setState({checklistResultsFound: data.resultsFound});
-                // this.setState({checklistMessage: data.message});
+                    this.setState({checklistResultsFound: data.resultsFound});
+                    // this.setState({checklistMessage: data.message});
 
-                if (data.resultsFound === true) {
-                    this.setState({checklistList: data.titles});
-                    // console.log("Checklist.tsx getChecklist checklistList", this.state.checklistList);
+                    if (data.resultsFound === true) {
+                        this.setState({checklistList: data.titles});
+                        // console.log("Checklist.tsx getChecklist checklistList", this.state.checklistList);
 
-                    if (data.titles[0].category !== undefined && data.titles[0].category !== null) {
-                        this.setState({categoryName: data.titles[0].category.category});
-                    };
+                        if (data.titles[0].category !== undefined && data.titles[0].category !== null) {
+                            this.setState({categoryName: data.titles[0].category.category});
+                        };
 
-                    if (this.state.checklistList !== undefined && this.state.checklistList !== null) {
-                        if (this.state.checklistList.length > 0) {
+                        if (this.state.checklistList !== undefined && this.state.checklistList !== null) {
+                            if (this.state.checklistList.length > 0) {
 
-                            for (let i = 0; i < this.state.checklistList.length; i++) {
+                                for (let i = 0; i < this.state.checklistList.length; i++) {
 
-                                // console.log("Checklist.tsx getChecklist data.titles[i].userReviews", data.titles[i].userReviews);
-                                this.setState({userReviewList: data.titles[i].userReviews});
+                                    // console.log("Checklist.tsx getChecklist data.titles[i].userReviews", data.titles[i].userReviews);
+                                    this.setState({userReviewList: data.titles[i].userReviews});
 
-                                if (this.state.userReviewList !== undefined && this.state.userReviewList !== null) {
-                                    if (this.state.userReviewList.length > 0) {
+                                    if (this.state.userReviewList !== undefined && this.state.userReviewList !== null) {
+                                        if (this.state.userReviewList.length > 0) {
 
-                                        for (let j = 0; j < this.state.userReviewList.length; j++) {
+                                            for (let j = 0; j < this.state.userReviewList.length; j++) {
 
-                                            // console.log("Checklist.tsx getChecklist this.state.checklistList[i]", this.state.checklistList[i]);
+                                                // console.log("Checklist.tsx getChecklist this.state.checklistList[i]", this.state.checklistList[i]);
 
-                                            // console.log("Checklist.tsx getChecklist data.titles[i].userReviews[j].reviewID", data.titles[i].userReviews[j].reviewID);
-                                            // console.log("Checklist.tsx getChecklist data.titles[i].userReviews[j].read", data.titles[i].userReviews[j].read);
-                                            // console.log("Checklist.tsx getChecklist data.titles[i].userReviews[j].dateRead", data.titles[i].userReviews[j].dateRead);
+                                                // console.log("Checklist.tsx getChecklist data.titles[i].userReviews[j].reviewID", data.titles[i].userReviews[j].reviewID);
+                                                // console.log("Checklist.tsx getChecklist data.titles[i].userReviews[j].read", data.titles[i].userReviews[j].read);
+                                                // console.log("Checklist.tsx getChecklist data.titles[i].userReviews[j].dateRead", data.titles[i].userReviews[j].dateRead);
 
-                                            Object.assign(this.state.checklistList[i], {reviewID: data.titles[i].userReviews[j].reviewID});
-                                            Object.assign(this.state.checklistList[i], {read: data.titles[i].userReviews[j].read});
-                                            Object.assign(this.state.checklistList[i], {dateRead: data.titles[i].userReviews[j].dateRead});
+                                                Object.assign(this.state.checklistList[i], {reviewID: data.titles[i].userReviews[j].reviewID});
+                                                Object.assign(this.state.checklistList[i], {read: data.titles[i].userReviews[j].read});
+                                                Object.assign(this.state.checklistList[i], {dateRead: data.titles[i].userReviews[j].dateRead});
 
-                                            // console.log("Checklist.tsx getChecklist this.state.checklistList[i]", this.state.checklistList[i]);
+                                                // console.log("Checklist.tsx getChecklist this.state.checklistList[i]", this.state.checklistList[i]);
+
+                                            };
 
                                         };
-
                                     };
+
                                 };
 
                             };
-
                         };
+
+                    } else {
+                        this.setState({errChecklistMessage: data.message});
                     };
 
-                } else {
-                    this.setState({errChecklistMessage: data.message});
-                };
-
-            })
-            .catch(error => {
-                console.log("Checklist.tsx getChecklist error", error);
-                // console.log("Checklist.tsx getChecklist error.name", error.name);
-                // console.log("Checklist.tsx getChecklist error.message", error.message);
-                this.setState({errChecklistMessage: error.name + ": " + error.message});
-            });
-
+                })
+                .catch(error => {
+                    console.log("Checklist.tsx getChecklist error", error);
+                    // console.log("Checklist.tsx getChecklist error.name", error.name);
+                    // console.log("Checklist.tsx getChecklist error.message", error.message);
+                    this.setState({errChecklistMessage: error.name + ": " + error.message});
+                });
+            };
         };
 
     };
@@ -197,59 +200,63 @@ class Checklist extends Component<IProps, IState> {
         // console.log("Checklist.tsx updateChecklist url", url);
         // console.log("Checklist.tsx updateChecklist updateChecklistMethod", updateChecklistMethod);
 
-        fetch(url, {
-            method: updateChecklistMethod,
-            headers:    new Headers ({
-                "Content-Type": "application/json",
-                "Authorization": this.props.sessionToken
-            }),
-            body: JSON.stringify({userReview: userReviewObject})
-        })
-        .then(response => {
-            // console.log("Checklist.tsx updateChecklist response", response);
-            // if (!response.ok) {
-            //     throw Error(response.status + " " + response.statusText + " " + response.url);
-            // } else {
-                // if (response.status === 200) {
-                    return response.json();
+        if (this.props.sessionToken !== null) {
+
+            fetch(url, {
+                method: updateChecklistMethod,
+                headers:    new Headers ({
+                    "Content-Type": "application/json",
+                    "Authorization": this.props.sessionToken
+                }),
+                body: JSON.stringify({userReview: userReviewObject})
+            })
+            .then(response => {
+                // console.log("Checklist.tsx updateChecklist response", response);
+                // if (!response.ok) {
+                //     throw Error(response.status + " " + response.statusText + " " + response.url);
                 // } else {
-                //     return response.status;
+                    // if (response.status === 200) {
+                        return response.json();
+                    // } else {
+                    //     return response.status;
+                    // };
                 // };
-            // };
-        })
-        .then(data => {
-            // console.log("Checklist.tsx updateChecklist data", data);
+            })
+            .then(data => {
+                // console.log("Checklist.tsx updateChecklist data", data);
 
-            if (updateChecklistMethod === "PUT") {
-                this.setState({checklistRecordUpdated: data.recordUpdated});
-            } else if (updateChecklistMethod === "POST") {
-                this.setState({checklistRecordUpdated: data.recordAdded});
-            } else {
-                this.setState({checklistRecordUpdated: null});
-            };
+                if (updateChecklistMethod === "PUT") {
+                    this.setState({checklistRecordUpdated: data.recordUpdated});
+                } else if (updateChecklistMethod === "POST") {
+                    this.setState({checklistRecordUpdated: data.recordAdded});
+                } else {
+                    this.setState({checklistRecordUpdated: null});
+                };
 
-            this.setState({checklistMessage: data.message});
+                this.setState({checklistMessage: data.message});
 
-            if (this.state.checklistRecordUpdated === true) {
+                if (this.state.checklistRecordUpdated === true) {
 
-                // Need to update this component after this function runs
-                // Need to update the state to do it
-                this.updateChecklistItemRead(titleID);
+                    // Need to update this component after this function runs
+                    // Need to update the state to do it
+                    this.updateChecklistItemRead(titleID);
 
-                // Need to update the other components after this function runs
-                // this.props.userReviewUpdated();
+                    // Need to update the other components after this function runs
+                    // this.props.userReviewUpdated();
 
-            } else {
-                this.setState({errChecklistMessage: data.message});
-            };
+                } else {
+                    this.setState({errChecklistMessage: data.message});
+                };
 
-        })
-        .catch(error => {
-            console.log("Checklist.tsx updateChecklist error", error);
-            // console.log("Checklist.tsx updateChecklist error.name", error.name);
-            // console.log("Checklist.tsx updateChecklist error.message", error.message);
-            this.setState({errChecklistMessage: error.name + ": " + error.message});
-        });
+            })
+            .catch(error => {
+                console.log("Checklist.tsx updateChecklist error", error);
+                // console.log("Checklist.tsx updateChecklist error.name", error.name);
+                // console.log("Checklist.tsx updateChecklist error.message", error.message);
+                this.setState({errChecklistMessage: error.name + ": " + error.message});
+            });
+
+        };
 
     };
 
@@ -322,13 +329,14 @@ class Checklist extends Component<IProps, IState> {
         return(
             <Grid container spacing={2}>
 
-                <Grid item xs={10}>
+                <Grid item xs={2}>
                 <Button variant="text" color="primary" onClick={this.handleOpen}>Checklist</Button>
                 <Drawer anchor="right" open={this.state.drawerOpen} onClose={this.handleClose}>
                 {this.state.checklistMessage !== "" ? <Alert severity="info">{this.state.checklistMessage}</Alert> : null}
                 {this.state.errChecklistMessage !== "" ? <Alert severity="error">{this.state.errChecklistMessage}</Alert> : null}
                 <Button variant="text" color="primary" onClick={this.handleClose}>Close</Button>
-                <ChecklistItem checklistList={this.state.checklistList} updateChecklist={this.updateChecklist} setTitleID={this.props.setTitleID} categoryName={this.state.categoryName} titleSort={this.props.titleSort} setTitleSort={this.props.setTitleSort} />
+                {/* <ChecklistItem checklistList={this.state.checklistList} updateChecklist={this.updateChecklist} setTitleID={this.props.setTitleID} categoryName={this.state.categoryName} titleSort={this.props.titleSort} setTitleSort={this.props.setTitleSort} /> */}
+                <ChecklistItem2 checklistList={this.state.checklistList} updateChecklist={this.updateChecklist} setTitleID={this.props.setTitleID} categoryName={this.state.categoryName} titleSort={this.props.titleSort} setTitleSort={this.props.setTitleSort} />
                 </Drawer>
                 </Grid>
 

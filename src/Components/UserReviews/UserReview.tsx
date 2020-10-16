@@ -3,13 +3,13 @@ import React, {FunctionComponent} from "react";
 import {Rating} from "@material-ui/lab/";
 import {Grid, Typography} from "@material-ui/core";
 
-import {IUserReview} from "../../Helpers/interfaces"
+import {IUserReview} from "../../Helpers/interfaces";
 import UpdateUserReview from "../UserReviews/UpdateUserReview";
 
 interface IProps {
     userID: number | null,
     isAdmin: boolean,
-    sessionToken: string,
+    sessionToken: string | null,
     titleID: number | null,
     userReviewUpdated: () => void,
     userReviewList: IUserReview[]

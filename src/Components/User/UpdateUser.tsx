@@ -4,13 +4,13 @@ import {Redirect} from "react-router-dom";
 import {Alert} from "@material-ui/lab/";
 import {Grid, Button, TextField, Dialog, DialogTitle, DialogContent, DialogActions} from "@material-ui/core";
 
-import {baseURL, emailRegExp} from "../../Helpers/constants"
-// import {emailFormat} from "../../Helpers/constants"
+import {baseURL, emailRegExp} from "../../Helpers/constants";
+// import {emailFormat} from "../../Helpers/constants";
 
 interface IProps {
     userID: number | null,
     isAdmin: boolean,
-    sessionToken: string,
+    sessionToken: string | null,
     setUserID: (userID: number | null) => void,
     setIsAdmin: (setIsAdmin: boolean) => void,
     setSessionToken: (sessionToken: string) => void
@@ -93,57 +93,61 @@ class UpdateUser extends Component<IProps, IState> {
 
         let url: string = baseURL + "user/";
 
-        fetch(url, {
-            method: "GET",
-            headers: new Headers({
-              "Content-Type": "application/json",
-              "Authorization": this.props.sessionToken
-            }),
-        })
-        .then(response => {
-            // console.log("UpdateUser.tsx getUser response", response);
-            // if (!response.ok) {
-            //     throw Error(response.status + " " + response.statusText + " " + response.url);
-            // } else {
-                // if (response.status === 200) {
-                    return response.json();
+        if (this.props.sessionToken !== null) {
+
+            fetch(url, {
+                method: "GET",
+                headers: new Headers({
+                "Content-Type": "application/json",
+                "Authorization": this.props.sessionToken
+                }),
+            })
+            .then(response => {
+                // console.log("UpdateUser.tsx getUser response", response);
+                // if (!response.ok) {
+                //     throw Error(response.status + " " + response.statusText + " " + response.url);
                 // } else {
-                //     return response.status;
+                    // if (response.status === 200) {
+                        return response.json();
+                    // } else {
+                    //     return response.status;
+                    // };
                 // };
-            // };
-        })
-        .then(data => {
-            // console.log("UpdateUser.tsx getUser data", data);
+            })
+            .then(data => {
+                // console.log("UpdateUser.tsx getUser data", data);
 
-            this.setState({userResultsFound: data.resultsFound});
-            // this.setState({message: data.message});
+                this.setState({userResultsFound: data.resultsFound});
+                // this.setState({message: data.message});
 
-            if (data.resultsFound === true) {
-                // this.setState({userData: data.users[0]});
-                // console.log("UpdateUser.tsx getUser userData", this.state.userData);
+                if (data.resultsFound === true) {
+                    // this.setState({userData: data.users[0]});
+                    // console.log("UpdateUser.tsx getUser userData", this.state.userData);
 
-                this.setState({txtFirstName: data.users[0].firstName});
-                this.setState({txtLastName: data.users[0].lastName});
-                this.setState({txtEmail: data.users[0].email});
+                    this.setState({txtFirstName: data.users[0].firstName});
+                    this.setState({txtLastName: data.users[0].lastName});
+                    this.setState({txtEmail: data.users[0].email});
 
-                // this.setState({userID: data.users[0].userID});
-                this.setState({firstName: data.users[0].firstName});
-                this.setState({lastName: data.users[0].lastName});
-                this.setState({email: data.users[0].email});
-                this.setState({updatedBy: data.users[0].updatedBy});
-                this.setState({admin: data.users[0].admin});
-                this.setState({active: data.users[0].active});
-            } else {
-                this.setState({errMessage: data.message});
-            };
+                    // this.setState({userID: data.users[0].userID});
+                    this.setState({firstName: data.users[0].firstName});
+                    this.setState({lastName: data.users[0].lastName});
+                    this.setState({email: data.users[0].email});
+                    this.setState({updatedBy: data.users[0].updatedBy});
+                    this.setState({admin: data.users[0].admin});
+                    this.setState({active: data.users[0].active});
+                } else {
+                    this.setState({errMessage: data.message});
+                };
 
-        })
-        .catch(error => {
-            console.log("UpdateUser.tsx getUser error", error);
-            // console.log("UpdateUser.tsx getUser error.name", error.name);
-            // console.log("UpdateUser.tsx getUser error.message", error.message);
-            this.setState({errMessage: error.name + ": " + error.message});
-        });
+            })
+            .catch(error => {
+                console.log("UpdateUser.tsx getUser error", error);
+                // console.log("UpdateUser.tsx getUser error.name", error.name);
+                // console.log("UpdateUser.tsx getUser error.message", error.message);
+                this.setState({errMessage: error.name + ": " + error.message});
+            });
+
+        };
 
     };
 
@@ -249,7 +253,7 @@ class UpdateUser extends Component<IProps, IState> {
         // console.log("UpdateUser.tsx updateUser emailValidated", emailValidated);
         // console.log("UpdateUser.tsx updateUser formValidated", formValidated);
 
-        if (formValidated === true) {
+        if (formValidated === true && this.props.sessionToken !== null) {
 
             if (this.state.txtFirstName !== undefined && this.state.txtFirstName !== null && this.state.txtLastName !== undefined && this.state.txtLastName !== null && this.state.txtEmail !== undefined && this.state.txtEmail !== null) {
                 let userObject = {
@@ -362,9 +366,10 @@ class UpdateUser extends Component<IProps, IState> {
 
     render() {
 
-        if (this.props.sessionToken === "") {
-            return <Redirect to="/" />;
-        };
+        // Not sure if this is needed since this was changed from a page to a dialog/modal.
+        // if (this.props.sessionToken === "" || this.props.sessionToken === null) {
+        //     return <Redirect to="/" />;
+        // };
 
         // console.log("UpdateUser.tsx this.state.errMessage", this.state.errMessage);
 

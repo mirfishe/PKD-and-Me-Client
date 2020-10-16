@@ -4,12 +4,12 @@ import {Redirect} from "react-router-dom";
 import {Alert} from "@material-ui/lab/";
 import {Grid, Button, TextField, Typography} from "@material-ui/core";
 
-import {baseURL} from "../../Helpers/constants"
+import {baseURL} from "../../Helpers/constants";
 
 interface IProps {
     userID: number | null,
     isAdmin: boolean,
-    sessionToken: string
+    sessionToken: string | null
 };
 
 interface IState {
@@ -85,7 +85,7 @@ class AddCategory extends Component<IProps, IState> {
         // console.log("AddCategory.tsx addCategory categoryValidated", categoryValidated);
         // console.log("AddCategory.tsx addCategory formValidated", formValidated);
 
-        if (formValidated === true) {
+        if (formValidated === true && this.props.sessionToken !== null) {
 
             if (this.state.txtCategory !== undefined && this.state.txtCategory !== null) {
 
