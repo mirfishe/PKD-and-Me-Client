@@ -45,6 +45,8 @@ const Edition: FunctionComponent <(IProps)> = props => {
 
     // };
 
+    // console.log("Edition.tsx props.titlePublicationDate", props.titlePublicationDate);
+
     return(
         <Grid container spacing={2}>
             <Grid item xs={12}>
@@ -60,6 +62,7 @@ const Edition: FunctionComponent <(IProps)> = props => {
             {props.editionList.map((edition: IEdition) => {
             return (
                 <React.Fragment>
+
                     {edition.textLinkShort !== null && edition.textLinkShort !== "" ? 
                     <GridListTile key={edition.editionID} style={{margin: "20px"}}>
 
@@ -70,6 +73,16 @@ const Edition: FunctionComponent <(IProps)> = props => {
                     </Link>
                     </GridListTile>
                     : null}
+
+                    {edition.imageLinkLarge !== null && edition.imageLinkLarge !== "" ? 
+                    <GridListTile key={edition.editionID} style={{margin: "20px"}}>
+
+                    <div dangerouslySetInnerHTML={{"__html": edition.imageLinkLarge}} />
+
+                    <GridListTileBar title={edition.mediaName} subtitle={edition.publicationDate !== null ? edition.publicationDate.toString().substring(0, 10) : null} actionIcon={props.isAdmin === true ? <EditEdition userID={props.userID} isAdmin={props.isAdmin} sessionToken={props.sessionToken} titleID={props.titleID} titlePublicationDate={props.titlePublicationDate} editionID={edition.editionID} editionUpdated={props.editionUpdated} displayIcon={true} /> : null} />
+                    </GridListTile>
+                    : null}
+
                 </React.Fragment>
                 )
             })}

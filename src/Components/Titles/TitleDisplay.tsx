@@ -23,7 +23,7 @@ interface IProps {
     titleData: ITitle | null,
     overallTitleRating: number | null,
     overallTitleRatingCount: number,
-    categoryName: string,
+    categoryName: string | null,
     userID: number | null,
     isAdmin: boolean,
     sessionToken: string | null,
@@ -70,6 +70,8 @@ const TitleDisplay: FunctionComponent <(IProps)> = props => {
 
     // };
 
+    // console.log("TitleDisplay.tsx props.titlePublicationDate", props.titlePublicationDate);
+
     return(
 
         <Grid container>
@@ -81,7 +83,7 @@ const TitleDisplay: FunctionComponent <(IProps)> = props => {
 
                             {props.titleData.publicationDate !== null ? <Typography variant="caption" gutterBottom style={{marginLeft: "5px", fontSize: 18}}> ({props.titleData.publicationDate.toString().substring(0, 4)})</Typography> : null}
 
-                            {props.categoryName !== "" ? <Typography variant="overline" gutterBottom style={{marginLeft: "10px", fontSize: 12}}> {props.categoryName}
+                            {props.categoryName !== null && props.categoryName !== "" ? <Typography variant="overline" gutterBottom style={{marginLeft: "10px", fontSize: 12}}> {props.categoryName}
                             <AddCategory userID={props.userID} isAdmin={props.isAdmin} sessionToken={props.sessionToken} displayIcon={true} />
                             </Typography> : null}
                         </Typography>

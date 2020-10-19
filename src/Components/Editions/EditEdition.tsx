@@ -56,7 +56,10 @@ interface IState {
     imageLinkMedium: string | null,
     imageLinkLarge: string | null,
     textImageLink: string | null,
-    active: boolean | null
+    active: boolean | null,
+    ASINMessage: string,
+    errASINMessage: string,
+    ASINResultsFound: boolean | null
 };
 
 class EditEdition extends Component<IProps, IState> {
@@ -99,14 +102,17 @@ class EditEdition extends Component<IProps, IState> {
             imageLinkMedium: null,
             imageLinkLarge: null,
             textImageLink: null,
-            active: null
+            active: null,
+            ASINMessage: "",
+            errASINMessage: "",
+            ASINResultsFound: null
         };
 
     };
 
     getMedia = () => {
-        // console.log("UpdateEdition.tsx getMedia");
-        // console.log("UpdateEdition.tsx getMedia baseURL", baseURL);
+        // console.log("EditEdition.tsx getMedia");
+        // console.log("EditEdition.tsx getMedia baseURL", baseURL);
 
         this.setState({mediaMessage: ""});
         this.setState({errMediaMessage: ""});
@@ -117,7 +123,7 @@ class EditEdition extends Component<IProps, IState> {
 
         fetch(url)
         .then(response => {
-            // console.log("UpdateEdition.tsx getMedia response", response);
+            // console.log("EditEdition.tsx getMedia response", response);
             if (!response.ok) {
                 throw Error(response.status + " " + response.statusText + " " + response.url);
             } else {
@@ -125,7 +131,7 @@ class EditEdition extends Component<IProps, IState> {
             };
         })
         .then(data => {
-            // console.log("UpdateEdition.tsx getMedia data", data);
+            // console.log("EditEdition.tsx getMedia data", data);
 
             this.setState({mediaResultsFound: data.resultsFound});
             // this.setState({mediaMessage: data.message});
@@ -140,17 +146,17 @@ class EditEdition extends Component<IProps, IState> {
 
         })
         .catch(error => {
-            console.log("UpdateEdition.tsx getMedia error", error);
-            // console.log("UpdateEdition.tsx getMedia error.name", error.name);
-            // console.log("UpdateEdition.tsx getMedia error.message", error.message);
+            console.log("EditEdition.tsx getMedia error", error);
+            // console.log("EditEdition.tsx getMedia error.name", error.name);
+            // console.log("EditEdition.tsx getMedia error.message", error.message);
             this.setState({errMediaMessage: error.name + ": " + error.message});
         });
 
     };
 
     getEdition = () => {
-        // console.log("UpdateEdition.tsx getEdition);
-        // console.log("UpdateEdition.tsx getEdition baseURL", baseURL);
+        // console.log("EditEdition.tsx getEdition);
+        // console.log("EditEdition.tsx getEdition baseURL", baseURL);
 
         this.setState({editionMessage: ""});
         this.setState({errEditionMessage: ""});
@@ -174,11 +180,11 @@ class EditEdition extends Component<IProps, IState> {
         if (this.props.editionID !== null) {
             url = url + this.props.editionID;
 
-            // console.log("UpdateEdition.tsx getEdition url", url);
+            // console.log("EditEdition.tsx getEdition url", url);
 
             fetch(url)
             .then(response => {
-                // console.log("UpdateEdition.tsx getEdition response", response);
+                // console.log("EditEdition.tsx getEdition response", response);
                 if (!response.ok) {
                     throw Error(response.status + " " + response.statusText + " " + response.url);
                 } else {
@@ -186,7 +192,7 @@ class EditEdition extends Component<IProps, IState> {
                 };
             })
             .then(data => {
-                // console.log("UpdateEdition.tsx getEdition data", data);
+                // console.log("EditEdition.tsx getEdition data", data);
 
                 this.setState({editionResultsFound: data.resultsFound});
                 // this.setState({editionMessage: data.message});
@@ -231,9 +237,9 @@ class EditEdition extends Component<IProps, IState> {
 
             })
             .catch(error => {
-                console.log("UpdateEdition.tsx getEdition error", error);
-                // console.log("UpdateEdition.tsx getEdition error.name", error.name);
-                // console.log("UpdateEdition.tsx getEdition error.message", error.message);
+                console.log("EditEdition.tsx getEdition error", error);
+                // console.log("EditEdition.tsx getEdition error.name", error.name);
+                // console.log("EditEdition.tsx getEdition error.message", error.message);
                 this.setState({errEditionMessage: error.name + ": " + error.message});
             });
 
@@ -242,8 +248,8 @@ class EditEdition extends Component<IProps, IState> {
     };
 
     updateEdition = (deleteEdition: boolean) => {
-        // console.log("UpdateEdition.tsx updateEdition");
-        // console.log("UpdateEdition.tsx updateEdition baseURL", baseURL);
+        // console.log("EditEdition.tsx updateEdition");
+        // console.log("EditEdition.tsx updateEdition baseURL", baseURL);
 
         this.setState({message: ""});
         this.setState({errMessage: ""});
@@ -271,29 +277,29 @@ class EditEdition extends Component<IProps, IState> {
             if (this.state.ddMediaID !== null) {
                 mediaIDValidated = true;
                 this.setState({errMediaID: ""});
-                // console.log("UpdateEdition.tsx updateEdition Valid mediaID");
-                // console.log("UpdateEdition.tsx updateEdition mediaIDValidated true", mediaIDValidated);
+                // console.log("EditEdition.tsx updateEdition Valid mediaID");
+                // console.log("EditEdition.tsx updateEdition mediaIDValidated true", mediaIDValidated);
             } else {
                 mediaIDValidated = false;
                 this.setState({errMediaID: "Please select a media."});
-                // console.log("UpdateEdition.tsx updateEdition Invalid mediaID");
-                // console.log("UpdateEdition.tsx updateEdition mediaIDValidated false", mediaIDValidated);
+                // console.log("EditEdition.tsx updateEdition Invalid mediaID");
+                // console.log("EditEdition.tsx updateEdition mediaIDValidated false", mediaIDValidated);
             };
         };
 
         if (mediaIDValidated === true) {
             formValidated = true;
-            // console.log("UpdateEdition.tsx updateEdition Valid Form");
-            // console.log("UpdateEdition.tsx updateEdition formValidated true", formValidated);
+            // console.log("EditEdition.tsx updateEdition Valid Form");
+            // console.log("EditEdition.tsx updateEdition formValidated true", formValidated);
         } else {
             formValidated = false;
-            // console.log("UpdateEdition.tsx updateEdition Invalid Form");
-            // console.log("UpdateEdition.tsx updateEdition formValidated false", formValidated);
+            // console.log("EditEdition.tsx updateEdition Invalid Form");
+            // console.log("EditEdition.tsx updateEdition formValidated false", formValidated);
         };
 
-        // console.log("UpdateEdition.tsx updateEdition titleIDValidated", titleIDValidated);
-        // console.log("UpdateEdition.tsx updateEdition mediaIDValidated", mediaIDValidated);
-        // console.log("UpdateEdition.tsx updateEdition formValidated", formValidated);
+        // console.log("EditEdition.tsx updateEdition titleIDValidated", titleIDValidated);
+        // console.log("EditEdition.tsx updateEdition mediaIDValidated", mediaIDValidated);
+        // console.log("EditEdition.tsx updateEdition formValidated", formValidated);
 
         if (formValidated === true && this.props.sessionToken !== null) {
 
@@ -375,14 +381,14 @@ class EditEdition extends Component<IProps, IState> {
                 };
             };
 
-            // console.log("UpdateEdition.tsx updateEdition editionObject", editionObject);
+            // console.log("EditEdition.tsx updateEdition editionObject", editionObject);
 
             let url: string = baseURL + "edition/";
 
             if (this.props.editionID !== null) {
                 url = url + this.props.editionID;
 
-                // console.log("UpdateEdition.tsx updateEdition url", url);
+                // console.log("EditEdition.tsx updateEdition url", url);
 
                 fetch(url, {
                     method: "PUT",
@@ -393,7 +399,7 @@ class EditEdition extends Component<IProps, IState> {
                     body: JSON.stringify({edition: editionObject})
                 })
                 .then(response => {
-                    // console.log("UpdateEdition.tsx updateEdition response", response);
+                    // console.log("EditEdition.tsx updateEdition response", response);
                     // if (!response.ok) {
                     //     throw Error(response.status + " " + response.statusText + " " + response.url);
                     // } else {
@@ -405,7 +411,7 @@ class EditEdition extends Component<IProps, IState> {
                     // };
                 })
                 .then(data => {
-                    // console.log("UpdateEdition.tsx updateEdition data", data);
+                    // console.log("EditEdition.tsx updateEdition data", data);
 
                     this.setState({editionRecordUpdated: data.recordUpdated});
                     this.setState({message: data.message}); // Never seen by the user if the update was successful
@@ -438,9 +444,9 @@ class EditEdition extends Component<IProps, IState> {
 
                 })
                 .catch(error => {
-                    console.log("UpdateEdition.tsx updateEdition error", error);
-                    // console.log("UpdateEdition.tsx updateEdition error.name", error.name);
-                    // console.log("UpdateEdition.tsx updateEdition error.message", error.message);
+                    console.log("EditEdition.tsx updateEdition error", error);
+                    // console.log("EditEdition.tsx updateEdition error.name", error.name);
+                    // console.log("EditEdition.tsx updateEdition error.message", error.message);
                     this.setState({errMessage: error.name + ": " + error.message});
                 });
 
@@ -451,7 +457,7 @@ class EditEdition extends Component<IProps, IState> {
     };
 
     deleteEdition = () => {
-        // console.log("UpdateEdition.tsx deleteEdition");
+        // console.log("EditEdition.tsx deleteEdition");
         // this.setState({message: "form submitted"});
 
         this.setState({message: ""});
@@ -463,7 +469,7 @@ class EditEdition extends Component<IProps, IState> {
         if (this.props.editionID !== null) {
             url = url + this.props.editionID;
 
-            // console.log("UpdateEdition.tsx deleteEdition url", url);
+            // console.log("EditEdition.tsx deleteEdition url", url);
 
             if (this.props.sessionToken !== null) {
 
@@ -475,7 +481,7 @@ class EditEdition extends Component<IProps, IState> {
                     })
                 })
                 .then(response => {
-                    // console.log("UpdateEdition.tsx deleteEdition response", response);
+                    // console.log("EditEdition.tsx deleteEdition response", response);
                     // if (!response.ok) {
                     //     throw Error(response.status + " " + response.statusText + " " + response.url);
                     // } else {
@@ -487,7 +493,7 @@ class EditEdition extends Component<IProps, IState> {
                     // };
                 })
                 .then(data => {
-                    // console.log("UpdateEdition.tsx deleteEdition data", data);
+                    // console.log("EditEdition.tsx deleteEdition data", data);
 
                     this.setState({editionRecordDeleted: data.recordDeleted});
 
@@ -505,9 +511,9 @@ class EditEdition extends Component<IProps, IState> {
 
                 })
                 .catch(error => {
-                    console.log("UpdateEdition.tsx deleteEdition error", error);
-                    // console.log("UpdateEdition.tsx deleteEdition error.name", error.name);
-                    // console.log("UpdateEdition.tsx deleteEdition error.message", error.message);
+                    console.log("EditEdition.tsx deleteEdition error", error);
+                    // console.log("EditEdition.tsx deleteEdition error.name", error.name);
+                    // console.log("EditEdition.tsx deleteEdition error.message", error.message);
                     this.setState({errMessage: error.name + ": " + error.message});
                 });
                 
@@ -517,15 +523,65 @@ class EditEdition extends Component<IProps, IState> {
 
     };
 
+    checkASIN = (ASIN: string | null) => {
+        // console.log("AddEdition.tsx checkASIN");
+        // console.log("AddEdition.tsx checkASIN baseURL", baseURL);
+
+        this.setState({ASINMessage: ""});
+        this.setState({errASINMessage: ""});
+        this.setState({ASINResultsFound: null});
+
+        let url: string = baseURL + "edition/ASIN/";
+
+        if (ASIN !== null && ASIN !== "") {
+            url = url + ASIN;
+
+            // console.log("AddEdition.tsx checkASIN url", url);
+
+            fetch(url)
+            .then(response => {
+                // console.log("AddEdition.tsx checkASIN response", response);
+                if (!response.ok) {
+                    throw Error(response.status + " " + response.statusText + " " + response.url);
+                } else {
+                    return response.json();
+                };
+            })
+            .then(data => {
+                // console.log("AddEdition.tsx checkASIN data", data);
+
+                this.setState({ASINResultsFound: data.resultsFound});
+                this.setState({ASINMessage: data.message});
+
+                if (data.resultsFound === true) {
+
+                    this.setState({ASINMessage: data.message + "That ASIN already exists."});
+
+                } else {
+                    this.setState({errASINMessage: data.message});
+                };
+
+            })
+            .catch(error => {
+                console.log("AddEdition.tsx checkASIN error", error);
+                // console.log("AddEdition.tsx checkASIN error.name", error.name);
+                // console.log("AddEdition.tsx checkASIN error.message", error.message);
+                this.setState({errASINMessage: error.name + ": " + error.message});
+            });
+
+        };
+
+    };
+
     componentDidMount() {
         this.getMedia();
         this.getEdition();
     };
 
-    copyTitlePublicationDate() {
-        console.log("AddEdition.tsx copyTitlePublicationDate this.props.titlePublicationDate", this.props.titlePublicationDate);
+    copyTitlePublicationDate = () => {
+        // console.log("EditEdition.tsx copyTitlePublicationDate this.props.titlePublicationDate", this.props.titlePublicationDate);
 
-        if (this.props.titlePublicationDate !== null) {
+        if (this.props.titlePublicationDate !== undefined && this.props.titlePublicationDate !== null) {
             this.setState({txtPublicationDate: this.props.titlePublicationDate.toString().substring(0, 10)});
         } else {
             this.setState({txtPublicationDate: null});
@@ -543,7 +599,9 @@ class EditEdition extends Component<IProps, IState> {
 
     render() {
 
-        // console.log("UpdateEdition.tsx this.props.isAdmin", this.props.isAdmin);
+        // console.log("EditEdition.tsx render() this.props.titlePublicationDate", this.props.titlePublicationDate);
+
+        // console.log("EditEdition.tsx render() this.props.isAdmin", this.props.isAdmin);
 
         if (this.props.isAdmin !== true) {
             return <Redirect to="/" />;
@@ -588,58 +646,54 @@ class EditEdition extends Component<IProps, IState> {
                         
                     <Typography component="legend">Publication Date</Typography>
                     <TextField type="date" id="txtPublicationDate" variant="outlined" fullWidth margin="normal" defaultValue={this.state.txtPublicationDate} value={this.state.txtPublicationDate} onChange={(event) => {/*console.log(event.target.value);*/ this.setState({txtPublicationDate: event.target.value});}} />
-                    <Button variant="contained" size="small" color="secondary" onClick={this.copyTitlePublicationDate}>Copy Title Publication Date</Button> 
-                    
+                    <Button variant="contained" size="small" onClick={this.copyTitlePublicationDate}>Copy Title Publication Date</Button> 
+
                 </Grid>
                 </Grid>
                 </Grid>
 
                 <Grid item xs={12}>
     
-                    <TextField type="text" id="txtImageName" label="Image Name" variant="outlined" fullWidth
-              margin="normal" value={this.state.txtImageName} onChange={(event) => {/*console.log(event.target.value);*/ this.setState({txtImageName: event.target.value});}} />
+                    <TextField type="text" id="txtImageName" label="Image Name" variant="outlined" fullWidth margin="normal" value={this.state.txtImageName} onChange={(event) => {/*console.log(event.target.value);*/ this.setState({txtImageName: event.target.value});}} />
     
                 </Grid>
                 <Grid item xs={12}>
 
-                <TextField type="text" id="txtASIN" label="ASIN" variant="outlined" fullWidth
-            margin="normal" value={this.state.txtASIN} onChange={(event) => {/*console.log(event.target.value);*/ this.setState({txtASIN: event.target.value});}} />
+                {this.state.txtTextLinkFull !== null && this.state.txtTextLinkFull !== "" ? <Alert severity="info">{this.state.txtTextLinkFull.substring(this.state.txtTextLinkFull.indexOf("/dp/") + 4, this.state.txtTextLinkFull.indexOf("/ref="))}</Alert> : null}
+                {this.state.ASINMessage !== "" ? <Alert severity="info">{this.state.ASINMessage}</Alert> : null}
+                {this.state.errASINMessage !== "" ? <Alert severity="error">{this.state.errASINMessage}</Alert> : null}
+                <Button variant="contained" size="small" onClick={(event) => {/*console.log(event.target.value);*/ this.checkASIN(this.state.txtASIN);}}>Check for ASIN</Button>
+                <TextField type="text" id="txtASIN" label="ASIN" variant="outlined" fullWidth margin="normal" value={this.state.txtASIN} onChange={(event) => {/*console.log(event.target.value);*/ this.setState({txtASIN: event.target.value});}} />
 
                 </Grid>
                 <Grid item xs={12}>
 
-                <TextField type="text" id="txtTextLinkShort" label="Text Link Short" variant="outlined" fullWidth
-                margin="normal" value={this.state.txtTextLinkShort} onChange={(event) => {/*console.log(event.target.value);*/ this.setState({txtTextLinkShort: event.target.value});}} />
+                <TextField type="text" id="txtTextLinkShort" label="Text Link Short" variant="outlined" fullWidth margin="normal" value={this.state.txtTextLinkShort} onChange={(event) => {/*console.log(event.target.value);*/ this.setState({txtTextLinkShort: event.target.value});}} />
 
                 </Grid>
                 <Grid item xs={12}>
 
-                <TextField type="text" id="txtTextLinkFull" label="Text Link Full" variant="outlined" fullWidth
-                margin="normal" multiline rows={5} value={this.state.txtTextLinkFull} onChange={(event) => {/*console.log(event.target.value);*/ this.setState({txtTextLinkFull: event.target.value});}} />
+                <TextField type="text" id="txtTextLinkFull" label="Text Link Full" variant="outlined" fullWidth margin="normal" multiline rows={5} value={this.state.txtTextLinkFull} onChange={(event) => {/*console.log(event.target.value);*/ this.setState({txtTextLinkFull: event.target.value}); this.setState({txtASIN: event.target.value.substring(event.target.value.indexOf("/dp/") + 4, event.target.value.indexOf("/ref="))});}} />
 
                 </Grid>
                 <Grid item xs={12}>
 
-                <TextField type="text" id="txtImageLinkSmall" label="Image Link Small" variant="outlined" fullWidth
-                margin="normal" multiline rows={5} value={this.state.txtImageLinkSmall} onChange={(event) => {/*console.log(event.target.value);*/ this.setState({txtImageLinkSmall: event.target.value});}} />
+                <TextField type="text" id="txtImageLinkSmall" label="Image Link Small" variant="outlined" fullWidth margin="normal" multiline rows={10} value={this.state.txtImageLinkSmall} onChange={(event) => {/*console.log(event.target.value);*/ this.setState({txtImageLinkSmall: event.target.value});}} />
 
                 </Grid>
                 <Grid item xs={12}>
 
-                <TextField type="text" id="txtImageLinkMedium" label="Image Link Medium" variant="outlined" fullWidth
-                margin="normal" multiline rows={10} value={this.state.txtImageLinkMedium} onChange={(event) => {/*console.log(event.target.value);*/ this.setState({txtImageLinkMedium: event.target.value});}} />
+                <TextField type="text" id="txtImageLinkMedium" label="Image Link Medium" variant="outlined" fullWidth margin="normal" multiline rows={10} value={this.state.txtImageLinkMedium} onChange={(event) => {/*console.log(event.target.value);*/ this.setState({txtImageLinkMedium: event.target.value});}} />
 
                 </Grid>
                 <Grid item xs={12}>
 
-                <TextField type="text" id="txtImageLinkLarge" label="Image Link Large" variant="outlined" fullWidth
-                margin="normal" multiline rows={10} value={this.state.txtImageLinkLarge} onChange={(event) => {/*console.log(event.target.value);*/ this.setState({txtImageLinkLarge: event.target.value});}} />
+                <TextField type="text" id="txtImageLinkLarge" label="Image Link Large" variant="outlined" fullWidth margin="normal" multiline rows={10} value={this.state.txtImageLinkLarge} onChange={(event) => {/*console.log(event.target.value);*/ this.setState({txtImageLinkLarge: event.target.value});}} />
 
                 </Grid>
                 <Grid item xs={12}>
 
-                <TextField type="text" id="txtTextImageLink" label="Text Image Link" variant="outlined" fullWidth
-                margin="normal" multiline rows={10} value={this.state.txtTextImageLink} onChange={(event) => {/*console.log(event.target.value);*/ this.setState({txtTextImageLink: event.target.value});}} />
+                <TextField type="text" id="txtTextImageLink" label="Text Image Link" variant="outlined" fullWidth margin="normal" multiline rows={10} value={this.state.txtTextImageLink} onChange={(event) => {/*console.log(event.target.value);*/ this.setState({txtTextImageLink: event.target.value});}} />
 
                 </Grid>
 

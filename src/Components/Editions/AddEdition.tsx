@@ -50,7 +50,10 @@ interface IState {
     imageLinkMedium: string | null,
     imageLinkLarge: string | null,
     textImageLink: string | null,
-    active: boolean | null
+    active: boolean | null,
+    ASINMessage: string,
+    errASINMessage: string,
+    ASINResultsFound: boolean | null
 };
 
 class AddEdition extends Component<IProps, IState> {
@@ -88,7 +91,10 @@ class AddEdition extends Component<IProps, IState> {
             imageLinkMedium: null,
             imageLinkLarge: null,
             textImageLink: null,
-            active: null
+            active: null,
+            ASINMessage: "",
+            errASINMessage: "",
+            ASINResultsFound: null
         };
 
     };
@@ -338,14 +344,64 @@ class AddEdition extends Component<IProps, IState> {
 
     };
 
+    checkASIN = (ASIN: string | null) => {
+        // console.log("AddEdition.tsx checkASIN");
+        // console.log("AddEdition.tsx checkASIN baseURL", baseURL);
+
+        this.setState({ASINMessage: ""});
+        this.setState({errASINMessage: ""});
+        this.setState({ASINResultsFound: null});
+
+        let url: string = baseURL + "edition/ASIN/";
+
+        if (ASIN !== null && ASIN !== "") {
+            url = url + ASIN;
+
+            // console.log("AddEdition.tsx checkASIN url", url);
+
+            fetch(url)
+            .then(response => {
+                // console.log("AddEdition.tsx checkASIN response", response);
+                if (!response.ok) {
+                    throw Error(response.status + " " + response.statusText + " " + response.url);
+                } else {
+                    return response.json();
+                };
+            })
+            .then(data => {
+                // console.log("AddEdition.tsx checkASIN data", data);
+
+                this.setState({ASINResultsFound: data.resultsFound});
+                this.setState({ASINMessage: data.message});
+
+                if (data.resultsFound === true) {
+
+                    this.setState({ASINMessage: data.message + "That ASIN already exists."});
+
+                } else {
+                    this.setState({errASINMessage: data.message});
+                };
+
+            })
+            .catch(error => {
+                console.log("AddEdition.tsx checkASIN error", error);
+                // console.log("AddEdition.tsx checkASIN error.name", error.name);
+                // console.log("AddEdition.tsx checkASIN error.message", error.message);
+                this.setState({errASINMessage: error.name + ": " + error.message});
+            });
+
+        };
+
+    };
+
     componentDidMount() {
         this.getMedia();
     };
 
-    copyTitlePublicationDate() {
-        console.log("AddEdition.tsx copyTitlePublicationDate this.props.titlePublicationDate", this.props.titlePublicationDate);
+    copyTitlePublicationDate = () => {
+        // console.log("AddEdition.tsx copyTitlePublicationDate this.props.titlePublicationDate", this.props.titlePublicationDate);
 
-        if (this.props.titlePublicationDate !== null) {
+        if (this.props.titlePublicationDate !== undefined && this.props.titlePublicationDate !== null) {
             this.setState({txtPublicationDate: this.props.titlePublicationDate.toString().substring(0, 10)});
         } else {
             this.setState({txtPublicationDate: null});
@@ -363,7 +419,9 @@ class AddEdition extends Component<IProps, IState> {
 
     render() {
 
-        // console.log("AddEdition.tsx this.props.isAdmin", this.props.isAdmin);
+        // console.log("AddEdition.tsx render() this.props.titlePublicationDate", this.props.titlePublicationDate);
+
+        // console.log("AddEdition.tsx render() this.props.isAdmin", this.props.isAdmin);
 
         if (this.props.isAdmin !== true) {
             return <Redirect to="/" />;
@@ -395,7 +453,7 @@ class AddEdition extends Component<IProps, IState> {
                 <MenuItem selected value="">Select a Media</MenuItem>
                 {this.state.mediaList.map((media: IMedia) => {
                 return (
-                    <MenuItem value={media.mediaID}>{media.media}</MenuItem>
+                    <MenuItem key={media.mediaID} value={media.mediaID}>{media.media}</MenuItem>
                     )
                 })}
                 </Select>
@@ -406,7 +464,7 @@ class AddEdition extends Component<IProps, IState> {
                         
                     <Typography component="legend">Publication Date</Typography>
                     <TextField type="date" id="txtPublicationDate" variant="outlined" fullWidth margin="normal" defaultValue={this.state.txtPublicationDate} value={this.state.txtPublicationDate} onChange={(event) => {/*console.log(event.target.value);*/ this.setState({txtPublicationDate: event.target.value});}} />
-                    <Button variant="contained" size="small" color="secondary" onClick={this.copyTitlePublicationDate}>Copy Title Publication Date</Button>
+                    {this.props.titlePublicationDate !== undefined && this.props.titlePublicationDate !== null ? <Button variant="contained" size="small" onClick={this.copyTitlePublicationDate}>Copy Title Publication Date</Button> : null}
                     
                 </Grid>
                 </Grid>
@@ -414,50 +472,46 @@ class AddEdition extends Component<IProps, IState> {
 
                 <Grid item xs={12}>
     
-                    <TextField type="text" id="txtImageName" label="Image Name" variant="outlined" fullWidth
-              margin="normal" value={this.state.txtImageName} onChange={(event) => {/*console.log(event.target.value);*/ this.setState({txtImageName: event.target.value});}} />
+                    <TextField type="text" id="txtImageName" label="Image Name" variant="outlined" fullWidth margin="normal" value={this.state.txtImageName} onChange={(event) => {/*console.log(event.target.value);*/ this.setState({txtImageName: event.target.value});}} />
     
                 </Grid>
                 <Grid item xs={12}>
 
-                <TextField type="text" id="txtASIN" label="ASIN" variant="outlined" fullWidth
-            margin="normal" value={this.state.txtASIN} onChange={(event) => {/*console.log(event.target.value);*/ this.setState({txtASIN: event.target.value});}} />
+                {this.state.txtTextLinkFull !== null && this.state.txtTextLinkFull !== "" ? <Alert severity="info">{this.state.txtTextLinkFull.substring(this.state.txtTextLinkFull.indexOf("/dp/") + 4, this.state.txtTextLinkFull.indexOf("/ref="))}</Alert> : null}
+                {this.state.ASINMessage !== "" ? <Alert severity="info">{this.state.ASINMessage}</Alert> : null}
+                {this.state.errASINMessage !== "" ? <Alert severity="error">{this.state.errASINMessage}</Alert> : null}
+                <Button variant="contained" size="small" onClick={(event) => {/*console.log(event.target.value);*/ this.checkASIN(this.state.txtASIN);}}>Check for ASIN</Button>
+                <TextField type="text" id="txtASIN" label="ASIN" variant="outlined" fullWidth margin="normal" value={this.state.txtASIN} onChange={(event) => {/*console.log(event.target.value);*/ this.setState({txtASIN: event.target.value});}} />
 
                 </Grid>
                 <Grid item xs={12}>
 
-                <TextField type="text" id="txtTextLinkShort" label="Text Link Short" variant="outlined" fullWidth
-                margin="normal" value={this.state.txtTextLinkShort} onChange={(event) => {/*console.log(event.target.value);*/ this.setState({txtTextLinkShort: event.target.value});}} />
+                <TextField type="text" id="txtTextLinkShort" label="Text Link Short" variant="outlined" fullWidth margin="normal" value={this.state.txtTextLinkShort} onChange={(event) => {/*console.log(event.target.value);*/ this.setState({txtTextLinkShort: event.target.value});}} />
 
                 </Grid>
                 <Grid item xs={12}>
 
-                <TextField type="text" id="txtTextLinkFull" label="Text Link Full" variant="outlined" fullWidth
-                margin="normal" multiline rows={5} value={this.state.txtTextLinkFull} onChange={(event) => {/*console.log(event.target.value);*/ this.setState({txtTextLinkFull: event.target.value});}} />
+                <TextField type="text" id="txtTextLinkFull" label="Text Link Full" variant="outlined" fullWidth margin="normal" multiline rows={5} value={this.state.txtTextLinkFull} onChange={(event) => {/*console.log(event.target.value);*/ this.setState({txtTextLinkFull: event.target.value}); this.setState({txtASIN: event.target.value.substring(event.target.value.indexOf("/dp/") + 4, event.target.value.indexOf("/ref="))});}} />
 
                 </Grid>
                 <Grid item xs={12}>
 
-                <TextField type="text" id="txtImageLinkSmall" label="Image Link Small" variant="outlined" fullWidth
-                margin="normal" multiline rows={5} value={this.state.txtImageLinkSmall} onChange={(event) => {/*console.log(event.target.value);*/ this.setState({txtImageLinkSmall: event.target.value});}} />
+                <TextField type="text" id="txtImageLinkSmall" label="Image Link Small" variant="outlined" fullWidth margin="normal" multiline rows={10} value={this.state.txtImageLinkSmall} onChange={(event) => {/*console.log(event.target.value);*/ this.setState({txtImageLinkSmall: event.target.value});}} />
 
                 </Grid>
                 <Grid item xs={12}>
 
-                <TextField type="text" id="txtImageLinkMedium" label="Image Link Medium" variant="outlined" fullWidth
-                margin="normal" multiline rows={10} value={this.state.txtImageLinkMedium} onChange={(event) => {/*console.log(event.target.value);*/ this.setState({txtImageLinkMedium: event.target.value});}} />
+                <TextField type="text" id="txtImageLinkMedium" label="Image Link Medium" variant="outlined" fullWidth margin="normal" multiline rows={10} value={this.state.txtImageLinkMedium} onChange={(event) => {/*console.log(event.target.value);*/ this.setState({txtImageLinkMedium: event.target.value});}} />
 
                 </Grid>
                 <Grid item xs={12}>
 
-                <TextField type="text" id="txtImageLinkLarge" label="Image Link Large" variant="outlined" fullWidth
-                margin="normal" multiline rows={10} value={this.state.txtImageLinkLarge} onChange={(event) => {/*console.log(event.target.value);*/ this.setState({txtImageLinkLarge: event.target.value});}} />
+                <TextField type="text" id="txtImageLinkLarge" label="Image Link Large" variant="outlined" fullWidth margin="normal" multiline rows={10} value={this.state.txtImageLinkLarge} onChange={(event) => {/*console.log(event.target.value);*/ this.setState({txtImageLinkLarge: event.target.value});}} />
 
                 </Grid>
                 <Grid item xs={12}>
 
-                <TextField type="text" id="txtTextImageLink" label="Text Image Link" variant="outlined" fullWidth
-                margin="normal" multiline rows={10} value={this.state.txtTextImageLink} onChange={(event) => {/*console.log(event.target.value);*/ this.setState({txtTextImageLink: event.target.value});}} />
+                <TextField type="text" id="txtTextImageLink" label="Text Image Link" variant="outlined" fullWidth margin="normal" multiline rows={10} value={this.state.txtTextImageLink} onChange={(event) => {/*console.log(event.target.value);*/ this.setState({txtTextImageLink: event.target.value});}} />
 
                 </Grid>
 

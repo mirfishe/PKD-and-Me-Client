@@ -1,7 +1,7 @@
 import React, {Component} from "react";
 
 import {Alert} from "@material-ui/lab/";
-import {Grid} from "@material-ui/core";
+import {Grid, Button} from "@material-ui/core";
 
 import {ITitle, ICategory, IEdition, IUserReview} from "../../Helpers/interfaces";
 import {baseURL} from "../../Helpers/constants";
@@ -16,6 +16,7 @@ interface IProps {
     sessionToken: string | null,
     titleID: number | null,
     setTitleID: (titleID: number | null) => void,
+    getTitles: (categoryID: number | null) => void,
     titleUpdated: boolean,
     setTitleUpdated: (titleUpdated: boolean) => void
 };
@@ -36,7 +37,8 @@ interface IState {
     errCategoryMessage: string,
     categoryResultsFound: boolean | null,
     categoryList: ICategory[],
-    categoryName: string,
+    categoryID: number | null,
+    categoryName: string | null,
     editionMessage: string,
     errEditionMessage: string,
     editionResultsFound: boolean | null,
@@ -77,7 +79,8 @@ class Title extends Component<IProps, IState> {
             errCategoryMessage: "",
             categoryResultsFound: null,
             categoryList: [],
-            categoryName: "",
+            categoryID: null,
+            categoryName: null,
             editionMessage: "",
             errEditionMessage: "",
             editionResultsFound: null,
@@ -117,7 +120,8 @@ class Title extends Component<IProps, IState> {
         this.setState({errCategoryMessage: ""});
         this.setState({categoryResultsFound: null});
         this.setState({categoryList: []});
-        this.setState({categoryName: ""});
+        this.setState({categoryID: null});
+        this.setState({categoryName: null});
         this.setState({editionMessage: ""});
         this.setState({errEditionMessage: ""});
         this.setState({editionResultsFound: null});
@@ -179,6 +183,7 @@ class Title extends Component<IProps, IState> {
 
                         this.setState({categoryResultsFound: true});
                         // this.setState({categoryMessage: "Successfully retrieved categories."});
+                        this.setState({categoryID: data.titles[0].category.categoryID});
                         this.setState({categoryName: data.titles[0].category.category});
 
                         // categoryList is an object not an array if there is only one value in the data from the fetch?
@@ -414,8 +419,15 @@ class Title extends Component<IProps, IState> {
 
     render() {
 
+        // console.log("Title.tsx render() this.state.titlePublicationDate", this.state.titlePublicationDate);
+
         return(
             <Grid container spacing={2}>
+
+                <Grid item xs={12}>
+                <Button variant="contained" size="small" onClick={() => {this.props.setTitleID(null); this.props.getTitles(this.state.categoryID)}}>Back To Search Results</Button> 
+                </Grid>
+
                 <Grid item xs={12}>
                 {this.state.titleMessage !== "" ? <Alert severity="info">{this.state.titleMessage}</Alert> : null}
                 {this.state.errTitleMessage !== "" ? <Alert severity="error">{this.state.errTitleMessage}</Alert> : null}
