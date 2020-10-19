@@ -13,6 +13,7 @@ interface IProps {
     isAdmin: boolean,
     sessionToken: string | null,
     titleID: number | null,
+    titlePublicationDate: Date | null,
     editionID: number | null,
     editionUpdated: () => void,
     displayIcon?: boolean,
@@ -521,6 +522,17 @@ class EditEdition extends Component<IProps, IState> {
         this.getEdition();
     };
 
+    copyTitlePublicationDate() {
+        console.log("AddEdition.tsx copyTitlePublicationDate this.props.titlePublicationDate", this.props.titlePublicationDate);
+
+        if (this.props.titlePublicationDate !== null) {
+            this.setState({txtPublicationDate: this.props.titlePublicationDate.toString().substring(0, 10)});
+        } else {
+            this.setState({txtPublicationDate: null});
+        };
+
+    };
+
     handleOpen = () => {
         this.setState({dialogOpen: true});
     };
@@ -576,7 +588,8 @@ class EditEdition extends Component<IProps, IState> {
                         
                     <Typography component="legend">Publication Date</Typography>
                     <TextField type="date" id="txtPublicationDate" variant="outlined" fullWidth margin="normal" defaultValue={this.state.txtPublicationDate} value={this.state.txtPublicationDate} onChange={(event) => {/*console.log(event.target.value);*/ this.setState({txtPublicationDate: event.target.value});}} />
-
+                    <Button variant="contained" size="small" color="secondary" onClick={this.copyTitlePublicationDate}>Copy Title Publication Date</Button> 
+                    
                 </Grid>
                 </Grid>
                 </Grid>

@@ -26,6 +26,7 @@ interface IState {
     titleMessage: string,
     errTitleMessage: string,
     titleData: ITitle | null,
+    titlePublicationDate: Date | null,
     overallTitleRatingMessage: string,
     errOverallTitleRatingMessage: string,
     overallTitleRatingResultsFound: boolean | null,
@@ -66,6 +67,7 @@ class Title extends Component<IProps, IState> {
             errTitleMessage: "",
             titleResultsFound: null,
             titleData: null,
+            titlePublicationDate: null,
             overallTitleRatingMessage: "",
             errOverallTitleRatingMessage: "",
             overallTitleRatingResultsFound: null,
@@ -110,6 +112,7 @@ class Title extends Component<IProps, IState> {
         // this.setState({userReviewedTitle: false});
         this.setState({titleResultsFound: null});
         this.setState({titleData: null});
+        this.setState({titlePublicationDate: null});
         this.setState({categoryMessage: ""});
         this.setState({errCategoryMessage: ""});
         this.setState({categoryResultsFound: null});
@@ -166,6 +169,8 @@ class Title extends Component<IProps, IState> {
                 if (data.resultsFound === true) {
                     // this.setState({titleList: data.titles});
                     this.setState({titleData: data.titles[0]});
+
+                    this.setState({titlePublicationDate: data.titles[0].publicationDate});
 
                     this.setState({categoryList: data.titles[0].category});
                     // console.log("Title.tsx getTitle this.state.categoryList", this.state.categoryList);
@@ -418,14 +423,14 @@ class Title extends Component<IProps, IState> {
                 {this.state.errOverallTitleRatingMessage !== "" ? <Alert severity="error">{this.state.errOverallTitleRatingMessage}</Alert> : null}
                 {this.state.categoryMessage !== "" ? <Alert severity="info">{this.state.categoryMessage}</Alert> : null}
                 {this.state.errCategoryMessage !== "" ? <Alert severity="error">{this.state.errCategoryMessage}</Alert> : null}
-                {this.state.titleResultsFound !== null ? <TitleDisplay userID={this.props.userID} isAdmin={this.props.isAdmin} sessionToken={this.props.sessionToken} titleID={this.props.titleID} setTitleID={this.props.setTitleID} userReviewUpdated={this.userReviewUpdated} userReviewedTitle={this.state.userReviewedTitle} userReviewedTitleReviewID={this.state.userReviewedTitleReviewID} userReviewedTitleRead={this.state.userReviewedTitleRead} userReviewedTitleDateRead={this.state.userReviewedTitleDateRead} titleData={this.state.titleData} overallTitleRating={this.state.overallTitleRating} overallTitleRatingCount={this.state.overallTitleRatingCount} categoryName={this.state.categoryName} /*titleUpdated={this.titleUpdated}*/ titleUpdated={this.props.titleUpdated} setTitleUpdated={this.props.setTitleUpdated} editionUpdated={this.editionUpdated} /> : null}
+                {this.state.titleResultsFound !== null ? <TitleDisplay userID={this.props.userID} isAdmin={this.props.isAdmin} sessionToken={this.props.sessionToken} titleID={this.props.titleID} setTitleID={this.props.setTitleID} titlePublicationDate={this.state.titlePublicationDate} userReviewUpdated={this.userReviewUpdated} userReviewedTitle={this.state.userReviewedTitle} userReviewedTitleReviewID={this.state.userReviewedTitleReviewID} userReviewedTitleRead={this.state.userReviewedTitleRead} userReviewedTitleDateRead={this.state.userReviewedTitleDateRead} titleData={this.state.titleData} overallTitleRating={this.state.overallTitleRating} overallTitleRatingCount={this.state.overallTitleRatingCount} categoryName={this.state.categoryName} /*titleUpdated={this.titleUpdated}*/ titleUpdated={this.props.titleUpdated} setTitleUpdated={this.props.setTitleUpdated} editionUpdated={this.editionUpdated} /> : null}
                 </Grid>
                 <Grid item xs={10}>
                 {this.state.editionMessage !== "" ? <Alert severity="info">{this.state.editionMessage}</Alert> : null}
                 {this.state.errEditionMessage !== "" ? <Alert severity="error">{this.state.errEditionMessage}</Alert> : null}
                 {/* {this.state.mediaMessage !== "" ? <Alert severity="info">{this.state.mediaMessage}</Alert> : null}
                 {this.state.errMediaMessage !== "" ? <Alert severity="error">{this.state.errMediaMessage}</Alert> : null} */}
-                {this.state.editionResultsFound ? <Edition userID={this.props.userID} isAdmin={this.props.isAdmin} sessionToken={this.props.sessionToken} titleID={this.props.titleID} editionList={this.state.editionList} /*mediaName={this.state.mediaName}*/ editionUpdated={this.editionUpdated}  /> : null}
+                {this.state.editionResultsFound ? <Edition userID={this.props.userID} isAdmin={this.props.isAdmin} sessionToken={this.props.sessionToken} titleID={this.props.titleID} titlePublicationDate={this.state.titlePublicationDate} editionList={this.state.editionList} /*mediaName={this.state.mediaName}*/ editionUpdated={this.editionUpdated} /> : null}
                 </Grid>
                 <Grid item xs={10}>
                 {this.state.userReviewMessage !== "" ? <Alert severity="info">{this.state.userReviewMessage}</Alert> : null}

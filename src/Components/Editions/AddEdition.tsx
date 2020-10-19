@@ -13,6 +13,7 @@ interface IProps {
     isAdmin: boolean,
     sessionToken: string | null,
     titleID: number | null,
+    titlePublicationDate: Date | null,
     editionUpdated: () => void,
     displayIcon?: boolean,
     displayButton?: boolean
@@ -317,6 +318,8 @@ class AddEdition extends Component<IProps, IState> {
                     this.setState({active: data.active});
 
                     this.props.editionUpdated();
+                    // Need to call this here because there are two buttons on the form besides the Cancel button
+                    this.handleClose();
 
                 } else {
                     // this.setState({errMessage: data.error});
@@ -337,6 +340,17 @@ class AddEdition extends Component<IProps, IState> {
 
     componentDidMount() {
         this.getMedia();
+    };
+
+    copyTitlePublicationDate() {
+        console.log("AddEdition.tsx copyTitlePublicationDate this.props.titlePublicationDate", this.props.titlePublicationDate);
+
+        if (this.props.titlePublicationDate !== null) {
+            this.setState({txtPublicationDate: this.props.titlePublicationDate.toString().substring(0, 10)});
+        } else {
+            this.setState({txtPublicationDate: null});
+        };
+
     };
 
     handleOpen = () => {
@@ -378,7 +392,7 @@ class AddEdition extends Component<IProps, IState> {
 
                 <InputLabel id="lblMediaID">Media</InputLabel>
                 <Select id="ddMediaID" labelId="lblMediaID" autoWidth value={this.state.ddMediaID} onChange={(event) => {/*console.log(event.target.value);*/ this.setState({ddMediaID: event.target.value});}}>
-                <MenuItem value="">Select a Media</MenuItem>
+                <MenuItem selected value="">Select a Media</MenuItem>
                 {this.state.mediaList.map((media: IMedia) => {
                 return (
                     <MenuItem value={media.mediaID}>{media.media}</MenuItem>
@@ -392,7 +406,8 @@ class AddEdition extends Component<IProps, IState> {
                         
                     <Typography component="legend">Publication Date</Typography>
                     <TextField type="date" id="txtPublicationDate" variant="outlined" fullWidth margin="normal" defaultValue={this.state.txtPublicationDate} value={this.state.txtPublicationDate} onChange={(event) => {/*console.log(event.target.value);*/ this.setState({txtPublicationDate: event.target.value});}} />
-
+                    <Button variant="contained" size="small" color="secondary" onClick={this.copyTitlePublicationDate}>Copy Title Publication Date</Button>
+                    
                 </Grid>
                 </Grid>
                 </Grid>

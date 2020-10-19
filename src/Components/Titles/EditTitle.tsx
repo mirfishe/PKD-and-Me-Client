@@ -15,8 +15,8 @@ interface IProps {
     titleID: number | null,
     setTitleID: (titleID: number | null) => void,
     // titleUpdated: () => void,
-    titleUpdated: boolean,
-    setTitleUpdated: (titleUpdated: boolean) => void,
+    titleUpdated?: boolean,
+    setTitleUpdated?: (titleUpdated: boolean) => void,
     displayIcon?: boolean,
     displayButton?: boolean
 };
@@ -143,7 +143,7 @@ class EditTitle extends Component<IProps, IState> {
 
     };
 
-    getTitle= () => {
+    getTitle= (/*titleID?: number | null*/) => {
         // console.log("EditTitle.tsx getTitle);
         // console.log("EditTitle.tsx getTitle baseURL", baseURL);
 
@@ -163,6 +163,12 @@ class EditTitle extends Component<IProps, IState> {
         this.setState({active: null});
 
         let url: string = baseURL + "title/";
+
+        // if (titleID !== undefined && titleID !== null) {
+        //     if (!isNaN(titleID)) {
+        //         console.log("EditTitle.tsx getTitle titleID", titleID);
+        //     };
+        // };
 
         if (this.props.titleID !== null) {
             url = url + this.props.titleID;
@@ -408,8 +414,11 @@ class EditTitle extends Component<IProps, IState> {
                                 this.props.setTitleID(null);
                             };
 
-                            // this.props.titleUpdated();
-                            this.props.setTitleUpdated(!this.props.titleUpdated);
+                            if (this.props.setTitleUpdated !== undefined) {
+                                // this.props.titleUpdated();
+                                this.props.setTitleUpdated(!this.props.titleUpdated);
+                            };
+
                             // Need to call this here because there are two buttons on the form besides the Cancel button
                             this.handleClose();
 
@@ -480,8 +489,12 @@ class EditTitle extends Component<IProps, IState> {
                     if (data.recordDeleted === true) {
 
                         this.props.setTitleID(null);
-                        // this.props.titleUpdated();
-                        this.props.setTitleUpdated(!this.props.titleUpdated);
+
+                        if (this.props.setTitleUpdated !== undefined) {
+                            // this.props.titleUpdated();
+                            this.props.setTitleUpdated(!this.props.titleUpdated);
+                        };
+
                         // Need to call this here because there are two buttons on the form besides the Cancel button
                         this.handleClose();
 

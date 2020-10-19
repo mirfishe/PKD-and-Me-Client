@@ -435,7 +435,7 @@ class AddEdition extends Component<IProps, IState> {
 
                 <InputLabel id="lblMediaID">Media</InputLabel>
                 <Select id="ddMediaID" labelId="lblMediaID" autoWidth value={this.state.ddMediaID} onChange={(event) => {/*console.log(event.target.value);*/ this.setState({ddMediaID: event.target.value});}}>
-                <MenuItem value="">Select a Media</MenuItem>
+                <MenuItem selected value="">Select a Media</MenuItem>
                 {this.state.mediaList.map((media: IMedia) => {
                 return (
                     <MenuItem value={media.mediaID}>{media.media}</MenuItem>
