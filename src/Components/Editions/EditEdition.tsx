@@ -554,11 +554,14 @@ class EditEdition extends Component<IProps, IState> {
                 this.setState({ASINMessage: data.message});
 
                 if (data.resultsFound === true) {
+                    this.setState({ASINMessage: data.message + "That ASIN already exists in the database. " + data.editions[0].title.titleName + " (" + data.editions[0].medium.media + ") editionID=" + data.editions[0].editionID});
 
-                    this.setState({ASINMessage: data.message + "That ASIN already exists."});
+                    // console.log("AddEdition.tsx checkASIN", data.editions[0].title.titleName);
+                    // console.log("AddEdition.tsx checkASIN", data.editions[0].medium.media);
+                    // console.log("AddEdition.tsx checkASIN", data.editions[0].editionID);
 
                 } else {
-                    this.setState({errASINMessage: data.message});
+                    this.setState({errASINMessage: data.message + "That ASIN does not exist in the database"});
                 };
 
             })
