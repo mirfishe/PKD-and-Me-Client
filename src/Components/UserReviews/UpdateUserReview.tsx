@@ -5,15 +5,17 @@ import {Alert, Rating} from "@material-ui/lab/";
 import {Grid, Button, Checkbox, FormControlLabel, TextField, Typography, Dialog, DialogTitle, DialogContent, DialogActions} from "@material-ui/core";
 import EditIcon from "@material-ui/icons/Edit";
 
-import {baseURL} from "../../Helpers/constants"
+import {baseURL} from "../../Helpers/constants";
 
 interface IProps {
     userID: number | null,
     isAdmin: boolean,
-    sessionToken: string,
+    sessionToken: string | null,
     titleID: number | null,
     reviewID: number | null,
-    userReviewUpdated: () => void
+    userReviewUpdated: () => void,
+    displayIcon?: boolean,
+    displayButton?: boolean
 };
 
 interface IState {
@@ -229,74 +231,78 @@ class UpdateUserReview extends Component<IProps, IState> {
                 url = url + "admin/" + this.props.reviewID;
             };
 
-            console.log("UpdateUserReview.tsx updateUserReview url", url);
+            // console.log("UpdateUserReview.tsx updateUserReview url", url);
 
-            fetch(url, {
-                method: "PUT",
-                headers:    new Headers ({
-                    "Content-Type": "application/json",
-                    "Authorization": this.props.sessionToken
-                }),
-                body: JSON.stringify({userReview: userReviewObject})
-            })
-            .then(response => {
-                // console.log("UpdateUserReview.tsx updateUserReview response", response);
-                // if (!response.ok) {
-                //     throw Error(response.status + " " + response.statusText + " " + response.url);
-                // } else {
-                    // if (response.status === 200) {
-                        return response.json();
+            if (this.props.sessionToken !== null) {
+
+                fetch(url, {
+                    method: "PUT",
+                    headers:    new Headers ({
+                        "Content-Type": "application/json",
+                        "Authorization": this.props.sessionToken
+                    }),
+                    body: JSON.stringify({userReview: userReviewObject})
+                })
+                .then(response => {
+                    // console.log("UpdateUserReview.tsx updateUserReview response", response);
+                    // if (!response.ok) {
+                    //     throw Error(response.status + " " + response.statusText + " " + response.url);
                     // } else {
-                    //     return response.status;
+                        // if (response.status === 200) {
+                            return response.json();
+                        // } else {
+                        //     return response.status;
+                        // };
                     // };
-                // };
-            })
-            .then(data => {
-                // console.log("UpdateUserReview.tsx updateUserReview data", data);
+                })
+                .then(data => {
+                    // console.log("UpdateUserReview.tsx updateUserReview data", data);
 
-                this.setState({userReviewRecordUpdated: data.recordUpdated});
-                this.setState({message: data.message}); // Never seen by the user if the update was successful
+                    this.setState({userReviewRecordUpdated: data.recordUpdated});
+                    this.setState({message: data.message}); // Never seen by the user if the update was successful
 
-                if (data.recordUpdated === true) {
-                    // Never seen by the user if the update was successful
-                    // this.setState({cbxRead: data.read});
+                    if (data.recordUpdated === true) {
+                        // Never seen by the user if the update was successful
+                        // this.setState({cbxRead: data.read});
 
-                    // if (data.dateRead !== undefined && data.dateRead !== null) {
-                    //     this.setState({txtDateRead: data.dateRead.toString().substring(0, 10)});
-                    // } else {
-                    //     this.setState({txtDateRead: ""});
-                    // };
+                        // if (data.dateRead !== undefined && data.dateRead !== null) {
+                        //     this.setState({txtDateRead: data.dateRead.toString().substring(0, 10)});
+                        // } else {
+                        //     this.setState({txtDateRead: ""});
+                        // };
 
-                    // this.setState({rdoRating: data.rating});
-                    // this.setState({txtShortReview: data.shortReview});
-                    // this.setState({txtLongReview: data.longReview});
+                        // this.setState({rdoRating: data.rating});
+                        // this.setState({txtShortReview: data.shortReview});
+                        // this.setState({txtLongReview: data.longReview});
 
-                    // this.setState({reviewID: data.reviewID});
-                    // this.setState({userID: data.userID});
-                    this.setState({updatedBy: data.updatedBy});
-                    // this.setState({titleID: data.titleID});
-                    this.setState({read: data.read});
-                    this.setState({dateRead: data.dateRead});
-                    this.setState({rating: data.rating});
-                    this.setState({shortReview: data.shortReview});
-                    this.setState({longReview: data.longReview});
-                    this.setState({active: data.active});
+                        // this.setState({reviewID: data.reviewID});
+                        // this.setState({userID: data.userID});
+                        this.setState({updatedBy: data.updatedBy});
+                        // this.setState({titleID: data.titleID});
+                        this.setState({read: data.read});
+                        this.setState({dateRead: data.dateRead});
+                        this.setState({rating: data.rating});
+                        this.setState({shortReview: data.shortReview});
+                        this.setState({longReview: data.longReview});
+                        this.setState({active: data.active});
 
-                    this.props.userReviewUpdated();
-                    // Need to call this here because there are two buttons on the form besides the Cancel button
-                    this.handleClose();
+                        this.props.userReviewUpdated();
+                        // Need to call this here because there are two buttons on the form besides the Cancel button
+                        this.handleClose();
 
-                } else {
-                    this.setState({errMessage: data.message});
-                };
+                    } else {
+                        this.setState({errMessage: data.message});
+                    };
 
-            })
-            .catch(error => {
-                console.log("UpdateUserReview.tsx updateUserReview error", error);
-                // console.log("UpdateUserReview.tsx updateUserReview error.name", error.name);
-                // console.log("UpdateUserReview.tsx updateUserReview error.message", error.message);
-                this.setState({errMessage: error.name + ": " + error.message});
-            });
+                })
+                .catch(error => {
+                    console.log("UpdateUserReview.tsx updateUserReview error", error);
+                    // console.log("UpdateUserReview.tsx updateUserReview error.name", error.name);
+                    // console.log("UpdateUserReview.tsx updateUserReview error.message", error.message);
+                    this.setState({errMessage: error.name + ": " + error.message});
+                });
+                
+            };
 
         };
 
@@ -317,49 +323,53 @@ class UpdateUserReview extends Component<IProps, IState> {
 
             // console.log("UpdateUserReview.tsx deleteUserReview url", url);
 
-            fetch(url, {
-                method: "DELETE",
-                headers:    new Headers ({
-                    "Content-Type": "application/json",
-                    "Authorization": this.props.sessionToken
+            if (this.props.sessionToken !== null) {
+
+                fetch(url, {
+                    method: "DELETE",
+                    headers:    new Headers ({
+                        "Content-Type": "application/json",
+                        "Authorization": this.props.sessionToken
+                    })
                 })
-            })
-            .then(response => {
-                // console.log("UpdateUserReview.tsx deleteUserReview response", response);
-                // if (!response.ok) {
-                //     throw Error(response.status + " " + response.statusText + " " + response.url);
-                // } else {
-                    // if (response.status === 200) {
-                        return response.json();
+                .then(response => {
+                    // console.log("UpdateUserReview.tsx deleteUserReview response", response);
+                    // if (!response.ok) {
+                    //     throw Error(response.status + " " + response.statusText + " " + response.url);
                     // } else {
-                    //     return response.status;
+                        // if (response.status === 200) {
+                            return response.json();
+                        // } else {
+                        //     return response.status;
+                        // };
                     // };
-                // };
-            })
-            .then(data => {
-                // console.log("UpdateUserReview.tsx deleteUserReview data", data);
+                })
+                .then(data => {
+                    // console.log("UpdateUserReview.tsx deleteUserReview data", data);
 
-                this.setState({userReviewRecordDeleted: data.recordDeleted});
+                    this.setState({userReviewRecordDeleted: data.recordDeleted});
 
-                this.setState({message: data.message}); // Never seen by the user if the delete was successful
+                    this.setState({message: data.message}); // Never seen by the user if the delete was successful
 
-                if (data.recordDeleted === true) {
+                    if (data.recordDeleted === true) {
 
-                    this.props.userReviewUpdated();
-                    // Need to call this here because there are two buttons on the form besides the Cancel button
-                    this.handleClose();
+                        this.props.userReviewUpdated();
+                        // Need to call this here because there are two buttons on the form besides the Cancel button
+                        this.handleClose();
 
-                } else {
-                    this.setState({errMessage: data.message});
-                };
+                    } else {
+                        this.setState({errMessage: data.message});
+                    };
 
-            })
-            .catch(error => {
-                console.log("UpdateUserReview.tsx deleteUserReview error", error);
-                // console.log("UpdateUserReview.tsx deleteUserReview error.name", error.name);
-                // console.log("UpdateUserReview.tsx deleteUserReview error.message", error.message);
-                this.setState({errMessage: error.name + ": " + error.message});
-            });
+                })
+                .catch(error => {
+                    console.log("UpdateUserReview.tsx deleteUserReview error", error);
+                    // console.log("UpdateUserReview.tsx deleteUserReview error.name", error.name);
+                    // console.log("UpdateUserReview.tsx deleteUserReview error.message", error.message);
+                    this.setState({errMessage: error.name + ": " + error.message});
+                });
+
+            };
 
         };
 
@@ -386,8 +396,11 @@ class UpdateUserReview extends Component<IProps, IState> {
 
         return(
             <React.Fragment>
-            {/* <Button variant="contained" size="small" color="primary" onClick={this.handleOpen}>Update Review</Button> */}
-            <EditIcon className="editIcon" onClick={this.handleOpen} />
+                
+            {this.props.displayButton === true ? <Button variant="contained" size="small" color="primary" onClick={this.handleOpen}>Update Review</Button> : null}
+
+            {this.props.displayIcon === true ? <EditIcon className="addEditIcon" onClick={this.handleOpen} /> : null}
+
             <Dialog open={this.state.dialogOpen} onClose={this.handleClose} fullWidth={true} maxWidth="md">
                 <DialogTitle id="form-dialog-title">Update Review</DialogTitle>
                 <DialogContent>

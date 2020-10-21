@@ -2,7 +2,8 @@ import React, {Component} from "react";
 import {Redirect} from "react-router-dom";
 
 import {Alert} from "@material-ui/lab/";
-import {Grid, Button, TextField, Typography} from "@material-ui/core";
+import {Grid, Button, TextField, Typography, Dialog, DialogTitle, DialogContent, DialogActions} from "@material-ui/core";
+import AddIcon from "@material-ui/icons/Add";
 
 import {baseURL} from "../../Helpers/constants";
 
@@ -10,12 +11,15 @@ interface IProps {
     userID: number | null,
     // isLoggedIn: boolean | null,
     isAdmin: boolean,
-    sessionToken: string | null
+    sessionToken: string | null,
+    displayIcon?: boolean,
+    displayButton?: boolean
 };
 
 interface IState {
     message: string,
     errMessage: string,
+    dialogOpen: boolean,
     mediaRecordAdded: boolean | null,
     errMedia: string,
     txtMedia: string | null,
@@ -32,6 +36,7 @@ class AddMedia extends Component<IProps, IState> {
         this.state = {
             message: "",
             errMessage: "",
+            dialogOpen: false,
             mediaRecordAdded: null,
             errMedia: "",
             txtMedia: null,
@@ -153,6 +158,14 @@ class AddMedia extends Component<IProps, IState> {
 
     };
 
+    handleOpen = () => {
+        this.setState({dialogOpen: true});
+    };
+    
+    handleClose = () => {
+        this.setState({dialogOpen: false});
+    };
+
     render() {
 
         // console.log("AddMedia.tsx this.props.isAdmin", this.props.isAdmin);
@@ -162,16 +175,20 @@ class AddMedia extends Component<IProps, IState> {
         };
 
         return(
-            <Grid container spacing={2}>
-                <Grid item xs={10}>&nbsp;</Grid>
-                <Grid item xs={10}> 
-                <Typography variant="h5" align="center" gutterBottom>Add Media</Typography>
-                </Grid>
-                <Grid item xs={10}>
+            <React.Fragment>
+                            
+            {this.props.displayButton === true ? <Button variant="contained" size="small" color="primary" onClick={this.handleOpen}>Add Media</Button> : null}
+
+            {this.props.displayIcon === true ? <AddIcon className="addEditIcon" onClick={this.handleOpen} /> : null}
+
+            <Dialog open={this.state.dialogOpen} onClose={this.handleClose} fullWidth={true} maxWidth="md">
+                <DialogTitle id="form-dialog-title">Add Media</DialogTitle>
+                <DialogContent>
+                <Grid item xs={12}>
                 {this.state.message !== "" ? <Alert severity="info">{this.state.message}</Alert> : null}
                 {this.state.errMessage !== "" ? <Alert severity="error">{this.state.errMessage}</Alert> : null}
                 </Grid>
-                <Grid item xs={10}>
+                <Grid item xs={12}>
 
                 <TextField type="text" id="txtMedia" label="Media" variant="outlined" fullWidth
                 margin="normal" value={this.state.txtMedia} onChange={(event) => {/*console.log(event.target.value);*/ this.setState({txtMedia: event.target.value});}} />
@@ -179,14 +196,13 @@ class AddMedia extends Component<IProps, IState> {
 
                 </Grid>
 
-                <Grid item xs={10}>
-
-                <Button variant="outlined" size="large" color="primary" onClick={this.addMedia}>Add Media</Button>
-                {/* <Button variant="outlined" size="large" color="primary" onClick={this.handleClose}>Cancel</Button> */}
-
-                </Grid>
-
-        </Grid>
+                <DialogActions>
+                    <Button variant="outlined" size="large" color="primary" onClick={this.addMedia}>Add Media</Button>
+                    <Button variant="outlined" size="large" color="primary" onClick={this.handleClose}>Cancel</Button>
+                </DialogActions>
+            </DialogContent>
+          </Dialog>
+        </React.Fragment>
         );
     };
 };

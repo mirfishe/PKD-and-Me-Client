@@ -2,7 +2,7 @@ import React, {FunctionComponent} from "react";
 
 import {List, ListItem, Link, Checkbox, Typography} from "@material-ui/core";
 
-import {ITitle} from "../../Helpers/interfaces"
+import {ITitle} from "../../Helpers/interfaces";
 
 interface IProps {
     checklistList: ITitle[],

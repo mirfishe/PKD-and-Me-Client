@@ -1,10 +1,10 @@
 import React, {Component} from "react";
 
 import {Alert} from "@material-ui/lab/";
-import {Grid} from "@material-ui/core";
+import {Grid, Button} from "@material-ui/core";
 
-import {ITitle, ICategory, IEdition, IUserReview} from "../../Helpers/interfaces"
-import {baseURL} from "../../Helpers/constants"
+import {ITitle, ICategory, IEdition, IUserReview} from "../../Helpers/interfaces";
+import {baseURL} from "../../Helpers/constants";
 import Edition from "../Editions/Edition";
 import TitleDisplay from "./TitleDisplay";
 import UserReview from "../UserReviews/UserReview";
@@ -13,9 +13,10 @@ import AddUserReview from "../UserReviews/AddUserReview";
 interface IProps {
     userID: number | null,
     isAdmin: boolean,
-    sessionToken: string,
+    sessionToken: string | null,
     titleID: number | null,
     setTitleID: (titleID: number | null) => void,
+    getTitles: (categoryID: number | null) => void,
     titleUpdated: boolean,
     setTitleUpdated: (titleUpdated: boolean) => void
 };
@@ -26,6 +27,7 @@ interface IState {
     titleMessage: string,
     errTitleMessage: string,
     titleData: ITitle | null,
+    titlePublicationDate: Date | null,
     overallTitleRatingMessage: string,
     errOverallTitleRatingMessage: string,
     overallTitleRatingResultsFound: boolean | null,
@@ -35,7 +37,8 @@ interface IState {
     errCategoryMessage: string,
     categoryResultsFound: boolean | null,
     categoryList: ICategory[],
-    categoryName: string,
+    categoryID: number | null,
+    categoryName: string | null,
     editionMessage: string,
     errEditionMessage: string,
     editionResultsFound: boolean | null,
@@ -66,6 +69,7 @@ class Title extends Component<IProps, IState> {
             errTitleMessage: "",
             titleResultsFound: null,
             titleData: null,
+            titlePublicationDate: null,
             overallTitleRatingMessage: "",
             errOverallTitleRatingMessage: "",
             overallTitleRatingResultsFound: null,
@@ -75,7 +79,8 @@ class Title extends Component<IProps, IState> {
             errCategoryMessage: "",
             categoryResultsFound: null,
             categoryList: [],
-            categoryName: "",
+            categoryID: null,
+            categoryName: null,
             editionMessage: "",
             errEditionMessage: "",
             editionResultsFound: null,
@@ -110,11 +115,13 @@ class Title extends Component<IProps, IState> {
         // this.setState({userReviewedTitle: false});
         this.setState({titleResultsFound: null});
         this.setState({titleData: null});
+        this.setState({titlePublicationDate: null});
         this.setState({categoryMessage: ""});
         this.setState({errCategoryMessage: ""});
         this.setState({categoryResultsFound: null});
         this.setState({categoryList: []});
-        this.setState({categoryName: ""});
+        this.setState({categoryID: null});
+        this.setState({categoryName: null});
         this.setState({editionMessage: ""});
         this.setState({errEditionMessage: ""});
         this.setState({editionResultsFound: null});
@@ -167,6 +174,8 @@ class Title extends Component<IProps, IState> {
                     // this.setState({titleList: data.titles});
                     this.setState({titleData: data.titles[0]});
 
+                    this.setState({titlePublicationDate: data.titles[0].publicationDate});
+
                     this.setState({categoryList: data.titles[0].category});
                     // console.log("Title.tsx getTitle this.state.categoryList", this.state.categoryList);
 
@@ -174,6 +183,7 @@ class Title extends Component<IProps, IState> {
 
                         this.setState({categoryResultsFound: true});
                         // this.setState({categoryMessage: "Successfully retrieved categories."});
+                        this.setState({categoryID: data.titles[0].category.categoryID});
                         this.setState({categoryName: data.titles[0].category.category});
 
                         // categoryList is an object not an array if there is only one value in the data from the fetch?
@@ -409,8 +419,15 @@ class Title extends Component<IProps, IState> {
 
     render() {
 
+        // console.log("Title.tsx render() this.state.titlePublicationDate", this.state.titlePublicationDate);
+
         return(
             <Grid container spacing={2}>
+
+                <Grid item xs={12}>
+                <Button variant="contained" size="small" onClick={() => {this.props.setTitleID(null); this.props.getTitles(this.state.categoryID)}}>Back To Search Results</Button> 
+                </Grid>
+
                 <Grid item xs={12}>
                 {this.state.titleMessage !== "" ? <Alert severity="info">{this.state.titleMessage}</Alert> : null}
                 {this.state.errTitleMessage !== "" ? <Alert severity="error">{this.state.errTitleMessage}</Alert> : null}
@@ -418,14 +435,14 @@ class Title extends Component<IProps, IState> {
                 {this.state.errOverallTitleRatingMessage !== "" ? <Alert severity="error">{this.state.errOverallTitleRatingMessage}</Alert> : null}
                 {this.state.categoryMessage !== "" ? <Alert severity="info">{this.state.categoryMessage}</Alert> : null}
                 {this.state.errCategoryMessage !== "" ? <Alert severity="error">{this.state.errCategoryMessage}</Alert> : null}
-                {this.state.titleResultsFound !== null ? <TitleDisplay userID={this.props.userID} isAdmin={this.props.isAdmin} sessionToken={this.props.sessionToken} titleID={this.props.titleID} setTitleID={this.props.setTitleID} userReviewUpdated={this.userReviewUpdated} userReviewedTitle={this.state.userReviewedTitle} userReviewedTitleReviewID={this.state.userReviewedTitleReviewID} userReviewedTitleRead={this.state.userReviewedTitleRead} userReviewedTitleDateRead={this.state.userReviewedTitleDateRead} titleData={this.state.titleData} overallTitleRating={this.state.overallTitleRating} overallTitleRatingCount={this.state.overallTitleRatingCount} categoryName={this.state.categoryName} /*titleUpdated={this.titleUpdated}*/ titleUpdated={this.props.titleUpdated} setTitleUpdated={this.props.setTitleUpdated} editionUpdated={this.editionUpdated} /> : null}
+                {this.state.titleResultsFound !== null ? <TitleDisplay userID={this.props.userID} isAdmin={this.props.isAdmin} sessionToken={this.props.sessionToken} titleID={this.props.titleID} setTitleID={this.props.setTitleID} titlePublicationDate={this.state.titlePublicationDate} userReviewUpdated={this.userReviewUpdated} userReviewedTitle={this.state.userReviewedTitle} userReviewedTitleReviewID={this.state.userReviewedTitleReviewID} userReviewedTitleRead={this.state.userReviewedTitleRead} userReviewedTitleDateRead={this.state.userReviewedTitleDateRead} titleData={this.state.titleData} overallTitleRating={this.state.overallTitleRating} overallTitleRatingCount={this.state.overallTitleRatingCount} categoryName={this.state.categoryName} /*titleUpdated={this.titleUpdated}*/ titleUpdated={this.props.titleUpdated} setTitleUpdated={this.props.setTitleUpdated} editionUpdated={this.editionUpdated} /> : null}
                 </Grid>
                 <Grid item xs={10}>
                 {this.state.editionMessage !== "" ? <Alert severity="info">{this.state.editionMessage}</Alert> : null}
                 {this.state.errEditionMessage !== "" ? <Alert severity="error">{this.state.errEditionMessage}</Alert> : null}
                 {/* {this.state.mediaMessage !== "" ? <Alert severity="info">{this.state.mediaMessage}</Alert> : null}
                 {this.state.errMediaMessage !== "" ? <Alert severity="error">{this.state.errMediaMessage}</Alert> : null} */}
-                {this.state.editionResultsFound ? <Edition userID={this.props.userID} isAdmin={this.props.isAdmin} sessionToken={this.props.sessionToken} titleID={this.props.titleID} editionList={this.state.editionList} /*mediaName={this.state.mediaName}*/ editionUpdated={this.editionUpdated}  /> : null}
+                {this.state.editionResultsFound ? <Edition userID={this.props.userID} isAdmin={this.props.isAdmin} sessionToken={this.props.sessionToken} titleID={this.props.titleID} titlePublicationDate={this.state.titlePublicationDate} editionList={this.state.editionList} /*mediaName={this.state.mediaName}*/ editionUpdated={this.editionUpdated} /> : null}
                 </Grid>
                 <Grid item xs={10}>
                 {this.state.userReviewMessage !== "" ? <Alert severity="info">{this.state.userReviewMessage}</Alert> : null}
@@ -433,7 +450,7 @@ class Title extends Component<IProps, IState> {
                 {this.state.userReviewResultsFound && this.state.userReviewResultsHaveReviews ? <UserReview userID={this.props.userID} isAdmin={this.props.isAdmin} sessionToken={this.props.sessionToken} titleID={this.props.titleID} userReviewUpdated={this.userReviewUpdated} userReviewList={this.state.userReviewList} /> : null}
                 </Grid>
                 <Grid item xs={10}>
-                {this.props.sessionToken !== "" && this.state.userReviewedTitle === false ? <AddUserReview userID={this.props.userID} isAdmin={this.props.isAdmin} sessionToken={this.props.sessionToken} titleID={this.props.titleID} userReviewUpdated={this.userReviewUpdated} /> : null}
+                {this.props.sessionToken !== "" && this.props.sessionToken !== null && this.state.userReviewedTitle === false ? <AddUserReview userID={this.props.userID} isAdmin={this.props.isAdmin} sessionToken={this.props.sessionToken} titleID={this.props.titleID} userReviewUpdated={this.userReviewUpdated} displayButton={true} /> : null}
                 </Grid>
             </Grid>
         );

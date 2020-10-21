@@ -3,8 +3,8 @@ import React, {Component} from "react";
 import {Alert} from "@material-ui/lab/";
 import {Grid} from "@material-ui/core";
 
-import {ICategory, ITitle} from "../../Helpers/interfaces"
-import {baseURL} from "../../Helpers/constants"
+import {ICategory, ITitle} from "../../Helpers/interfaces";
+import {baseURL} from "../../Helpers/constants";
 import About from "./About";
 import Category from "../Categories/Category";
 import Title from "../Titles/Title";
@@ -13,7 +13,7 @@ import TitleItem from "../Titles/TitleItem";
 interface IProps {
     userID: number | null,
     isAdmin: boolean,
-    sessionToken: string,
+    sessionToken: string | null,
     titleID: number | null,
     setTitleID: (titleID: number | null) => void,
     categoryID: number | null,
@@ -249,7 +249,7 @@ class Home extends Component<IProps, IState> {
                 <Grid item xs={2}>
                 {this.state.categoryMessage !== "" ? <Alert severity="info">{this.state.categoryMessage}</Alert> : null}
                 {this.state.errCategoryMessage !== "" ? <Alert severity="error">{this.state.errCategoryMessage}</Alert> : null}
-                {this.state.categoryResultsFound !== null ? <Category getTitles={this.getTitles} categoryList={this.state.categoryList} /> : null}
+                {this.state.categoryResultsFound !== null ? <Category userID={this.props.userID} isAdmin={this.props.isAdmin} sessionToken={this.props.sessionToken} getTitles={this.getTitles} categoryList={this.state.categoryList} /> : null}
                 </Grid>
 
                 {this.props.titleID !== null ?
@@ -257,7 +257,7 @@ class Home extends Component<IProps, IState> {
                 <Grid container spacing={2}>
                 <Grid item xs={12}>&nbsp;</Grid>
                 <Grid item xs={12}>
-                <Title userID={this.props.userID} isAdmin={this.props.isAdmin} sessionToken={this.props.sessionToken} titleID={this.props.titleID} setTitleID={this.props.setTitleID} titleUpdated={this.props.titleUpdated} setTitleUpdated={this.props.setTitleUpdated} />
+                <Title userID={this.props.userID} isAdmin={this.props.isAdmin} sessionToken={this.props.sessionToken} titleID={this.props.titleID} setTitleID={this.props.setTitleID} getTitles={this.getTitles} titleUpdated={this.props.titleUpdated} setTitleUpdated={this.props.setTitleUpdated} />
                 </Grid>
                 </Grid>
                 </Grid>
@@ -269,7 +269,7 @@ class Home extends Component<IProps, IState> {
                 <Grid container spacing={2} justify="space-between">
                 {this.state.titleMessage !== "" ? <Alert severity="info">{this.state.titleMessage}</Alert> : null}
                 {this.state.errTitleMessage !== "" ? <Alert severity="error">{this.state.errTitleMessage}</Alert> : null}
-                {this.state.titleResultsFound ? <TitleItem /*getEditions={this.getEditions}*/ titleID={this.props.titleID} setTitleID={this.props.setTitleID} titleList={this.state.titleList} /*getTitles={this.getTitles}*/ categoryID={this.props.categoryID} categoryName={this.state.categoryName} titleSort={this.props.titleSort} setTitleSort={this.props.setTitleSort} /> : <About />}
+                {this.state.titleResultsFound ? <TitleItem userID={this.props.userID} isAdmin={this.props.isAdmin} sessionToken={this.props.sessionToken} /*getEditions={this.getEditions}*/ /*titleID={this.props.titleID}*/ setTitleID={this.props.setTitleID} titleList={this.state.titleList} /*getTitles={this.getTitles}*/ categoryID={this.props.categoryID} categoryName={this.state.categoryName} titleSort={this.props.titleSort} setTitleSort={this.props.setTitleSort} /> : <About />}
                 </Grid>
                 </Grid>
                 </Grid>

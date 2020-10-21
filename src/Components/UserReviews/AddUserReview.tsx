@@ -3,15 +3,18 @@ import {Redirect} from "react-router-dom";
 
 import {Alert, Rating} from "@material-ui/lab/";
 import {Grid, Button, Checkbox, FormControlLabel, TextField, Typography, Dialog, DialogTitle, DialogContent, DialogActions} from "@material-ui/core";
+import AddIcon from "@material-ui/icons/Add";
 
-import {baseURL} from "../../Helpers/constants"
+import {baseURL} from "../../Helpers/constants";
 
 interface IProps {
     userID: number | null,
     isAdmin: boolean,
-    sessionToken: string,
+    sessionToken: string | null,
     titleID: number | null,
-    userReviewUpdated: () => void
+    userReviewUpdated: () => void,
+    displayIcon?: boolean,
+    displayButton?: boolean
 };
 
 interface IState {
@@ -131,90 +134,94 @@ class AddUserReview extends Component<IProps, IState> {
             let url: string = baseURL + "userreview/";
             // console.log("AddUserReview.tsx addUserReview url", url);
 
-            fetch(url, {
-                method: "POST",
-                headers: new Headers({
-                "Content-Type": "application/json",
-                "Authorization": this.props.sessionToken
-                }),
-                body: JSON.stringify({userReview: userReviewObject})
-            })
-            .then(response => {
-                // console.log("AddUserReview.tsx addUserReview response", response);
-                // if (!response.ok) {
-                //     throw Error(response.status + " " + response.statusText + " " + response.url);
-                // } else {
-                    // if (response.status === 200) {
-                        return response.json();
+            if (this.props.sessionToken !== null) {
+
+                fetch(url, {
+                    method: "POST",
+                    headers: new Headers({
+                    "Content-Type": "application/json",
+                    "Authorization": this.props.sessionToken
+                    }),
+                    body: JSON.stringify({userReview: userReviewObject})
+                })
+                .then(response => {
+                    // console.log("AddUserReview.tsx addUserReview response", response);
+                    // if (!response.ok) {
+                    //     throw Error(response.status + " " + response.statusText + " " + response.url);
                     // } else {
-                    //     return response.status;
+                        // if (response.status === 200) {
+                            return response.json();
+                        // } else {
+                        //     return response.status;
+                        // };
                     // };
-                // };
-            })
-            .then(data => {
-                // console.log("AddUserReview.tsx addUserReview data", data);
+                })
+                .then(data => {
+                    // console.log("AddUserReview.tsx addUserReview data", data);
 
-                this.setState({userReviewRecordAdded: data.recordAdded});
-                this.setState({message: data.message});
+                    this.setState({userReviewRecordAdded: data.recordAdded});
+                    this.setState({message: data.message});
 
-                if (data.recordAdded === true) {
-                    this.setState({cbxRead: data.read});
+                    if (data.recordAdded === true) {
+                        this.setState({cbxRead: data.read});
 
-                    if (data.dateRead !== undefined && data.dateRead !== null) {
-                        this.setState({txtDateRead: data.dateRead.toString().substring(0, 10)});
+                        if (data.dateRead !== undefined && data.dateRead !== null) {
+                            this.setState({txtDateRead: data.dateRead.toString().substring(0, 10)});
+                        } else {
+                            this.setState({txtDateRead: null});
+                        };
+
+                        this.setState({rdoRating: data.rating});
+                        this.setState({txtShortReview: data.shortReview});
+                        this.setState({txtLongReview: data.longReview});
+
+                        this.setState({reviewID: data.reviewID});
+                        // this.setState({userID: data.userID});
+                        this.setState({updatedBy: data.updatedBy});
+                        // this.setState({titleID: data.titleID});
+                        this.setState({read: data.read});
+                        this.setState({dateRead: data.dateRead});
+                        this.setState({rating: data.rating});
+                        this.setState({shortReview: data.shortReview});
+                        this.setState({longReview: data.longReview});
+                        this.setState({active: data.active});
+
+                        // Do I really need to repeat this since I already have all the data after the adding of the review?
+                        // this.getUserReview();
+
+                        this.props.userReviewUpdated();
+
                     } else {
-                        this.setState({txtDateRead: null});
+                        this.setState({errMessage: data.message});
                     };
 
-                    this.setState({rdoRating: data.rating});
-                    this.setState({txtShortReview: data.shortReview});
-                    this.setState({txtLongReview: data.longReview});
+                    // return data.recordAdded;
+                })
+                // .then(recordAdded => {
 
-                    this.setState({reviewID: data.reviewID});
-                    // this.setState({userID: data.userID});
-                    this.setState({updatedBy: data.updatedBy});
-                    // this.setState({titleID: data.titleID});
-                    this.setState({read: data.read});
-                    this.setState({dateRead: data.dateRead});
-                    this.setState({rating: data.rating});
-                    this.setState({shortReview: data.shortReview});
-                    this.setState({longReview: data.longReview});
-                    this.setState({active: data.active});
+                //     console.log("AddUserReview.tsx addUserReview this.state.reviewID", this.state.reviewID);
+                //     console.log("AddUserReview.tsx addUserReview this.state.userID", this.state.userID);
+                //     console.log("AddUserReview.tsx addUserReview this.state.updatedBy", this.state.updatedBy);
+                //     // console.log("AddUserReview.tsx addUserReview this.props.titleID", this.props.titleID);
+                //     console.log("AddUserReview.tsx addUserReview this.state.read", this.state.read);
+                //     console.log("AddUserReview.tsx addUserReview this.state.dateRead", this.state.dateRead);
+                //     console.log("AddUserReview.tsx addUserReview this.state.rating", this.state.rating);
+                //     console.log("AddUserReview.tsx addUserReview this.state.shortReview", this.state.shortReview);
+                //     console.log("AddUserReview.tsx addUserReview this.state.longReview", this.state.longReview);
+                //     console.log("AddUserReview.tsx addUserReview this.state.active", this.state.active);
 
-                    // Do I really need to repeat this since I already have all the data after the adding of the review?
-                    // this.getUserReview();
+                //     if (recordAdded) {
+                //         this.getUserReview();
+                //     };
+                // })
+                .catch(error => {
+                    console.log("AddUserReview.tsx addUserReview error", error);
+                    // console.log("AddUserReview.tsx addUserReview error.name", error.name);
+                    // console.log("AddUserReview.tsx addUserReview error.message", error.message);
+                    this.setState({errMessage: error.name + ": " + error.message});
+                });
 
-                    this.props.userReviewUpdated();
-
-                } else {
-                    this.setState({errMessage: data.message});
-                };
-
-                // return data.recordAdded;
-            })
-            // .then(recordAdded => {
-
-            //     console.log("AddUserReview.tsx addUserReview this.state.reviewID", this.state.reviewID);
-            //     console.log("AddUserReview.tsx addUserReview this.state.userID", this.state.userID);
-            //     console.log("AddUserReview.tsx addUserReview this.state.updatedBy", this.state.updatedBy);
-            //     // console.log("AddUserReview.tsx addUserReview this.props.titleID", this.props.titleID);
-            //     console.log("AddUserReview.tsx addUserReview this.state.read", this.state.read);
-            //     console.log("AddUserReview.tsx addUserReview this.state.dateRead", this.state.dateRead);
-            //     console.log("AddUserReview.tsx addUserReview this.state.rating", this.state.rating);
-            //     console.log("AddUserReview.tsx addUserReview this.state.shortReview", this.state.shortReview);
-            //     console.log("AddUserReview.tsx addUserReview this.state.longReview", this.state.longReview);
-            //     console.log("AddUserReview.tsx addUserReview this.state.active", this.state.active);
-
-            //     if (recordAdded) {
-            //         this.getUserReview();
-            //     };
-            // })
-            .catch(error => {
-                console.log("AddUserReview.tsx addUserReview error", error);
-                // console.log("AddUserReview.tsx addUserReview error.name", error.name);
-                // console.log("AddUserReview.tsx addUserReview error.message", error.message);
-                this.setState({errMessage: error.name + ": " + error.message});
-            });
+            };
 
         // };
 
@@ -235,8 +242,12 @@ class AddUserReview extends Component<IProps, IState> {
         };
 
         return(
-            <div>
-            <Button variant="contained" size="small" color="primary" onClick={this.handleOpen}>Add Review</Button>
+            <React.Fragment>
+                            
+            {this.props.displayButton === true ? <Button variant="contained" size="small" color="primary" onClick={this.handleOpen}>Add Review</Button> : null}
+
+            {this.props.displayIcon === true ? <AddIcon className="addEditIcon" onClick={this.handleOpen} /> : null}
+
             <Dialog open={this.state.dialogOpen} onClose={this.handleClose} fullWidth={true} maxWidth="md">
                 <DialogTitle id="form-dialog-title">Add Review</DialogTitle>
                 <DialogContent>
@@ -280,7 +291,7 @@ class AddUserReview extends Component<IProps, IState> {
                 </DialogActions>
             </DialogContent>
           </Dialog>
-        </div>
+        </React.Fragment>
         );
     };
 };

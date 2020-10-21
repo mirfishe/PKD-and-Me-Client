@@ -3,13 +3,13 @@ import React, {FunctionComponent} from "react";
 import {Rating} from "@material-ui/lab/";
 import {Grid, Typography} from "@material-ui/core";
 
-import {IUserReview} from "../../Helpers/interfaces"
+import {IUserReview} from "../../Helpers/interfaces";
 import UpdateUserReview from "../UserReviews/UpdateUserReview";
 
 interface IProps {
     userID: number | null,
     isAdmin: boolean,
-    sessionToken: string,
+    sessionToken: string | null,
     titleID: number | null,
     userReviewUpdated: () => void,
     userReviewList: IUserReview[]
@@ -34,7 +34,7 @@ const UserReview: FunctionComponent <(IProps)> = props => {
 
             <Grid item xs={12}>
             {userReview.shortReview !== null && userReview.shortReview !== "" ? <Typography variant="h6" gutterBottom>{userReview.shortReview}
-            {props.userID === userReview.userID || props.isAdmin === true ? <UpdateUserReview userID={props.userID} isAdmin={props.isAdmin} sessionToken={props.sessionToken} titleID={props.titleID} userReviewUpdated={props.userReviewUpdated} reviewID={userReview.reviewID} /> : null}
+            {props.userID === userReview.userID || props.isAdmin === true ? <UpdateUserReview userID={props.userID} isAdmin={props.isAdmin} sessionToken={props.sessionToken} titleID={props.titleID} userReviewUpdated={props.userReviewUpdated} reviewID={userReview.reviewID} displayIcon={true} /> : null}
             </Typography> : null}
             </Grid>
             <Grid item xs={12}>

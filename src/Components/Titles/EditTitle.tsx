@@ -4,19 +4,22 @@ import {Redirect} from "react-router-dom";
 import {Alert} from "@material-ui/lab/";
 import {Grid, Button, TextField, Typography, InputLabel, Select, MenuItem, Dialog, DialogTitle, DialogContent, DialogActions} from "@material-ui/core";
 import EditIcon from "@material-ui/icons/Edit";
+import ImageOutlinedIcon from "@material-ui/icons/ImageOutlined";
 
-import {baseURL} from "../../Helpers/constants"
-import {ITitle, ICategory} from "../../Helpers/interfaces"
+import {baseURL} from "../../Helpers/constants";
+import {ITitle, ICategory} from "../../Helpers/interfaces";
 
 interface IProps {
     userID: number | null,
     isAdmin: boolean,
-    sessionToken: string,
+    sessionToken: string | null,
     titleID: number | null,
     setTitleID: (titleID: number | null) => void,
     // titleUpdated: () => void,
-    titleUpdated: boolean,
-    setTitleUpdated: (titleUpdated: boolean) => void
+    titleUpdated?: boolean,
+    setTitleUpdated?: (titleUpdated: boolean) => void,
+    displayIcon?: boolean,
+    displayButton?: boolean
 };
 
 interface IState {
@@ -141,7 +144,7 @@ class EditTitle extends Component<IProps, IState> {
 
     };
 
-    getTitle= () => {
+    getTitle= (/*titleID?: number | null*/) => {
         // console.log("EditTitle.tsx getTitle);
         // console.log("EditTitle.tsx getTitle baseURL", baseURL);
 
@@ -161,6 +164,12 @@ class EditTitle extends Component<IProps, IState> {
         this.setState({active: null});
 
         let url: string = baseURL + "title/";
+
+        // if (titleID !== undefined && titleID !== null) {
+        //     if (!isNaN(titleID)) {
+        //         console.log("EditTitle.tsx getTitle titleID", titleID);
+        //     };
+        // };
 
         if (this.props.titleID !== null) {
             url = url + this.props.titleID;
@@ -294,7 +303,7 @@ class EditTitle extends Component<IProps, IState> {
         // console.log("EditTitle.tsx updateTitle categoryIDValidated", categoryIDValidated);
         // console.log("EditTitle.tsx updateTitle formValidated", formValidated);
 
-        if (formValidated === true) {
+        if (formValidated === true && this.props.sessionToken !== null) {
 
             if (this.state.txtTitleName !== undefined && this.state.txtTitleName !== null) {
 
@@ -406,8 +415,11 @@ class EditTitle extends Component<IProps, IState> {
                                 this.props.setTitleID(null);
                             };
 
-                            // this.props.titleUpdated();
-                            this.props.setTitleUpdated(!this.props.titleUpdated);
+                            if (this.props.setTitleUpdated !== undefined) {
+                                // this.props.titleUpdated();
+                                this.props.setTitleUpdated(!this.props.titleUpdated);
+                            };
+
                             // Need to call this here because there are two buttons on the form besides the Cancel button
                             this.handleClose();
 
@@ -447,51 +459,59 @@ class EditTitle extends Component<IProps, IState> {
 
             // console.log("EditTitle.tsx deleteTitle url", url);
 
-            fetch(url, {
-                method: "DELETE",
-                headers:    new Headers ({
-                    "Content-Type": "application/json",
-                    "Authorization": this.props.sessionToken
+            if (this.props.sessionToken !== null) {
+            
+                fetch(url, {
+                    method: "DELETE",
+                    headers:    new Headers ({
+                        "Content-Type": "application/json",
+                        "Authorization": this.props.sessionToken
+                    })
                 })
-            })
-            .then(response => {
-                // console.log("EditTitle.tsx deleteTitle response", response);
-                // if (!response.ok) {
-                //     throw Error(response.status + " " + response.statusText + " " + response.url);
-                // } else {
-                    // if (response.status === 200) {
-                        return response.json();
+                .then(response => {
+                    // console.log("EditTitle.tsx deleteTitle response", response);
+                    // if (!response.ok) {
+                    //     throw Error(response.status + " " + response.statusText + " " + response.url);
                     // } else {
-                    //     return response.status;
+                        // if (response.status === 200) {
+                            return response.json();
+                        // } else {
+                        //     return response.status;
+                        // };
                     // };
-                // };
-            })
-            .then(data => {
-                // console.log("EditTitle.tsx deleteTitle data", data);
+                })
+                .then(data => {
+                    // console.log("EditTitle.tsx deleteTitle data", data);
 
-                this.setState({titleRecordDeleted: data.recordDeleted});
+                    this.setState({titleRecordDeleted: data.recordDeleted});
 
-                this.setState({message: data.message}); // Never seen by the user if the delete was successful
+                    this.setState({message: data.message}); // Never seen by the user if the delete was successful
 
-                if (data.recordDeleted === true) {
+                    if (data.recordDeleted === true) {
 
-                    this.props.setTitleID(null);
-                    // this.props.titleUpdated();
-                    this.props.setTitleUpdated(!this.props.titleUpdated);
-                    // Need to call this here because there are two buttons on the form besides the Cancel button
-                    this.handleClose();
+                        this.props.setTitleID(null);
 
-                } else {
-                    this.setState({errMessage: data.message});
-                };
+                        if (this.props.setTitleUpdated !== undefined) {
+                            // this.props.titleUpdated();
+                            this.props.setTitleUpdated(!this.props.titleUpdated);
+                        };
 
-            })
-            .catch(error => {
-                console.log("EditTitle.tsx deleteTitle error", error);
-                // console.log("EditTitle.tsx deleteTitle error.name", error.name);
-                // console.log("EditTitle.tsx deleteTitle error.message", error.message);
-                this.setState({errMessage: error.name + ": " + error.message});
-            });
+                        // Need to call this here because there are two buttons on the form besides the Cancel button
+                        this.handleClose();
+
+                    } else {
+                        this.setState({errMessage: data.message});
+                    };
+
+                })
+                .catch(error => {
+                    console.log("EditTitle.tsx deleteTitle error", error);
+                    // console.log("EditTitle.tsx deleteTitle error.name", error.name);
+                    // console.log("EditTitle.tsx deleteTitle error.message", error.message);
+                    this.setState({errMessage: error.name + ": " + error.message});
+                });
+                
+            };
 
         };
 
@@ -520,8 +540,11 @@ class EditTitle extends Component<IProps, IState> {
 
         return(
             <React.Fragment>
-            {/* <Button variant="contained" size="small" color="primary" onClick={this.handleOpen}>Edit Title</Button> */}
-            <EditIcon className="editIcon" onClick={this.handleOpen} />
+
+            {this.props.displayButton === true ? <Button variant="contained" size="small" color="primary" onClick={this.handleOpen}>Edit Title</Button> : null}
+
+            {this.props.displayIcon === true ? <EditIcon className="addEditIcon" onClick={this.handleOpen} /> : null}
+
             <Dialog open={this.state.dialogOpen} onClose={this.handleClose} fullWidth={true} maxWidth="md">
                 <DialogTitle id="form-dialog-title">Edit Title</DialogTitle>
                 <DialogContent>
@@ -535,21 +558,18 @@ class EditTitle extends Component<IProps, IState> {
                 </Grid>
                 <Grid item xs={12}>
 
-                <TextField type="text" id="txtTitleName" label="Title" variant="outlined" fullWidth
-                margin="normal" value={this.state.txtTitleName} onChange={(event) => {/*console.log(event.target.value);*/ this.setState({txtTitleName: event.target.value});}} />
+                <TextField type="text" id="txtTitleName" label="Title" variant="outlined" fullWidth margin="normal" value={this.state.txtTitleName} onChange={(event) => {/*console.log(event.target.value);*/ this.setState({txtTitleName: event.target.value});}} />
                 {this.state.errTitleName !== "" ? <Alert severity="error">{this.state.errTitleName}</Alert> : null}
 
                 </Grid>
                 <Grid item xs={12}>
 
-                <TextField type="text" id="txtAuthorFirstName" label="Author First Name" variant="outlined" fullWidth
-                margin="normal" value={this.state.txtAuthorFirstName} onChange={(event) => {/*console.log(event.target.value);*/ this.setState({txtAuthorFirstName: event.target.value});}} />
+                <TextField type="text" id="txtAuthorFirstName" label="Author First Name" variant="outlined" fullWidth margin="normal" value={this.state.txtAuthorFirstName} onChange={(event) => {/*console.log(event.target.value);*/ this.setState({txtAuthorFirstName: event.target.value});}} />
 
                 </Grid>
                 <Grid item xs={12}>
 
-                <TextField type="text" id="txtAuthorLastName" label="Author Last Name" variant="outlined" fullWidth
-                margin="normal" value={this.state.txtAuthorLastName} onChange={(event) => {/*console.log(event.target.value);*/ this.setState({txtAuthorLastName: event.target.value});}} />
+                <TextField type="text" id="txtAuthorLastName" label="Author Last Name" variant="outlined" fullWidth margin="normal" value={this.state.txtAuthorLastName} onChange={(event) => {/*console.log(event.target.value);*/ this.setState({txtAuthorLastName: event.target.value});}} />
 
                 </Grid>
                 <Grid item xs={12}>
@@ -575,21 +595,19 @@ class EditTitle extends Component<IProps, IState> {
                 </Grid>
                 <Grid item xs={12}>
     
-                    <TextField type="text" id="txtImageName" label="Image Name" variant="outlined" fullWidth
-              margin="normal" value={this.state.txtImageName} onChange={(event) => {/*console.log(event.target.value);*/ this.setState({txtImageName: event.target.value});}} />
+                    <TextField type="text" id="txtImageName" label="Image Name" variant="outlined" fullWidth margin="normal" value={this.state.txtImageName} onChange={(event) => {/*console.log(event.target.value);*/ this.setState({txtImageName: event.target.value});}} />
+              {this.state.txtImageName !== null && this.state.txtImageName !== "" ? <img src={this.state.txtImageName} alt="" /> : <ImageOutlinedIcon style={{fontSize: 150}} />}
     
                 </Grid>
                 <Grid item xs={12}>
 
-                <TextField type="text" id="txtShortDescription" label=" Short Description" variant="outlined" fullWidth
-              margin="normal" multiline rows={10} value={this.state.txtShortDescription} onChange={(event) => {/*console.log(event.target.value);*/ this.setState({txtShortDescription: event.target.value});}} />
+                <TextField type="text" id="txtShortDescription" label=" Short Description" variant="outlined" fullWidth margin="normal" multiline rows={10} value={this.state.txtShortDescription} onChange={(event) => {/*console.log(event.target.value);*/ this.setState({txtShortDescription: event.target.value});}} />
     
                     </Grid>
 
                     <Grid item xs={12}>
     
-                    <TextField type="text" id="txtUrlPKDweb" label="url PKDweb" variant="outlined" fullWidth
-                margin="normal" value={this.state.txtUrlPKDweb} onChange={(event) => {/*console.log(event.target.value);*/ this.setState({txtUrlPKDweb: event.target.value});}} />
+                    <TextField type="text" id="txtUrlPKDweb" label="url PKDweb" variant="outlined" fullWidth margin="normal" value={this.state.txtUrlPKDweb} onChange={(event) => {/*console.log(event.target.value);*/ this.setState({txtUrlPKDweb: event.target.value});}} />
 
                 </Grid>
 

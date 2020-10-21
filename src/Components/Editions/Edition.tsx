@@ -23,8 +23,9 @@ import AddEdition from "./AddEdition";
 interface IProps {
     userID: number | null,
     isAdmin: boolean,
-    sessionToken: string,
+    sessionToken: string | null,
     titleID: number | null,
+    titlePublicationDate: Date | null,
     editionList: IEdition[],
     editionUpdated: () => void
 };
@@ -44,11 +45,13 @@ const Edition: FunctionComponent <(IProps)> = props => {
 
     // };
 
+    // console.log("Edition.tsx props.titlePublicationDate", props.titlePublicationDate);
+
     return(
         <Grid container spacing={2}>
             <Grid item xs={12}>
             <Typography variant="h5" align="center" gutterBottom>Purchase Editions
-            {props.isAdmin === true ? <AddEdition userID={props.userID} isAdmin={props.isAdmin} sessionToken={props.sessionToken} titleID={props.titleID} editionUpdated={props.editionUpdated} /> : null}
+            {props.isAdmin === true ? <AddEdition userID={props.userID} isAdmin={props.isAdmin} sessionToken={props.sessionToken} titleID={props.titleID} titlePublicationDate={props.titlePublicationDate} editionUpdated={props.editionUpdated} displayIcon={true} /> : null}
             </Typography>
             </Grid>
             <Grid item xs={12}>
@@ -59,16 +62,28 @@ const Edition: FunctionComponent <(IProps)> = props => {
             {props.editionList.map((edition: IEdition) => {
             return (
                 <React.Fragment>
-                    {edition.textLinkShort !== null && edition.textLinkShort !== "" ? 
+
+                    {/* {edition.textLinkShort !== null && edition.textLinkShort !== "" ? 
                     <GridListTile key={edition.editionID} style={{margin: "20px"}}>
 
                     <Link href={edition.textLinkShort} target="_blank">
-                    {edition.imageName !== null && edition.imageName !== "" ? <img src={"https://philipdick.com/images/covers/" + edition.imageName} alt={edition.mediaName} /> : <ImageOutlinedIcon style={{fontSize: 150, color: "black"}} />}
-
-                    <GridListTileBar title={edition.mediaName} subtitle={edition.publicationDate !== null ? edition.publicationDate.toString().substring(0, 10) : null} actionIcon={props.isAdmin === true ? <EditEdition userID={props.userID} isAdmin={props.isAdmin} sessionToken={props.sessionToken} titleID={props.titleID} editionID={edition.editionID} editionUpdated={props.editionUpdated} /> : null} />
+                    {edition.imageName !== null && edition.imageName !== "" ? <img src={edition.imageName} alt={edition.mediaName} /> : <ImageOutlinedIcon style={{fontSize: 150, color: "black"}} />}
                     </Link>
+
+                    <GridListTileBar title={edition.mediaName} subtitle={edition.publicationDate !== null ? edition.publicationDate.toString().substring(0, 10) : null} actionIcon={props.isAdmin === true ? <EditEdition userID={props.userID} isAdmin={props.isAdmin} sessionToken={props.sessionToken} titleID={props.titleID} titlePublicationDate={props.titlePublicationDate} editionID={edition.editionID} editionUpdated={props.editionUpdated} displayIcon={true} /> : null} /> */}
+                    {/* </Link> */}
+                    {/* </GridListTile>
+                    : null} */}
+
+                    {edition.imageLinkLarge !== null && edition.imageLinkLarge !== "" ? 
+                    <GridListTile key={edition.editionID} style={{margin: "20px"}}>
+
+                    <div dangerouslySetInnerHTML={{"__html": edition.imageLinkLarge}} />
+
+                    <GridListTileBar title={edition.mediaName} subtitle={edition.publicationDate !== null ? edition.publicationDate.toString().substring(0, 10) : null} actionIcon={props.isAdmin === true ? <EditEdition userID={props.userID} isAdmin={props.isAdmin} sessionToken={props.sessionToken} titleID={props.titleID} titlePublicationDate={props.titlePublicationDate} editionID={edition.editionID} editionUpdated={props.editionUpdated} displayIcon={true} /> : null} />
                     </GridListTile>
                     : null}
+
                 </React.Fragment>
                 )
             })}

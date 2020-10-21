@@ -4,14 +4,14 @@ import {Redirect} from "react-router-dom";
 import {Alert} from "@material-ui/lab/";
 import {Grid, Button, TextField, Typography, InputLabel, Select, MenuItem} from "@material-ui/core";
 
-import {baseURL} from "../../Helpers/constants"
-import {ITitle, IMedia} from "../../Helpers/interfaces"
+import {baseURL} from "../../Helpers/constants";
+import {ITitle, IMedia} from "../../Helpers/interfaces";
 
 interface IProps {
     userID: number | null,
     // isLoggedIn: boolean | null,
     isAdmin: boolean,
-    sessionToken: string
+    sessionToken: string | null
 };
 
 interface IState {
@@ -257,7 +257,7 @@ class AddEdition extends Component<IProps, IState> {
         // console.log("AddEdition.tsx addEdition mediaIDValidated", mediaIDValidated);
         // console.log("AddEdition.tsx addEdition formValidated", formValidated);
 
-        if (formValidated === true) {
+        if (formValidated === true && this.props.sessionToken !== null) {
 
             let editionObject = {
                 titleID: this.state.ddTitleID,
@@ -435,7 +435,7 @@ class AddEdition extends Component<IProps, IState> {
 
                 <InputLabel id="lblMediaID">Media</InputLabel>
                 <Select id="ddMediaID" labelId="lblMediaID" autoWidth value={this.state.ddMediaID} onChange={(event) => {/*console.log(event.target.value);*/ this.setState({ddMediaID: event.target.value});}}>
-                <MenuItem value="">Select a Media</MenuItem>
+                <MenuItem selected value="">Select a Media</MenuItem>
                 {this.state.mediaList.map((media: IMedia) => {
                 return (
                     <MenuItem value={media.mediaID}>{media.media}</MenuItem>

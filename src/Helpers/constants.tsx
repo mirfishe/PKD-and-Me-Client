@@ -1,4 +1,4 @@
-import API_URL from "./environment"
+import API_URL from "./environment";
 
 export const baseURL: string = API_URL + "/";
 // console.log("constants baseURL", baseURL);
