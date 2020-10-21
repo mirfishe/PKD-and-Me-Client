@@ -1,9 +1,6 @@
 import React, {Component} from "react";
 import {Redirect, BrowserRouter as Router, Switch, Route, Link} from "react-router-dom";
 import {Container, Col, Row, Nav, Navbar, NavbarBrand, NavItem, NavbarText} from "reactstrap";
-
-// import {Grid, List, NavItem, Typography} from "@material-ui/core/";
-
 import AddCategory from "./AddCategory";
 import AddMedia from "./AddMedia";
 import AddTitle from "./AddTitle";

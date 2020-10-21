@@ -2,11 +2,6 @@ import React, {Component} from "react";
 import {Redirect} from "react-router-dom";
 import {Col, Form, FormGroup, Label, Input, Alert, Button} from "reactstrap";
 import {Image} from 'react-bootstrap-icons';
-
-// import {Alert} from "@material-ui/lab/";
-// import {Grid, Button, TextField, Typography, InputLabel, Select, MenuItem} from "@material-ui/core";
-// import ImageOutlinedIcon from "@material-ui/icons/ImageOutlined";
-
 import {baseURL} from "../../Helpers/constants";
 import {ICategory} from "../../Helpers/interfaces";
 

@@ -2,11 +2,6 @@ import React, {Component} from "react";
 import {Redirect} from "react-router-dom";
 import {Modal, ModalHeader, ModalBody, ModalFooter, Col, Form, FormGroup, Label, Input, Alert, Button} from "reactstrap";
 import {Image, Plus} from 'react-bootstrap-icons';
-
-// import {Alert} from "@material-ui/lab/";
-// import {Grid, Button, TextField, InputLabel, Select, MenuItem, Typography, Dialog, DialogTitle, DialogContent, DialogActions} from "@material-ui/core";
-// import AddIcon from "@material-ui/icons/Add";
-
 import {baseURL} from "../../Helpers/constants";
 import {IMedia} from "../../Helpers/interfaces";
 

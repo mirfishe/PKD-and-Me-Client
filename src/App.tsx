@@ -4,12 +4,6 @@ import "./App.css";
 import {BrowserRouter as Router, Switch, Route, Link} from "react-router-dom";
 import {HouseFill} from 'react-bootstrap-icons';
 import {Container, Col, Row, Nav, Navbar, NavbarBrand, NavItem, NavbarText, Alert, Button} from "reactstrap";
-
-// import {Alert} from "@material-ui/lab/";
-// import {Grid, AppBar, Toolbar, Typography, Button} from "@material-ui/core/";
-// import HomeIcon from "@material-ui/icons/Home";
-// import MenuIcon from "@material-ui/icons/Menu";
-
 import {baseURL} from "./Helpers/constants";
 import Admin from "./Components/Admin/Admin";
 import Home from "./Components/Home/Home";

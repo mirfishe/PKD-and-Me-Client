@@ -1,9 +1,7 @@
 import React, {Component} from "react";
 import {Redirect} from "react-router-dom";
-
-import {Alert} from "@material-ui/lab/";
-import {Grid, Button, TextField, Dialog, DialogTitle, DialogContent, DialogActions} from "@material-ui/core";
-
+import {Modal, ModalHeader, ModalBody, ModalFooter, Form, FormGroup, Label, Input, Alert, Button} from "reactstrap";
+import {Plus} from 'react-bootstrap-icons';
 import {baseURL, emailRegExp} from "../../Helpers/constants";
 // import {emailFormat} from "../../Helpers/constants";
 
@@ -19,13 +17,13 @@ interface IProps {
 interface IState {
     message: string,
     errMessage: string,
-    dialogOpen: boolean,
+    modal: boolean,
     userRecordAdded: boolean | null,
     // userList: IUser[],
-    txtFirstName: string | null | undefined,
-    txtLastName: string | null | undefined,
-    txtEmail: string | null | undefined,
-    txtPassword: string | null | undefined,
+    txtFirstName: string | undefined,
+    txtLastName: string | undefined,
+    txtEmail: string | undefined,
+    txtPassword: string | undefined,
     errFirstName: string,
     errLastName: string,
     errEmail: string,
@@ -48,7 +46,7 @@ class Register extends Component<IProps, IState> {
         this.state = {
             message: "",
             errMessage: "",
-            dialogOpen: false,
+            modal: false,
             userRecordAdded: null,
             // userList: [],
             txtFirstName: process.env.REACT_APP_FIRSTNAME_DEFAULT,
@@ -252,12 +250,16 @@ class Register extends Component<IProps, IState> {
 
     };
 
-    handleOpen = () => {
-        this.setState({dialogOpen: true});
-    };
+    // handleOpen = () => {
+    //     this.setState({dialogOpen: true});
+    // };
     
-    handleClose = () => {
-        this.setState({dialogOpen: false});
+    // handleClose = () => {
+    //     this.setState({dialogOpen: false});
+    // };
+
+    toggle = () => {
+        this.setState({modal: !this.state.modal});
     };
 
     render() {
@@ -268,50 +270,53 @@ class Register extends Component<IProps, IState> {
         // };
 
         return(
-            <div>
-            <Button variant="text" color="primary" onClick={this.handleOpen}>Register</Button>
-            <Dialog open={this.state.dialogOpen} onClose={this.handleClose} fullWidth={true} maxWidth="sm">
-                <DialogTitle id="form-dialog-title">Register</DialogTitle>
-                <DialogContent>
-                <Grid item xs={12}>
+            <React.Fragment>
+            <Button variant="text" color="primary" onClick={this.toggle}>Register</Button>
+            <Modal isOpen={this.state.modal}>
+                <ModalHeader>Register</ModalHeader>
+                <ModalBody>
+                <Form>
+                <FormGroup>
                 {this.state.message !== "" ? <Alert severity="info">{this.state.message}</Alert> : null}
                 {this.state.errMessage !== "" ? <Alert severity="error">{this.state.errMessage}</Alert> : null}
-                </Grid>
-                <Grid item xs={12}>
+                </FormGroup>
+                <FormGroup>
 
-                <TextField type="text" id="txtFirstName" label="First Name" required variant="outlined" fullWidth
-          margin="normal" value={this.state.txtFirstName} onChange={(event) => {/*console.log(event.target.value);*/ this.setState({txtFirstName: event.target.value});}} />
+                <Label for="txtFirstName">First Name</Label>
+                <Input type="text" id="txtFirstName" label="First Name" value={this.state.txtFirstName} onChange={(event) => {/*console.log(event.target.value);*/ this.setState({txtFirstName: event.target.value});}} />
                 {this.state.errFirstName !== "" ? <Alert severity="error">{this.state.errFirstName}</Alert> : null}
 
-                </Grid>
-                <Grid item xs={12}>
+                </FormGroup>
+                <FormGroup>
 
-                <TextField type="text" id="txtLastName" label="Last Name" required variant="outlined" fullWidth
-          margin="normal" value={this.state.txtLastName} onChange={(event) => {/*console.log(event.target.value);*/ this.setState({txtLastName: event.target.value});}} />
+                <Label for="txtLastName">Last Name</Label>
+                <Input type="text" id="txtLastName" label="Last Name" value={this.state.txtLastName} onChange={(event) => {/*console.log(event.target.value);*/ this.setState({txtLastName: event.target.value});}} />
                 {this.state.errLastName !== "" ? <Alert severity="error">{this.state.errLastName}</Alert> : null}
 
-                </Grid>
-                <Grid item xs={12}>
+                </FormGroup>
+                <FormGroup>
 
-                <TextField id="txtEmail" label="Email Address" required variant="outlined" fullWidth
-          margin="normal" value={this.state.txtEmail} onChange={(event) => {/*console.log(event.target.value);*/ this.setState({txtEmail: event.target.value});}} />
-                {this.state.errEmail !== "" ? <Alert severity="error">{this.state.errEmail}</Alert> : null}
+                    <Label for="txtEmail">Email Address</Label>
+                    <Input id="txtEmail" label="Email Address" value={this.state.txtEmail} onChange={(event) => {/*console.log(event.target.value);*/ this.setState({txtEmail: event.target.value});}} />
+                    {this.state.errEmail !== "" ? <Alert severity="error">{this.state.errEmail}</Alert> : null}
 
-                </Grid>
-                <Grid item xs={12}>
+                </FormGroup>
+                <FormGroup>
 
-                <TextField type="password" id="txtPassword" required label="Password" variant="outlined" fullWidth
-          margin="normal" value={this.state.txtPassword} onChange={(event) => {/*console.log(event.target.value);*/ this.setState({txtPassword: event.target.value});}} />
-                {this.state.errPassword !== "" ? <Alert severity="error">{this.state.errPassword}</Alert> : null}
+                    <Label for="txtPassword">Password</Label>
+                    <Input type="password" id="txtPassword" value={this.state.txtPassword} onChange={(event) => {/*console.log(event.target.value);*/ this.setState({txtPassword: event.target.value});}} />
+                    {this.state.errPassword !== "" ? <Alert severity="error">{this.state.errPassword}</Alert> : null}
+                    
+                </FormGroup>
 
-                </Grid>
-                <DialogActions>
-                    <Button variant="outlined" size="large" color="primary" onClick={this.register}>Register</Button>
-                    <Button variant="outlined" size="large" color="primary" onClick={this.handleClose}>Cancel</Button>
-                </DialogActions>
-            </DialogContent>
-          </Dialog>
-        </div>
+                <ModalFooter>
+                    <Button size="large" color="primary" onClick={this.register}>Register</Button>
+                    <Button size="large" color="primary" onClick={this.toggle}>Cancel</Button>
+                    </ModalFooter>
+                </Form>
+            </ModalBody>
+          </Modal>
+        </React.Fragment>
         );
     };
 };

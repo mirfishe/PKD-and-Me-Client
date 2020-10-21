@@ -1,9 +1,7 @@
 import React, {Component} from "react";
 import {Redirect} from "react-router-dom";
-
-import {Alert} from "@material-ui/lab/";
-import {Grid, Button, TextField, Dialog, DialogTitle, DialogContent, DialogActions} from "@material-ui/core";
-
+import {Modal, ModalHeader, ModalBody, ModalFooter, Form, FormGroup, Label, Input, Alert, Button} from "reactstrap";
+import {Plus} from 'react-bootstrap-icons';
 import {baseURL, emailRegExp} from "../../Helpers/constants";
 // import {emailFormat} from "../../Helpers/constants";
 
@@ -19,11 +17,11 @@ interface IProps {
 interface IState {
     message: string,
     errMessage: string,
-    dialogOpen: boolean,
+    modal: boolean,
     userResultsFound: boolean | null,
     // userList: IUser[],
-    txtEmail: string | null | undefined,
-    txtPassword: string | null | undefined,
+    txtEmail: string | undefined,
+    txtPassword: string | undefined,
     errEmail: string,
     errPassword: string,
     // userID: number | null,
@@ -44,7 +42,7 @@ class Login extends Component<IProps, IState> {
         this.state = {
             message: "",
             errMessage: "",
-            dialogOpen: false,
+            modal: false,
             userResultsFound: null,
             // userList: [],
             txtEmail: process.env.REACT_APP_EMAIL_DEFAULT,
@@ -208,12 +206,16 @@ class Login extends Component<IProps, IState> {
 
     };
 
-    handleOpen = () => {
-        this.setState({dialogOpen: true});
-    };
+    // handleOpen = () => {
+    //     this.setState({dialogOpen: true});
+    // };
     
-    handleClose = () => {
-        this.setState({dialogOpen: false});
+    // handleClose = () => {
+    //     this.setState({dialogOpen: false});
+    // };
+
+    toggle = () => {
+        this.setState({modal: !this.state.modal});
     };
 
     render() {
@@ -224,36 +226,39 @@ class Login extends Component<IProps, IState> {
         // };
 
         return(
-            <div>
-            <Button variant="text" color="primary" onClick={this.handleOpen}>Login</Button>
-            <Dialog open={this.state.dialogOpen} onClose={this.handleClose} fullWidth={true} maxWidth="sm">
-                <DialogTitle id="form-dialog-title">Login</DialogTitle>
-                <DialogContent>
-                <Grid item xs={12}>
+            <React.Fragment>
+            <Button variant="text" color="primary" onClick={this.toggle}>Login</Button>
+            <Modal isOpen={this.state.modal}>
+                <ModalHeader>Login</ModalHeader>
+                <ModalBody>
+                <Form>
+                <FormGroup>
                     {this.state.message !== "" ? <Alert severity="info">{this.state.message}</Alert> : null}
                     {this.state.errMessage !== "" ? <Alert severity="error">{this.state.errMessage}</Alert> : null}
-                </Grid>
-                <Grid item xs={12}>
+                </FormGroup>
+                <FormGroup>
 
-                    <TextField id="txtEmail" label="Email Address" required variant="outlined" fullWidth
-          margin="normal" value={this.state.txtEmail} onChange={(event) => {/*console.log(event.target.value);*/ this.setState({txtEmail: event.target.value});}} />
+                    <Label for="txtEmail">Email Address</Label>
+                    <Input id="txtEmail" label="Email Address" value={this.state.txtEmail} onChange={(event) => {/*console.log(event.target.value);*/ this.setState({txtEmail: event.target.value});}} />
                     {this.state.errEmail !== "" ? <Alert severity="error">{this.state.errEmail}</Alert> : null}
 
-                </Grid>
-                <Grid item xs={12}>
+                </FormGroup>
+                <FormGroup>
 
-                    <TextField type="password" id="txtPassword" required label="Password" variant="outlined" fullWidth
-          margin="normal" value={this.state.txtPassword} onChange={(event) => {/*console.log(event.target.value);*/ this.setState({txtPassword: event.target.value});}} />
+                    <Label for="txtPassword">Password</Label>
+                    <Input type="password" id="txtPassword" value={this.state.txtPassword} onChange={(event) => {/*console.log(event.target.value);*/ this.setState({txtPassword: event.target.value});}} />
                     {this.state.errPassword !== "" ? <Alert severity="error">{this.state.errPassword}</Alert> : null}
                     
-                </Grid>
-                <DialogActions>
-                    <Button variant="outlined" size="large" color="primary" onClick={this.logIn}>Log In</Button>
-                    <Button variant="outlined" size="large" color="primary" onClick={this.handleClose}>Cancel</Button>
-                </DialogActions>
-            </DialogContent>
-          </Dialog>
-        </div>
+                </FormGroup>
+
+                <ModalFooter>
+                <Button size="large" color="primary" onClick={this.logIn}>Log In</Button>
+                <Button size="large" color="primary" onClick={this.toggle}>Cancel</Button>
+                </ModalFooter>
+                </Form>
+            </ModalBody>
+          </Modal>
+        </React.Fragment>
         );
     };
 };

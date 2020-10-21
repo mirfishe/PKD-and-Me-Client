@@ -1,10 +1,8 @@
 import React, {Component} from "react";
 import {Redirect} from "react-router-dom";
-
-import {Alert, Rating} from "@material-ui/lab/";
-import {Grid, Button, Checkbox, FormControlLabel, TextField, Typography, Dialog, DialogTitle, DialogContent, DialogActions} from "@material-ui/core";
-import AddIcon from "@material-ui/icons/Add";
-
+import {Rating} from "@material-ui/lab/";
+import {Modal, ModalHeader, ModalBody, ModalFooter, Col, Form, FormGroup, Label, Input, Alert, Button} from "reactstrap";
+import {Plus} from 'react-bootstrap-icons';
 import {baseURL} from "../../Helpers/constants";
 
 interface IProps {
@@ -20,13 +18,13 @@ interface IProps {
 interface IState {
     message: string,
     errMessage: string,
-    dialogOpen: boolean,
+    modal: boolean,
     userReviewRecordAdded: boolean | null,
     cbxRead: boolean,
-    txtDateRead: string | null,
+    txtDateRead: string | undefined,
     rdoRating: number | null,
-    txtShortReview: string | null,
-    txtLongReview: string | null,
+    txtShortReview: string | undefined,
+    txtLongReview: string | undefined,
     // userReviewData: IUserReview | null,
     reviewID: number | null,
     // userID: number | null,
@@ -47,13 +45,13 @@ class AddUserReview extends Component<IProps, IState> {
         this.state = {
             message: "",
             errMessage: "",
-            dialogOpen: false,
+            modal: false,
             userReviewRecordAdded: null,
             cbxRead: false,
-            txtDateRead: null,
+            txtDateRead: undefined,
             rdoRating: null,
-            txtShortReview: null,
-            txtLongReview: null,
+            txtShortReview: undefined,
+            txtLongReview: undefined,
             // userReviewData: null,
             reviewID: null,
             // userID: null,
@@ -109,21 +107,21 @@ class AddUserReview extends Component<IProps, IState> {
             };
 
             // If the user doesn't enter a date read, then it isn't added/updated
-            if (this.state.txtDateRead !== null) {
+            if (this.state.txtDateRead !== null && this.state.txtDateRead !== undefined) {
                 if (this.state.txtDateRead.trim().length !== 0) {
                     Object.assign(userReviewObject, {dateRead: this.state.txtDateRead.trim()});
                 };
             };
 
             // If the user doesn't enter a short review, then it isn't added/updated
-            if (this.state.txtShortReview !== null) {
+            if (this.state.txtShortReview !== null && this.state.txtShortReview !== undefined) {
                 if (this.state.txtShortReview.trim().length !== 0) {
                     Object.assign(userReviewObject, {shortReview: this.state.txtShortReview.trim()});
                 };
             };
 
             // If the user doesn't enter a long review, then it isn't added/updated
-            if (this.state.txtLongReview !== null) {
+            if (this.state.txtLongReview !== null && this.state.txtLongReview !== undefined) {
                 if (this.state.txtLongReview.trim().length !== 0) {
                     Object.assign(userReviewObject, {longReview: this.state.txtLongReview.trim()});
                 };
@@ -168,7 +166,7 @@ class AddUserReview extends Component<IProps, IState> {
                         if (data.dateRead !== undefined && data.dateRead !== null) {
                             this.setState({txtDateRead: data.dateRead.toString().substring(0, 10)});
                         } else {
-                            this.setState({txtDateRead: null});
+                            this.setState({txtDateRead: undefined});
                         };
 
                         this.setState({rdoRating: data.rating});
@@ -227,12 +225,16 @@ class AddUserReview extends Component<IProps, IState> {
 
     };
 
-    handleOpen = () => {
-        this.setState({dialogOpen: true});
-    };
+    // handleOpen = () => {
+    //     this.setState({dialogOpen: true});
+    // };
     
-    handleClose = () => {
-        this.setState({dialogOpen: false});
+    // handleClose = () => {
+    //     this.setState({dialogOpen: false});
+    // };
+
+    toggle = () => {
+        this.setState({modal: !this.state.modal});
     };
 
     render() {
@@ -244,53 +246,77 @@ class AddUserReview extends Component<IProps, IState> {
         return(
             <React.Fragment>
                             
-            {this.props.displayButton === true ? <Button variant="contained" size="small" color="primary" onClick={this.handleOpen}>Add Review</Button> : null}
+            {this.props.displayButton === true ? <Button variant="contained" size="small" color="primary" onClick={this.toggle}>Add Review</Button> : null}
 
-            {this.props.displayIcon === true ? <AddIcon className="addEditIcon" onClick={this.handleOpen} /> : null}
+            {this.props.displayIcon === true ? <Plus className="addEditIcon" onClick={this.toggle} /> : null}
 
-            <Dialog open={this.state.dialogOpen} onClose={this.handleClose} fullWidth={true} maxWidth="md">
-                <DialogTitle id="form-dialog-title">Add Review</DialogTitle>
-                <DialogContent>
-                <Grid item xs={12}>
+            <Modal isOpen={this.state.modal}>
+                <ModalHeader>Add Review</ModalHeader>
+                <ModalBody>
+                <Form>
+                <FormGroup>
                 {this.state.message !== "" ? <Alert severity="info">{this.state.message}</Alert> : null}
                 {this.state.errMessage !== "" ? <Alert severity="error">{this.state.errMessage}</Alert> : null}
-                </Grid>
-                <Grid container spacing={2}>
-                    <Grid item xs={6}>
-                    <Grid item xs={6}>
-                        <FormControlLabel control={<Checkbox id="cbxRead" color="primary" checked={this.state.cbxRead} value={this.state.cbxRead} onChange={(event) => {/*console.log(event.target.value);*/ this.setState({cbxRead: !this.state.cbxRead});}} />} label="Read" />
-                    </Grid>
-                    <Grid item xs={6}>
-                        {/* <Typography component="legend">Rating</Typography> */}
-                        <Rating name="rdoRating" defaultValue={0} max={10} value={this.state.rdoRating} onChange={(event, newValue) => {/*console.log(event.target.value);*/ this.setState({rdoRating: newValue});}} />
-                    </Grid>
-                    </Grid>
-                    <Grid item xs={6}>
-                        
-                    <Typography component="legend">Date Read</Typography>
-                    <TextField type="date" id="txtDateRead" variant="outlined" fullWidth margin="normal" defaultValue={this.state.txtDateRead} value={this.state.txtDateRead} onChange={(event) => {/*console.log(event.target.value);*/ this.setState({txtDateRead: event.target.value});}} />
+                </FormGroup>
+                <FormGroup row>
 
-                    </Grid>
-                </Grid>
-                <Grid item xs={12}>
+                <Col>
+                <FormGroup>
+                <Label for="cbxRead">Read</Label>
+                <Input type="checkbox" id="cbxRead" checked={this.state.cbxRead} onChange={(event) => {/*console.log(event.target.value);*/ this.setState({cbxRead: !this.state.cbxRead});}} />
+                </FormGroup>
 
-                <TextField type="text" id="txtShortReview" label="Short Review" variant="outlined" fullWidth
-          margin="normal" value={this.state.txtShortReview} onChange={(event) => {/*console.log(event.target.value);*/ this.setState({txtShortReview: event.target.value});}} />
+                <FormGroup>
+                <Label for="rdoRating">Rating</Label>
+                <Rating name="rdoRating" defaultValue={0} max={10} value={this.state.rdoRating} onChange={(event, newValue) => {/*console.log(event.target.value);*/ this.setState({rdoRating: newValue});}} />
+                {/* <Label for="rdoRating"><Input type="radio" id="rdoRating" value={this.state.rdoRating} onChange={(event) => {this.setState({rdoRating: event.target.value});}} /> 1</Label>
+                    
+                <Label for="rdoRating"><Input type="radio" id="rdoRating" value={this.state.rdoRating} onChange={(event) => {this.setState({rdoRating: event.target.value});}} /> 2</Label>
+                    
+                <Label for="rdoRating"><Input type="radio" id="rdoRating" value={this.state.rdoRating} onChange={(event) => {this.setState({rdoRating: event.target.value});}} /> 3</Label>
+                                    
+                <Label for="rdoRating"><Input type="radio" id="rdoRating" value={this.state.rdoRating} onChange={(event) => {this.setState({rdoRating: event.target.value});}} /> 4</Label>     
 
-                </Grid>
-                <Grid item xs={12}>
+                <Label for="rdoRating"><Input type="radio" id="rdoRating" value={this.state.rdoRating} onChange={(event) => {this.setState({rdoRating: event.target.value});}} /> 5</Label>
+                                    
+                <Label for="rdoRating"><Input type="radio" id="rdoRating" value={this.state.rdoRating} onChange={(event) => {this.setState({rdoRating: event.target.value});}} /> 6</Label>
+                                    
+                <Label for="rdoRating"><Input type="radio" id="rdoRating" value={this.state.rdoRating} onChange={(event) => {this.setState({rdoRating: event.target.value});}} /> 7</Label>
+                                    
+                <Label for="rdoRating"><Input type="radio" id="rdoRating" value={this.state.rdoRating} onChange={(event) => {this.setState({rdoRating: event.target.value});}} /> 8</Label>
+                                    
+                <Label for="rdoRating"><Input type="radio" id="rdoRating" value={this.state.rdoRating} onChange={(event) => {this.setState({rdoRating: event.target.value});}} /> 9</Label>
+                                    
+                <Label for="rdoRating"><Input type="radio" id="rdoRating" value={this.state.rdoRating} onChange={(event) => {this.setState({rdoRating: event.target.value});}} /> 10</Label> */}
+                </FormGroup>
+                </Col>
 
-                <TextField type="text" id="txtLongReview" label="Long Review" variant="outlined" fullWidth
-          margin="normal" multiline={true} rows={10} value={this.state.txtLongReview} onChange={(event) => {/*console.log(event.target.value);*/ this.setState({txtLongReview: event.target.value});}} />
+                <FormGroup>
+                <Label for="txtDateRead">Date Read</Label>
+                <Input type="date" id="txtDateRead" value={this.state.txtDateRead} onChange={(event) => {/*console.log(event.target.value);*/ this.setState({txtDateRead: event.target.value});}} />
+                </FormGroup>
+                
+                </FormGroup>
+                <FormGroup>
+    
+                <Label for="txtShortReview">Short Review"</Label>
+                <Input type="text" id="txtShortReview" value={this.state.txtShortReview} onChange={(event) => {/*console.log(event.target.value);*/ this.setState({txtShortReview: event.target.value});}} />
 
-                </Grid>
+                </FormGroup>
+                <FormGroup>
+    
+                <Label for="txtLongReview">Long Review"</Label>
+                <Input type="textarea" id="txtLongReview" rows={10} value={this.state.txtLongReview} onChange={(event) => {/*console.log(event.target.value);*/ this.setState({txtLongReview: event.target.value});}} />
 
-                <DialogActions>
-                    <Button variant="outlined" size="large" color="primary" onClick={this.addUserReview}>Add Review</Button>
-                    <Button variant="outlined" size="large" color="primary" onClick={this.handleClose}>Cancel</Button>
-                </DialogActions>
-            </DialogContent>
-          </Dialog>
+                </FormGroup>
+
+                <ModalFooter>
+                <Button size="large" color="primary" onClick={this.addUserReview}>Add Review</Button>
+                <Button size="large" color="primary" onClick={this.toggle}>Cancel</Button>
+                </ModalFooter>
+                </Form>
+            </ModalBody>
+          </Modal>
         </React.Fragment>
         );
     };

@@ -1,10 +1,6 @@
 import React, {Component} from "react";
 import {Redirect} from "react-router-dom";
 import {Form, FormGroup, Label, Input, Alert, Button} from "reactstrap";
-
-// import {Alert} from "@material-ui/lab/";
-// import {Grid, Button, TextField, Typography} from "@material-ui/core";
-
 import {baseURL} from "../../Helpers/constants";
 
 interface IProps {

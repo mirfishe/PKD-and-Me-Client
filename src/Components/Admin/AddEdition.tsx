@@ -2,10 +2,6 @@ import React, {Component} from "react";
 import {Redirect} from "react-router-dom";
 import {Col, Form, FormGroup, Label, Input, Alert, Button} from "reactstrap";
 import {Image} from 'react-bootstrap-icons';
-
-// import {Alert} from "@material-ui/lab/";
-// import {Grid, Button, Input, Typography, InputLabel, Select, MenuItem} from "@material-ui/core";
-
 import {baseURL} from "../../Helpers/constants";
 import {ITitle, IMedia} from "../../Helpers/interfaces";
 
