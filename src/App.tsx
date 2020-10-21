@@ -1,10 +1,13 @@
 import React, {Component} from "react";
+import "bootstrap/dist/css/bootstrap.css";
 import "./App.css";
 import {BrowserRouter as Router, Switch, Route, Link} from "react-router-dom";
+import {HouseFill} from 'react-bootstrap-icons';
+import {Container, Col, Row, Nav, Navbar, NavbarBrand, NavItem, NavbarText, Alert, Button} from "reactstrap";
 
-import {Alert} from "@material-ui/lab/";
-import {Grid, AppBar, Toolbar, Typography, Button} from "@material-ui/core/";
-import HomeIcon from "@material-ui/icons/Home";
+// import {Alert} from "@material-ui/lab/";
+// import {Grid, AppBar, Toolbar, Typography, Button} from "@material-ui/core/";
+// import HomeIcon from "@material-ui/icons/Home";
 // import MenuIcon from "@material-ui/icons/Menu";
 
 import {baseURL} from "./Helpers/constants";
@@ -211,8 +214,8 @@ class App extends Component<{}, IState> {
     // console.log("App.tsx this.state.titleUpdated", this.state.titleUpdated);
 
   return (
-    <Grid container spacing={2}>
-      <Grid item xs={12}>
+    <Container>
+      <Row>
       <Router>
         
       {/* {window.location.hostname} */}
@@ -225,52 +228,46 @@ class App extends Component<{}, IState> {
       {this.state.message !== "" ? <Alert severity="info">{this.state.message}</Alert> : null}
       {this.state.errMessage !== "" ? <Alert severity="error">{this.state.errMessage}</Alert> : null}
 
-      <AppBar position="static" color="transparent" >
-        <Toolbar>
-        <Grid container spacing={2}>
-          {/* <Grid item xs={1} style={{border: "5px solid black"}}>
-          <Typography variant="body1">
+      <Navbar light>
+      <Nav>
+
+          {/* <NavItem style={{border: "5px solid black"}}>
             <Link to="/home"><HomeIcon color="primary" /></Link>
-          </Typography>
-            </Grid>
-            <Grid item xs={1}> */}
+            </NavItem> */}
 
-          <Grid item xs={2}>
-          <Typography variant="body1">
-          <Link to="/home" onClick={() => this.goToHome()}><HomeIcon color="primary" /></Link>
-          </Typography>
-          </Grid>
+          <NavbarBrand>
+          <Link to="/home" onClick={() => this.goToHome()}><HouseFill /></Link>
+          </NavbarBrand>
 
-          {this.state.isAdmin === true ? <Grid item xs={2}><Typography variant="button"><Link to="/admin">Admin</Link></Typography></Grid> : null}
+          {this.state.isAdmin === true ? <NavItem><Link to="/admin">Admin</Link></NavItem> : null}
 
-          {/* {this.state.sessionToken === "" || this.state.sessionToken === null ? <Typography variant="body1"><Link to="/login">Login</Link></Typography></Grid> : null} */}
-          {this.state.sessionToken === "" || this.state.sessionToken === null ? <Grid item xs={2}><Login userID={this.state.userID} isAdmin={this.state.isAdmin} sessionToken={this.state.sessionToken} setUserID={this.setUserID} setIsAdmin={this.setIsAdmin} setSessionToken={this.setSessionToken} /></Grid> : null}
+          {/* {this.state.sessionToken === "" || this.state.sessionToken === null ? <Link to="/login">Login</Link></Grid> : null} */}
+          {this.state.sessionToken === "" || this.state.sessionToken === null ? <NavItem><Login userID={this.state.userID} isAdmin={this.state.isAdmin} sessionToken={this.state.sessionToken} setUserID={this.setUserID} setIsAdmin={this.setIsAdmin} setSessionToken={this.setSessionToken} /></NavItem> : null}
 
-          {/* {this.state.sessionToken === "" || this.state.sessionToken === null ? <Grid item xs={2}><Typography variant="body1"><Link to="/register">Register</Link></Typography></Grid> : null} */}
-          {this.state.sessionToken === "" || this.state.sessionToken === null ? <Grid item xs={2}><Register userID={this.state.userID} isAdmin={this.state.isAdmin} sessionToken={this.state.sessionToken} setUserID={this.setUserID} setIsAdmin={this.setIsAdmin} setSessionToken={this.setSessionToken} /></Grid> : null}
+          {/* {this.state.sessionToken === "" || this.state.sessionToken === null ? <NavItem><Link to="/register">Register</Link></Grid> : null} */}
+          {this.state.sessionToken === "" || this.state.sessionToken === null ? <NavItem><Register userID={this.state.userID} isAdmin={this.state.isAdmin} sessionToken={this.state.sessionToken} setUserID={this.setUserID} setIsAdmin={this.setIsAdmin} setSessionToken={this.setSessionToken} /></NavItem> : null}
 
-          {/* {this.state.sessionToken !== "" && this.state.sessionToken !== null ? <Grid item xs={2}><Typography variant="body1"><Link to="/updateuser">Update Profile</Link> </Typography></Grid> : null} */}
-          {this.state.sessionToken !== "" && this.state.sessionToken !== null ? <Grid item xs={2}><UpdateUser userID={this.state.userID} isAdmin={this.state.isAdmin} sessionToken={this.state.sessionToken} setUserID={this.setUserID} setIsAdmin={this.setIsAdmin} setSessionToken={this.setSessionToken} /></Grid> : null}
+          {/* {this.state.sessionToken !== "" && this.state.sessionToken !== null ? <NavItem><Link to="/updateuser">Update Profile</Link> </Grid> : null} */}
+          {this.state.sessionToken !== "" && this.state.sessionToken !== null ? <NavItem><UpdateUser userID={this.state.userID} isAdmin={this.state.isAdmin} sessionToken={this.state.sessionToken} setUserID={this.setUserID} setIsAdmin={this.setIsAdmin} setSessionToken={this.setSessionToken} /></NavItem> : null}
 
-          {/* {this.state.sessionToken !== "" && this.state.sessionToken !== null ? <Grid item xs={2}><Typography variant="body1"><a href="#" onClick={() => this.logOut()}>Log Out</a></Typography></Grid> : null} */}
+          {/* {this.state.sessionToken !== "" && this.state.sessionToken !== null ? <NavItem><a href="#" onClick={() => this.logOut()}>Log Out</a></Grid> : null} */}
 
-          {this.state.sessionToken !== "" && this.state.sessionToken !== null ? <Grid item xs={2}><Button variant="text" color="primary" onClick={() => this.logOut()}>Log Out</Button></Grid> : null}
+          {this.state.sessionToken !== "" && this.state.sessionToken !== null ? <NavItem><Button variant="text" color="primary" onClick={() => this.logOut()}>Log Out</Button></NavItem> : null}
 
           {this.state.sessionToken !== "" && this.state.sessionToken !== null && this.state.categoryID !== undefined && this.state.categoryID !== null ?
-          <Grid item xs={2}><Checklist userID={this.state.userID} isAdmin={this.state.isAdmin} sessionToken={this.state.sessionToken} titleID={this.state.titleID} setTitleID={this.setTitleID} categoryID={this.state.categoryID} setCategoryID={this.setCategoryID} titleSort={this.state.titleSort} setTitleSort={this.setTitleSort} titleUpdated={this.state.titleUpdated} /></Grid>
+          <NavItem><Checklist userID={this.state.userID} isAdmin={this.state.isAdmin} sessionToken={this.state.sessionToken} titleID={this.state.titleID} setTitleID={this.setTitleID} categoryID={this.state.categoryID} setCategoryID={this.setCategoryID} titleSort={this.state.titleSort} setTitleSort={this.setTitleSort} titleUpdated={this.state.titleUpdated} /></NavItem>
           : null}
 
           {/* This is not being set on log in also, only when the page is loaded and the user information is coming from local storage. */}
-          {this.state.sessionToken !== "" && this.state.sessionToken !== null ? <Grid item xs={2}><Typography variant="subtitle2">Welcome, {this.state.firstName} {this.state.lastName}.</Typography></Grid> : null}
+          {this.state.sessionToken !== "" && this.state.sessionToken !== null ? <NavItem>Welcome, {this.state.firstName} {this.state.lastName}.</NavItem> : null}
 
-        </Grid>
+          </Nav>
 
-        </Toolbar>
-      </AppBar>
+      </Navbar>
 
 
-      <Grid container spacing={2}>
-      <Grid item xs={12}>
+      <Container>
+      <Row>
       <Switch>
           <Route exact path="/" render={() => <Home userID={this.state.userID} isAdmin={this.state.isAdmin} sessionToken={this.state.sessionToken} titleID={this.state.titleID} setTitleID={this.setTitleID} categoryID={this.state.categoryID} setCategoryID={this.setCategoryID} titleSort={this.state.titleSort} setTitleSort={this.setTitleSort} titleUpdated={this.state.titleUpdated} setTitleUpdated={this.setTitleUpdated} />}/>
           <Route exact path="/home" render={() => <Home userID={this.state.userID} isAdmin={this.state.isAdmin} sessionToken={this.state.sessionToken} titleID={this.state.titleID} setTitleID={this.setTitleID} categoryID={this.state.categoryID} setCategoryID={this.setCategoryID} titleSort={this.state.titleSort} setTitleSort={this.setTitleSort} titleUpdated={this.state.titleUpdated} setTitleUpdated={this.setTitleUpdated} />}/>
@@ -279,12 +276,12 @@ class App extends Component<{}, IState> {
           <Route exact path="/updateuser" render={() => <UpdateUser userID={this.state.userID} isAdmin={this.state.isAdmin} sessionToken={this.state.sessionToken} setUserID={this.setUserID} setIsAdmin={this.setIsAdmin} setSessionToken={this.setSessionToken} />} />
           <Route exact path="/admin" render={() => <Admin userID={this.state.userID} isAdmin={this.state.isAdmin} sessionToken={this.state.sessionToken} />}/>
       </Switch>
-      </Grid>
-      </Grid>
+      </Row>
+      </Container>
 
       </Router>
-      </Grid>
-    </Grid>
+      </Row>
+    </Container>
   );
     };
 };

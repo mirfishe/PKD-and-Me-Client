@@ -1,8 +1,9 @@
 import React, {Component} from "react";
 import {Redirect} from "react-router-dom";
+import {Form, FormGroup, Label, Input, Alert, Button} from "reactstrap";
 
-import {Alert} from "@material-ui/lab/";
-import {Grid, Button, TextField, Typography} from "@material-ui/core";
+// import {Alert} from "@material-ui/lab/";
+// import {Grid, Button, TextField, Typography} from "@material-ui/core";
 
 import {baseURL} from "../../Helpers/constants";
 
@@ -17,7 +18,7 @@ interface IState {
     errMessage: string,
     categoryRecordAdded: boolean | null,
     errCategory: string,
-    txtCategory: string | null,
+    txtCategory: string | undefined,
     categoryID: number | null,
     category: string | null,
     sortID: number | null,
@@ -33,7 +34,7 @@ class AddCategory extends Component<IProps, IState> {
             errMessage: "",
             categoryRecordAdded: null,
             errCategory: "",
-            txtCategory: null,
+            txtCategory: undefined,
             categoryID: null,
             category: null,
             sortID: null,
@@ -161,31 +162,30 @@ class AddCategory extends Component<IProps, IState> {
         };
 
         return(
-            <Grid container spacing={2}>
-                <Grid item xs={10}>&nbsp;</Grid>
-                <Grid item xs={10}> 
-                <Typography variant="h5" align="center" gutterBottom>Add Category</Typography>
-                </Grid>
-                <Grid item xs={10}>
+            <Form>
+                <FormGroup> 
+                <h3 className="text-center">Add Category</h3>
+                </FormGroup>
+                <FormGroup>
                 {this.state.message !== "" ? <Alert severity="info">{this.state.message}</Alert> : null}
                 {this.state.errMessage !== "" ? <Alert severity="error">{this.state.errMessage}</Alert> : null}
-                </Grid>
-                <Grid item xs={10}>
+                </FormGroup>
+                <FormGroup>
 
-                <TextField type="text" id="txtCategory" label="Category" variant="outlined" fullWidth
-                margin="normal" value={this.state.txtCategory} onChange={(event) => {/*console.log(event.target.value);*/ this.setState({txtCategory: event.target.value});}} />
+                <Label for="txtCategory">Category</Label>
+                <Input type="text" id="txtCategory" value={this.state.txtCategory} onChange={(event) => {/*console.log(event.target.value);*/ this.setState({txtCategory: event.target.value});}} />
                 {this.state.errCategory !== "" ? <Alert severity="error">{this.state.errCategory}</Alert> : null}
 
-                </Grid>
+                </FormGroup>
 
-                <Grid item xs={10}>
+                <FormGroup>
 
-                <Button variant="outlined" size="large" color="primary" onClick={this.addCategory}>Add Category</Button>
-                {/* <Button variant="outlined" size="large" color="primary" onClick={this.handleClose}>Cancel</Button> */}
+                <Button size="large" color="primary" onClick={this.addCategory}>Add Category</Button>
+                {/* <Button size="large" color="primary" onClick={this.handleClose}>Cancel</Button> */}
 
-                </Grid>
+                </FormGroup>
 
-        </Grid>
+        </Form>
         );
     };
 };

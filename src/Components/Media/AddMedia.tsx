@@ -1,9 +1,11 @@
 import React, {Component} from "react";
 import {Redirect} from "react-router-dom";
+import {Modal, ModalHeader, ModalBody, ModalFooter, Form, FormGroup, Label, Input, Alert, Button} from "reactstrap";
+import {Plus} from 'react-bootstrap-icons';
 
-import {Alert} from "@material-ui/lab/";
-import {Grid, Button, TextField, Typography, Dialog, DialogTitle, DialogContent, DialogActions} from "@material-ui/core";
-import AddIcon from "@material-ui/icons/Add";
+// import {Alert} from "@material-ui/lab/";
+// import {Grid, Button, TextField, Typography, Dialog, DialogTitle, DialogContent, DialogActions} from "@material-ui/core";
+// import AddIcon from "@material-ui/icons/Add";
 
 import {baseURL} from "../../Helpers/constants";
 
@@ -19,10 +21,10 @@ interface IProps {
 interface IState {
     message: string,
     errMessage: string,
-    dialogOpen: boolean,
+    modal: boolean,
     mediaRecordAdded: boolean | null,
     errMedia: string,
-    txtMedia: string | null,
+    txtMedia: string | undefined,
     mediaID: number | null,
     media: string | null,
     sortID: number | null,
@@ -36,10 +38,10 @@ class AddMedia extends Component<IProps, IState> {
         this.state = {
             message: "",
             errMessage: "",
-            dialogOpen: false,
+            modal: false,
             mediaRecordAdded: null,
             errMedia: "",
-            txtMedia: null,
+            txtMedia: undefined,
             mediaID: null,
             media: null,
             sortID: null,
@@ -158,12 +160,16 @@ class AddMedia extends Component<IProps, IState> {
 
     };
 
-    handleOpen = () => {
-        this.setState({dialogOpen: true});
-    };
+    // handleOpen = () => {
+    //     this.setState({modal: true});
+    // };
     
-    handleClose = () => {
-        this.setState({dialogOpen: false});
+    // handleClose = () => {
+    //     this.setState({modal: false});
+    // };
+
+    toggle = () => {
+        this.setState({modal: !this.state.modal});
     };
 
     render() {
@@ -177,31 +183,33 @@ class AddMedia extends Component<IProps, IState> {
         return(
             <React.Fragment>
                             
-            {this.props.displayButton === true ? <Button variant="contained" size="small" color="primary" onClick={this.handleOpen}>Add Media</Button> : null}
+            {this.props.displayButton === true ? <Button size="small" color="primary" onClick={this.toggle}>Add Media</Button> : null}
 
-            {this.props.displayIcon === true ? <AddIcon className="addEditIcon" onClick={this.handleOpen} /> : null}
+            {this.props.displayIcon === true ? <Plus className="addEditIcon" onClick={this.toggle} /> : null}
 
-            <Dialog open={this.state.dialogOpen} onClose={this.handleClose} fullWidth={true} maxWidth="md">
-                <DialogTitle id="form-dialog-title">Add Media</DialogTitle>
-                <DialogContent>
-                <Grid item xs={12}>
+            <Modal isOpen={this.state.modal}>
+                <ModalHeader id="form-dialog-title">Add Media</ModalHeader>
+                <ModalBody>
+                <Form>
+                <FormGroup>
                 {this.state.message !== "" ? <Alert severity="info">{this.state.message}</Alert> : null}
                 {this.state.errMessage !== "" ? <Alert severity="error">{this.state.errMessage}</Alert> : null}
-                </Grid>
-                <Grid item xs={12}>
+                </FormGroup>
+                <FormGroup>
 
-                <TextField type="text" id="txtMedia" label="Media" variant="outlined" fullWidth
-                margin="normal" value={this.state.txtMedia} onChange={(event) => {/*console.log(event.target.value);*/ this.setState({txtMedia: event.target.value});}} />
+                <Label for="txtMedia">Media</Label>
+                <Input type="text" id="txtMedia" value={this.state.txtMedia} onChange={(event) => {/*console.log(event.target.value);*/ this.setState({txtMedia: event.target.value});}} />
                 {this.state.errMedia !== "" ? <Alert severity="error">{this.state.errMedia}</Alert> : null}
 
-                </Grid>
+                </FormGroup>
 
-                <DialogActions>
-                    <Button variant="outlined" size="large" color="primary" onClick={this.addMedia}>Add Media</Button>
-                    <Button variant="outlined" size="large" color="primary" onClick={this.handleClose}>Cancel</Button>
-                </DialogActions>
-            </DialogContent>
-          </Dialog>
+                <ModalFooter>
+                    <Button size="large" color="primary" onClick={this.addMedia}>Add Media</Button>
+                    <Button size="large" color="primary" onClick={this.toggle}>Cancel</Button>
+                </ModalFooter>
+                </Form>
+            </ModalBody>
+          </Modal>
         </React.Fragment>
         );
     };

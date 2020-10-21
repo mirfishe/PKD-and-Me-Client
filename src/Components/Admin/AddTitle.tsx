@@ -1,8 +1,11 @@
 import React, {Component} from "react";
 import {Redirect} from "react-router-dom";
+import {Col, Form, FormGroup, Label, Input, Alert, Button} from "reactstrap";
+import {Image} from 'react-bootstrap-icons';
 
-import {Alert} from "@material-ui/lab/";
-import {Grid, Button, TextField, Typography, InputLabel, Select, MenuItem} from "@material-ui/core";
+// import {Alert} from "@material-ui/lab/";
+// import {Grid, Button, TextField, Typography, InputLabel, Select, MenuItem} from "@material-ui/core";
+// import ImageOutlinedIcon from "@material-ui/icons/ImageOutlined";
 
 import {baseURL} from "../../Helpers/constants";
 import {ICategory} from "../../Helpers/interfaces";
@@ -23,14 +26,14 @@ interface IState {
     titleRecordAdded: boolean | null,
     errTitleName: string,
     errCategoryID: string,
-    txtTitleName: string | null,
-    txtAuthorFirstName: string | null,
-    txtAuthorLastName: string | null,
-    txtPublicationDate: string | null,
-    txtImageName: string | null,
+    txtTitleName: string | undefined,
+    txtAuthorFirstName: string | undefined,
+    txtAuthorLastName: string | undefined,
+    txtPublicationDate: string | undefined,
+    txtImageName: string | undefined,
     ddCategoryID: number | null | unknown,
-    txtShortDescription: string | null,
-    txtUrlPKDweb: string | null,
+    txtShortDescription: string | undefined,
+    txtUrlPKDweb: string | undefined,
     titleID: number | null,
     titleName: string | null,
     titleSort: string | null,
@@ -58,14 +61,14 @@ class AddTitle extends Component<IProps, IState> {
             titleRecordAdded: null,
             errTitleName: "",
             errCategoryID: "",
-            txtTitleName: null,
-            txtAuthorFirstName: null,
-            txtAuthorLastName: null,
-            txtPublicationDate: null,
-            txtImageName: null,
+            txtTitleName: undefined,
+            txtAuthorFirstName: undefined,
+            txtAuthorLastName: undefined,
+            txtPublicationDate: undefined,
+            txtImageName: undefined,
             ddCategoryID: null,
-            txtShortDescription: null,
-            txtUrlPKDweb: null,
+            txtShortDescription: undefined,
+            txtUrlPKDweb: undefined,
             titleID: null,
             titleName: null,
             titleSort: null,
@@ -207,28 +210,28 @@ class AddTitle extends Component<IProps, IState> {
                 };
 
                 // If the user doesn't enter an author first name, then it isn't added/updated
-                if (this.state.txtAuthorFirstName !== null) {
+                if (this.state.txtAuthorFirstName !== null && this.state.txtAuthorFirstName !== undefined) {
                     if (this.state.txtAuthorFirstName.trim().length !== 0) {
                         Object.assign(titleObject, {authorFirstName: this.state.txtAuthorFirstName.trim()});
                     };
                 };
 
                 // If the user doesn't enter an author last name, then it isn't added/updated
-                if (this.state.txtAuthorLastName !== null) {
+                if (this.state.txtAuthorLastName !== null && this.state.txtAuthorLastName !== undefined) {
                     if (this.state.txtAuthorLastName.trim().length !== 0) {
                         Object.assign(titleObject, {authorLastName: this.state.txtAuthorLastName.trim()});
                     };
                 };
 
                 // If the user doesn't enter an image name then it isn't added/updated
-                if (this.state.txtImageName !== null) {
+                if (this.state.txtImageName !== null && this.state.txtImageName !== undefined) {
                     if (this.state.txtImageName.trim().length !== 0) {
                         Object.assign(titleObject, {imageName: this.state.txtImageName.trim()});
                     };
                 };
 
                 // If the user doesn't enter a publication date, then it isn't added/updated
-                if (this.state.txtPublicationDate !== null) {
+                if (this.state.txtPublicationDate !== null && this.state.txtPublicationDate !== undefined) {
                     if (this.state.txtPublicationDate.trim().length !== 0) {
                         Object.assign(titleObject, {publicationDate: this.state.txtPublicationDate.trim()});
                     };
@@ -236,14 +239,14 @@ class AddTitle extends Component<IProps, IState> {
 
 
                 // If the user doesn't enter a short description, then it isn't added/updated
-                if (this.state.txtShortDescription !== null) {
+                if (this.state.txtShortDescription !== null && this.state.txtShortDescription !== undefined) {
                     if (this.state.txtShortDescription.trim().length !== 0) {
                         Object.assign(titleObject, {shortDescription: this.state.txtShortDescription.trim()});
                     };
                 };
 
                 // If the user doesn't enter a url for PKDweb, then it isn't added/updated
-                if (this.state.txtUrlPKDweb !== null) {
+                if (this.state.txtUrlPKDweb !== null && this.state.txtUrlPKDweb !== undefined) {
                     if (this.state.txtUrlPKDweb.trim().length !== 0) {
                         Object.assign(titleObject, {urlPKDweb: this.state.txtUrlPKDweb.trim()});
                     };
@@ -328,90 +331,88 @@ class AddTitle extends Component<IProps, IState> {
         };
 
         return(
-            <Grid container spacing={2}>
-                <Grid item xs={10}>&nbsp;</Grid>
-                <Grid item xs={10}> 
-                <Typography variant="h5" align="center" gutterBottom>Add Title</Typography>
-                </Grid>
-                <Grid item xs={10}>
+            <Form>
+                <FormGroup> 
+                <h3 className="text-center">Add Title</h3>
+                </FormGroup>
+                <FormGroup>
                 {this.state.message !== "" ? <Alert severity="info">{this.state.message}</Alert> : null}
                 {this.state.errMessage !== "" ? <Alert severity="error">{this.state.errMessage}</Alert> : null}
                 {this.state.categoryMessage !== "" ? <Alert severity="info">{this.state.categoryMessage}</Alert> : null}
                 {this.state.errCategoryMessage !== "" ? <Alert severity="error">{this.state.errCategoryMessage}</Alert> : null}
-                </Grid>
-                <Grid item xs={10}>
+                </FormGroup>
 
-                <TextField type="text" id="txtTitleName" label="Title" variant="outlined" fullWidth
-                margin="normal" value={this.state.txtTitleName} onChange={(event) => {/*console.log(event.target.value);*/ this.setState({txtTitleName: event.target.value});}} />
+                <FormGroup>
+
+                <Label for="txtTitleName">Title</Label>
+                <Input type="text" id="txtTitleName" value={this.state.txtTitleName} onChange={(event) => {/*console.log(event.target.value);*/ this.setState({txtTitleName: event.target.value});}} />
                 {this.state.errTitleName !== "" ? <Alert severity="error">{this.state.errTitleName}</Alert> : null}
 
-                </Grid>
-                <Grid item xs={10}>
+                </FormGroup>
+                <FormGroup>
 
-                <TextField type="text" id="txtAuthorFirstName" label="Author First Name" variant="outlined" fullWidth
-                margin="normal" value={this.state.txtAuthorFirstName} onChange={(event) => {/*console.log(event.target.value);*/ this.setState({txtAuthorFirstName: event.target.value});}} />
+                <Label for="txtAuthorFirstName">Author First Name</Label>
+                <Input type="text" id="txtAuthorFirstName" value={this.state.txtAuthorFirstName} onChange={(event) => {/*console.log(event.target.value);*/ this.setState({txtAuthorFirstName: event.target.value});}} />
 
-                </Grid>
-                <Grid item xs={10}>
+                </FormGroup>
+                <FormGroup>
+                    
+                <Label for="txtAuthorLastName">Author Last Name</Label>
+                <Input type="text" id="txtAuthorLastName" value={this.state.txtAuthorLastName} onChange={(event) => {/*console.log(event.target.value);*/ this.setState({txtAuthorLastName: event.target.value});}} />
 
-                <TextField type="text" id="txtAuthorLastName" label="Author Last Name" variant="outlined" fullWidth
-                margin="normal" value={this.state.txtAuthorLastName} onChange={(event) => {/*console.log(event.target.value);*/ this.setState({txtAuthorLastName: event.target.value});}} />
+                </FormGroup>
 
-                </Grid>
+                <FormGroup row>
+                <Col>
 
-                <Grid item xs={10}>
-                <Grid container spacing={2}>
-                <Grid item xs={4}>
-
-                <InputLabel id="lblCategoryID">Category</InputLabel>
-                <Select id="ddCategoryID" labelId="lblCategoryID" value={this.state.ddCategoryID} onChange={(event) => {/*console.log(event.target.value);*/ this.setState({ddCategoryID: event.target.value});}}>
-                <MenuItem selected value="">Select a Category</MenuItem>
+                <Label id="lblCategoryID" for="lblCategoryID">Category</Label>
+                <Input type="select" id="ddCategoryID" labelId="lblCategoryID" /*value={this.state.ddCategoryID}*/ onChange={(event) => {/*console.log(event.target.value);*/ this.setState({ddCategoryID: event.target.value});}}>
+                <option selected value="">Select a Category</option>
                 {this.state.categoryList.map((category: ICategory) => {
                 return (
-                    <MenuItem value={category.categoryID}>{category.category}</MenuItem>
+                    <option value={category.categoryID}>{category.category}</option>
                     )
                 })}
-                </Select>
+                </Input>
                 {this.state.errCategoryID !== "" ? <Alert severity="error">{this.state.errCategoryID}</Alert> : null}
 
-                </Grid>
-                <Grid item xs={4}>
+                </Col>
+                <Col>
                         
-                    <Typography component="legend">Publication Date</Typography>
-                    <TextField type="date" id="txtPublicationDate" variant="outlined" fullWidth margin="normal" defaultValue={this.state.txtPublicationDate} value={this.state.txtPublicationDate} onChange={(event) => {/*console.log(event.target.value);*/ this.setState({txtPublicationDate: event.target.value});}} />
+                <Label for="txtPublicationDate">Publication Date</Label>
+                <Input type="date" id="txtPublicationDate" value={this.state.txtPublicationDate} onChange={(event) => {/*console.log(event.target.value);*/ this.setState({txtPublicationDate: event.target.value});}} />
 
-                </Grid>
-                </Grid>
-                </Grid>
+                </Col>
 
-                <Grid item xs={10}>
+                </FormGroup>
+
+                <FormGroup>
+                    
+                <Label for="txtImageName">Image Name</Label>
+                <Input type="text" id="txtImageName" value={this.state.txtImageName} onChange={(event) => {/*console.log(event.target.value);*/ this.setState({txtImageName: event.target.value});}} />
+                {this.state.txtImageName !== null && this.state.txtImageName !== undefined && this.state.txtImageName !== "" ? <img src={this.state.txtImageName} alt="" /> : <Image size={150} />}
+
+                </FormGroup>
+                <FormGroup>
+                    
+                <Label for="txtShortDescription">Short Description</Label>
+                <Input type="textarea" id="txtShortDescription" rows={10} value={this.state.txtShortDescription} onChange={(event) => {/*console.log(event.target.value);*/ this.setState({txtShortDescription: event.target.value});}} />
     
-                    <TextField type="text" id="txtImageName" label="Image Name" variant="outlined" fullWidth
-              margin="normal" value={this.state.txtImageName} onChange={(event) => {/*console.log(event.target.value);*/ this.setState({txtImageName: event.target.value});}} />
+                </FormGroup>
+                <FormGroup>
+                    
+                <Label for="txtUrlPKDweb">url PKDweb</Label>
+                <Input type="text" id="txtUrlPKDweb" value={this.state.txtUrlPKDweb} onChange={(event) => {/*console.log(event.target.value);*/ this.setState({txtUrlPKDweb: event.target.value});}} />
+
+                </FormGroup>
+                <FormGroup>
     
-                </Grid>
-                <Grid item xs={10}>
+                <Button size="large" color="primary" onClick={this.addTitle}>Add Title</Button>
+                {/* <Button size="large" color="primary" onClick={this.handleClose}>Cancel</Button> */}
 
-                <TextField type="text" id="txtShortDescription" label=" Short Description" variant="outlined" fullWidth
-              margin="normal" multiline rows={10} value={this.state.txtShortDescription} onChange={(event) => {/*console.log(event.target.value);*/ this.setState({txtShortDescription: event.target.value});}} />
-    
-                    </Grid>
+                </FormGroup>
 
-                    <Grid item xs={10}>
-    
-                    <TextField type="text" id="txtUrlPKDweb" label="url PKDweb" variant="outlined" fullWidth
-                margin="normal" value={this.state.txtUrlPKDweb} onChange={(event) => {/*console.log(event.target.value);*/ this.setState({txtUrlPKDweb: event.target.value});}} />
-
-                    </Grid>
-
-                    <Grid item xs={10}>
-    
-                    <Button variant="outlined" size="large" color="primary" onClick={this.addTitle}>Add Title</Button>
-                    {/* <Button variant="outlined" size="large" color="primary" onClick={this.handleClose}>Cancel</Button> */}
-
-                    </Grid>
-
-        </Grid>
+        </Form>
         );
     };
 };

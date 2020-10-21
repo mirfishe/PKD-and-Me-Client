@@ -1,8 +1,10 @@
 import React, {Component} from "react";
 import {Redirect} from "react-router-dom";
+import {Col, Form, FormGroup, Label, Input, Alert, Button} from "reactstrap";
+import {Image} from 'react-bootstrap-icons';
 
-import {Alert} from "@material-ui/lab/";
-import {Grid, Button, TextField, Typography, InputLabel, Select, MenuItem} from "@material-ui/core";
+// import {Alert} from "@material-ui/lab/";
+// import {Grid, Button, Input, Typography, InputLabel, Select, MenuItem} from "@material-ui/core";
 
 import {baseURL} from "../../Helpers/constants";
 import {ITitle, IMedia} from "../../Helpers/interfaces";
@@ -30,15 +32,15 @@ interface IState {
     errMediaID: string,
     ddTitleID: number | null | unknown,
     ddMediaID: number | null | unknown,
-    txtPublicationDate: string | null,
-    txtImageName: string | null,
-    txtASIN: string | null,
-    txtTextLinkShort: string | null,
-    txtTextLinkFull: string | null,
-    txtImageLinkSmall: string | null,
-    txtImageLinkMedium: string | null,
-    txtImageLinkLarge: string | null,
-    txtTextImageLink: string | null,
+    txtPublicationDate: string | undefined,
+    txtImageName: string | undefined,
+    txtASIN: string | undefined,
+    txtTextLinkShort: string | undefined,
+    txtTextLinkFull: string | undefined,
+    txtImageLinkSmall: string | undefined,
+    txtImageLinkMedium: string | undefined,
+    txtImageLinkLarge: string | undefined,
+    txtTextImageLink: string | undefined,
     editionID: number | null,
     titleID: number | null,
     mediaID: number | null,
@@ -74,15 +76,15 @@ class AddEdition extends Component<IProps, IState> {
             errMediaID: "",
             ddTitleID: null,
             ddMediaID: null,
-            txtPublicationDate: null,
-            txtImageName: null,
-            txtASIN: null,
-            txtTextLinkShort: null,
-            txtTextLinkFull: null,
-            txtImageLinkSmall: null,
-            txtImageLinkMedium: null,
-            txtImageLinkLarge: null,
-            txtTextImageLink: null,
+            txtPublicationDate: undefined,
+            txtImageName: undefined,
+            txtASIN: undefined,
+            txtTextLinkShort: undefined,
+            txtTextLinkFull: undefined,
+            txtImageLinkSmall: undefined,
+            txtImageLinkMedium: undefined,
+            txtImageLinkLarge: undefined,
+            txtTextImageLink: undefined,
             editionID: null,
             titleID: null,
             mediaID: null,
@@ -273,63 +275,63 @@ class AddEdition extends Component<IProps, IState> {
             };
 
             // If the user doesn't enter a publication date, then it isn't added/updated
-            if (this.state.txtPublicationDate !== null) {
+            if (this.state.txtPublicationDate !== null && this.state.txtPublicationDate !== undefined) {
                 if (this.state.txtPublicationDate.trim().length !== 0) {
                     Object.assign(editionObject, {publicationDate: this.state.txtPublicationDate.trim()});
                 };
             };
 
             // If the user doesn't enter an image name, then it isn't added/updated
-            if (this.state.txtImageName !== null) {
+            if (this.state.txtImageName !== null && this.state.txtImageName !== undefined) {
                 if (this.state.txtImageName.trim().length !== 0) {
                     Object.assign(editionObject, {imageName: this.state.txtImageName.trim()});
                 };
             };
 
             // If the user doesn't enter an ASIN, then it isn't added/updated
-            if (this.state.txtASIN !== null) {
+            if (this.state.txtASIN !== null && this.state.txtASIN !== undefined) {
                 if (this.state.txtASIN.trim().length !== 0) {
                     Object.assign(editionObject, {ASIN: this.state.txtASIN.trim()});
                 };
             };
 
             // If the user doesn't enter s textLinkShort, then it isn't added/updated
-            if (this.state.txtTextLinkShort !== null) {
+            if (this.state.txtTextLinkShort !== null && this.state.txtTextLinkShort !== undefined) {
                 if (this.state.txtTextLinkShort.trim().length !== 0) {
                     Object.assign(editionObject, {textLinkShort: this.state.txtTextLinkShort.trim()});
                 };
             };
 
             // If the user doesn't enter a textLinkFull, then it isn't added/updated
-            if (this.state.txtTextLinkFull !== null) {
+            if (this.state.txtTextLinkFull !== null && this.state.txtTextLinkFull !== undefined) {
                 if (this.state.txtTextLinkFull.trim().length !== 0) {
                     Object.assign(editionObject, {textLinkFull: this.state.txtTextLinkFull.trim()});
                 };
             };
 
             // If the user doesn't enter an imageLinkSmall, then it isn't added/updated
-            if (this.state.txtImageLinkSmall !== null) {
+            if (this.state.txtImageLinkSmall !== null && this.state.txtImageLinkSmall !== undefined) {
                 if (this.state.txtImageLinkSmall.trim().length !== 0) {
                     Object.assign(editionObject, {imageLinkSmall: this.state.txtImageLinkSmall.trim()});
                 };
             };
 
             // If the user doesn't enter an imageLinkMedium, then it isn't added/updated
-            if (this.state.txtImageLinkMedium !== null) {
+            if (this.state.txtImageLinkMedium !== null && this.state.txtImageLinkMedium !== undefined) {
                 if (this.state.txtImageLinkMedium.trim().length !== 0) {
                     Object.assign(editionObject, {imageLinkMedium: this.state.txtImageLinkMedium.trim()});
                 };
             };
 
             // If the user doesn't enter an imageLinkLarge, then it isn't added/updated
-            if (this.state.txtImageLinkLarge !== null) {
+            if (this.state.txtImageLinkLarge !== null && this.state.txtImageLinkLarge !== undefined) {
                 if (this.state.txtImageLinkLarge.trim().length !== 0) {
                     Object.assign(editionObject, {imageLinkLarge: this.state.txtImageLinkLarge.trim()});
                 };
             };
 
             // If the user doesn't enter a textImageLink, then it isn't added/updated
-            if (this.state.txtTextImageLink !== null) {
+            if (this.state.txtTextImageLink !== null && this.state.txtTextImageLink !== undefined) {
                 if (this.state.txtTextImageLink.trim().length !== 0) {
                     Object.assign(editionObject, {textImageLink: this.state.txtTextImageLink.trim()});
                 };
@@ -415,102 +417,101 @@ class AddEdition extends Component<IProps, IState> {
         };
 
         return(
-            <Grid container spacing={2}>
-                <Grid item xs={10}>&nbsp;</Grid>
-                <Grid item xs={10}> 
-                <Typography variant="h5" align="center" gutterBottom>Add Edition</Typography>
-                </Grid>
-                <Grid item xs={10}>
+            <Form>
+                <FormGroup> 
+                <h3 className="text-center">Add Edition</h3>
+                </FormGroup>
+                <FormGroup>
                 {this.state.message !== "" ? <Alert severity="info">{this.state.message}</Alert> : null}
                 {this.state.errMessage !== "" ? <Alert severity="error">{this.state.errMessage}</Alert> : null}
                 {this.state.titleMessage !== "" ? <Alert severity="info">{this.state.titleMessage}</Alert> : null}
                 {this.state.errTitleMessage !== "" ? <Alert severity="error">{this.state.errTitleMessage}</Alert> : null}
                 {this.state.mediaMessage !== "" ? <Alert severity="info">{this.state.mediaMessage}</Alert> : null}
                 {this.state.errMediaMessage !== "" ? <Alert severity="error">{this.state.errMediaMessage}</Alert> : null}
-                </Grid>
+                </FormGroup>
 
-                <Grid item xs={10}>
-                <Grid container spacing={2}>
-                <Grid item xs={5}>
+                <FormGroup row>
+                <Col>
 
-                <InputLabel id="lblMediaID">Media</InputLabel>
-                <Select id="ddMediaID" labelId="lblMediaID" autoWidth value={this.state.ddMediaID} onChange={(event) => {/*console.log(event.target.value);*/ this.setState({ddMediaID: event.target.value});}}>
-                <MenuItem selected value="">Select a Media</MenuItem>
+                <Label for="ddMediaID">Media</Label>
+                <Input type="select" id="ddMediaID" labelId="lblMediaID" /*value={this.state.ddMediaID}*/ onChange={(event) => {/*console.log(event.target.value);*/ this.setState({ddMediaID: event.target.value});}}>
+                <option selected value="">Select a Media</option>
                 {this.state.mediaList.map((media: IMedia) => {
                 return (
-                    <MenuItem value={media.mediaID}>{media.media}</MenuItem>
+                    <option value={media.mediaID}>{media.media}</option>
                     )
                 })}
-                </Select>
+                </Input>
                 {this.state.errMediaID !== "" ? <Alert severity="error">{this.state.errMediaID}</Alert> : null}
 
-                </Grid>
-                <Grid item xs={5}>
-                        
-                    <Typography component="legend">Publication Date</Typography>
-                    <TextField type="date" id="txtPublicationDate" variant="outlined" fullWidth margin="normal" defaultValue={this.state.txtPublicationDate} value={this.state.txtPublicationDate} onChange={(event) => {/*console.log(event.target.value);*/ this.setState({txtPublicationDate: event.target.value});}} />
+                </Col>
+                <Col>
+                    
+                    <Label for="txtPublicationDate">Publication Date</Label>
+                    <Input type="date" id="txtPublicationDate" value={this.state.txtPublicationDate} onChange={(event) => {/*console.log(event.target.value);*/ this.setState({txtPublicationDate: event.target.value});}} />
 
-                </Grid>
-                </Grid>
-                </Grid>
+                </Col>
 
-                <Grid item xs={10}>
+                </FormGroup>
+
+                <FormGroup>
     
-                    <TextField type="text" id="txtImageName" label="Image Name" variant="outlined" fullWidth
-              margin="normal" value={this.state.txtImageName} onChange={(event) => {/*console.log(event.target.value);*/ this.setState({txtImageName: event.target.value});}} />
+                <Label for="txtImageName">Image Name</Label>
+                <Input type="text" id="txtImageName" value={this.state.txtImageName} onChange={(event) => {/*console.log(event.target.value);*/ this.setState({txtImageName: event.target.value});}} />
+                {this.state.txtImageName !== null && this.state.txtImageName !== undefined && this.state.txtImageName !== "" ? <img src={this.state.txtImageName} alt="" /> : <Image size={150} />}
     
-                </Grid>
-                <Grid item xs={10}>
+                </FormGroup>
+                <FormGroup>
+    
+                <Label for="txtASIN">ASIN</Label>
+                <Input type="text" id="txtASIN" value={this.state.txtASIN} onChange={(event) => {/*console.log(event.target.value);*/ this.setState({txtASIN: event.target.value});}} />
 
-                <TextField type="text" id="txtASIN" label="ASIN" variant="outlined" fullWidth
-            margin="normal" value={this.state.txtASIN} onChange={(event) => {/*console.log(event.target.value);*/ this.setState({txtASIN: event.target.value});}} />
+                </FormGroup>
+                <FormGroup>
+    
+                <Label for="txtTextLinkShort">Text Link Short</Label>
+                <Input type="text" id="txtTextLinkShort" value={this.state.txtTextLinkShort} onChange={(event) => {/*console.log(event.target.value);*/ this.setState({txtTextLinkShort: event.target.value});}} />
 
-                </Grid>
-                <Grid item xs={10}>
+                </FormGroup>
+                <FormGroup>
+    
+                <Label for="txtTextLinkFull">Text Link Full</Label>
+                <Input type="textarea" id="txtTextLinkFull" rows={5} value={this.state.txtTextLinkFull} onChange={(event) => {/*console.log(event.target.value);*/ this.setState({txtTextLinkFull: event.target.value});}} />
 
-                <TextField type="text" id="txtTextLinkShort" label="Text Link Short" variant="outlined" fullWidth
-                margin="normal" value={this.state.txtTextLinkShort} onChange={(event) => {/*console.log(event.target.value);*/ this.setState({txtTextLinkShort: event.target.value});}} />
+                </FormGroup>
+                <FormGroup>
+    
+                <Label for="txtImageLinkSmall">Image Link Small</Label>
+                <Input type="textarea" id="txtImageLinkSmall" rows={10} value={this.state.txtImageLinkSmall} onChange={(event) => {/*console.log(event.target.value);*/ this.setState({txtImageLinkSmall: event.target.value});}} />
 
-                </Grid>
-                <Grid item xs={10}>
+                </FormGroup>
+                <FormGroup>
+    
+                <Label for="txtImageLinkMedium">Image Link Medium</Label>
+                <Input type="textarea" id="txtImageLinkMedium" rows={10} value={this.state.txtImageLinkMedium} onChange={(event) => {/*console.log(event.target.value);*/ this.setState({txtImageLinkMedium: event.target.value});}} />
 
-                <TextField type="text" id="txtTextLinkFull" label="Text Link Full" variant="outlined" fullWidth
-                margin="normal" multiline rows={5} value={this.state.txtTextLinkFull} onChange={(event) => {/*console.log(event.target.value);*/ this.setState({txtTextLinkFull: event.target.value});}} />
+                </FormGroup>
+                <FormGroup>
+    
+                <Label for="txtImageLinkLarge">Image Link Large</Label>
+                <Input type="textarea" id="txtImageLinkLarge" rows={10} value={this.state.txtImageLinkLarge} onChange={(event) => {/*console.log(event.target.value);*/ this.setState({txtImageLinkLarge: event.target.value});}} />
 
-                </Grid>
-                <Grid item xs={10}>
+                </FormGroup>
+                <FormGroup>
+    
+                <Label for="txtTextImageLink">Text Image Link</Label>
+                <Input type="textarea" id="txtTextImageLink" rows={10} value={this.state.txtTextImageLink} onChange={(event) => {/*console.log(event.target.value);*/ this.setState({txtTextImageLink: event.target.value});}} />
 
-                <TextField type="text" id="txtImageLinkSmall" label="Image Link Small" variant="outlined" fullWidth
-                margin="normal" multiline rows={5} value={this.state.txtImageLinkSmall} onChange={(event) => {/*console.log(event.target.value);*/ this.setState({txtImageLinkSmall: event.target.value});}} />
+                </FormGroup>
 
-                </Grid>
-                <Grid item xs={10}>
+                <FormGroup>
 
-                <TextField type="text" id="txtImageLinkMedium" label="Image Link Medium" variant="outlined" fullWidth
-                margin="normal" multiline rows={10} value={this.state.txtImageLinkMedium} onChange={(event) => {/*console.log(event.target.value);*/ this.setState({txtImageLinkMedium: event.target.value});}} />
+                <Button size="large" color="primary" onClick={this.addEdition}>Add Edition</Button>
+                {/* <Button size="large" color="primary" onClick={this.handleClose}>Cancel</Button> */}
 
-                </Grid>
-                <Grid item xs={10}>
+                </FormGroup>
 
-                <TextField type="text" id="txtImageLinkLarge" label="Image Link Large" variant="outlined" fullWidth
-                margin="normal" multiline rows={10} value={this.state.txtImageLinkLarge} onChange={(event) => {/*console.log(event.target.value);*/ this.setState({txtImageLinkLarge: event.target.value});}} />
-
-                </Grid>
-                <Grid item xs={10}>
-
-                <TextField type="text" id="txtTextImageLink" label="Text Image Link" variant="outlined" fullWidth
-                margin="normal" multiline rows={10} value={this.state.txtTextImageLink} onChange={(event) => {/*console.log(event.target.value);*/ this.setState({txtTextImageLink: event.target.value});}} />
-
-                </Grid>
-
-                <Grid item xs={10}>
-
-                <Button variant="outlined" size="large" color="primary" onClick={this.addEdition}>Add Edition</Button>
-                {/* <Button variant="outlined" size="large" color="primary" onClick={this.handleClose}>Cancel</Button> */}
-
-                </Grid>
-
-        </Grid>
+        </Form>
         );
     };
 };

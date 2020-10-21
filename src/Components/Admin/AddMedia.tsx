@@ -1,8 +1,9 @@
 import React, {Component} from "react";
 import {Redirect} from "react-router-dom";
+import {Form, FormGroup, Label, Input, Alert, Button} from "reactstrap";
 
-import {Alert} from "@material-ui/lab/";
-import {Grid, Button, TextField, Typography} from "@material-ui/core";
+// import {Alert} from "@material-ui/lab/";
+// import {Grid, Button, TextField, Typography} from "@material-ui/core";
 
 import {baseURL} from "../../Helpers/constants";
 
@@ -18,7 +19,7 @@ interface IState {
     errMessage: string,
     mediaRecordAdded: boolean | null,
     errMedia: string,
-    txtMedia: string | null,
+    txtMedia: string | undefined,
     mediaID: number | null,
     media: string | null,
     sortID: number | null,
@@ -34,7 +35,7 @@ class AddMedia extends Component<IProps, IState> {
             errMessage: "",
             mediaRecordAdded: null,
             errMedia: "",
-            txtMedia: null,
+            txtMedia: undefined,
             mediaID: null,
             media: null,
             sortID: null,
@@ -162,31 +163,30 @@ class AddMedia extends Component<IProps, IState> {
         };
 
         return(
-            <Grid container spacing={2}>
-                <Grid item xs={10}>&nbsp;</Grid>
-                <Grid item xs={10}> 
-                <Typography variant="h5" align="center" gutterBottom>Add Media</Typography>
-                </Grid>
-                <Grid item xs={10}>
+            <Form>
+                <FormGroup> 
+                <h3 className="text-center">Add Media</h3>
+                </FormGroup>
+                <FormGroup>
                 {this.state.message !== "" ? <Alert severity="info">{this.state.message}</Alert> : null}
                 {this.state.errMessage !== "" ? <Alert severity="error">{this.state.errMessage}</Alert> : null}
-                </Grid>
-                <Grid item xs={10}>
+                </FormGroup>
+                <FormGroup>
 
-                <TextField type="text" id="txtMedia" label="Media" variant="outlined" fullWidth
-                margin="normal" value={this.state.txtMedia} onChange={(event) => {/*console.log(event.target.value);*/ this.setState({txtMedia: event.target.value});}} />
+                <Label for="txtMedia">Media</Label>
+                <Input type="text" id="txtMedia" value={this.state.txtMedia} onChange={(event) => {/*console.log(event.target.value);*/ this.setState({txtMedia: event.target.value});}} />
                 {this.state.errMedia !== "" ? <Alert severity="error">{this.state.errMedia}</Alert> : null}
 
-                </Grid>
+                </FormGroup>
 
-                <Grid item xs={10}>
+                <FormGroup>
 
-                <Button variant="outlined" size="large" color="primary" onClick={this.addMedia}>Add Media</Button>
-                {/* <Button variant="outlined" size="large" color="primary" onClick={this.handleClose}>Cancel</Button> */}
+                <Button size="large" color="primary" onClick={this.addMedia}>Add Media</Button>
+                {/* <Button size="large" color="primary" onClick={this.handleClose}>Cancel</Button> */}
 
-                </Grid>
+                </FormGroup>
 
-        </Grid>
+        </Form>
         );
     };
 };
