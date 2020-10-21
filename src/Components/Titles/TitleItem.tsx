@@ -73,7 +73,7 @@ const TitleItem: FunctionComponent <(IProps)> = props => {
 
                 <Paper key={title.titleID} style={{margin: "10px", padding: "10px", textAlign: "center"}}>
                 <Link href="#" onClick={() => props.setTitleID(title.titleID)}>
-                {title.imageName !== null && title.imageName !== "" ? <img src={"https://philipdick.com/images/covers/" + title.imageName} alt={title.titleName}
+                {title.imageName !== null && title.imageName !== "" ? <img src={title.imageName} alt={title.titleName}
                 style={{marginLeft: "auto", marginRight: "auto"}} /> : <ImageOutlinedIcon style={{fontSize: 150, color: "black"}} />}
                 </Link>
                 {/* <p>{title.titleName}</p> */}

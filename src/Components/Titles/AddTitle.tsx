@@ -4,6 +4,7 @@ import {Redirect} from "react-router-dom";
 import {Alert} from "@material-ui/lab/";
 import {Grid, Button, TextField, Typography, InputLabel, Select, MenuItem, Dialog, DialogTitle, DialogContent, DialogActions} from "@material-ui/core";
 import AddIcon from "@material-ui/icons/Add";
+import ImageOutlinedIcon from "@material-ui/icons/ImageOutlined";
 
 import {baseURL} from "../../Helpers/constants";
 import {ICategory} from "../../Helpers/interfaces";
@@ -363,21 +364,18 @@ class AddTitle extends Component<IProps, IState> {
                 </Grid>
                 <Grid item xs={12}>
 
-                <TextField type="text" id="txtTitleName" label="Title" variant="outlined" fullWidth
-                margin="normal" value={this.state.txtTitleName} onChange={(event) => {/*console.log(event.target.value);*/ this.setState({txtTitleName: event.target.value});}} />
+                <TextField type="text" id="txtTitleName" label="Title" variant="outlined" fullWidth margin="normal" value={this.state.txtTitleName} onChange={(event) => {/*console.log(event.target.value);*/ this.setState({txtTitleName: event.target.value});}} />
                 {this.state.errTitleName !== "" ? <Alert severity="error">{this.state.errTitleName}</Alert> : null}
 
                 </Grid>
                 <Grid item xs={12}>
 
-                <TextField type="text" id="txtAuthorFirstName" label="Author First Name" variant="outlined" fullWidth
-                margin="normal" value={this.state.txtAuthorFirstName} onChange={(event) => {/*console.log(event.target.value);*/ this.setState({txtAuthorFirstName: event.target.value});}} />
+                <TextField type="text" id="txtAuthorFirstName" label="Author First Name" variant="outlined" fullWidth margin="normal" value={this.state.txtAuthorFirstName} onChange={(event) => {/*console.log(event.target.value);*/ this.setState({txtAuthorFirstName: event.target.value});}} />
 
                 </Grid>
                 <Grid item xs={12}>
 
-                <TextField type="text" id="txtAuthorLastName" label="Author Last Name" variant="outlined" fullWidth
-                margin="normal" value={this.state.txtAuthorLastName} onChange={(event) => {/*console.log(event.target.value);*/ this.setState({txtAuthorLastName: event.target.value});}} />
+                <TextField type="text" id="txtAuthorLastName" label="Author Last Name" variant="outlined" fullWidth margin="normal" value={this.state.txtAuthorLastName} onChange={(event) => {/*console.log(event.target.value);*/ this.setState({txtAuthorLastName: event.target.value});}} />
 
                 </Grid>
 
@@ -408,21 +406,19 @@ class AddTitle extends Component<IProps, IState> {
 
                 <Grid item xs={12}>
     
-                    <TextField type="text" id="txtImageName" label="Image Name" variant="outlined" fullWidth
-              margin="normal" value={this.state.txtImageName} onChange={(event) => {/*console.log(event.target.value);*/ this.setState({txtImageName: event.target.value});}} />
-    
+                    <TextField type="text" id="txtImageName" label="Image Name" variant="outlined" fullWidth margin="normal" value={this.state.txtImageName} onChange={(event) => {/*console.log(event.target.value);*/ this.setState({txtImageName: event.target.value});}} />
+              {this.state.txtImageName !== null && this.state.txtImageName !== "" ? <img src={this.state.txtImageName} alt="" /> : <ImageOutlinedIcon style={{fontSize: 150}} />}
+
                 </Grid>
                 <Grid item xs={12}>
 
-                <TextField type="text" id="txtShortDescription" label=" Short Description" variant="outlined" fullWidth
-              margin="normal" multiline rows={10} value={this.state.txtShortDescription} onChange={(event) => {/*console.log(event.target.value);*/ this.setState({txtShortDescription: event.target.value});}} />
+                <TextField type="text" id="txtShortDescription" label=" Short Description" variant="outlined" fullWidth margin="normal" multiline rows={10} value={this.state.txtShortDescription} onChange={(event) => {/*console.log(event.target.value);*/ this.setState({txtShortDescription: event.target.value});}} />
     
                     </Grid>
 
                     <Grid item xs={12}>
     
-                    <TextField type="text" id="txtUrlPKDweb" label="url PKDweb" variant="outlined" fullWidth
-                margin="normal" value={this.state.txtUrlPKDweb} onChange={(event) => {/*console.log(event.target.value);*/ this.setState({txtUrlPKDweb: event.target.value});}} />
+                    <TextField type="text" id="txtUrlPKDweb" label="url PKDweb" variant="outlined" fullWidth margin="normal" value={this.state.txtUrlPKDweb} onChange={(event) => {/*console.log(event.target.value);*/ this.setState({txtUrlPKDweb: event.target.value});}} />
 
             </Grid>
 

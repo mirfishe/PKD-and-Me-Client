@@ -63,17 +63,17 @@ const Edition: FunctionComponent <(IProps)> = props => {
             return (
                 <React.Fragment>
 
-                    {edition.textLinkShort !== null && edition.textLinkShort !== "" ? 
+                    {/* {edition.textLinkShort !== null && edition.textLinkShort !== "" ? 
                     <GridListTile key={edition.editionID} style={{margin: "20px"}}>
 
                     <Link href={edition.textLinkShort} target="_blank">
-                    {edition.imageName !== null && edition.imageName !== "" ? <img src={"https://philipdick.com/images/covers/" + edition.imageName} alt={edition.mediaName} /> : <ImageOutlinedIcon style={{fontSize: 150, color: "black"}} />}
+                    {edition.imageName !== null && edition.imageName !== "" ? <img src={edition.imageName} alt={edition.mediaName} /> : <ImageOutlinedIcon style={{fontSize: 150, color: "black"}} />}
                     </Link>
 
-                    <GridListTileBar title={edition.mediaName} subtitle={edition.publicationDate !== null ? edition.publicationDate.toString().substring(0, 10) : null} actionIcon={props.isAdmin === true ? <EditEdition userID={props.userID} isAdmin={props.isAdmin} sessionToken={props.sessionToken} titleID={props.titleID} titlePublicationDate={props.titlePublicationDate} editionID={edition.editionID} editionUpdated={props.editionUpdated} displayIcon={true} /> : null} />
+                    <GridListTileBar title={edition.mediaName} subtitle={edition.publicationDate !== null ? edition.publicationDate.toString().substring(0, 10) : null} actionIcon={props.isAdmin === true ? <EditEdition userID={props.userID} isAdmin={props.isAdmin} sessionToken={props.sessionToken} titleID={props.titleID} titlePublicationDate={props.titlePublicationDate} editionID={edition.editionID} editionUpdated={props.editionUpdated} displayIcon={true} /> : null} /> */}
                     {/* </Link> */}
-                    </GridListTile>
-                    : null}
+                    {/* </GridListTile>
+                    : null} */}
 
                     {edition.imageLinkLarge !== null && edition.imageLinkLarge !== "" ? 
                     <GridListTile key={edition.editionID} style={{margin: "20px"}}>

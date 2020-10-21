@@ -91,7 +91,7 @@ const TitleDisplay: FunctionComponent <(IProps)> = props => {
 
                     <Grid container spacing={2}>
                         <Grid item xs={4}>
-                            {props.titleData.imageName !== null && props.titleData.imageName !== "" ? <img src={"https://philipdick.com/images/covers/" + props.titleData.imageName} alt={props.titleData.titleName} /> : <ImageOutlinedIcon style={{fontSize: 150}} />}
+                            {props.titleData.imageName !== null && props.titleData.imageName !== "" ? <img src={props.titleData.imageName} alt={props.titleData.titleName} /> : <ImageOutlinedIcon style={{fontSize: 150}} />}
                         </Grid>
 
                         <Grid item xs={8}>

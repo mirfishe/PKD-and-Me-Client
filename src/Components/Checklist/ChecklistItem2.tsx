@@ -45,7 +45,7 @@ const ChecklistItem2: FunctionComponent <(IProps)> = props => {
             <GridListTile key={title.titleID} cols={1} style={{height: "auto"}}>
 
             <Link href="#" onClick={() => props.setTitleID(title.titleID)}>
-            {title.imageName !== null && title.imageName !== "" ? <img src={"https://philipdick.com/images/covers/" + title.imageName} alt={title.titleName} /> : <ImageOutlinedIcon style={{fontSize: 150, color: "black"}} />}
+            {title.imageName !== null && title.imageName !== "" ? <img src={title.imageName} alt={title.titleName} /> : <ImageOutlinedIcon style={{fontSize: 150, color: "black"}} />}
 
             <GridListTileBar title={title.titleName} subtitle={title.publicationDate !== null ? title.publicationDate.toString().substring(0, 10) : null} actionIcon={<Checkbox id={"cbxRead" + title.titleID} checked={title.read} value={title.read} color="primary" onChange={(event) => {/*console.log(event.target.value);*/ props.updateChecklist(title.titleID, !title.read, title.reviewID)}} />} />
             </Link>
