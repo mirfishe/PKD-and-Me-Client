@@ -1,7 +1,5 @@
 import React, {FunctionComponent} from "react";
-
-import {List, ListItem, Link, ListItemText} from "@material-ui/core";
-
+import {ListGroup, ListGroupItem} from "reactstrap";
 import {ICategory} from "../../Helpers/interfaces";
 import AddCategory from "./AddCategory";
 
@@ -18,16 +16,16 @@ const Category: FunctionComponent <(IProps)> = props => {
     // console.log("Category.tsx props.categoryList", props.categoryList);
 
     return(
-        <List>
+        <ListGroup flush>
         {props.categoryList.map((category: ICategory) => {
           return (
-            <ListItem key={category.categoryID}><Link href="#" onClick={() => props.getTitles(category.categoryID)}><ListItemText>{category.category}</ListItemText></Link></ListItem>
+            <ListGroupItem key={category.categoryID}><a href="#" onClick={(event) => {event.preventDefault(); /*console.log(event.target.value);*/ props.getTitles(category.categoryID)}}>{category.category}</a></ListGroupItem>
             )
         })}
 
-        <ListItem key="addCategory"><AddCategory userID={props.userID} isAdmin={props.isAdmin} sessionToken={props.sessionToken} displayButton={true} /></ListItem>
+        <ListGroupItem key="addCategory"><AddCategory userID={props.userID} isAdmin={props.isAdmin} sessionToken={props.sessionToken} displayButton={true} /></ListGroupItem>
 
-        </List>
+        </ListGroup>
     );
 
 };

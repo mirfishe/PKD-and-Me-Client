@@ -1,8 +1,6 @@
 import React, {Component} from "react";
-
-import {Alert} from "@material-ui/lab/";
-import {Grid, Button, Drawer} from "@material-ui/core";
-
+import {Drawer} from "@material-ui/core";
+import {Container, Col, Row, Alert, Button} from "reactstrap";
 import {ITitle, IUserReview} from "../../Helpers/interfaces";
 import {baseURL} from "../../Helpers/constants";
 import ChecklistItem from "./ChecklistItem";
@@ -327,20 +325,22 @@ class Checklist extends Component<IProps, IState> {
     render() {
 
         return(
-            <Grid container spacing={2}>
+            <Container>
 
-                <Grid item xs={2}>
-                <Button variant="text" color="primary" onClick={this.handleOpen}>Checklist</Button>
+            <Row>
+            <Col xs="2">
+                <Button color="primary" onClick={this.handleOpen}>Checklist</Button>
                 <Drawer anchor="right" open={this.state.drawerOpen} onClose={this.handleClose}>
                 {this.state.checklistMessage !== "" ? <Alert severity="info">{this.state.checklistMessage}</Alert> : null}
                 {this.state.errChecklistMessage !== "" ? <Alert severity="error">{this.state.errChecklistMessage}</Alert> : null}
-                <Button variant="text" color="primary" onClick={this.handleClose}>Close</Button>
+                <Button color="primary" onClick={this.handleClose}>Close</Button>
                 <ChecklistItem checklistList={this.state.checklistList} updateChecklist={this.updateChecklist} setTitleID={this.props.setTitleID} categoryName={this.state.categoryName} titleSort={this.props.titleSort} setTitleSort={this.props.setTitleSort} />
                 {/* <ChecklistItem2 checklistList={this.state.checklistList} updateChecklist={this.updateChecklist} setTitleID={this.props.setTitleID} categoryName={this.state.categoryName} titleSort={this.props.titleSort} setTitleSort={this.props.setTitleSort} /> */}
                 </Drawer>
-                </Grid>
+            </Col>
+            </Row>
 
-          </Grid>
+          </Container>
         );
     };
 };

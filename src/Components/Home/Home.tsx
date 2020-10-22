@@ -1,8 +1,5 @@
 import React, {Component} from "react";
-
-import {Alert} from "@material-ui/lab/";
-import {Grid} from "@material-ui/core";
-
+import {Container, Col, Row, Alert} from "reactstrap";
 import {ICategory, ITitle} from "../../Helpers/interfaces";
 import {baseURL} from "../../Helpers/constants";
 import About from "./About";
@@ -244,39 +241,29 @@ class Home extends Component<IProps, IState> {
     render() {
 
         return(
-            <Grid container spacing={4}>
+            <Container>
+             <Row>
 
-                <Grid item xs={2}>
+                <Col xs="2">
                 {this.state.categoryMessage !== "" ? <Alert severity="info">{this.state.categoryMessage}</Alert> : null}
                 {this.state.errCategoryMessage !== "" ? <Alert severity="error">{this.state.errCategoryMessage}</Alert> : null}
                 {this.state.categoryResultsFound !== null ? <Category userID={this.props.userID} isAdmin={this.props.isAdmin} sessionToken={this.props.sessionToken} getTitles={this.getTitles} categoryList={this.state.categoryList} /> : null}
-                </Grid>
+                </Col>
 
                 {this.props.titleID !== null ?
-                <Grid item xs={10}>
-                <Grid container spacing={2}>
-                <Grid item xs={12}>&nbsp;</Grid>
-                <Grid item xs={12}>
+                <Col xs="10">
                 <Title userID={this.props.userID} isAdmin={this.props.isAdmin} sessionToken={this.props.sessionToken} titleID={this.props.titleID} setTitleID={this.props.setTitleID} getTitles={this.getTitles} titleUpdated={this.props.titleUpdated} setTitleUpdated={this.props.setTitleUpdated} />
-                </Grid>
-                </Grid>
-                </Grid>
+                </Col>
                 :
-                <Grid item xs={10}>
-                <Grid container spacing={2} justify="center">
-                <Grid item xs={12}>&nbsp;</Grid>
-                <Grid item xs={12}>
-                <Grid container spacing={2} justify="space-between">
+                <Col xs="10">
                 {this.state.titleMessage !== "" ? <Alert severity="info">{this.state.titleMessage}</Alert> : null}
                 {this.state.errTitleMessage !== "" ? <Alert severity="error">{this.state.errTitleMessage}</Alert> : null}
                 {this.state.titleResultsFound ? <TitleItem userID={this.props.userID} isAdmin={this.props.isAdmin} sessionToken={this.props.sessionToken} /*getEditions={this.getEditions}*/ /*titleID={this.props.titleID}*/ setTitleID={this.props.setTitleID} titleList={this.state.titleList} /*getTitles={this.getTitles}*/ categoryID={this.props.categoryID} categoryName={this.state.categoryName} titleSort={this.props.titleSort} setTitleSort={this.props.setTitleSort} /> : <About />}
-                </Grid>
-                </Grid>
-                </Grid>
-                </Grid>
+                </Col>
                 }
 
-          </Grid>
+            </Row>
+          </Container>
         );
     };
 };

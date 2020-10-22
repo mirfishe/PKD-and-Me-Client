@@ -1,8 +1,5 @@
 import React, {Component} from "react";
-
-import {Alert} from "@material-ui/lab/";
-import {Grid, Button} from "@material-ui/core";
-
+import {Container, Col, Row, Alert, Button} from "reactstrap";
 import {ITitle, ICategory, IEdition, IUserReview} from "../../Helpers/interfaces";
 import {baseURL} from "../../Helpers/constants";
 import Edition from "../Editions/Edition";
@@ -422,13 +419,16 @@ class Title extends Component<IProps, IState> {
         // console.log("Title.tsx render() this.state.titlePublicationDate", this.state.titlePublicationDate);
 
         return(
-            <Grid container spacing={2}>
+            <Container>
 
-                <Grid item xs={12}>
-                <Button variant="contained" size="small" onClick={() => {this.props.setTitleID(null); this.props.getTitles(this.state.categoryID)}}>Back To Search Results</Button> 
-                </Grid>
+            <Row>
+            <Col xs="12">
+                <Button size="small" onClick={() => {this.props.setTitleID(null); this.props.getTitles(this.state.categoryID)}}>Back To Search Results</Button> 
+            </Col>
+            </Row>
 
-                <Grid item xs={12}>
+            <Row>
+            <Col xs="12">
                 {this.state.titleMessage !== "" ? <Alert severity="info">{this.state.titleMessage}</Alert> : null}
                 {this.state.errTitleMessage !== "" ? <Alert severity="error">{this.state.errTitleMessage}</Alert> : null}
                 {this.state.overallTitleRatingMessage !== "" ? <Alert severity="info">{this.state.overallTitleRatingMessage}</Alert> : null}
@@ -436,23 +436,33 @@ class Title extends Component<IProps, IState> {
                 {this.state.categoryMessage !== "" ? <Alert severity="info">{this.state.categoryMessage}</Alert> : null}
                 {this.state.errCategoryMessage !== "" ? <Alert severity="error">{this.state.errCategoryMessage}</Alert> : null}
                 {this.state.titleResultsFound !== null ? <TitleDisplay userID={this.props.userID} isAdmin={this.props.isAdmin} sessionToken={this.props.sessionToken} titleID={this.props.titleID} setTitleID={this.props.setTitleID} titlePublicationDate={this.state.titlePublicationDate} userReviewUpdated={this.userReviewUpdated} userReviewedTitle={this.state.userReviewedTitle} userReviewedTitleReviewID={this.state.userReviewedTitleReviewID} userReviewedTitleRead={this.state.userReviewedTitleRead} userReviewedTitleDateRead={this.state.userReviewedTitleDateRead} titleData={this.state.titleData} overallTitleRating={this.state.overallTitleRating} overallTitleRatingCount={this.state.overallTitleRatingCount} categoryName={this.state.categoryName} /*titleUpdated={this.titleUpdated}*/ titleUpdated={this.props.titleUpdated} setTitleUpdated={this.props.setTitleUpdated} editionUpdated={this.editionUpdated} /> : null}
-                </Grid>
-                <Grid item xs={10}>
+                </Col>
+            </Row>
+
+            <Row>
+            <Col xs="12">
                 {this.state.editionMessage !== "" ? <Alert severity="info">{this.state.editionMessage}</Alert> : null}
                 {this.state.errEditionMessage !== "" ? <Alert severity="error">{this.state.errEditionMessage}</Alert> : null}
                 {/* {this.state.mediaMessage !== "" ? <Alert severity="info">{this.state.mediaMessage}</Alert> : null}
                 {this.state.errMediaMessage !== "" ? <Alert severity="error">{this.state.errMediaMessage}</Alert> : null} */}
                 {this.state.editionResultsFound ? <Edition userID={this.props.userID} isAdmin={this.props.isAdmin} sessionToken={this.props.sessionToken} titleID={this.props.titleID} titlePublicationDate={this.state.titlePublicationDate} editionList={this.state.editionList} /*mediaName={this.state.mediaName}*/ editionUpdated={this.editionUpdated} /> : null}
-                </Grid>
-                <Grid item xs={10}>
+                </Col>
+            </Row>
+
+            <Row>
+            <Col xs="12">
                 {this.state.userReviewMessage !== "" ? <Alert severity="info">{this.state.userReviewMessage}</Alert> : null}
                 {this.state.errUserReviewMessage !== "" ? <Alert severity="error">{this.state.errUserReviewMessage}</Alert> : null}
                 {this.state.userReviewResultsFound && this.state.userReviewResultsHaveReviews ? <UserReview userID={this.props.userID} isAdmin={this.props.isAdmin} sessionToken={this.props.sessionToken} titleID={this.props.titleID} userReviewUpdated={this.userReviewUpdated} userReviewList={this.state.userReviewList} /> : null}
-                </Grid>
-                <Grid item xs={10}>
+                </Col>
+            </Row>
+
+            <Row>
+            <Col xs="12">
                 {this.props.sessionToken !== "" && this.props.sessionToken !== null && this.state.userReviewedTitle === false ? <AddUserReview userID={this.props.userID} isAdmin={this.props.isAdmin} sessionToken={this.props.sessionToken} titleID={this.props.titleID} userReviewUpdated={this.userReviewUpdated} displayButton={true} /> : null}
-                </Grid>
-            </Grid>
+                </Col>
+            </Row>
+        </Container>
         );
     };
 

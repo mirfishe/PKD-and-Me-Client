@@ -1,21 +1,5 @@
 import React, {FunctionComponent} from "react";
-
-import {Grid, Typography, Link, GridList, GridListTile, GridListTileBar, ListSubheader} from "@material-ui/core";
-// import BrokenImageIcon from "@material-ui/icons/BrokenImage";
-// import BrokenImageOutlinedIcon from "@material-ui/icons/BrokenImageOutlined";
-// import ImageIcon from "@material-ui/icons/Image";
-import ImageOutlinedIcon from "@material-ui/icons/ImageOutlined";
-// import ImageSearchOutlinedIcon from "@material-ui/icons/ImageSearchOutlined";
-// import ImageSearchRoundedIcon from "@material-ui/icons/ImageSearchRounded";
-// import ImageSearchSharpIcon from "@material-ui/icons/ImageSearchSharp";
-// import BookIcon from "@material-ui/icons/Book";
-// import AudiotrackIcon from "@material-ui/icons/Audiotrack";
-// import MovieIcon from "@material-ui/icons/Movie";
-// import LocalMoviesIcon from "@material-ui/icons/LocalMovies";
-// import TvIcon from "@material-ui/icons/Tv";
-// import MusicNoteIcon from "@material-ui/icons/MusicNote";
-// import VideogameAssetIcon from "@material-ui/icons/VideogameAsset";
-
+import {Container, Col, Row, Card, CardBody, CardText, CardHeader} from "reactstrap";
 import {IEdition} from "../../Helpers/interfaces";
 import EditEdition from "./EditEdition";
 import AddEdition from "./AddEdition";
@@ -48,20 +32,22 @@ const Edition: FunctionComponent <(IProps)> = props => {
     // console.log("Edition.tsx props.titlePublicationDate", props.titlePublicationDate);
 
     return(
-        <Grid container spacing={2}>
-            <Grid item xs={12}>
-            <Typography variant="h5" align="center" gutterBottom>Purchase Editions
+        <Container>
+            <Row>
+            <Col xs="12">
+            <h5 className="text-center">Purchase Editions
             {props.isAdmin === true ? <AddEdition userID={props.userID} isAdmin={props.isAdmin} sessionToken={props.sessionToken} titleID={props.titleID} titlePublicationDate={props.titlePublicationDate} editionUpdated={props.editionUpdated} displayIcon={true} /> : null}
-            </Typography>
-            </Grid>
-            <Grid item xs={12}>
-            <GridList cols={5}>
+            </h5>
+            </Col>
+            </Row>
+            {/* <Row>
+            <GridList cols={5}> */}
             {/* <GridListTile key="subheader" cols={6} style={{height: "auto"}}>
                 <ListSubheader>Purchase Editions</ListSubheader>
             </GridListTile> */}
-            {props.editionList.map((edition: IEdition) => {
+            {/* {props.editionList.map((edition: IEdition) => {
             return (
-                <React.Fragment>
+                <React.Fragment> */}
 
                     {/* {edition.textLinkShort !== null && edition.textLinkShort !== "" ? 
                     <GridListTile key={edition.editionID} style={{margin: "20px"}}>
@@ -75,7 +61,7 @@ const Edition: FunctionComponent <(IProps)> = props => {
                     {/* </GridListTile>
                     : null} */}
 
-                    {edition.imageLinkLarge !== null && edition.imageLinkLarge !== "" ? 
+                    {/* {edition.imageLinkLarge !== null && edition.imageLinkLarge !== "" ? 
                     <GridListTile key={edition.editionID} style={{margin: "20px"}}>
 
                     <div dangerouslySetInnerHTML={{"__html": edition.imageLinkLarge}} />
@@ -88,9 +74,33 @@ const Edition: FunctionComponent <(IProps)> = props => {
                 )
             })}
             </GridList>
-            </Grid>
+            </Row> */}
 
-        </Grid>
+            <Row>
+            {props.editionList.map((edition: IEdition) => {
+            return (
+                <React.Fragment>
+
+                    {edition.imageLinkLarge !== null && edition.imageLinkLarge !== "" ? 
+                    <Card key={edition.editionID}>
+                    <CardHeader>
+                    {edition.mediaName}
+                    {props.isAdmin === true ? <EditEdition userID={props.userID} isAdmin={props.isAdmin} sessionToken={props.sessionToken} titleID={props.titleID} titlePublicationDate={props.titlePublicationDate} editionID={edition.editionID} editionUpdated={props.editionUpdated} displayIcon={true} /> : null}
+                    </CardHeader>
+                    <CardBody>
+                    <div dangerouslySetInnerHTML={{"__html": edition.imageLinkLarge}} />
+
+                    {edition.publicationDate !== null ? <CardText>{edition.publicationDate.toString().substring(0, 10)}</CardText> : null}
+                    </CardBody>
+                    </Card>
+                    : null}
+
+                </React.Fragment>
+                )
+            })}
+            </Row>
+
+        </Container>
     );
 
 };
