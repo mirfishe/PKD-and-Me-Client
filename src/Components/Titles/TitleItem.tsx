@@ -70,7 +70,7 @@ const TitleItem: FunctionComponent <(IProps)> = props => {
                 <CardBody>
                 <a href="#" onClick={(event) => {event.preventDefault(); /*console.log(event.target.value);*/ props.setTitleID(title.titleID)}}>
                 {title.imageName !== null && title.imageName !== "" ? <CardImg src={title.imageName} alt={title.titleName}
-                style={{marginLeft: "auto", marginRight: "auto"}} /> : <Image size="150" />}
+                className="coverImage" /> : <Image size="150" className="noImageIcon" />}
                 </a>
                 <p>{title.authorFirstName} {title.authorLastName}</p>
                 </CardBody>

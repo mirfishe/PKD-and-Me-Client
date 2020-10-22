@@ -177,12 +177,12 @@ class AddCategory extends Component<IProps, IState> {
         return(
             <React.Fragment>
                             
-            {this.props.displayButton === true ? <Button size="small" color="primary" onClick={this.toggle}>Add Category</Button> : null}
+            {this.props.displayButton === true ?  <Button outline size="sm" color="info" onClick={this.toggle}>Add Category</Button> : null}
 
             {this.props.displayIcon === true ? <Plus className="addEditIcon" onClick={this.toggle} /> : null}
 
-            <Modal isOpen={this.state.modal} toggle={this.toggle}>
-                <ModalHeader>Add Category</ModalHeader>
+            <Modal isOpen={this.state.modal} toggle={this.toggle} size="md">
+                <ModalHeader toggle={this.toggle}>Add Category</ModalHeader>
                 <ModalBody>
                 <Form>
                 <FormGroup>
@@ -198,8 +198,8 @@ class AddCategory extends Component<IProps, IState> {
                 </FormGroup>
 
                 <ModalFooter>
-                    <Button size="large" color="primary" onClick={this.addCategory}>Add Category</Button>
-                    <Button size="large" color="primary" onClick={this.toggle}>Cancel</Button>
+                     <Button outline size="lg" color="primary" onClick={this.addCategory}>Add Category</Button>
+                     <Button outline size="lg" color="secondary" onClick={this.toggle}>Cancel</Button>
                 </ModalFooter>
                 </Form>
             </ModalBody>

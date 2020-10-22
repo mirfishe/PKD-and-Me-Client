@@ -614,12 +614,12 @@ class EditEdition extends Component<IProps, IState> {
         return(
             <React.Fragment>
                 
-            {this.props.displayButton === true ? <Button variant="contained" size="small" color="primary" onClick={this.toggle}>Edit Edition</Button> : null}
+            {this.props.displayButton === true ?  <Button outline size="sm" color="info" onClick={this.toggle}>Edit Edition</Button> : null}
 
             {this.props.displayIcon === true ? <PencilSquare className="addEditIcon" onClick={this.toggle} /> : null}
 
-            <Modal isOpen={this.state.modal}>
-                <ModalHeader>Edit Edition</ModalHeader>
+            <Modal isOpen={this.state.modal} toggle={this.toggle} size="lg">
+                <ModalHeader toggle={this.toggle}>Edit Edition</ModalHeader>
                 <ModalBody>
                 <Form>
                 <FormGroup>
@@ -659,7 +659,7 @@ class EditEdition extends Component<IProps, IState> {
     
                 <Label for="txtImageName">Image Name</Label>
                 <Input type="text" id="txtImageName" value={this.state.txtImageName} onChange={(event) => {/*console.log(event.target.value);*/ this.setState({txtImageName: event.target.value});}} />
-                {this.state.txtImageName !== null && this.state.txtImageName !== undefined && this.state.txtImageName !== "" ? <img src={this.state.txtImageName} alt="" /> : <Image size="150" />}
+                {this.state.txtImageName !== null && this.state.txtImageName !== undefined && this.state.txtImageName !== "" ? <img src={this.state.txtImageName} alt="" /> : <Image size="150" className="noImageIcon"/>}
     
                 </FormGroup>
                 <FormGroup>
@@ -706,10 +706,10 @@ class EditEdition extends Component<IProps, IState> {
                 </FormGroup>
 
                 <ModalFooter>
-                <Button variant="outlined" size="large" color="primary" onClick={(event) => {/*console.log(event.target.value);*/ this.updateEdition(false);}}>Update Edition</Button>
-                <Button variant="outlined" size="large" color="secondary" onClick={(event) => {/*console.log(event.target.value);*/ this.updateEdition(true);}}>Delete Edition</Button>
-                {this.props.isAdmin === true ? <Button variant="outlined" size="large" color="secondary" onClick={(event) => {/*console.log(event.target.value);*/ this.deleteEdition();}}>Hard Delete Edition</Button> : null}
-                <Button variant="outlined" size="large" color="primary" onClick={this.toggle}>Cancel</Button>
+                 <Button outline size="lg" color="primary" onClick={(event) => {/*console.log(event.target.value);*/ this.updateEdition(false);}}>Update Edition</Button>
+                 <Button outline size="lg" color="danger" onClick={(event) => {/*console.log(event.target.value);*/ this.updateEdition(true);}}>Delete Edition</Button>
+                {this.props.isAdmin === true ?  <Button outline size="lg" color="warning" onClick={(event) => {/*console.log(event.target.value);*/ this.deleteEdition();}}>Hard Delete Edition</Button> : null}
+                 <Button outline size="lg" color="secondary" onClick={this.toggle}>Cancel</Button>
                 </ModalFooter>
                 </Form>
             </ModalBody>

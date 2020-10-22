@@ -230,7 +230,7 @@ class App extends Component<{}, IState> {
             </NavItem> */}
 
           <NavbarBrand>
-          <Link to="/home" onClick={() => this.goToHome()}><HouseFill /></Link>
+          <Link to="/home" onClick={() => this.goToHome()}><HouseFill color="black" /></Link>
           </NavbarBrand>
 
           {this.state.isAdmin === true ? <NavItem><Link to="/admin">Admin</Link></NavItem> : null}
@@ -246,7 +246,7 @@ class App extends Component<{}, IState> {
 
           {/* {this.state.sessionToken !== "" && this.state.sessionToken !== null ? <NavItem><a href="#" onClick={() => this.logOut()}>Log Out</a></Grid> : null} */}
 
-          {this.state.sessionToken !== "" && this.state.sessionToken !== null ? <NavItem><Button variant="text" color="primary" onClick={() => this.logOut()}>Log Out</Button></NavItem> : null}
+          {this.state.sessionToken !== "" && this.state.sessionToken !== null ? <NavItem><Button outline size="sm" color="info" onClick={() => this.logOut()}>Log Out</Button></NavItem> : null}
 
           {this.state.sessionToken !== "" && this.state.sessionToken !== null && this.state.categoryID !== undefined && this.state.categoryID !== null ?
           <NavItem><Checklist userID={this.state.userID} isAdmin={this.state.isAdmin} sessionToken={this.state.sessionToken} titleID={this.state.titleID} setTitleID={this.setTitleID} categoryID={this.state.categoryID} setCategoryID={this.setCategoryID} titleSort={this.state.titleSort} setTitleSort={this.setTitleSort} titleUpdated={this.state.titleUpdated} /></NavItem>
@@ -262,6 +262,7 @@ class App extends Component<{}, IState> {
 
       <Container>
       <Row>
+      <Col xs="12">
       <Switch>
           <Route exact path="/" render={() => <Home userID={this.state.userID} isAdmin={this.state.isAdmin} sessionToken={this.state.sessionToken} titleID={this.state.titleID} setTitleID={this.setTitleID} categoryID={this.state.categoryID} setCategoryID={this.setCategoryID} titleSort={this.state.titleSort} setTitleSort={this.setTitleSort} titleUpdated={this.state.titleUpdated} setTitleUpdated={this.setTitleUpdated} />}/>
           <Route exact path="/home" render={() => <Home userID={this.state.userID} isAdmin={this.state.isAdmin} sessionToken={this.state.sessionToken} titleID={this.state.titleID} setTitleID={this.setTitleID} categoryID={this.state.categoryID} setCategoryID={this.setCategoryID} titleSort={this.state.titleSort} setTitleSort={this.setTitleSort} titleUpdated={this.state.titleUpdated} setTitleUpdated={this.setTitleUpdated} />}/>
@@ -270,6 +271,7 @@ class App extends Component<{}, IState> {
           <Route exact path="/updateuser" render={() => <UpdateUser userID={this.state.userID} isAdmin={this.state.isAdmin} sessionToken={this.state.sessionToken} setUserID={this.setUserID} setIsAdmin={this.setIsAdmin} setSessionToken={this.setSessionToken} />} />
           <Route exact path="/admin" render={() => <Admin userID={this.state.userID} isAdmin={this.state.isAdmin} sessionToken={this.state.sessionToken} />}/>
       </Switch>
+      </Col>
       </Row>
       </Container>
 

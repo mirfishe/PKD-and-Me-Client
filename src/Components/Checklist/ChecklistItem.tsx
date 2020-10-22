@@ -1,6 +1,5 @@
 import React, {FunctionComponent} from "react";
-import {Checkbox} from "@material-ui/core";
-import {ListGroup, ListGroupItem} from "reactstrap";
+import {ListGroup, ListGroupItem, Input} from "reactstrap";
 import {ITitle} from "../../Helpers/interfaces";
 
 interface IProps {
@@ -17,25 +16,25 @@ const ChecklistItem: FunctionComponent <(IProps)> = props => {
     // console.log("ChecklistItem.tsx props.checklistList", props.checklistList);
 
     return(
-        <ListGroup>
+        <ListGroup flush>
             {props.categoryName !== null && props.categoryName !== "" ? 
             <ListGroupItem> 
             <h6 className="text-center">{props.categoryName}
             {/* Fetch runs very slow 
-            <Typography variant="caption" gutterBottom> Sort By
-            {props.titleSort !== "publicationDate" ? 
-            <Typography variant="caption" gutterBottom> <Link href="#" onClick={() => props.setTitleSort("publicationDate")}>Publication Date</Link></Typography>
-            : null}
-            {props.titleSort !== null ? 
-            <Typography variant="caption" gutterBottom> <Link href="#" onClick={() => props.setTitleSort(null)}>Title</Link></Typography>
-            : null}
-            </Typography> */}
+            <p className="ml-2"> <small>Sort By
+                {props.titleSort !== "publicationDate" ? 
+                <a href="#" onClick={(event) => {event.preventDefault(); props.setTitleSort("publicationDate")}}>Publication Date</a>
+                : null}
+                {props.titleSort !== null ? 
+                <a href="#" onClick={(event) => {event.preventDefault(); props.setTitleSort(null)}}>Title</a>
+                : null}
+            </small></p> */}
             </h6>
             </ListGroupItem>
             : null}
         {props.checklistList.map((title: ITitle) => {
         return (
-            <ListGroupItem key={title.titleID}><Checkbox id={"cbxRead" + title.titleID} checked={title.read} value={title.read} color="primary" onChange={(event) => {/*console.log(event.target.value);*/ props.updateChecklist(title.titleID, !title.read, title.reviewID)}} /> <a href="#" onClick={(event) => {event.preventDefault(); /*console.log(event.target.value);*/ props.setTitleID(title.titleID)}}><p>{title.titleName}</p></a>
+            <ListGroupItem key={title.titleID}><Input type="checkbox" id={"cbxRead" + title.titleID} checked={title.read} /*value={title.read}*/ onChange={(event) => {/*console.log(event.target.value);*/ props.updateChecklist(title.titleID, !title.read, title.reviewID)}} /> <a href="#" onClick={(event) => {event.preventDefault(); /*console.log(event.target.value);*/ props.setTitleID(title.titleID)}}><p>{title.titleName}</p></a>
             {title.publicationDate !== null ? <small style={{marginLeft: "5px"}}> ({title.publicationDate.toString().substring(0, 4)})</small> : null}
             </ListGroupItem>
             )

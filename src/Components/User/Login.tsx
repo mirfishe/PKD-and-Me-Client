@@ -1,7 +1,6 @@
 import React, {Component} from "react";
 import {Redirect} from "react-router-dom";
 import {Modal, ModalHeader, ModalBody, ModalFooter, Form, FormGroup, Label, Input, Alert, Button} from "reactstrap";
-import {Plus} from 'react-bootstrap-icons';
 import {baseURL, emailRegExp} from "../../Helpers/constants";
 // import {emailFormat} from "../../Helpers/constants";
 
@@ -227,9 +226,9 @@ class Login extends Component<IProps, IState> {
 
         return(
             <React.Fragment>
-            <Button variant="text" color="primary" onClick={this.toggle}>Login</Button>
-            <Modal isOpen={this.state.modal}>
-                <ModalHeader>Login</ModalHeader>
+             <Button outline size="sm" color="info" onClick={this.toggle}>Login</Button>
+            <Modal isOpen={this.state.modal} toggle={this.toggle} size="md">
+                <ModalHeader toggle={this.toggle}>Login</ModalHeader>
                 <ModalBody>
                 <Form>
                 <FormGroup>
@@ -252,8 +251,8 @@ class Login extends Component<IProps, IState> {
                 </FormGroup>
 
                 <ModalFooter>
-                <Button size="large" color="primary" onClick={this.logIn}>Log In</Button>
-                <Button size="large" color="primary" onClick={this.toggle}>Cancel</Button>
+                 <Button outline size="lg" color="primary" onClick={this.logIn}>Log In</Button>
+                 <Button outline size="lg" color="secondary" onClick={this.toggle}>Cancel</Button>
                 </ModalFooter>
                 </Form>
             </ModalBody>

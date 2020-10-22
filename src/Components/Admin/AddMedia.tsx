@@ -177,8 +177,8 @@ class AddMedia extends Component<IProps, IState> {
 
                 <FormGroup>
 
-                <Button size="large" color="primary" onClick={this.addMedia}>Add Media</Button>
-                {/* <Button size="large" color="primary" onClick={this.handleClose}>Cancel</Button> */}
+                <Button size="lg" color="primary" onClick={this.addMedia}>Add Media</Button>
+                {/* <Button size="lg" color="primary" onClick={this.handleClose}>Cancel</Button> */}
 
                 </FormGroup>
 

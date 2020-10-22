@@ -541,12 +541,12 @@ class EditTitle extends Component<IProps, IState> {
         return(
             <React.Fragment>
 
-            {this.props.displayButton === true ? <Button variant="contained" size="small" color="primary" onClick={this.toggle}>Edit Title</Button> : null}
+            {this.props.displayButton === true ?  <Button outline size="sm" color="info" onClick={this.toggle}>Edit Title</Button> : null}
 
             {this.props.displayIcon === true ? <PencilSquare className="addEditIcon" onClick={this.toggle} /> : null}
 
-            <Modal isOpen={this.state.modal}>
-                <ModalHeader>Edit Title</ModalHeader>
+            <Modal isOpen={this.state.modal} toggle={this.toggle} size="lg">
+                <ModalHeader toggle={this.toggle}>Edit Title</ModalHeader>
                 <ModalBody>
                 <Form>
                 <FormGroup>
@@ -606,7 +606,7 @@ class EditTitle extends Component<IProps, IState> {
                     
                 <Label for="txtImageName">Image Name</Label>
                 <Input type="text" id="txtImageName" value={this.state.txtImageName} onChange={(event) => {/*console.log(event.target.value);*/ this.setState({txtImageName: event.target.value});}} />
-                {this.state.txtImageName !== null && this.state.txtImageName !== undefined && this.state.txtImageName !== "" ? <img src={this.state.txtImageName} alt="" /> : <Image size="150" />}
+                {this.state.txtImageName !== null && this.state.txtImageName !== undefined && this.state.txtImageName !== "" ? <img src={this.state.txtImageName} alt="" /> : <Image size="150" className="noImageIcon"/>}
 
                 </FormGroup>
                 <FormGroup>
@@ -624,9 +624,9 @@ class EditTitle extends Component<IProps, IState> {
 
                 <ModalFooter>
 
-                <Button size="large" color="primary" onClick={(event) => {/*console.log(event.target.value);*/ this.updateTitle(false);}}>Update Title</Button>
-                <Button size="large" color="secondary" onClick={(event) => {/*console.log(event.target.value);*/ this.updateTitle(true);}}>Delete Title</Button> {this.props.isAdmin === true ? <Button size="large" color="secondary" onClick={(event) => {/*console.log(event.target.value);*/ this.deleteTitle();}}>Hard Delete Title</Button> : null}
-                <Button size="large" color="primary" onClick={this.toggle}>Cancel</Button>
+                 <Button outline size="lg" color="primary" onClick={(event) => {/*console.log(event.target.value);*/ this.updateTitle(false);}}>Update Title</Button>
+                 <Button outline size="lg" color="danger" onClick={(event) => {/*console.log(event.target.value);*/ this.updateTitle(true);}}>Delete Title</Button> {this.props.isAdmin === true ?  <Button outline size="lg" color="warning" onClick={(event) => {/*console.log(event.target.value);*/ this.deleteTitle();}}>Hard Delete Title</Button> : null}
+                 <Button outline size="lg" color="secondary" onClick={this.toggle}>Cancel</Button>
                 </ModalFooter>
                 </Form>
             </ModalBody>

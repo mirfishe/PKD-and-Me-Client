@@ -398,12 +398,12 @@ class UpdateUserReview extends Component<IProps, IState> {
         return(
             <React.Fragment>
                 
-            {this.props.displayButton === true ? <Button variant="contained" size="small" color="primary" onClick={this.toggle}>Update Review</Button> : null}
+            {this.props.displayButton === true ? <Button outline size="sm" color="info" onClick={this.toggle}>Update Review</Button> : null}
 
             {this.props.displayIcon === true ? <PencilSquare className="addEditIcon" onClick={this.toggle} /> : null}
 
-            <Modal isOpen={this.state.modal}>
-                <ModalHeader>Update Review</ModalHeader>
+            <Modal isOpen={this.state.modal} toggle={this.toggle} size="lg">
+                <ModalHeader toggle={this.toggle}>Update Review</ModalHeader>
                 <ModalBody>
                 <Form>
                 <FormGroup>
@@ -451,22 +451,22 @@ class UpdateUserReview extends Component<IProps, IState> {
                 </FormGroup>
                 <FormGroup>
     
-                <Label for="txtShortReview">Short Review"</Label>
+                <Label for="txtShortReview">Short Review</Label>
                 <Input type="text" id="txtShortReview" value={this.state.txtShortReview} onChange={(event) => {/*console.log(event.target.value);*/ this.setState({txtShortReview: event.target.value});}} />
 
                 </FormGroup>
                 <FormGroup>
     
-                <Label for="txtLongReview">Long Review"</Label>
+                <Label for="txtLongReview">Long Review</Label>
                 <Input type="textarea" id="txtLongReview" rows={10} value={this.state.txtLongReview} onChange={(event) => {/*console.log(event.target.value);*/ this.setState({txtLongReview: event.target.value});}} />
 
                 </FormGroup>
 
                     <ModalFooter>
-                    <Button size="large" color="primary" onClick={(event) => {/*console.log(event.target.value);*/ this.updateUserReview(false);}}>Update Review</Button>
-                    <Button size="large" color="secondary" onClick={(event) => {/*console.log(event.target.value);*/ this.updateUserReview(true);}}>Delete Review</Button>
-                    {this.props.isAdmin === true ? <Button size="large" color="secondary" onClick={(event) => {/*console.log(event.target.value);*/ this.deleteUserReview();}}>Hard Delete Review</Button> : null}
-                    <Button size="large" color="primary" onClick={this.toggle}>Cancel</Button>
+                    <Button outline size="lg" color="primary" onClick={(event) => {/*console.log(event.target.value);*/ this.updateUserReview(false);}}>Update Review</Button>
+                    <Button outline size="lg" color="danger" onClick={(event) => {/*console.log(event.target.value);*/ this.updateUserReview(true);}}>Delete Review</Button>
+                    {this.props.isAdmin === true ?    <Button outline size="lg" color="warning" onClick={(event) => {/*console.log(event.target.value);*/ this.deleteUserReview();}}>Hard Delete Review</Button> : null}
+                    <Button outline size="lg" color="secondary" onClick={this.toggle}>Cancel</Button>
                     </ModalFooter>
                 </Form>
             </ModalBody>

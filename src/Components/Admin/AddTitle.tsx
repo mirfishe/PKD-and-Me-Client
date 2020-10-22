@@ -385,7 +385,7 @@ class AddTitle extends Component<IProps, IState> {
                     
                 <Label for="txtImageName">Image Name</Label>
                 <Input type="text" id="txtImageName" value={this.state.txtImageName} onChange={(event) => {/*console.log(event.target.value);*/ this.setState({txtImageName: event.target.value});}} />
-                {this.state.txtImageName !== null && this.state.txtImageName !== undefined && this.state.txtImageName !== "" ? <img src={this.state.txtImageName} alt="" /> : <Image size="150" />}
+                {this.state.txtImageName !== null && this.state.txtImageName !== undefined && this.state.txtImageName !== "" ? <img src={this.state.txtImageName} alt="" /> : <Image size="150" className="noImageIcon"/>}
 
                 </FormGroup>
                 <FormGroup>
@@ -402,8 +402,8 @@ class AddTitle extends Component<IProps, IState> {
                 </FormGroup>
                 <FormGroup>
     
-                <Button size="large" color="primary" onClick={this.addTitle}>Add Title</Button>
-                {/* <Button size="large" color="primary" onClick={this.handleClose}>Cancel</Button> */}
+                <Button size="lg" color="primary" onClick={this.addTitle}>Add Title</Button>
+                {/* <Button size="lg" color="primary" onClick={this.handleClose}>Cancel</Button> */}
 
                 </FormGroup>
 

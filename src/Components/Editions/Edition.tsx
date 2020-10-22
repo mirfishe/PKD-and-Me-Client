@@ -88,7 +88,7 @@ const Edition: FunctionComponent <(IProps)> = props => {
                     {props.isAdmin === true ? <EditEdition userID={props.userID} isAdmin={props.isAdmin} sessionToken={props.sessionToken} titleID={props.titleID} titlePublicationDate={props.titlePublicationDate} editionID={edition.editionID} editionUpdated={props.editionUpdated} displayIcon={true} /> : null}
                     </CardHeader>
                     <CardBody>
-                    <div dangerouslySetInnerHTML={{"__html": edition.imageLinkLarge}} />
+                    <div dangerouslySetInnerHTML={{"__html": edition.imageLinkLarge}} className="coverImage" />
 
                     {edition.publicationDate !== null ? <CardText>{edition.publicationDate.toString().substring(0, 10)}</CardText> : null}
                     </CardBody>

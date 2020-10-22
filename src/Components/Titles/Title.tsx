@@ -423,7 +423,7 @@ class Title extends Component<IProps, IState> {
 
             <Row>
             <Col xs="12">
-                <Button size="small" onClick={() => {this.props.setTitleID(null); this.props.getTitles(this.state.categoryID)}}>Back To Search Results</Button> 
+                <Button outline size="sm" onClick={() => {this.props.setTitleID(null); this.props.getTitles(this.state.categoryID)}}>Back To Search Results</Button> 
             </Col>
             </Row>
 

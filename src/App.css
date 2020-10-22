@@ -36,7 +36,16 @@ body {
     
 }
 
-.addEditIcon{
+.addEditIcon {
     color: black;
     margin-left: 5px;
+}
+
+.noImageIcon {
+    color: black;
+}
+
+.coverImage {
+    margin-left: auto;
+    margin-right: auto;
 }

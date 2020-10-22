@@ -86,7 +86,7 @@ const TitleDisplay: FunctionComponent <(IProps)> = props => {
             <Container>
             <Row>
             <Col xs="4">
-                    {props.titleData.imageName !== null && props.titleData.imageName !== "" ? <img src={props.titleData.imageName} alt={props.titleData.titleName} /> : <Image size="150" />}
+                    {props.titleData.imageName !== null && props.titleData.imageName !== "" ? <img src={props.titleData.imageName} alt={props.titleData.titleName} /> : <Image size="150" className="noImageIcon"/>}
             </Col>
 
                 <Col xs="8">

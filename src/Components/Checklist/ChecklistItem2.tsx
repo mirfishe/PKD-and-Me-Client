@@ -25,14 +25,14 @@ const ChecklistItem2: FunctionComponent <(IProps)> = props => {
             <GridListTile key="subheader" cols={1} style={{height: "auto"}}>
             <ListSubheader><Typography variant="h6" align="center" gutterBottom>{props.categoryName}
             {/* Fetch runs very slow 
-            <Typography variant="caption" gutterBottom> Sort By
-            {props.titleSort !== "publicationDate" ? 
-            <Typography variant="caption" gutterBottom> <Link href="#" onClick={() => props.setTitleSort("publicationDate")}>Publication Date</Link></Typography>
-            : null}
-            {props.titleSort !== null ? 
-            <Typography variant="caption" gutterBottom> <Link href="#" onClick={() => props.setTitleSort(null)}>Title</Link></Typography>
-            : null}
-            </Typography> */}
+            <p className="ml-2"> <small>Sort By
+                {props.titleSort !== "publicationDate" ? 
+                <a href="#" onClick={(event) => {event.preventDefault(); props.setTitleSort("publicationDate")}}>Publication Date</a>
+                : null}
+                {props.titleSort !== null ? 
+                <a href="#" onClick={(event) => {event.preventDefault(); props.setTitleSort(null)}}>Title</a>
+                : null}
+            </small></p> */}
             </Typography></ListSubheader>
             </GridListTile>
             : null}

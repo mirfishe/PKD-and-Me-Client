@@ -1,7 +1,6 @@
 import React, {Component} from "react";
 import {Redirect} from "react-router-dom";
 import {Modal, ModalHeader, ModalBody, ModalFooter, Form, FormGroup, Label, Input, Alert, Button} from "reactstrap";
-import {Plus} from 'react-bootstrap-icons';
 import {baseURL, emailRegExp} from "../../Helpers/constants";
 // import {emailFormat} from "../../Helpers/constants";
 
@@ -271,9 +270,9 @@ class Register extends Component<IProps, IState> {
 
         return(
             <React.Fragment>
-            <Button variant="text" color="primary" onClick={this.toggle}>Register</Button>
-            <Modal isOpen={this.state.modal}>
-                <ModalHeader>Register</ModalHeader>
+             <Button outline size="sm" color="info" onClick={this.toggle}>Register</Button>
+            <Modal isOpen={this.state.modal} toggle={this.toggle} size="lg">
+                <ModalHeader toggle={this.toggle}>Register</ModalHeader>
                 <ModalBody>
                 <Form>
                 <FormGroup>
@@ -310,8 +309,8 @@ class Register extends Component<IProps, IState> {
                 </FormGroup>
 
                 <ModalFooter>
-                    <Button size="large" color="primary" onClick={this.register}>Register</Button>
-                    <Button size="large" color="primary" onClick={this.toggle}>Cancel</Button>
+                     <Button outline size="lg" color="primary" onClick={this.register}>Register</Button>
+                     <Button outline size="lg" color="danger" onClick={this.toggle}>Cancel</Button>
                     </ModalFooter>
                 </Form>
             </ModalBody>

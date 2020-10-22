@@ -1,7 +1,6 @@
 import React, {Component} from "react";
 import {Redirect} from "react-router-dom";
 import {Modal, ModalHeader, ModalBody, ModalFooter, Form, FormGroup, Label, Input, Alert, Button} from "reactstrap";
-import {Plus} from 'react-bootstrap-icons';
 import {baseURL, emailRegExp} from "../../Helpers/constants";
 // import {emailFormat} from "../../Helpers/constants";
 
@@ -380,9 +379,9 @@ class UpdateUser extends Component<IProps, IState> {
 
         return(
             <React.Fragment>
-            <Button variant="text" color="primary" onClick={this.toggle}>Profile</Button>
-            <Modal isOpen={this.state.modal}>
-                <ModalHeader>Update Profile</ModalHeader>
+             <Button outline size="sm" color="info" onClick={this.toggle}>Profile</Button>
+            <Modal isOpen={this.state.modal} toggle={this.toggle} size="lg">
+                <ModalHeader toggle={this.toggle}>Update Profile</ModalHeader>
                 <ModalBody>
                 <Form>
                 <FormGroup>
@@ -419,9 +418,9 @@ class UpdateUser extends Component<IProps, IState> {
                 </FormGroup>
 
                 <ModalFooter>
-                    <Button size="large" color="primary" onClick={(event) => {/*console.log(event.target.value);*/ this.updateUser(false);}}>Update</Button>
-                    <Button size="large" color="secondary" onClick={(event) => {/*console.log(event.target.value);*/ this.updateUser(true);}}>Delete</Button>
-                    <Button size="large" color="primary" onClick={this.toggle}>Cancel</Button>
+                     <Button outline size="lg" color="primary" onClick={(event) => {/*console.log(event.target.value);*/ this.updateUser(false);}}>Update</Button>
+                     <Button outline size="lg" color="danger" onClick={(event) => {/*console.log(event.target.value);*/ this.updateUser(true);}}>Delete</Button>
+                     <Button outline size="lg" color="secondary" onClick={this.toggle}>Cancel</Button>
                     </ModalFooter>
                 </Form>
             </ModalBody>

@@ -434,12 +434,12 @@ class AddEdition extends Component<IProps, IState> {
         return(
             <React.Fragment>
                             
-            {this.props.displayButton === true ? <Button variant="contained" size="small" color="primary" onClick={this.toggle}>Add Edition</Button> : null}
+            {this.props.displayButton === true ?  <Button outline size="sm" color="info" onClick={this.toggle}>Add Edition</Button> : null}
 
             {this.props.displayIcon === true ? <Plus className="addEditIcon" onClick={this.toggle} /> : null}
 
-            <Modal isOpen={this.state.modal}>
-                <ModalHeader>Add Edition</ModalHeader>
+            <Modal isOpen={this.state.modal} toggle={this.toggle} size="lg">
+                <ModalHeader toggle={this.toggle}>Add Edition</ModalHeader>
                 <ModalBody>
                 <Form>
                 <FormGroup>
@@ -477,7 +477,7 @@ class AddEdition extends Component<IProps, IState> {
     
                 <Label for="txtImageName">Image Name</Label>
                 <Input type="text" id="txtImageName" value={this.state.txtImageName} onChange={(event) => {/*console.log(event.target.value);*/ this.setState({txtImageName: event.target.value});}} />
-                {this.state.txtImageName !== null && this.state.txtImageName !== undefined && this.state.txtImageName !== "" ? <img src={this.state.txtImageName} alt="" /> : <Image size="150" />}
+                {this.state.txtImageName !== null && this.state.txtImageName !== undefined && this.state.txtImageName !== "" ? <img src={this.state.txtImageName} alt="" /> : <Image size="150" className="noImageIcon"/>}
     
                 </FormGroup>
                 <FormGroup>
@@ -524,8 +524,8 @@ class AddEdition extends Component<IProps, IState> {
                 </FormGroup>
 
                 <ModalFooter>
-                    <Button variant="outlined" size="large" color="primary" onClick={this.addEdition}>Add Edition</Button>
-                    <Button variant="outlined" size="large" color="primary" onClick={this.toggle}>Cancel</Button>
+                     <Button outline size="lg" color="primary" onClick={this.addEdition}>Add Edition</Button>
+                     <Button outline size="lg" color="secondary" onClick={this.toggle}>Cancel</Button>
                     </ModalFooter>
                 </Form>
             </ModalBody>

@@ -329,7 +329,7 @@ class Checklist extends Component<IProps, IState> {
 
             <Row>
             <Col xs="2">
-                <Button color="primary" onClick={this.handleOpen}>Checklist</Button>
+                <Button size="sm" color="primary" onClick={this.handleOpen}>Checklist</Button>
                 <Drawer anchor="right" open={this.state.drawerOpen} onClose={this.handleClose}>
                 {this.state.checklistMessage !== "" ? <Alert severity="info">{this.state.checklistMessage}</Alert> : null}
                 {this.state.errChecklistMessage !== "" ? <Alert severity="error">{this.state.errChecklistMessage}</Alert> : null}
