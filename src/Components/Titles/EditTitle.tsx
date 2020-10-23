@@ -546,7 +546,7 @@ class EditTitle extends Component<IProps, IState> {
             {this.props.displayIcon === true ? <PencilSquare className="addEditIcon" onClick={this.toggle} /> : null}
 
             <Modal isOpen={this.state.modal} toggle={this.toggle} size="lg">
-                <ModalHeader toggle={this.toggle}>Edit Title</ModalHeader>
+                <ModalHeader toggle={this.toggle}>Edit Title - {this.state.txtTitleName}</ModalHeader>
                 <ModalBody>
                 <Form>
                 <FormGroup>
@@ -605,6 +605,8 @@ class EditTitle extends Component<IProps, IState> {
                 <FormGroup>
                     
                 <Label for="txtImageName">Image Name</Label>
+                <Button outline size="small" color="secondary" onClick={() => {this.setState({txtImageName: "https://philipdick.com/images/covers/" + this.state.txtImageName});}}>Add Path</Button> https://philipdick.com/images/covers/
+                <Button outline size="small" color="secondary" onClick={() => {this.setState({txtImageName: this.state.txtImageName + ".jpg"});}}>Add File Extension</Button> .jpg
                 <Input type="text" id="txtImageName" value={this.state.txtImageName} onChange={(event) => {/*console.log(event.target.value);*/ this.setState({txtImageName: event.target.value});}} />
                 {this.state.txtImageName !== null && this.state.txtImageName !== undefined && this.state.txtImageName !== "" ? <img src={this.state.txtImageName} alt="" /> : <Image size="150" className="noImageIcon"/>}
 

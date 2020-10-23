@@ -49,7 +49,10 @@ interface IState {
     imageLinkMedium: string | null,
     imageLinkLarge: string | null,
     textImageLink: string | null,
-    active: boolean | null
+    active: boolean | null,
+    ASINMessage: string,
+    errASINMessage: string,
+    ASINResultsFound: boolean | null
 };
 
 class AddEdition extends Component<IProps, IState> {
@@ -93,7 +96,10 @@ class AddEdition extends Component<IProps, IState> {
             imageLinkMedium: null,
             imageLinkLarge: null,
             textImageLink: null,
-            active: null
+            active: null,
+            ASINMessage: "",
+            errASINMessage: "",
+            ASINResultsFound: null
         };
 
     };
@@ -399,10 +405,74 @@ class AddEdition extends Component<IProps, IState> {
 
     };
 
+    checkASIN = (ASIN: string | undefined) => {
+        // console.log("AddEdition.tsx checkASIN");
+        // console.log("AddEdition.tsx checkASIN baseURL", baseURL);
+
+        this.setState({ASINMessage: ""});
+        this.setState({errASINMessage: ""});
+        this.setState({ASINResultsFound: null});
+
+        let url: string = baseURL + "edition/ASIN/";
+
+        if (ASIN !== undefined && ASIN !== "") {
+            url = url + ASIN;
+
+            // console.log("AddEdition.tsx checkASIN url", url);
+
+            fetch(url)
+            .then(response => {
+                // console.log("AddEdition.tsx checkASIN response", response);
+                if (!response.ok) {
+                    throw Error(response.status + " " + response.statusText + " " + response.url);
+                } else {
+                    return response.json();
+                };
+            })
+            .then(data => {
+                console.log("AddEdition.tsx checkASIN data", data);
+
+                this.setState({ASINResultsFound: data.resultsFound});
+                this.setState({ASINMessage: data.message});
+
+                if (data.resultsFound === true) {
+                    this.setState({ASINMessage: data.message + "That ASIN already exists in the database. " + data.editions[0].title.titleName + " (" + data.editions[0].medium.media + ") editionID=" + data.editions[0].editionID});
+
+                    // console.log("AddEdition.tsx checkASIN", data.editions[0].title.titleName);
+                    // console.log("AddEdition.tsx checkASIN", data.editions[0].medium.media);
+                    // console.log("AddEdition.tsx checkASIN", data.editions[0].editionID);
+
+                } else {
+                    this.setState({errASINMessage: data.message + "That ASIN does not exist in the database"});
+                };
+
+            })
+            .catch(error => {
+                console.log("AddEdition.tsx checkASIN error", error);
+                // console.log("AddEdition.tsx checkASIN error.name", error.name);
+                // console.log("AddEdition.tsx checkASIN error.message", error.message);
+                this.setState({errASINMessage: error.name + ": " + error.message});
+            });
+
+        };
+
+    };
+
     componentDidMount() {
         this.getTitles();
         this.getMedia();
     };
+
+    // copyTitlePublicationDate = () => {
+    //     // console.log("AddEdition.tsx copyTitlePublicationDate this.props.titlePublicationDate", this.props.titlePublicationDate);
+
+    //     if (this.props.titlePublicationDate !== undefined && this.props.titlePublicationDate !== null) {
+    //         this.setState({txtPublicationDate: this.props.titlePublicationDate.toString().substring(0, 10)});
+    //     } else {
+    //         this.setState({txtPublicationDate: undefined});
+    //     };
+
+    // };
 
     render() {
 
@@ -445,7 +515,8 @@ class AddEdition extends Component<IProps, IState> {
                     
                     <Label for="txtPublicationDate">Publication Date</Label>
                     <Input type="date" id="txtPublicationDate" value={this.state.txtPublicationDate} onChange={(event) => {/*console.log(event.target.value);*/ this.setState({txtPublicationDate: event.target.value});}} />
-
+                    {/* {this.props.titlePublicationDate !== undefined && this.props.titlePublicationDate !== null ? <Button outline size="small" color="secondary" onClick={this.copyTitlePublicationDate}>Copy Title Publication Date</Button> : null} */}
+    
                 </Col>
 
                 </FormGroup>
@@ -458,7 +529,11 @@ class AddEdition extends Component<IProps, IState> {
     
                 </FormGroup>
                 <FormGroup>
-    
+
+                {this.state.txtTextLinkFull !== undefined && this.state.txtTextLinkFull !== "" ? <Alert severity="info">{this.state.txtTextLinkFull.substring(this.state.txtTextLinkFull.indexOf("/dp/") + 4, this.state.txtTextLinkFull.indexOf("/ref="))}</Alert> : null}
+                {this.state.ASINMessage !== "" ? <Alert severity="info">{this.state.ASINMessage}</Alert> : null}
+                {this.state.errASINMessage !== "" ? <Alert severity="error">{this.state.errASINMessage}</Alert> : null}
+                <Button outline size="small" color="secondary" onClick={(event) => {/*console.log(event.target.value);*/ this.checkASIN(this.state.txtASIN);}}>Check for ASIN</Button>
                 <Label for="txtASIN">ASIN</Label>
                 <Input type="text" id="txtASIN" value={this.state.txtASIN} onChange={(event) => {/*console.log(event.target.value);*/ this.setState({txtASIN: event.target.value});}} />
 

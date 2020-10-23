@@ -341,7 +341,7 @@ class AddEdition extends Component<IProps, IState> {
 
     };
 
-    checkASIN = (ASIN: string | null) => {
+    checkASIN = (ASIN: string | undefined) => {
         // console.log("AddEdition.tsx checkASIN");
         // console.log("AddEdition.tsx checkASIN baseURL", baseURL);
 
@@ -351,7 +351,7 @@ class AddEdition extends Component<IProps, IState> {
 
         let url: string = baseURL + "edition/ASIN/";
 
-        if (ASIN !== null && ASIN !== "") {
+        if (ASIN !== undefined && ASIN !== "") {
             url = url + ASIN;
 
             // console.log("AddEdition.tsx checkASIN url", url);
@@ -468,6 +468,7 @@ class AddEdition extends Component<IProps, IState> {
                     
                     <Label for="txtPublicationDate">Publication Date</Label>
                     <Input type="date" id="txtPublicationDate" value={this.state.txtPublicationDate} onChange={(event) => {/*console.log(event.target.value);*/ this.setState({txtPublicationDate: event.target.value});}} />
+                    {this.props.titlePublicationDate !== undefined && this.props.titlePublicationDate !== null ? <Button outline size="small" color="secondary" onClick={this.copyTitlePublicationDate}>Copy Title Publication Date</Button> : null}
 
                 </Col>
 
@@ -481,7 +482,11 @@ class AddEdition extends Component<IProps, IState> {
     
                 </FormGroup>
                 <FormGroup>
-    
+
+                {this.state.txtTextLinkFull !== undefined && this.state.txtTextLinkFull !== "" ? <Alert severity="info">{this.state.txtTextLinkFull.substring(this.state.txtTextLinkFull.indexOf("/dp/") + 4, this.state.txtTextLinkFull.indexOf("/ref="))}</Alert> : null}
+                {this.state.ASINMessage !== "" ? <Alert severity="info">{this.state.ASINMessage}</Alert> : null}
+                {this.state.errASINMessage !== "" ? <Alert severity="error">{this.state.errASINMessage}</Alert> : null}
+                <Button outline size="small" color="secondary" onClick={(event) => {/*console.log(event.target.value);*/ this.checkASIN(this.state.txtASIN);}}>Check for ASIN</Button>
                 <Label for="txtASIN">ASIN</Label>
                 <Input type="text" id="txtASIN" value={this.state.txtASIN} onChange={(event) => {/*console.log(event.target.value);*/ this.setState({txtASIN: event.target.value});}} />
 
