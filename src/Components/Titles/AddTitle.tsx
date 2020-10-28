@@ -9,6 +9,9 @@ interface IProps {
     userID: number | null,
     isAdmin: boolean,
     sessionToken: string | null,
+    // titleUpdated: () => void,
+    titleUpdated: boolean,
+    setTitleUpdated: (titleUpdated: boolean) => void,
     displayIcon?: boolean,
     displayButton?: boolean
 };
@@ -298,8 +301,10 @@ class AddTitle extends Component<IProps, IState> {
                         this.setState({urlPKDweb: data.urlPKDweb});
                         this.setState({active: data.active});
 
-                        // this.props.titleUpdated();
-                        // this.props.setTitleUpdated(!this.props.titleUpdated);
+                        // if (this.props.setTitleUpdated !== undefined) {
+                            // this.props.titleUpdated();
+                            this.props.setTitleUpdated(!this.props.titleUpdated);
+                        // };
                         // Need to call this here because there are two buttons on the form besides the Cancel button
                         this.toggle();
 
@@ -336,6 +341,31 @@ class AddTitle extends Component<IProps, IState> {
 
     toggle = () => {
         this.setState({modal: !this.state.modal});
+    };
+
+    createImageName = (titleName: string | undefined) => {
+
+        let newImageName: string = "";
+
+        if (titleName !== undefined) {
+            newImageName = titleName.replace(/(^\w{1})|(\s{1}\w{1})/g, match => match.toUpperCase());
+            // I'm sure there's a more elegant way to do this
+            // newImageName = newImageName.replaceAll(".", "");
+            // newImageName = newImageName.replaceAll("?", "");
+            // newImageName = newImageName.replaceAll(",", "");
+            // newImageName = newImageName.replaceAll(":", "");
+            // newImageName = newImageName.replaceAll("-", "");
+            newImageName = newImageName.replace(/[.,\/#\?!$%\^&\*;:{}=\-_`~()]/g,"");
+            newImageName = newImageName.replaceAll(" ", "");
+            // Remove all spaces - Doesn't work
+            // newImageName = newImageName.replace(/\s{2,}/g," ");
+
+            newImageName = "https://philipdick.com/images/covers/" + newImageName + ".jpg";
+        };
+
+        this.setState({txtImageName: newImageName});
+
+        return newImageName;
     };
 
     render() {
@@ -411,8 +441,8 @@ class AddTitle extends Component<IProps, IState> {
                 <FormGroup>
                     
                 <Label for="txtImageName">Image Name</Label>
-                <Button outline size="small" color="secondary" onClick={() => {this.setState({txtImageName: "https://philipdick.com/images/covers/" + this.state.txtImageName});}}>Add Path</Button> https://philipdick.com/images/covers/
-                <Button outline size="small" color="secondary" onClick={() => {this.setState({txtImageName: this.state.txtImageName + ".jpg"});}}>Add File Extension</Button> .jpg
+                <Button outline size="small" color="secondary" onClick={() => {/*console.log(event.target.value);*/ this.createImageName(this.state.txtTitleName);}}>Create Image Name</Button>
+                {/* <Button outline size="small" color="secondary" onClick={() => {this.setState({txtImageName: "https://philipdick.com/images/covers/" + this.state.txtImageName});}}>Add Path</Button> */}
                 <Input type="text" id="txtImageName" value={this.state.txtImageName} onChange={(event) => {/*console.log(event.target.value);*/ this.setState({txtImageName: event.target.value});}} />
                 {this.state.txtImageName !== null && this.state.txtImageName !== undefined && this.state.txtImageName !== "" ? <img src={this.state.txtImageName} alt="" /> : <Image size="150" className="noImageIcon"/>}
 

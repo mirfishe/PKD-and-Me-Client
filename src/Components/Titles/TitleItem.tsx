@@ -18,6 +18,8 @@ interface IProps {
     // getTitles: (categoryID: number | null) => void,
     // titleID: number | null,
     setTitleID: (titleID: number | null) => void,
+    titleUpdated: boolean,
+    setTitleUpdated: (titleUpdated: boolean) => void,
     titleSort: string | null
     setTitleSort: (titleSort: string | null) => void
 };
@@ -41,12 +43,12 @@ const TitleItem: FunctionComponent <(IProps)> = props => {
                 {props.isAdmin === true ? <AddCategory userID={props.userID} isAdmin={props.isAdmin} sessionToken={props.sessionToken} displayIcon={true} /> : null}
                 <p className="ml-2"> <small>Sort By
                 {props.titleSort !== "publicationDate" ? 
-                <a href="#" onClick={(event) => {event.preventDefault(); /*console.log(event.target.value);*/ props.setTitleSort("publicationDate")}}>Publication Date</a>
+                <a href="#" onClick={(event) => {event.preventDefault(); /*console.log(event.target.value);*/ props.setTitleSort("publicationDate")}}> Publication Date</a>
                 : null}
                 {props.titleSort !== null ? 
-                <a href="#" onClick={(event) => {event.preventDefault(); /*console.log(event.target.value);*/ props.setTitleSort(null)}}>Title</a>
+                <a href="#" onClick={(event) => {event.preventDefault(); /*console.log(event.target.value);*/ props.setTitleSort(null)}}> Title</a>
                 : null}
-                {props.isAdmin === true ? <AddTitle userID={props.userID} isAdmin={props.isAdmin} sessionToken={props.sessionToken} displayIcon={true} /> : null}
+                {props.isAdmin === true ? <AddTitle userID={props.userID} isAdmin={props.isAdmin} sessionToken={props.sessionToken} /*titleUpdated={props.titleUpdated}*/ titleUpdated={props.titleUpdated} setTitleUpdated={props.setTitleUpdated} displayIcon={true} /> : null}
                 </small></p>
                 </h5>
                 </Col>
@@ -62,7 +64,7 @@ const TitleItem: FunctionComponent <(IProps)> = props => {
                 <Card key={title.titleID}>
                 <CardHeader>
                 <p><a href="#" onClick={(event) => {event.preventDefault(); /*console.log(event.target.value);*/ props.setTitleID(title.titleID)}}>{title.titleName}</a>
-                {props.isAdmin === true ? <EditTitle userID={props.userID} isAdmin={props.isAdmin} sessionToken={props.sessionToken} titleID={title.titleID} setTitleID={props.setTitleID} /*titleUpdated={props.titleUpdated}*/ /*titleUpdated={props.titleUpdated} setTitleUpdated={props.setTitleUpdated}*/ displayIcon={true} /> : null}
+                {props.isAdmin === true ? <EditTitle userID={props.userID} isAdmin={props.isAdmin} sessionToken={props.sessionToken} titleID={title.titleID} setTitleID={props.setTitleID} /*titleUpdated={props.titleUpdated}*/ titleUpdated={props.titleUpdated} setTitleUpdated={props.setTitleUpdated} displayIcon={true} /> : null}
 
                 {title.publicationDate !== null ? <span> <small>({title.publicationDate.toString().substring(0, 4)})</small></span> : null}
                 </p>

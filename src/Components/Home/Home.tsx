@@ -258,7 +258,7 @@ class Home extends Component<IProps, IState> {
                 <Col xs="10">
                 {this.state.titleMessage !== "" ? <Alert severity="info">{this.state.titleMessage}</Alert> : null}
                 {this.state.errTitleMessage !== "" ? <Alert severity="error">{this.state.errTitleMessage}</Alert> : null}
-                {this.state.titleResultsFound ? <TitleItem userID={this.props.userID} isAdmin={this.props.isAdmin} sessionToken={this.props.sessionToken} /*getEditions={this.getEditions}*/ /*titleID={this.props.titleID}*/ setTitleID={this.props.setTitleID} titleList={this.state.titleList} /*getTitles={this.getTitles}*/ categoryID={this.props.categoryID} categoryName={this.state.categoryName} titleSort={this.props.titleSort} setTitleSort={this.props.setTitleSort} /> : <About />}
+                {this.state.titleResultsFound ? <TitleItem userID={this.props.userID} isAdmin={this.props.isAdmin} sessionToken={this.props.sessionToken} /*getEditions={this.getEditions}*/ /*titleID={this.props.titleID}*/ setTitleID={this.props.setTitleID} titleList={this.state.titleList} /*getTitles={this.getTitles}*/ categoryID={this.props.categoryID} categoryName={this.state.categoryName} titleUpdated={this.props.titleUpdated} setTitleUpdated={this.props.setTitleUpdated} titleSort={this.props.titleSort} setTitleSort={this.props.setTitleSort} /> : <About />}
                 </Col>
                 }
 

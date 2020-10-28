@@ -35,7 +35,7 @@ const Edition: FunctionComponent <(IProps)> = props => {
         <Container>
             <Row>
             <Col xs="12">
-            <h5 className="text-center">Purchase Editions
+            <h5 className="text-center">Purchase
             {props.isAdmin === true ? <AddEdition userID={props.userID} isAdmin={props.isAdmin} sessionToken={props.sessionToken} titleID={props.titleID} titlePublicationDate={props.titlePublicationDate} editionUpdated={props.editionUpdated} displayIcon={true} /> : null}
             </h5>
             </Col>
@@ -79,7 +79,7 @@ const Edition: FunctionComponent <(IProps)> = props => {
             <Row>
             {props.editionList.map((edition: IEdition) => {
             return (
-                <React.Fragment>
+                <Col>
 
                     {edition.imageLinkLarge !== null && edition.imageLinkLarge !== "" ? 
                     <Card key={edition.editionID}>
@@ -95,7 +95,7 @@ const Edition: FunctionComponent <(IProps)> = props => {
                     </Card>
                     : null}
 
-                </React.Fragment>
+                </Col>
                 )
             })}
             </Row>

@@ -317,6 +317,31 @@ class AddTitle extends Component<IProps, IState> {
         this.getCategories();
     };
 
+    createImageName = (titleName: string | undefined) => {
+
+        let newImageName: string = "";
+
+        if (titleName !== undefined) {
+            newImageName = titleName.replace(/(^\w{1})|(\s{1}\w{1})/g, match => match.toUpperCase());
+            // I'm sure there's a more elegant way to do this
+            // newImageName = newImageName.replaceAll(".", "");
+            // newImageName = newImageName.replaceAll("?", "");
+            // newImageName = newImageName.replaceAll(",", "");
+            // newImageName = newImageName.replaceAll(":", "");
+            // newImageName = newImageName.replaceAll("-", "");
+            newImageName = newImageName.replace(/[.,\/#\?!$%\^&\*;:{}=\-_`~()]/g,"");
+            newImageName = newImageName.replaceAll(" ", "");
+            // Remove all spaces - Doesn't work
+            // newImageName = newImageName.replace(/\s{2,}/g," ");
+
+            newImageName = "https://philipdick.com/images/covers/" + newImageName + ".jpg";
+        };
+
+        this.setState({txtImageName: newImageName});
+
+        return newImageName;
+    };
+
     render() {
 
         // console.log("AddTitle.tsx this.props.isAdmin", this.props.isAdmin);
@@ -384,7 +409,8 @@ class AddTitle extends Component<IProps, IState> {
                 <FormGroup>
                     
                 <Label for="txtImageName">Image Name</Label>
-                <Button outline size="small" color="secondary" onClick={() => {this.setState({txtImageName: "https://philipdick.com/images/covers/" + this.state.txtImageName});}}>Add Path</Button> https://philipdick.com/images/covers/
+                <Button outline size="small" color="secondary" onClick={() => {/*console.log(event.target.value);*/ this.createImageName(this.state.txtTitleName);}}>Create Image Name</Button>
+                {/* <Button outline size="small" color="secondary" onClick={() => {this.setState({txtImageName: "https://philipdick.com/images/covers/" + this.state.txtImageName});}}>Add Path</Button> */}
                 <Input type="text" id="txtImageName" value={this.state.txtImageName} onChange={(event) => {/*console.log(event.target.value);*/ this.setState({txtImageName: event.target.value});}} />
                 {this.state.txtImageName !== null && this.state.txtImageName !== undefined && this.state.txtImageName !== "" ? <img src={this.state.txtImageName} alt="" /> : <Image size="150" className="noImageIcon"/>}
 

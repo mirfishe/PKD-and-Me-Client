@@ -639,7 +639,9 @@ class EditEdition extends Component<IProps, IState> {
                 <option selected value="">Select a Media</option>
                 {this.state.mediaList.map((media: IMedia) => {
                 return (
-                    <option value={media.mediaID}>{media.media}</option>
+                    <React.Fragment>
+                    {this.state.ddMediaID === media.mediaID ? <option selected value={media.mediaID}>{media.media}</option> : <option value={media.mediaID}>{media.media}</option>}
+                    </React.Fragment>
                     )
                 })}
                 </Input>

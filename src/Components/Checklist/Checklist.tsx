@@ -329,11 +329,11 @@ class Checklist extends Component<IProps, IState> {
 
             <Row>
             <Col xs="2">
-                <Button size="sm" color="primary" onClick={this.handleOpen}>Checklist</Button>
+                <Button outline size="sm" color="info" onClick={this.handleOpen}>Checklist</Button>
                 <Drawer anchor="right" open={this.state.drawerOpen} onClose={this.handleClose}>
                 {this.state.checklistMessage !== "" ? <Alert severity="info">{this.state.checklistMessage}</Alert> : null}
                 {this.state.errChecklistMessage !== "" ? <Alert severity="error">{this.state.errChecklistMessage}</Alert> : null}
-                <Button color="primary" onClick={this.handleClose}>Close</Button>
+                <Button outline size="sm" color="info" onClick={this.handleClose}>Close</Button>
                 <ChecklistItem checklistList={this.state.checklistList} updateChecklist={this.updateChecklist} setTitleID={this.props.setTitleID} categoryName={this.state.categoryName} titleSort={this.props.titleSort} setTitleSort={this.props.setTitleSort} />
                 {/* <ChecklistItem2 checklistList={this.state.checklistList} updateChecklist={this.updateChecklist} setTitleID={this.props.setTitleID} categoryName={this.state.categoryName} titleSort={this.props.titleSort} setTitleSort={this.props.setTitleSort} /> */}
                 </Drawer>

@@ -222,38 +222,38 @@ class App extends Component<{}, IState> {
       {this.state.message !== "" ? <Alert severity="info">{this.state.message}</Alert> : null}
       {this.state.errMessage !== "" ? <Alert severity="error">{this.state.errMessage}</Alert> : null}
 
-      <Navbar light>
+      <Navbar color="light" light>
       <Nav>
 
           {/* <NavItem style={{border: "5px solid black"}}>
             <Link to="/home"><HomeIcon color="primary" /></Link>
             </NavItem> */}
 
-          <NavbarBrand>
+          <NavbarBrand className="mx-2">
           <Link to="/home" onClick={() => this.goToHome()}><HouseFill color="black" /></Link>
           </NavbarBrand>
 
-          {this.state.isAdmin === true ? <NavItem><Link to="/admin">Admin</Link></NavItem> : null}
+          {this.state.isAdmin === true ? <NavItem className="mx-2"><NavbarText><Link to="/admin">Admin</Link></NavbarText></NavItem> : null}
 
-          {/* {this.state.sessionToken === "" || this.state.sessionToken === null ? <Link to="/login">Login</Link></Grid> : null} */}
-          {this.state.sessionToken === "" || this.state.sessionToken === null ? <NavItem><Login userID={this.state.userID} isAdmin={this.state.isAdmin} sessionToken={this.state.sessionToken} setUserID={this.setUserID} setIsAdmin={this.setIsAdmin} setSessionToken={this.setSessionToken} /></NavItem> : null}
+          {/* {this.state.sessionToken === "" || this.state.sessionToken === null ? <NavbarText><Link to="/login">Login</Link></NavbarText></NavItem> : null} */}
+          {this.state.sessionToken === "" || this.state.sessionToken === null ? <NavItem className="mx-2"><Login userID={this.state.userID} isAdmin={this.state.isAdmin} sessionToken={this.state.sessionToken} setUserID={this.setUserID} setIsAdmin={this.setIsAdmin} setSessionToken={this.setSessionToken} /></NavItem> : null}
 
-          {/* {this.state.sessionToken === "" || this.state.sessionToken === null ? <NavItem><Link to="/register">Register</Link></Grid> : null} */}
-          {this.state.sessionToken === "" || this.state.sessionToken === null ? <NavItem><Register userID={this.state.userID} isAdmin={this.state.isAdmin} sessionToken={this.state.sessionToken} setUserID={this.setUserID} setIsAdmin={this.setIsAdmin} setSessionToken={this.setSessionToken} /></NavItem> : null}
+          {/* {this.state.sessionToken === "" || this.state.sessionToken === null ? <NavItem className="mx-2"><NavbarText><Link to="/register">Register</Link></NavbarText></NavItem> : null} */}
+          {this.state.sessionToken === "" || this.state.sessionToken === null ? <NavItem className="mx-2"><Register userID={this.state.userID} isAdmin={this.state.isAdmin} sessionToken={this.state.sessionToken} setUserID={this.setUserID} setIsAdmin={this.setIsAdmin} setSessionToken={this.setSessionToken} /></NavItem> : null}
 
-          {/* {this.state.sessionToken !== "" && this.state.sessionToken !== null ? <NavItem><Link to="/updateuser">Update Profile</Link> </Grid> : null} */}
-          {this.state.sessionToken !== "" && this.state.sessionToken !== null ? <NavItem><UpdateUser userID={this.state.userID} isAdmin={this.state.isAdmin} sessionToken={this.state.sessionToken} setUserID={this.setUserID} setIsAdmin={this.setIsAdmin} setSessionToken={this.setSessionToken} /></NavItem> : null}
+          {/* {this.state.sessionToken !== "" && this.state.sessionToken !== null ? <NavItem className="mx-2"><NavbarText><Link to="/updateuser">Update Profile</Link></NavbarText></NavItem> : null} */}
+          {this.state.sessionToken !== "" && this.state.sessionToken !== null ? <NavItem className="mx-2"><UpdateUser userID={this.state.userID} isAdmin={this.state.isAdmin} sessionToken={this.state.sessionToken} setUserID={this.setUserID} setIsAdmin={this.setIsAdmin} setSessionToken={this.setSessionToken} /></NavItem> : null}
 
-          {/* {this.state.sessionToken !== "" && this.state.sessionToken !== null ? <NavItem><a href="#" onClick={() => this.logOut()}>Log Out</a></Grid> : null} */}
+          {/* {this.state.sessionToken !== "" && this.state.sessionToken !== null ? <NavItem className="mx-2"><NavbarText><a href="#" onClick={() => this.logOut()}>Log Out</a></NavbarText></NavItem> : null} */}
 
-          {this.state.sessionToken !== "" && this.state.sessionToken !== null ? <NavItem><Button outline size="sm" color="info" onClick={() => this.logOut()}>Log Out</Button></NavItem> : null}
+          {this.state.sessionToken !== "" && this.state.sessionToken !== null ? <NavItem className="mx-2"><Button outline size="sm" color="info" onClick={() => this.logOut()}>Log Out</Button></NavItem> : null}
 
           {this.state.sessionToken !== "" && this.state.sessionToken !== null && this.state.categoryID !== undefined && this.state.categoryID !== null ?
-          <NavItem><Checklist userID={this.state.userID} isAdmin={this.state.isAdmin} sessionToken={this.state.sessionToken} titleID={this.state.titleID} setTitleID={this.setTitleID} categoryID={this.state.categoryID} setCategoryID={this.setCategoryID} titleSort={this.state.titleSort} setTitleSort={this.setTitleSort} titleUpdated={this.state.titleUpdated} /></NavItem>
+          <NavItem className="mx-2"><Checklist userID={this.state.userID} isAdmin={this.state.isAdmin} sessionToken={this.state.sessionToken} titleID={this.state.titleID} setTitleID={this.setTitleID} categoryID={this.state.categoryID} setCategoryID={this.setCategoryID} titleSort={this.state.titleSort} setTitleSort={this.setTitleSort} titleUpdated={this.state.titleUpdated} /></NavItem>
           : null}
 
           {/* This is not being set on log in also, only when the page is loaded and the user information is coming from local storage. */}
-          {this.state.sessionToken !== "" && this.state.sessionToken !== null ? <NavItem>Welcome, {this.state.firstName} {this.state.lastName}.</NavItem> : null}
+          {this.state.sessionToken !== "" && this.state.sessionToken !== null ? <NavItem className="mx-2"><NavbarText>Welcome, {this.state.firstName} {this.state.lastName}.</NavbarText></NavItem> : null}
 
           </Nav>
 
