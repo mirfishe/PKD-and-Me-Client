@@ -3,6 +3,7 @@ import React, {FunctionComponent} from "react";
 import {Container, Col, Row, Card, CardBody, CardText, CardHeader, CardImg} from "reactstrap";
 import {Image} from 'react-bootstrap-icons';
 import {ITitle} from "../../Helpers/interfaces";
+import {displayDate, displayYear} from "../../Helpers/constants";
 import AddTitle from "./AddTitle";
 import EditTitle from "./EditTitle";
 import AddCategory from "../Categories/AddCategory";
@@ -66,13 +67,12 @@ const TitleItem: FunctionComponent <(IProps)> = props => {
                 <p><a href="#" onClick={(event) => {event.preventDefault(); /*console.log(event.target.value);*/ props.setTitleID(title.titleID)}}>{title.titleName}</a>
                 {props.isAdmin === true ? <EditTitle userID={props.userID} isAdmin={props.isAdmin} sessionToken={props.sessionToken} titleID={title.titleID} setTitleID={props.setTitleID} /*titleUpdated={props.titleUpdated}*/ titleUpdated={props.titleUpdated} setTitleUpdated={props.setTitleUpdated} displayIcon={true} /> : null}
 
-                {title.publicationDate !== null ? <span> <small>({title.publicationDate.toString().substring(0, 4)})</small></span> : null}
+                {title.publicationDate !== null ? <span> <small>({displayYear(title.publicationDate)})</small></span> : null}
                 </p>
                 </CardHeader>
                 <CardBody>
                 <a href="#" onClick={(event) => {event.preventDefault(); /*console.log(event.target.value);*/ props.setTitleID(title.titleID)}}>
-                {title.imageName !== null && title.imageName !== "" ? <CardImg src={title.imageName} alt={title.titleName}
-                className="coverImage" /> : <Image size="150" className="noImageIcon" />}
+                {title.imageName !== null && title.imageName !== "" ? <CardImg src={title.imageName} alt={title.titleName} /> : <Image size="150" className="noImageIcon" />}
                 </a>
                 <p>{title.authorFirstName} {title.authorLastName}</p>
                 </CardBody>

@@ -30,11 +30,6 @@ const About: FunctionComponent <(IProps)> = props => {
             </Row>
             <Row>
             <Col xs="12">
-            <a href="https://pkdickbooks.com" target="_blank">https://pkdickbooks.com</a>
-            </Col>
-            </Row>
-            <Row>
-            <Col xs="12">
             &nbsp;
             </Col>
             </Row>

@@ -2,6 +2,7 @@ import React, {FunctionComponent} from "react";
 import {Rating} from "@material-ui/lab/";
 import {Container, Col, Row} from "reactstrap";
 import {IUserReview} from "../../Helpers/interfaces";
+import {displayDate, displayYear} from "../../Helpers/constants";
 import UpdateUserReview from "../UserReviews/UpdateUserReview";
 
 interface IProps {
@@ -54,7 +55,7 @@ const UserReview: FunctionComponent <(IProps)> = props => {
             </Col>
             <Col xs="7">
                 <p>
-                Reviewed by {userReview.userFirstName} on {userReview.updatedAt !== null ? <small>{userReview.updatedAt.toString().substring(0, 10)}</small> : null}
+                Reviewed by {userReview.userFirstName} on {userReview.updatedAt !== null ? <small>{displayDate(userReview.updatedAt)}</small> : null}
                 </p>
             </Col>
             </Row>

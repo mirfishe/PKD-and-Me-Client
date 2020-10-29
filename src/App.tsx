@@ -255,6 +255,14 @@ class App extends Component<{}, IState> {
           {/* This is not being set on log in also, only when the page is loaded and the user information is coming from local storage. */}
           {this.state.sessionToken !== "" && this.state.sessionToken !== null ? <NavItem className="mx-2"><NavbarText>Welcome, {this.state.firstName} {this.state.lastName}.</NavbarText></NavItem> : null}
 
+          <NavItem className="mx-2">
+          <a href="https://pkdickbooks.com" target="_blank" rel="noreferrer"><NavbarText>Philip K. Dick Bookshelf</NavbarText></a>
+          </NavItem>
+
+          <NavItem className="mx-2">
+          <a href="https://philipdick.com" target="_blank" rel="noreferrer"><NavbarText>Philip K. Dick Site</NavbarText></a>
+          </NavItem>
+
           </Nav>
 
       </Navbar>

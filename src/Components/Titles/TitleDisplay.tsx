@@ -3,6 +3,7 @@ import {Rating} from "@material-ui/lab/";
 import {Container, Col, Row} from "reactstrap";
 import {Image} from 'react-bootstrap-icons';
 import {ITitle} from "../../Helpers/interfaces";
+import {displayDate, displayYear} from "../../Helpers/constants";
 import AddUserReview from "../UserReviews/AddUserReview";
 import UpdateUserReview from "../UserReviews/UpdateUserReview";
 import AddTitle from "./AddTitle";
@@ -74,7 +75,7 @@ const TitleDisplay: FunctionComponent <(IProps)> = props => {
                 <h5>{props.titleData.titleName}
                     {props.isAdmin === true ? <EditTitle userID={props.userID} isAdmin={props.isAdmin} sessionToken={props.sessionToken} titleID={props.titleID} setTitleID={props.setTitleID} /*titleUpdated={props.titleUpdated}*/ titleUpdated={props.titleUpdated} setTitleUpdated={props.setTitleUpdated} displayIcon={true} /> : null}
 
-                    {props.titleData.publicationDate !== null ? <span style={{marginLeft: "5px", fontSize: 18}}> ({props.titleData.publicationDate.toString().substring(0, 4)})</span> : null}
+                    {props.titleData.publicationDate !== null ? <span style={{marginLeft: "5px", fontSize: 18}}> ({displayYear(props.titleData.publicationDate)})</span> : null}
 
                     {props.categoryName !== null && props.categoryName !== "" ? <span style={{marginLeft: "10px", fontSize: 12}}> {props.categoryName}
                     {props.isAdmin === true ? <AddCategory userID={props.userID} isAdmin={props.isAdmin} sessionToken={props.sessionToken} displayIcon={true} /> : null}
@@ -85,7 +86,7 @@ const TitleDisplay: FunctionComponent <(IProps)> = props => {
 
             <Row>
             <Col xs="4">
-                    {props.titleData.imageName !== null && props.titleData.imageName !== "" ? <img src={props.titleData.imageName} alt={props.titleData.titleName} /> : <Image size="150" className="noImageIcon"/>}
+                    {props.titleData.imageName !== null && props.titleData.imageName !== "" ? <img src={props.titleData.imageName} alt={props.titleData.titleName} className="coverDisplay" /> : <Image size="150" className="noImageIcon"/>}
             </Col>
 
             <Col xs="8">
@@ -100,7 +101,7 @@ const TitleDisplay: FunctionComponent <(IProps)> = props => {
 
                 {props.userReviewedTitleRead === true && props.userReviewedTitleDateRead === null ? <p>Read</p> : null}
 
-                {props.userReviewedTitleDateRead !== null ? <p>Read on {props.userReviewedTitleDateRead.toString().substring(0, 10)}</p> : null}
+                {props.userReviewedTitleDateRead !== null ? <p>Read on {displayDate(props.userReviewedTitleDateRead)}</p> : null}
 
                 {props.sessionToken !== "" && props.userReviewedTitle === false ? <p><AddUserReview userID={props.userID} isAdmin={props.isAdmin} sessionToken={props.sessionToken} titleID={props.titleID} userReviewUpdated={props.userReviewUpdated} displayButton={true} /></p> : null}
 
@@ -119,7 +120,7 @@ const TitleDisplay: FunctionComponent <(IProps)> = props => {
             <Row>
             <Col xs="12">
                 {props.titleData.shortDescription !== "" && props.titleData.shortDescription !== null ? <p>{props.titleData.shortDescription}</p> : null}
-                {props.titleData.urlPKDweb !== "" && props.titleData.urlPKDweb !== null ? <p><a href={props.titleData.urlPKDweb} target="_blank">Encyclopedia Dickiana</a></p> : null}
+                {props.titleData.urlPKDweb !== "" && props.titleData.urlPKDweb !== null ? <p><a href={props.titleData.urlPKDweb} target="_blank" rel="noreferrer">Encyclopedia Dickiana</a></p> : null}
                 </Col>
             </Row>
 

@@ -329,7 +329,7 @@ class AddTitle extends Component<IProps, IState> {
             // newImageName = newImageName.replaceAll(",", "");
             // newImageName = newImageName.replaceAll(":", "");
             // newImageName = newImageName.replaceAll("-", "");
-            newImageName = newImageName.replace(/[.,\/#\?!$%\^&\*;:{}=\-_`~()]/g,"");
+            newImageName = newImageName.replace(/[.,\/#\'\?!$%\^&\*;:{}=\-_`~()]/g,"");
             newImageName = newImageName.replaceAll(" ", "");
             // Remove all spaces - Doesn't work
             // newImageName = newImageName.replace(/\s{2,}/g," ");
@@ -412,7 +412,7 @@ class AddTitle extends Component<IProps, IState> {
                 <Button outline size="small" color="secondary" onClick={() => {/*console.log(event.target.value);*/ this.createImageName(this.state.txtTitleName);}}>Create Image Name</Button>
                 {/* <Button outline size="small" color="secondary" onClick={() => {this.setState({txtImageName: "https://philipdick.com/images/covers/" + this.state.txtImageName});}}>Add Path</Button> */}
                 <Input type="text" id="txtImageName" value={this.state.txtImageName} onChange={(event) => {/*console.log(event.target.value);*/ this.setState({txtImageName: event.target.value});}} />
-                {this.state.txtImageName !== null && this.state.txtImageName !== undefined && this.state.txtImageName !== "" ? <img src={this.state.txtImageName} alt="" /> : <Image size="150" className="noImageIcon"/>}
+                {this.state.txtImageName !== null && this.state.txtImageName !== undefined && this.state.txtImageName !== "" ? <img src={this.state.txtImageName} alt={this.state.txtTitleName} className="coverThumbnail" /> : <Image size="150" className="noImageIcon"/>}
 
                 </FormGroup>
                 <FormGroup>
