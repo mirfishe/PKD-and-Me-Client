@@ -3,7 +3,7 @@ import {Rating} from "@material-ui/lab/";
 import {Container, Col, Row} from "reactstrap";
 import {Image} from 'react-bootstrap-icons';
 import {ITitle} from "../../Helpers/interfaces";
-import {displayDate, displayYear} from "../../Helpers/constants";
+import {displayDate, displayYear} from "../../Helpers/sharedFunctions";
 import AddUserReview from "../UserReviews/AddUserReview";
 import UpdateUserReview from "../UserReviews/UpdateUserReview";
 import AddTitle from "./AddTitle";
@@ -120,7 +120,7 @@ const TitleDisplay: FunctionComponent <(IProps)> = props => {
             <Row>
             <Col xs="12">
                 {props.titleData.shortDescription !== "" && props.titleData.shortDescription !== null ? <p>{props.titleData.shortDescription}</p> : null}
-                {props.titleData.urlPKDweb !== "" && props.titleData.urlPKDweb !== null ? <p><a href={props.titleData.urlPKDweb} target="_blank" rel="noreferrer">Encyclopedia Dickiana</a></p> : null}
+                {props.titleData.urlPKDweb !== "" && props.titleData.urlPKDweb !== null ? <p><a href={props.titleData.urlPKDweb} target="_blank" rel="noopener noreferrer">Encyclopedia Dickiana</a></p> : null}
                 </Col>
             </Row>
 

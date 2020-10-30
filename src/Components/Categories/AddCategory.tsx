@@ -186,14 +186,14 @@ class AddCategory extends Component<IProps, IState> {
                 <ModalBody>
                 <Form>
                 <FormGroup>
-                {this.state.message !== "" ? <Alert severity="info">{this.state.message}</Alert> : null}
-                {this.state.errMessage !== "" ? <Alert severity="error">{this.state.errMessage}</Alert> : null}
+                {this.state.message !== "" ? <Alert color="info">{this.state.message}</Alert> : null}
+                {this.state.errMessage !== "" ? <Alert color="danger">{this.state.errMessage}</Alert> : null}
                 </FormGroup>
                 <FormGroup>
 
                 <Label for="txtCategory">Category</Label>
                 <Input type="text" id="txtCategory" value={this.state.txtCategory} onChange={(event) => {/*console.log(event.target.value);*/ this.setState({txtCategory: event.target.value});}} />
-                {this.state.errCategory !== "" ? <Alert severity="error">{this.state.errCategory}</Alert> : null}
+                {this.state.errCategory !== "" ? <Alert color="danger">{this.state.errCategory}</Alert> : null}
 
                 </FormGroup>
 

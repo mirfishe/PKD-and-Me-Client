@@ -407,8 +407,8 @@ class UpdateUserReview extends Component<IProps, IState> {
                 <ModalBody>
                 <Form>
                 <FormGroup>
-                {this.state.message !== "" ? <Alert severity="info">{this.state.message}</Alert> : null}
-                {this.state.errMessage !== "" ? <Alert severity="error">{this.state.errMessage}</Alert> : null}
+                {this.state.message !== "" ? <Alert color="info">{this.state.message}</Alert> : null}
+                {this.state.errMessage !== "" ? <Alert color="danger">{this.state.errMessage}</Alert> : null}
                 </FormGroup>
                 <FormGroup row>
 

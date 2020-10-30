@@ -187,14 +187,14 @@ class AddMedia extends Component<IProps, IState> {
                 <ModalBody>
                 <Form>
                 <FormGroup>
-                {this.state.message !== "" ? <Alert severity="info">{this.state.message}</Alert> : null}
-                {this.state.errMessage !== "" ? <Alert severity="error">{this.state.errMessage}</Alert> : null}
+                {this.state.message !== "" ? <Alert color="info">{this.state.message}</Alert> : null}
+                {this.state.errMessage !== "" ? <Alert color="danger">{this.state.errMessage}</Alert> : null}
                 </FormGroup>
                 <FormGroup>
 
                 <Label for="txtMedia">Media</Label>
                 <Input type="text" id="txtMedia" value={this.state.txtMedia} onChange={(event) => {/*console.log(event.target.value);*/ this.setState({txtMedia: event.target.value});}} />
-                {this.state.errMedia !== "" ? <Alert severity="error">{this.state.errMedia}</Alert> : null}
+                {this.state.errMedia !== "" ? <Alert color="danger">{this.state.errMedia}</Alert> : null}
 
                 </FormGroup>
 

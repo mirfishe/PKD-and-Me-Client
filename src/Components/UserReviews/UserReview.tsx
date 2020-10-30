@@ -2,7 +2,7 @@ import React, {FunctionComponent} from "react";
 import {Rating} from "@material-ui/lab/";
 import {Container, Col, Row} from "reactstrap";
 import {IUserReview} from "../../Helpers/interfaces";
-import {displayDate, displayYear} from "../../Helpers/constants";
+import {displayDate, displayYear} from "../../Helpers/sharedFunctions";
 import UpdateUserReview from "../UserReviews/UpdateUserReview";
 
 interface IProps {

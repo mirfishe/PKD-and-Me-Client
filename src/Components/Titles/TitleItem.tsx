@@ -1,9 +1,9 @@
 import React, {FunctionComponent} from "react";
 // import {Redirect} from "react-router-dom";
-import {Container, Col, Row, Card, CardBody, CardText, CardHeader, CardImg} from "reactstrap";
+import {Container, Col, Row, Card, CardBody, CardText, CardHeader, CardImg, Alert} from "reactstrap";
 import {Image} from 'react-bootstrap-icons';
 import {ITitle} from "../../Helpers/interfaces";
-import {displayDate, displayYear} from "../../Helpers/constants";
+import {displayDate, displayYear} from "../../Helpers/sharedFunctions";
 import AddTitle from "./AddTitle";
 import EditTitle from "./EditTitle";
 import AddCategory from "../Categories/AddCategory";
@@ -64,6 +64,7 @@ const TitleItem: FunctionComponent <(IProps)> = props => {
 
                 <Card key={title.titleID}>
                 <CardHeader>
+                {title.active !== true ? <Alert color="warning">Inactive</Alert> : null}
                 <p><a href="#" onClick={(event) => {event.preventDefault(); /*console.log(event.target.value);*/ props.setTitleID(title.titleID)}}>{title.titleName}</a>
                 {props.isAdmin === true ? <EditTitle userID={props.userID} isAdmin={props.isAdmin} sessionToken={props.sessionToken} titleID={title.titleID} setTitleID={props.setTitleID} /*titleUpdated={props.titleUpdated}*/ titleUpdated={props.titleUpdated} setTitleUpdated={props.setTitleUpdated} displayIcon={true} /> : null}
 

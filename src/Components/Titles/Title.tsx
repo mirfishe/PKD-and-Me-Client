@@ -429,30 +429,30 @@ class Title extends Component<IProps, IState> {
 
             <Row>
             <Col xs="12">
-                {this.state.titleMessage !== "" ? <Alert severity="info">{this.state.titleMessage}</Alert> : null}
-                {this.state.errTitleMessage !== "" ? <Alert severity="error">{this.state.errTitleMessage}</Alert> : null}
-                {this.state.overallTitleRatingMessage !== "" ? <Alert severity="info">{this.state.overallTitleRatingMessage}</Alert> : null}
-                {this.state.errOverallTitleRatingMessage !== "" ? <Alert severity="error">{this.state.errOverallTitleRatingMessage}</Alert> : null}
-                {this.state.categoryMessage !== "" ? <Alert severity="info">{this.state.categoryMessage}</Alert> : null}
-                {this.state.errCategoryMessage !== "" ? <Alert severity="error">{this.state.errCategoryMessage}</Alert> : null}
+                {this.state.titleMessage !== "" ? <Alert color="info">{this.state.titleMessage}</Alert> : null}
+                {this.state.errTitleMessage !== "" ? <Alert color="danger">{this.state.errTitleMessage}</Alert> : null}
+                {this.state.overallTitleRatingMessage !== "" ? <Alert color="info">{this.state.overallTitleRatingMessage}</Alert> : null}
+                {this.state.errOverallTitleRatingMessage !== "" ? <Alert color="danger">{this.state.errOverallTitleRatingMessage}</Alert> : null}
+                {this.state.categoryMessage !== "" ? <Alert color="info">{this.state.categoryMessage}</Alert> : null}
+                {this.state.errCategoryMessage !== "" ? <Alert color="danger">{this.state.errCategoryMessage}</Alert> : null}
                 {this.state.titleResultsFound !== null ? <TitleDisplay userID={this.props.userID} isAdmin={this.props.isAdmin} sessionToken={this.props.sessionToken} titleID={this.props.titleID} setTitleID={this.props.setTitleID} titlePublicationDate={this.state.titlePublicationDate} userReviewUpdated={this.userReviewUpdated} userReviewedTitle={this.state.userReviewedTitle} userReviewedTitleReviewID={this.state.userReviewedTitleReviewID} userReviewedTitleRead={this.state.userReviewedTitleRead} userReviewedTitleDateRead={this.state.userReviewedTitleDateRead} titleData={this.state.titleData} overallTitleRating={this.state.overallTitleRating} overallTitleRatingCount={this.state.overallTitleRatingCount} categoryName={this.state.categoryName} /*titleUpdated={this.titleUpdated}*/ titleUpdated={this.props.titleUpdated} setTitleUpdated={this.props.setTitleUpdated} editionUpdated={this.editionUpdated} /> : null}
                 </Col>
             </Row>
 
             <Row>
             <Col xs="12">
-                {this.state.editionMessage !== "" ? <Alert severity="info">{this.state.editionMessage}</Alert> : null}
-                {this.state.errEditionMessage !== "" ? <Alert severity="error">{this.state.errEditionMessage}</Alert> : null}
-                {/* {this.state.mediaMessage !== "" ? <Alert severity="info">{this.state.mediaMessage}</Alert> : null}
-                {this.state.errMediaMessage !== "" ? <Alert severity="error">{this.state.errMediaMessage}</Alert> : null} */}
+                {this.state.editionMessage !== "" ? <Alert color="info">{this.state.editionMessage}</Alert> : null}
+                {this.state.errEditionMessage !== "" ? <Alert color="danger">{this.state.errEditionMessage}</Alert> : null}
+                {/* {this.state.mediaMessage !== "" ? <Alert color="info">{this.state.mediaMessage}</Alert> : null}
+                {this.state.errMediaMessage !== "" ? <Alert color="danger">{this.state.errMediaMessage}</Alert> : null} */}
                 {this.state.editionResultsFound ? <Edition userID={this.props.userID} isAdmin={this.props.isAdmin} sessionToken={this.props.sessionToken} titleID={this.props.titleID} titlePublicationDate={this.state.titlePublicationDate} editionList={this.state.editionList} /*mediaName={this.state.mediaName}*/ editionUpdated={this.editionUpdated} /> : null}
                 </Col>
             </Row>
 
             <Row>
             <Col xs="12">
-                {this.state.userReviewMessage !== "" ? <Alert severity="info">{this.state.userReviewMessage}</Alert> : null}
-                {this.state.errUserReviewMessage !== "" ? <Alert severity="error">{this.state.errUserReviewMessage}</Alert> : null}
+                {this.state.userReviewMessage !== "" ? <Alert color="info">{this.state.userReviewMessage}</Alert> : null}
+                {this.state.errUserReviewMessage !== "" ? <Alert color="danger">{this.state.errUserReviewMessage}</Alert> : null}
                 {this.state.userReviewResultsFound && this.state.userReviewResultsHaveReviews ? <UserReview userID={this.props.userID} isAdmin={this.props.isAdmin} sessionToken={this.props.sessionToken} titleID={this.props.titleID} userReviewUpdated={this.userReviewUpdated} userReviewList={this.state.userReviewList} /> : null}
                 </Col>
             </Row>

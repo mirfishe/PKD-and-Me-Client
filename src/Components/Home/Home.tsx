@@ -72,7 +72,29 @@ class Home extends Component<IProps, IState> {
 
         let url: string = baseURL + "category/";
 
-        fetch(url)
+        // This is not working here because the values aren't loaded into props before the component renders
+        // console.log("Home.tsx getCategories this.props.isAdmin", this.props.isAdmin);
+        // console.log("Home.tsx getCategories this.props.sessionToken", this.props.sessionToken);
+        if (this.props.sessionToken !== "" && this.props.sessionToken !== null && this.props.isAdmin === true) {
+            url = url + "admin";
+        };
+
+        const fetchHeaders: Headers = new Headers({});
+        Object.assign(fetchHeaders, {"Content-Type": "application/json"});
+
+        // If the user isn't logged in, there's no this.props.sessionToken to send in the request headers
+        if (this.props.sessionToken !== null && this.props.sessionToken !== undefined) {
+            Object.assign(fetchHeaders, {Authorization: this.props.sessionToken});
+        } else {
+            Object.assign(fetchHeaders, {Authorization: ""});
+        };
+        
+        // console.log("Home.tsx getCategories url", url);
+
+        fetch(url, {
+            method: "GET",
+            headers: fetchHeaders
+        })
         .then(response => {
             // console.log("Home.tsx getCategories response", response);
             if (!response.ok) {
@@ -131,6 +153,17 @@ class Home extends Component<IProps, IState> {
 
         let url: string = baseURL + "title/";
 
+        // console.log("Home.tsx getTitles this.props.isAdmin", this.props.isAdmin);
+        // console.log("Home.tsx getTitles this.props.sessionToken", this.props.sessionToken);
+
+        if (this.props.sessionToken !== "" && this.props.sessionToken !== null && this.props.isAdmin === true) {
+
+            // This isn't validating the admin properly when going through the fetch but works fine in Postman
+            // url = url + "admin/";
+            // console.log("Home.tsx getTitles isAdmin url", url);
+
+        };
+
         // if (this.state.categoryID !== null) {
         //     url = url + "/category/" + this.state.categoryID;
         // };
@@ -150,7 +183,22 @@ class Home extends Component<IProps, IState> {
 
         // console.log("Home.tsx getTitles url", url);
 
-        fetch(url)
+        const fetchHeaders: Headers = new Headers({});
+        Object.assign(fetchHeaders, {"Content-Type": "application/json"});
+
+        // If the user isn't logged in, there's no this.props.sessionToken to send in the request headers
+        if (this.props.sessionToken !== null && this.props.sessionToken !== undefined) {
+            Object.assign(fetchHeaders, {Authorization: this.props.sessionToken});
+        } else {
+            Object.assign(fetchHeaders, {Authorization: ""});
+        };
+
+        // console.log("Home.tsx getTitles fetchHeaders", fetchHeaders);
+        
+        fetch(url, {
+            method: "GET",
+            headers: fetchHeaders
+        })
         .then(response => {
             // console.log("Home.tsx getTitles response", response);
             if (!response.ok) {
@@ -245,8 +293,8 @@ class Home extends Component<IProps, IState> {
              <Row>
 
                 <Col xs="2">
-                {this.state.categoryMessage !== "" ? <Alert severity="info">{this.state.categoryMessage}</Alert> : null}
-                {this.state.errCategoryMessage !== "" ? <Alert severity="error">{this.state.errCategoryMessage}</Alert> : null}
+                {this.state.categoryMessage !== "" ? <Alert color="info">{this.state.categoryMessage}</Alert> : null}
+                {this.state.errCategoryMessage !== "" ? <Alert color="danger">{this.state.errCategoryMessage}</Alert> : null}
                 {this.state.categoryResultsFound !== null ? <Category userID={this.props.userID} isAdmin={this.props.isAdmin} sessionToken={this.props.sessionToken} getTitles={this.getTitles} categoryList={this.state.categoryList} /> : null}
                 </Col>
 
@@ -256,8 +304,8 @@ class Home extends Component<IProps, IState> {
                 </Col>
                 :
                 <Col xs="10">
-                {this.state.titleMessage !== "" ? <Alert severity="info">{this.state.titleMessage}</Alert> : null}
-                {this.state.errTitleMessage !== "" ? <Alert severity="error">{this.state.errTitleMessage}</Alert> : null}
+                {this.state.titleMessage !== "" ? <Alert color="info">{this.state.titleMessage}</Alert> : null}
+                {this.state.errTitleMessage !== "" ? <Alert color="danger">{this.state.errTitleMessage}</Alert> : null}
                 {this.state.titleResultsFound ? <TitleItem userID={this.props.userID} isAdmin={this.props.isAdmin} sessionToken={this.props.sessionToken} /*getEditions={this.getEditions}*/ /*titleID={this.props.titleID}*/ setTitleID={this.props.setTitleID} titleList={this.state.titleList} /*getTitles={this.getTitles}*/ categoryID={this.props.categoryID} categoryName={this.state.categoryName} titleUpdated={this.props.titleUpdated} setTitleUpdated={this.props.setTitleUpdated} titleSort={this.props.titleSort} setTitleSort={this.props.setTitleSort} /> : <About />}
                 </Col>
                 }

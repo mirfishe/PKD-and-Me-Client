@@ -3,6 +3,7 @@ import {Redirect} from "react-router-dom";
 import {Col, Form, FormGroup, Label, Input, Alert, Button} from "reactstrap";
 import {Image} from 'react-bootstrap-icons';
 import {baseURL} from "../../Helpers/constants";
+import {createImageName} from "../../Helpers/sharedFunctions";
 import {ICategory} from "../../Helpers/interfaces";
 
 interface IProps {
@@ -317,30 +318,30 @@ class AddTitle extends Component<IProps, IState> {
         this.getCategories();
     };
 
-    createImageName = (titleName: string | undefined) => {
+    // createImageName = (titleName: string | undefined) => {
 
-        let newImageName: string = "";
+    //     let newImageName: string = "";
 
-        if (titleName !== undefined) {
-            newImageName = titleName.replace(/(^\w{1})|(\s{1}\w{1})/g, match => match.toUpperCase());
-            // I'm sure there's a more elegant way to do this
-            // newImageName = newImageName.replaceAll(".", "");
-            // newImageName = newImageName.replaceAll("?", "");
-            // newImageName = newImageName.replaceAll(",", "");
-            // newImageName = newImageName.replaceAll(":", "");
-            // newImageName = newImageName.replaceAll("-", "");
-            newImageName = newImageName.replace(/[.,\/#\'\?!$%\^&\*;:{}=\-_`~()]/g,"");
-            newImageName = newImageName.replaceAll(" ", "");
-            // Remove all spaces - Doesn't work
-            // newImageName = newImageName.replace(/\s{2,}/g," ");
+    //     if (titleName !== undefined) {
+    //         newImageName = titleName.replace(/(^\w{1})|(\s{1}\w{1})/g, match => match.toUpperCase());
+    //         // I'm sure there's a more elegant way to do this
+    //         // newImageName = newImageName.replaceAll(".", "");
+    //         // newImageName = newImageName.replaceAll("?", "");
+    //         // newImageName = newImageName.replaceAll(",", "");
+    //         // newImageName = newImageName.replaceAll(":", "");
+    //         // newImageName = newImageName.replaceAll("-", "");
+    //         newImageName = newImageName.replace(/[.,\/#\'\?!$%\^&\*;:{}=\-_`~()]/g,"");
+    //         newImageName = newImageName.replaceAll(" ", "");
+    //         // Remove all spaces - Doesn't work
+    //         // newImageName = newImageName.replace(/\s{2,}/g," ");
 
-            newImageName = "https://philipdick.com/images/covers/" + newImageName + ".jpg";
-        };
+    //         newImageName = "https://philipdick.com/images/covers/" + newImageName + ".jpg";
+    //     };
 
-        this.setState({txtImageName: newImageName});
+    //     this.setState({txtImageName: newImageName});
 
-        return newImageName;
-    };
+    //     return newImageName;
+    // };
 
     render() {
 
@@ -356,17 +357,17 @@ class AddTitle extends Component<IProps, IState> {
                 <h3 className="text-center">Add Title</h3>
                 </FormGroup>
                 <FormGroup>
-                {this.state.message !== "" ? <Alert severity="info">{this.state.message}</Alert> : null}
-                {this.state.errMessage !== "" ? <Alert severity="error">{this.state.errMessage}</Alert> : null}
-                {this.state.categoryMessage !== "" ? <Alert severity="info">{this.state.categoryMessage}</Alert> : null}
-                {this.state.errCategoryMessage !== "" ? <Alert severity="error">{this.state.errCategoryMessage}</Alert> : null}
+                {this.state.message !== "" ? <Alert color="info">{this.state.message}</Alert> : null}
+                {this.state.errMessage !== "" ? <Alert color="danger">{this.state.errMessage}</Alert> : null}
+                {this.state.categoryMessage !== "" ? <Alert color="info">{this.state.categoryMessage}</Alert> : null}
+                {this.state.errCategoryMessage !== "" ? <Alert color="danger">{this.state.errCategoryMessage}</Alert> : null}
                 </FormGroup>
 
                 <FormGroup>
 
                 <Label for="txtTitleName">Title</Label>
                 <Input type="text" id="txtTitleName" value={this.state.txtTitleName} onChange={(event) => {/*console.log(event.target.value);*/ this.setState({txtTitleName: event.target.value});}} />
-                {this.state.errTitleName !== "" ? <Alert severity="error">{this.state.errTitleName}</Alert> : null}
+                {this.state.errTitleName !== "" ? <Alert color="danger">{this.state.errTitleName}</Alert> : null}
 
                 </FormGroup>
                 <FormGroup>
@@ -394,7 +395,7 @@ class AddTitle extends Component<IProps, IState> {
                     )
                 })}
                 </Input>
-                {this.state.errCategoryID !== "" ? <Alert severity="error">{this.state.errCategoryID}</Alert> : null}
+                {this.state.errCategoryID !== "" ? <Alert color="danger">{this.state.errCategoryID}</Alert> : null}
 
                 </Col>
                 <Col>
@@ -409,7 +410,7 @@ class AddTitle extends Component<IProps, IState> {
                 <FormGroup>
                     
                 <Label for="txtImageName">Image Name</Label>
-                <Button outline size="small" color="secondary" onClick={() => {/*console.log(event.target.value);*/ this.createImageName(this.state.txtTitleName);}}>Create Image Name</Button>
+                <Button outline size="small" color="secondary" onClick={() => {/*console.log(event.target.value);*/ /*this.createImageName(this.state.txtTitleName);*/ this.setState({txtImageName: createImageName(this.state.txtTitleName)});}}>Create Image Name</Button>
                 {/* <Button outline size="small" color="secondary" onClick={() => {this.setState({txtImageName: "https://philipdick.com/images/covers/" + this.state.txtImageName});}}>Add Path</Button> */}
                 <Input type="text" id="txtImageName" value={this.state.txtImageName} onChange={(event) => {/*console.log(event.target.value);*/ this.setState({txtImageName: event.target.value});}} />
                 {this.state.txtImageName !== null && this.state.txtImageName !== undefined && this.state.txtImageName !== "" ? <img src={this.state.txtImageName} alt={this.state.txtTitleName} className="coverThumbnail" /> : <Image size="150" className="noImageIcon"/>}

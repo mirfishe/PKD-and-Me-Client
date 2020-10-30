@@ -1,8 +1,8 @@
 import React, {FunctionComponent} from "react";
-import {Container, Col, Row, Card, CardBody, CardText, CardHeader, CardFooter} from "reactstrap";
+import {Container, Col, Row, Card, CardBody, CardText, CardHeader, CardFooter, Alert} from "reactstrap";
 import {Image} from 'react-bootstrap-icons';
 import {IEdition} from "../../Helpers/interfaces";
-import {displayDate, displayYear} from "../../Helpers/constants";
+import {displayDate, displayYear} from "../../Helpers/sharedFunctions";
 import EditEdition from "./EditEdition";
 import AddEdition from "./AddEdition";
 
@@ -54,7 +54,7 @@ const Edition: FunctionComponent <(IProps)> = props => {
                     {/* {edition.textLinkShort !== null && edition.textLinkShort !== "" ? 
                     <GridListTile key={edition.editionID} style={{margin: "20px"}}>
 
-                    <Link href={edition.textLinkShort} target="_blank" rel="noreferrer">
+                    <Link href={edition.textLinkShort} target="_blank" rel="noopener noreferrer">
                     {edition.imageName !== null && edition.imageName !== "" ? <img src={edition.imageName} alt={edition.mediaName} /> : <ImageOutlinedIcon style={{fontSize: 150, color: "black"}} />}
                     </Link>
 
@@ -85,7 +85,8 @@ const Edition: FunctionComponent <(IProps)> = props => {
 
                     <Card key={edition.editionID}>
                     <CardHeader>
-                    {edition.mediaName}
+                    {edition.active !== true ? <Alert color="warning">Inactive</Alert> : null}
+                    <p>{edition.mediaName}</p>
                     {props.isAdmin === true ? <EditEdition userID={props.userID} isAdmin={props.isAdmin} sessionToken={props.sessionToken} titleID={props.titleID} titlePublicationDate={props.titlePublicationDate} editionID={edition.editionID} editionUpdated={props.editionUpdated} displayIcon={true} /> : null}
                     </CardHeader>
 
@@ -93,8 +94,8 @@ const Edition: FunctionComponent <(IProps)> = props => {
                     {edition.imageLinkLarge !== null && edition.imageLinkLarge !== "" ? 
                     <div dangerouslySetInnerHTML={{"__html": edition.imageLinkLarge}} />
                     :
-                    <a href={edition.textLinkFull} target="_blank" rel="noreferrer">
-                    {edition.imageName !== null && edition.imageName !== undefined && edition.imageName !== "" ? <img src={edition.imageName} alt="" /> : <Image size="150" className="noImageIcon"/>}
+                    <a href={edition.textLinkFull} target="_blank" rel="noopener noreferrer">
+                    {edition.imageName !== null && edition.imageName !== undefined && edition.imageName !== "" ? <img src={edition.imageName} alt="" className="coverDisplay" /> : <Image size="150" className="noImageIcon"/>}
                     </a>
                     }
                     </CardBody>

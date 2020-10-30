@@ -3,6 +3,7 @@ import {Redirect} from "react-router-dom";
 import {Modal, ModalHeader, ModalBody, ModalFooter, Col, Form, FormGroup, Label, Input, Alert, Button} from "reactstrap";
 import {Image, Plus} from 'react-bootstrap-icons';
 import {baseURL} from "../../Helpers/constants";
+import {getASIN} from "../../Helpers/sharedFunctions";
 import {IMedia} from "../../Helpers/interfaces";
 
 interface IProps {
@@ -409,6 +410,18 @@ class AddEdition extends Component<IProps, IState> {
 
     };
 
+    // getASIN = () => {
+    //     // console.log("AddEdition.tsx getASIN");
+
+    //     if (this.state.txtTextLinkFull !== undefined && this.state.txtTextLinkFull !== "") {
+    //     // console.log("AddEdition.tsx getASIN this.state.txtTextLinkFull.substring(this.state.txtTextLinkFull.indexOf(\"/dp/\") + 4, this.state.txtTextLinkFull.indexOf(\"/ref=\"))", this.state.txtTextLinkFull.substring(this.state.txtTextLinkFull.indexOf("/dp/") + 4, this.state.txtTextLinkFull.indexOf("/ref=")));
+    //         this.setState({txtASIN: this.state.txtTextLinkFull.substring(this.state.txtTextLinkFull.indexOf("/dp/") + 4, this.state.txtTextLinkFull.indexOf("/ref="))});
+    //     } else {
+    //         // this.setState({txtASIN: undefined});
+    //     };
+
+    // };
+
     // handleOpen = () => {
     //     this.setState({modal: true});
     // };
@@ -443,10 +456,10 @@ class AddEdition extends Component<IProps, IState> {
                 <ModalBody>
                 <Form>
                 <FormGroup>
-                {this.state.message !== "" ? <Alert severity="info">{this.state.message}</Alert> : null}
-                {this.state.errMessage !== "" ? <Alert severity="error">{this.state.errMessage}</Alert> : null}
-                {this.state.mediaMessage !== "" ? <Alert severity="info">{this.state.mediaMessage}</Alert> : null}
-                {this.state.errMediaMessage !== "" ? <Alert severity="error">{this.state.errMediaMessage}</Alert> : null}
+                {this.state.message !== "" ? <Alert color="info">{this.state.message}</Alert> : null}
+                {this.state.errMessage !== "" ? <Alert color="danger">{this.state.errMessage}</Alert> : null}
+                {this.state.mediaMessage !== "" ? <Alert color="info">{this.state.mediaMessage}</Alert> : null}
+                {this.state.errMediaMessage !== "" ? <Alert color="danger">{this.state.errMediaMessage}</Alert> : null}
                 </FormGroup>
 
                 <FormGroup row>
@@ -461,7 +474,7 @@ class AddEdition extends Component<IProps, IState> {
                     )
                 })}
                 </Input>
-                {this.state.errMediaID !== "" ? <Alert severity="error">{this.state.errMediaID}</Alert> : null}
+                {this.state.errMediaID !== "" ? <Alert color="danger">{this.state.errMediaID}</Alert> : null}
 
                 </Col>
                 <Col>
@@ -483,9 +496,9 @@ class AddEdition extends Component<IProps, IState> {
                 </FormGroup>
                 <FormGroup>
 
-                {this.state.txtTextLinkFull !== undefined && this.state.txtTextLinkFull !== "" ? <Alert severity="info">{this.state.txtTextLinkFull.substring(this.state.txtTextLinkFull.indexOf("/dp/") + 4, this.state.txtTextLinkFull.indexOf("/ref="))}</Alert> : null}
-                {this.state.ASINMessage !== "" ? <Alert severity="info">{this.state.ASINMessage}</Alert> : null}
-                {this.state.errASINMessage !== "" ? <Alert severity="error">{this.state.errASINMessage}</Alert> : null}
+                {this.state.txtTextLinkFull !== undefined && this.state.txtTextLinkFull !== "" ? <Alert color="info">{this.state.txtTextLinkFull.substring(this.state.txtTextLinkFull.indexOf("/dp/") + 4, this.state.txtTextLinkFull.indexOf("/ref="))}</Alert> : null}
+                {this.state.ASINMessage !== "" ? <Alert color="info">{this.state.ASINMessage}</Alert> : null}
+                {this.state.errASINMessage !== "" ? <Alert color="danger">{this.state.errASINMessage}</Alert> : null}
                 <Button outline size="small" color="secondary" onClick={(event) => {/*console.log(event.target.value);*/ this.checkASIN(this.state.txtASIN);}}>Check for ASIN</Button>
                 <Label for="txtASIN">ASIN</Label>
                 <Input type="text" id="txtASIN" value={this.state.txtASIN} onChange={(event) => {/*console.log(event.target.value);*/ this.setState({txtASIN: event.target.value});}} />
@@ -500,7 +513,7 @@ class AddEdition extends Component<IProps, IState> {
                 <FormGroup>
     
                 <Label for="txtTextLinkFull">Text Link Full</Label>
-                <Input type="textarea" id="txtTextLinkFull" rows={5} value={this.state.txtTextLinkFull} onChange={(event) => {/*console.log(event.target.value);*/ this.setState({txtTextLinkFull: event.target.value});}} />
+                <Input type="textarea" id="txtTextLinkFull" rows={5} value={this.state.txtTextLinkFull} onChange={(event) => {/*console.log(event.target.value);*/ this.setState({txtTextLinkFull: event.target.value}); this.setState({txtASIN: getASIN(this.state.txtTextLinkFull)});}} />
 
                 </FormGroup>
                 <FormGroup>

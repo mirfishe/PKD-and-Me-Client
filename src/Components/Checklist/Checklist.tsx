@@ -331,8 +331,8 @@ class Checklist extends Component<IProps, IState> {
             <Col xs="2">
                 <Button outline size="sm" color="info" onClick={this.handleOpen}>Checklist</Button>
                 <Drawer anchor="right" open={this.state.drawerOpen} onClose={this.handleClose}>
-                {this.state.checklistMessage !== "" ? <Alert severity="info">{this.state.checklistMessage}</Alert> : null}
-                {this.state.errChecklistMessage !== "" ? <Alert severity="error">{this.state.errChecklistMessage}</Alert> : null}
+                {this.state.checklistMessage !== "" ? <Alert color="info">{this.state.checklistMessage}</Alert> : null}
+                {this.state.errChecklistMessage !== "" ? <Alert color="danger">{this.state.errChecklistMessage}</Alert> : null}
                 <Button outline size="sm" color="info" onClick={this.handleClose}>Close</Button>
                 <ChecklistItem checklistList={this.state.checklistList} updateChecklist={this.updateChecklist} setTitleID={this.props.setTitleID} categoryName={this.state.categoryName} titleSort={this.props.titleSort} setTitleSort={this.props.setTitleSort} />
                 {/* <ChecklistItem2 checklistList={this.state.checklistList} updateChecklist={this.updateChecklist} setTitleID={this.props.setTitleID} categoryName={this.state.categoryName} titleSort={this.props.titleSort} setTitleSort={this.props.setTitleSort} /> */}

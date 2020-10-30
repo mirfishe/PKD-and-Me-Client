@@ -213,8 +213,8 @@ class App extends Component<{}, IState> {
       <Router>
         
       {/* {window.location.hostname} */}
-      {/* {this.state.userID !== null ? <Alert severity="info">{this.state.userID}</Alert> : null} */}
-      {/* this.state.isAdmin === null ? <Alert severity="warning">isAdmin null</Alert> : null}
+      {/* {this.state.userID !== null ? <Alert color"info">{this.state.userID}</Alert> : null} */}
+      {/* this.state.isAdmin === null ? <Alert color"warning">isAdmin null</Alert> : null}
       {this.state.isAdmin === true ? <Alert severity="warning">isAdmin</Alert> : null}
       {this.state.isAdmin === false ? <Alert severity="warning">Not isAdmin</Alert> : null} */}
       {/* {this.state.sessionToken !== "" && this.state.sessionToken !== null ? <Alert severity="info">this.state.sessionToken={this.state.sessionToken}</Alert> : null} */}
@@ -256,11 +256,11 @@ class App extends Component<{}, IState> {
           {this.state.sessionToken !== "" && this.state.sessionToken !== null ? <NavItem className="mx-2"><NavbarText>Welcome, {this.state.firstName} {this.state.lastName}.</NavbarText></NavItem> : null}
 
           <NavItem className="mx-2">
-          <a href="https://pkdickbooks.com" target="_blank" rel="noreferrer"><NavbarText>Philip K. Dick Bookshelf</NavbarText></a>
+          <a href="https://pkdickbooks.com" target="_blank" rel="noopener noreferrer"><NavbarText>Philip K. Dick Bookshelf</NavbarText></a>
           </NavItem>
 
           <NavItem className="mx-2">
-          <a href="https://philipdick.com" target="_blank" rel="noreferrer"><NavbarText>Philip K. Dick Site</NavbarText></a>
+          <a href="https://philipdick.com" target="_blank" rel="noopener noreferrer"><NavbarText>Philip K. Dick Site</NavbarText></a>
           </NavItem>
 
           </Nav>

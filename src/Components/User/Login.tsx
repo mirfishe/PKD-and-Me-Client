@@ -232,21 +232,21 @@ class Login extends Component<IProps, IState> {
                 <ModalBody>
                 <Form>
                 <FormGroup>
-                    {this.state.message !== "" ? <Alert severity="info">{this.state.message}</Alert> : null}
-                    {this.state.errMessage !== "" ? <Alert severity="error">{this.state.errMessage}</Alert> : null}
+                    {this.state.message !== "" ? <Alert color="info">{this.state.message}</Alert> : null}
+                    {this.state.errMessage !== "" ? <Alert color="danger">{this.state.errMessage}</Alert> : null}
                 </FormGroup>
                 <FormGroup>
 
                     <Label for="txtEmail">Email Address</Label>
                     <Input id="txtEmail" label="Email Address" value={this.state.txtEmail} onChange={(event) => {/*console.log(event.target.value);*/ this.setState({txtEmail: event.target.value});}} />
-                    {this.state.errEmail !== "" ? <Alert severity="error">{this.state.errEmail}</Alert> : null}
+                    {this.state.errEmail !== "" ? <Alert color="danger">{this.state.errEmail}</Alert> : null}
 
                 </FormGroup>
                 <FormGroup>
 
                     <Label for="txtPassword">Password</Label>
                     <Input type="password" id="txtPassword" value={this.state.txtPassword} onChange={(event) => {/*console.log(event.target.value);*/ this.setState({txtPassword: event.target.value});}} />
-                    {this.state.errPassword !== "" ? <Alert severity="error">{this.state.errPassword}</Alert> : null}
+                    {this.state.errPassword !== "" ? <Alert color="danger">{this.state.errPassword}</Alert> : null}
                     
                 </FormGroup>
 
