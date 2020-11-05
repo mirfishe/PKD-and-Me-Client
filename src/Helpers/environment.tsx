@@ -4,7 +4,8 @@ let API_URL: string = "";
 
 switch (window.location.hostname) {
     case "localhost" || "127.0.0.1":
-        API_URL = `http://localhost:${process.env.REACT_APP_SERVER_PORT}`;
+        // API_URL = `http://localhost:${process.env.REACT_APP_SERVER_PORT}`;
+        API_URL = "https://pkd-and-me-server.herokuapp.com";
         break;
     case "pkd-and-me-server":
         API_URL = "https://pkd-and-me-server.herokuapp.com";
@@ -19,7 +20,8 @@ switch (window.location.hostname) {
         API_URL = "https://pkd-and-me-server.herokuapp.com";
         break;
     default:
-        API_URL = `http://localhost:${process.env.REACT_APP_SERVER_PORT}`;
+        // API_URL = `http://localhost:${process.env.REACT_APP_SERVER_PORT}`;
+        API_URL = "https://pkd-and-me-server.herokuapp.com";
 };
 
 export default API_URL;

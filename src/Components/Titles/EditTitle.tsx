@@ -36,6 +36,7 @@ interface IState {
     errTitleName: string,
     errCategoryID: string,
     txtTitleName: string | undefined,
+    txtTitleURL: string | undefined,
     txtAuthorFirstName: string | undefined,
     txtAuthorLastName: string | undefined,
     txtPublicationDate: string | undefined,
@@ -45,6 +46,7 @@ interface IState {
     txtUrlPKDweb: string | undefined,
     titleName: string | null,
     titleSort: string | null,
+    titleURL: string | null,
     authorFirstName: string | null,
     authorLastName: string | null,
     publicationDate: Date | null,
@@ -76,6 +78,7 @@ class EditTitle extends Component<IProps, IState> {
             errTitleName: "",
             errCategoryID: "",
             txtTitleName: undefined,
+            txtTitleURL: undefined,
             txtAuthorFirstName: undefined,
             txtAuthorLastName: undefined,
             txtPublicationDate: undefined,
@@ -85,6 +88,7 @@ class EditTitle extends Component<IProps, IState> {
             txtUrlPKDweb: undefined,
             titleName: null,
             titleSort: null,
+            titleURL: null,
             authorFirstName: null,
             authorLastName: null,
             publicationDate: null,
@@ -151,6 +155,7 @@ class EditTitle extends Component<IProps, IState> {
         this.setState({titleList: []});
         this.setState({titleName: null});
         this.setState({titleSort: null});
+        this.setState({titleURL: null});
         this.setState({authorFirstName: null});
         this.setState({authorLastName: null});
         this.setState({publicationDate: null});
@@ -200,6 +205,7 @@ class EditTitle extends Component<IProps, IState> {
                     };
 
                     this.setState({txtTitleName: data.titles[0].titleName});
+                    this.setState({txtTitleURL: data.titles[0].titleURL});
                     this.setState({txtAuthorFirstName: data.titles[0].authorFirstName});
                     this.setState({txtAuthorLastName: data.titles[0].authorLastName});
                     this.setState({txtImageName: data.titles[0].imageName});
@@ -208,6 +214,8 @@ class EditTitle extends Component<IProps, IState> {
 
                     
                     this.setState({titleName: data.titles[0].titleName});
+                    this.setState({titleSort: data.titles[0].titleSort});
+                    this.setState({titleURL: data.titles[0].titleURL});
                     this.setState({authorFirstName: data.titles[0].authorFirstName});
                     this.setState({authorLastName: data.titles[0].authorLastName});
                     this.setState({publicationDate: data.titles[0].publicationDate});
@@ -245,6 +253,7 @@ class EditTitle extends Component<IProps, IState> {
         this.setState({errCategoryID: ""});
         this.setState({titleName: null});
         this.setState({titleSort: null});
+        this.setState({titleURL: null});
         this.setState({authorFirstName: null});
         this.setState({authorLastName: null});
         this.setState({publicationDate: null});
@@ -313,6 +322,13 @@ class EditTitle extends Component<IProps, IState> {
                     // shortDescription: this.state.txtShortDescription.trim(),
                     // urlPKDweb: this.state.txtUrlPKDweb.trim()
                     active: !deleteTitle
+                };
+
+                // If the user doesn't enter an title URL, then it isn't added/updated
+                if (this.state.txtTitleURL !== null && this.state.txtTitleURL !== undefined) {
+                    if (this.state.txtTitleURL.trim().length !== 0) {
+                        Object.assign(titleObject, {titleURL: this.state.txtTitleURL.trim()});
+                    };
                 };
 
                 // If the user doesn't enter an author first name, then it isn't added/updated
@@ -399,6 +415,7 @@ class EditTitle extends Component<IProps, IState> {
 
                             this.setState({titleName: data.titleName});
                             this.setState({titleSort: data.titleSort});
+                            this.setState({titleURL: data.titleURL});
                             this.setState({authorFirstName: data.authorFirstName});
                             this.setState({authorLastName: data.authorLastName});
                             this.setState({publicationDate: data.publicationDate});
@@ -593,6 +610,12 @@ class EditTitle extends Component<IProps, IState> {
                 </FormGroup>
                 <FormGroup>
 
+                <Label for="txtTitleURL">Title URL</Label>
+                <Input type="text" id="txtTitleURL" value={this.state.txtTitleURL} onChange={(event) => {/*console.log(event.target.value);*/ this.setState({txtTitleURL: event.target.value});}} />
+
+                </FormGroup>
+                <FormGroup>
+
                 <Label for="txtAuthorFirstName">Author First Name</Label>
                 <Input type="text" id="txtAuthorFirstName" value={this.state.txtAuthorFirstName} onChange={(event) => {/*console.log(event.target.value);*/ this.setState({txtAuthorFirstName: event.target.value});}} />
 
@@ -629,7 +652,6 @@ class EditTitle extends Component<IProps, IState> {
                 </Col>
 
                 </FormGroup>
-
                 <FormGroup>
                     
                 <Label for="txtImageName">Image Name</Label>

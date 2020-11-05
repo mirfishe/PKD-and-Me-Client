@@ -76,7 +76,7 @@ class Home extends Component<IProps, IState> {
         // console.log("Home.tsx getCategories this.props.isAdmin", this.props.isAdmin);
         // console.log("Home.tsx getCategories this.props.sessionToken", this.props.sessionToken);
         if (this.props.sessionToken !== "" && this.props.sessionToken !== null && this.props.isAdmin === true) {
-            url = url + "admin";
+            // url = url + "admin";
         };
 
         const fetchHeaders: Headers = new Headers({});

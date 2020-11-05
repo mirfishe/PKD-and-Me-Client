@@ -23,6 +23,7 @@ interface IState {
     errTitleName: string,
     errCategoryID: string,
     txtTitleName: string | undefined,
+    txtTitleURL: string | undefined,
     txtAuthorFirstName: string | undefined,
     txtAuthorLastName: string | undefined,
     txtPublicationDate: string | undefined,
@@ -33,6 +34,7 @@ interface IState {
     titleID: number | null,
     titleName: string | null,
     titleSort: string | null,
+    titleURL: string | null,
     authorFirstName: string | null,
     authorLastName: string | null,
     publicationDate: Date | null,
@@ -58,6 +60,7 @@ class AddTitle extends Component<IProps, IState> {
             errTitleName: "",
             errCategoryID: "",
             txtTitleName: undefined,
+            txtTitleURL: undefined,
             txtAuthorFirstName: undefined,
             txtAuthorLastName: undefined,
             txtPublicationDate: undefined,
@@ -68,6 +71,7 @@ class AddTitle extends Component<IProps, IState> {
             titleID: null,
             titleName: null,
             titleSort: null,
+            titleURL: null,
             authorFirstName: null,
             authorLastName: null,
             publicationDate: null,
@@ -136,6 +140,7 @@ class AddTitle extends Component<IProps, IState> {
         this.setState({titleID: null});
         this.setState({titleName: null});
         this.setState({titleSort: null});
+        this.setState({titleURL: null});
         this.setState({authorFirstName: null});
         this.setState({authorLastName: null});
         this.setState({publicationDate: null});
@@ -203,6 +208,13 @@ class AddTitle extends Component<IProps, IState> {
                     categoryID: this.state.ddCategoryID
                     // shortDescription: this.state.txtShortDescription.trim(),
                     // urlPKDweb: this.state.txtUrlPKDweb.trim()
+                };
+
+                // If the user doesn't enter an title URL, then it isn't added/updated
+                if (this.state.txtTitleURL !== null && this.state.txtTitleURL !== undefined) {
+                    if (this.state.txtTitleURL.trim().length !== 0) {
+                        Object.assign(titleObject, {titleURL: this.state.txtTitleURL.trim()});
+                    };
                 };
 
                 // If the user doesn't enter an author first name, then it isn't added/updated
@@ -286,6 +298,7 @@ class AddTitle extends Component<IProps, IState> {
                         this.setState({titleID: data.titleID});
                         this.setState({titleName: data.titleName});
                         this.setState({titleSort: data.titleSort});
+                        this.setState({titleURL: data.titleURL});
                         this.setState({authorFirstName: data.authorFirstName});
                         this.setState({authorLastName: data.authorLastName});
                         this.setState({publicationDate: data.publicationDate});
@@ -368,6 +381,12 @@ class AddTitle extends Component<IProps, IState> {
                 <Label for="txtTitleName">Title</Label>
                 <Input type="text" id="txtTitleName" value={this.state.txtTitleName} onChange={(event) => {/*console.log(event.target.value);*/ this.setState({txtTitleName: event.target.value});}} />
                 {this.state.errTitleName !== "" ? <Alert color="danger">{this.state.errTitleName}</Alert> : null}
+
+                </FormGroup>
+                <FormGroup>
+
+                <Label for="txtTitleURL">Title URL</Label>
+                <Input type="text" id="txtTitleURL" value={this.state.txtTitleURL} onChange={(event) => {/*console.log(event.target.value);*/ this.setState({txtTitleURL: event.target.value});}} />
 
                 </FormGroup>
                 <FormGroup>
