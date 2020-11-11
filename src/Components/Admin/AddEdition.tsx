@@ -566,7 +566,7 @@ class AddEdition extends Component<IProps, IState> {
                 <FormGroup>
     
                 <Label for="txtImageLinkSmall">Image Link Small</Label>
-                <Input type="textarea" id="txtImageLinkSmall" rows={10} value={this.state.txtImageLinkSmall} onChange={(event) => {/*console.log(event.target.value);*/ this.setState({txtImageLinkSmall: event.target.value});}} />
+                <Input type="textarea" id="txtImageLinkSmall" rows={10} value={this.state.txtImageLinkSmall} onChange={(event) => {/*console.log(event.target.value);*/ this.setState({txtImageLinkSmall: event.target.value}); this.setState({txtASIN: getASIN(this.state.txtTextLinkFull)});}} />
 
                 </FormGroup>
                 <FormGroup>

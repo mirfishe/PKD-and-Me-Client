@@ -147,8 +147,22 @@ export const getASIN = (txtTextLinkFull: string | undefined) => {
     // select substring("textLinkFull" from position('/dp/' in "textLinkFull") + 4 for 10) from editions
 
     if (txtTextLinkFull !== undefined && txtTextLinkFull !== "") {
-    // console.log("sharedFunctions.tsx getASIN txtTextLinkFull.substring(txtTextLinkFull.indexOf(\"/dp/\") + 4, txtTextLinkFull.indexOf(\"/ref=\"))", txtTextLinkFull.substring(txtTextLinkFull.indexOf("/dp/") + 4, txtTextLinkFull.indexOf("/ref=")));
-        txtASIN = txtTextLinkFull.substring(txtTextLinkFull.indexOf("/dp/") + 4, txtTextLinkFull.indexOf("/ref="));
+
+        console.log("sharedFunctions.tsx getASIN txtTextLinkFull.indexOf(\"/dp/\")" , txtTextLinkFull.indexOf("/dp/"));
+        console.log("sharedFunctions.tsx getASIN txtTextLinkFull.indexOf(\"/product/\")" , txtTextLinkFull.indexOf("/product/"));
+
+        if (txtTextLinkFull.indexOf("/dp/") !== -1) {
+
+            // console.log("sharedFunctions.tsx getASIN txtTextLinkFull.substring(txtTextLinkFull.indexOf(\"/dp/\") + 4, txtTextLinkFull.indexOf(\"/ref=\"))", txtTextLinkFull.substring(txtTextLinkFull.indexOf("/dp/") + 4, txtTextLinkFull.indexOf("/ref=")));
+            txtASIN = txtTextLinkFull.substring(txtTextLinkFull.indexOf("/dp/") + 4, txtTextLinkFull.indexOf("/ref="));
+
+        } else if (txtTextLinkFull.indexOf("/product/") !== -1) {
+
+            // console.log("sharedFunctions.tsx getASIN txtTextLinkFull.substring(txtTextLinkFull.indexOf(\"/dp/\") + 4, txtTextLinkFull.indexOf(\"/ref=\"))", txtTextLinkFull.substring(txtTextLinkFull.indexOf("/dp/") + 4, txtTextLinkFull.indexOf("/ref=")));
+            txtASIN = txtTextLinkFull.substring(txtTextLinkFull.indexOf("/product/") + 9, txtTextLinkFull.indexOf("/ref="));
+
+        };
+
     } else {
         // return false;
         // return null;
